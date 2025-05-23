@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import json from '../assets/paroquias.json';
+import json from '../data/paroquias.json';
 
 function BuscaIgrejas() {
   const [busca, setBusca] = useState('');
