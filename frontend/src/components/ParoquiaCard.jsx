@@ -3,6 +3,10 @@ import '../styles/ParoquiaCard.css';
 import { MapPin } from 'lucide-react';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+// import 'bootstrap-icons/font/bootstrap-icons.css';
 
 export default function ParoquiaCard({ dados }) {
   const MySwal = withReactContent(Swal);
@@ -10,6 +14,7 @@ export default function ParoquiaCard({ dados }) {
   const { nome, imagem, endereco, distancia, horarios, descricao, contato, email, site, whatsapp, instagram, facebook } = dados;
 
     const html = `
+      
       ${imagem ? `<img src="${imagem}" alt="${nome}" />` : ''}
       ${endereco ? `<p><strong>Endereço:</strong> ${endereco}</p>` : ''}
       ${distancia ? `<p><strong>Distância:</strong> ${distancia} km</p>` : ''}
@@ -59,14 +64,17 @@ export default function ParoquiaCard({ dados }) {
 
   return (
     <>
+   
+   
     <div className="paroquia-card">
 
       <div className="paroquia-card-interno">
         <h3>{dados.nome}</h3> 
         <p><MapPin size={16} /> {dados.endereco}</p>
-        {dados.distancia !== '-' && (
+
+        
+        {dados.distancia && dados.distancia !== '-' && (
           <span className="paroquia-distancia">{dados.distancia} km</span>
-          
         )}
 
         <p><span className="paroquia-horario-label">Horários: </span></p>

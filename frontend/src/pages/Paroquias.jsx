@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ParoquiaCard from '../components/ParoquiaCard';
 import Mapa from '../components/Mapa';
 import '../styles/Paroquias.css';
-import json from '../data/paroquias.json';
+import json from '../assets/paroquias.json';
 
 
 // Função Haversine para calcular distância em km

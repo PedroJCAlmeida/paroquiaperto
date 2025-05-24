@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import json from '../data/paroquias.json';
+import json from '../assets/paroquias.json';
+import '../styles/BuscaIgrejas.css'; // Importando o CSS para estilização
 
 function BuscaIgrejas() {
   const [busca, setBusca] = useState('');
@@ -17,7 +18,7 @@ function BuscaIgrejas() {
     : [];
 
   return (
-    <div style={{ padding: '2rem' }}>
+    <div className='container' style={{ padding: '2rem' }}>
       <h2>Buscar Igrejas</h2>
 
       <form>
@@ -26,17 +27,18 @@ function BuscaIgrejas() {
           placeholder="Digite o nome ou horário"
           value={busca}
           onChange={(e) => setBusca(e.target.value)}
-          style={{ width: '100%', padding: '10px', fontSize: '16px' }}
+          style={{ width: '100%', maxWidth: '400px', padding: '10px', fontSize: '16px' }}
         />
       </form>
 
       <div style={{ marginTop: '2rem' }}>
-        {buscaTrim && igrejasFiltradas.length === 0 && (
-          <p>Nenhuma igreja encontrada.</p>
-        )}
+        
         {buscaTrim && (
           <p>
-            Encontradas {igrejasFiltradas.length} igreja(s).
+            {igrejasFiltradas.length > 0
+              ? `Encontradas ${igrejasFiltradas.length} igrejas.`
+              : `Nenhuma igreja encontrada.`}
+            
           </p>
         )}
         {buscaTrim &&
@@ -51,15 +53,12 @@ function BuscaIgrejas() {
                 marginBottom: '1rem',
                 display: 'flex',
                 gap: '1rem',
+                flexWrap: 'wrap',
               }}
             >
         
-        
-              <img
-                src={p.imagem}
-                alt={p.nome}
-                style={{ width: '150px', height: 'auto', borderRadius: '4px' }}
-              />
+              {p.imagem && <img src={p.imagem} alt={p.nome} style={{ width: '100%', maxWidth: '250px', objectFit: 'cover', height: 'auto', borderRadius: '4px' }} />}
+              
               <div>
                 <h3>{p.nome}</h3>
                 <p>
