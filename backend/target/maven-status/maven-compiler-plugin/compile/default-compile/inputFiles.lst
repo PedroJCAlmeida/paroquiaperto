@@ -1,8 +1,16 @@
-C:\Users\jessi\Área de Trabalho Jéssica\paroquiaperto\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\BackendApplication.java
-C:\Users\jessi\Área de Trabalho Jéssica\paroquiaperto\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\model\Evento.java
-C:\Users\jessi\Área de Trabalho Jéssica\paroquiaperto\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\controller\ParoquiaController.java
-C:\Users\jessi\Área de Trabalho Jéssica\paroquiaperto\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\repository\EventoRepository.java
-C:\Users\jessi\Área de Trabalho Jéssica\paroquiaperto\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\repository\ParoquiaRepository.java
-C:\Users\jessi\Área de Trabalho Jéssica\paroquiaperto\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\model\Paroquia.java
-C:\Users\jessi\Área de Trabalho Jéssica\paroquiaperto\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\model\Missa.java
-C:\Users\jessi\Área de Trabalho Jéssica\paroquiaperto\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\repository\MissaRepository.java
+C:\Users\jessi\paroquiaperto\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\repository\EventoRepository.java
+C:\Users\jessi\paroquiaperto\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\dto\MissaDTO.java
+C:\Users\jessi\paroquiaperto\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\BackendApplication.java
+C:\Users\jessi\paroquiaperto\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\dto\EventoDTO.java
+C:\Users\jessi\paroquiaperto\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\model\Evento.java
+C:\Users\jessi\paroquiaperto\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\mapper\EventoMapper.java
+C:\Users\jessi\paroquiaperto\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\controller\EventoController.java
+C:\Users\jessi\paroquiaperto\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\model\Missa.java
+C:\Users\jessi\paroquiaperto\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\mapper\ParoquiaMapper.java
+C:\Users\jessi\paroquiaperto\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\controller\MissaController.java
+C:\Users\jessi\paroquiaperto\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\model\Paroquia.java
+C:\Users\jessi\paroquiaperto\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\controller\ParoquiaController.java
+C:\Users\jessi\paroquiaperto\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\repository\MissaRepository.java
+C:\Users\jessi\paroquiaperto\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\repository\ParoquiaRepository.java
+C:\Users\jessi\paroquiaperto\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\dto\ParoquiaDTO.java
+C:\Users\jessi\paroquiaperto\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\mapper\MissaMapper.java

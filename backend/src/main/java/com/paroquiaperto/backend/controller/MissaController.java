@@ -4,7 +4,6 @@ package com.paroquiaperto.backend.controller;
 
 import com.paroquiaperto.backend.model.Missa;
 import com.paroquiaperto.backend.repository.MissaRepository;
-import com.paroquiaperto.backend.model.Paroquia; // Necessário para associar Missa a Paroquia
 import com.paroquiaperto.backend.repository.ParoquiaRepository; // Necessário para encontrar a Paroquia
 
 import org.springframework.beans.factory.annotation.Autowired;

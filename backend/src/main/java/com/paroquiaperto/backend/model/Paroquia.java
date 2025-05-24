@@ -50,7 +50,7 @@ public class Paroquia {
     // orphanRemoval = true: Garante que se uma Missa for removida da lista 'misas' de uma Paroquia,
     // ela será deletada do banco de dados.
     @OneToMany(mappedBy = "paroquia", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Missa> misas; // Alterado de 'misas' para 'missas' (mais comum em português)
+    private List<Missa> missas; // Alterado de 'misas' para 'missas' (mais comum em português)
 
     // @OneToMany para Eventos:
     // Similar ao de Missas.
