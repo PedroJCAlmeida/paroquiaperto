@@ -3,18 +3,19 @@
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 999; 
+  z-index: 999;
   background: #fff;
-  border-bottom: 1px solid #ddd;
+  /*border-bottom: 1px solid #ddd;
   /* padding: 10px 20px; */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   display: flex;
   justify-content: center;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 }
 
 
 body {
-  padding-top: 70px; 
+  padding-top: 70px;
+  margin: 0;
 }
 
 .navbar-inner {
@@ -24,43 +25,94 @@ body {
   width: 100%;
   max-width: 960px;
   margin: 0 auto;
-  padding: 10px 20px;
-  
+  padding: 10px 25px;
+
 }
 
-.navbar-logo{
+.navbar-logo {
   display: flex;
 }
 
 .navbar-logo img {
-  height: 40px;
+  height: 45px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.navbar-logo img:hover {
+  transform: scale(1.05);
 }
 
 .navbar-nav {
   display: flex;
-  gap: 15px;
+  gap: 30px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  transition: all 0.3s ease-out;
 }
 
 .navbar-link {
   text-decoration: none;
   color: #333;
   font-weight: 500;
+  font-size: 1rem;
+  padding: 5px 0;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.navbar-link:hover {
+  color: #007bff;
+}
+
+.navbar-link::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background-color: #007bff;
+  transition: width 0.3s ease-out;
+}
+
+.navbar-link:hover::after {
+  width: 100%;
 }
 
 .navbar-toggle {
   display: none;
   flex-direction: column;
-  gap: 4px;
+  justify-content: space-between;
+  width: 30px;
+  height: 22px;
   background: none;
   border: none;
   cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+  outline: none;
 }
 
 .hamburger {
-  width: 25px;
+  display: block;
+  width: 100%;
   height: 3px;
   background: #333;
   border-radius: 2px;
+  transition: all 0.3s ease-in-out;
+}
+
+.navbar-toggle.active .hamburger:nth-child(1) {
+    transform: translateY(9.5px) rotate(45deg);
+}
+
+.navbar-toggle.active .hamburger:nth-child(2) {
+    opacity: 0;
+}
+
+.navbar-toggle.active .hamburger:nth-child(3) {
+    transform: translateY(-9.5px) rotate(-45deg); 
 }
 
 /* Responsivo */
@@ -84,4 +136,16 @@ body {
   .navbar-nav.active {
     display: flex;
   }
+}
+
+@media (max-width: 480px) {
+    .navbar-inner {
+        padding: 10px 15px; /* Menos padding lateral em telas muito pequenas */
+    }
+    .navbar-logo img {
+        height: 40px; /* Logo um pouco menor em telas super pequenas */
+    }
+    .navbar-link {
+        font-size: 1.15rem; /* Fonte um pouco menor nos links para telas muito pequenas */
+    }
 }
