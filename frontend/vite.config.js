@@ -1,4 +1,4 @@
-export default { root: './' }
+//export default { root: './' }
 export default defineConfig({
   plugins: [react()],
   build: {
