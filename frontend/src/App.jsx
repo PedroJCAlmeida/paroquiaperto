@@ -37,14 +37,14 @@ function App() {
             <Route path="/paroquias" element={<Paroquias />} />
             <Route path="/contato" element={<Contato />} />
             <Route path="/Buscar" element={<Buscar />} />
+            <Route path="/login" element={<Login />} />
             {/* outras rotas */}
             {/* Backoffice com layout e sub-rotas */}
             <Route path="/backoffice" element={<BackofficeLayout />}>
               <Route path="paroquias" element={<InserirParoquia />} />
               <Route path="horarios" element={<InserirHorario />} />
               <Route path="eventos" element={<InserirEvento />} />
-            </Route>
-            <Route path="/login" element={<Login />} />
+            </Route>           
           </Routes>
         )}
       </main>
