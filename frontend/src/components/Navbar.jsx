@@ -13,28 +13,34 @@ const Navbar = () => {
 
   return (
     <header className="navbar">
-  <div className="navbar-inner">
-    <Link to="/" className="navbar-logo" onClick={() => setIsOpen(false)}>
-      <img src={logo} alt="Paróquia Perto" />
-    </Link>
+      <div className="navbar-inner">
+        <Link to="/" className="navbar-logo" onClick={() => setIsOpen(false)}>
+          <img src={logo} alt="Paróquia Perto" />
+        </Link>
 
-    <button className="navbar-toggle" onClick={toggleMenu} className={isOpen ? 'active navbar-toggle' : 'navbar-toggle'}>
-      <span className="hamburger"></span>
-      <span className="hamburger"></span>
-      <span className="hamburger"></span>
-    </button>
+        <button
+          className={isOpen ? 'active navbar-toggle' : 'navbar-toggle'}
+          onClick={toggleMenu}
+          aria-label="Toggle menu"
+        >
+          <span className="hamburger"></span>
+          <span className="hamburger"></span>
+          <span className="hamburger"></span>
+        </button>
 
-    <nav className={`navbar-nav ${isOpen ? 'active' : ''}`}>
-      {/* links aqui */}
-    </nav>
+        <nav className={`navbar-nav ${isOpen ? 'active' : ''}`}>
+          <Link to="/" className="navbar-link" onClick={() => setIsOpen(false)}>Início</Link>
+          <Link to="/paroquias" className="navbar-link" onClick={() => setIsOpen(false)}>Paróquias</Link>
+          <Link to="/buscar" className="navbar-link" onClick={() => setIsOpen(false)}>Buscar</Link>
+          <Link to="/contato" className="navbar-link" onClick={() => setIsOpen(false)}>Contato</Link>
+        </nav>
 
-    {/* Ícone login fixo */}
-    <Link to="/login" className="navbar-login-icon" title="Login" onClick={() => setIsOpen(false)}>
-      <FaUserCircle size={24} />
-    </Link>
-  </div>
-</header>
-
+        {/* Ícone de login sempre visível */}
+        <Link to="/login" className="navbar-login-icon" title="Login" onClick={() => setIsOpen(false)}>
+          <FaUserCircle size={28} />
+        </Link>
+      </div>
+    </header>
   );
 };
 
