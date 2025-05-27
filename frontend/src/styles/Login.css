@@ -11,12 +11,21 @@
     background-color: #f8f9fa;
 }
 
-.login-container h2 {
-    margin-bottom: 30px;
-    color: #333;
-    font-size: 2.2rem;
-    text-align: center;
+/* --- Novo estilo para o logo na página de login --- */
+.login-logo-wrapper {
+    margin-bottom: 20px; /* Espaço abaixo do logo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+.login-logo {
+    height: 60px; /* Ajuste o tamanho conforme preferir */
+    width: auto;
+    max-width: 100%; /* Garante que o logo não ultrapasse o container em telas pequenas */
+}
+
+/* O resto do CSS do login.css continua aqui... */
 
 /* Estilos para o formulário */
 .login-form {
@@ -25,10 +34,10 @@
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 400px; /* Limita a largura do formulário */
+    max-width: 400px;
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Espaço entre os grupos de formulário */
+    gap: 20px;
 }
 
 .form-group {
@@ -66,7 +75,7 @@
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s ease, opacity 0.3s ease;
-    margin-top: 10px; /* Espaço acima do botão */
+    margin-top: 10px;
 }
 
 .login-button:hover {
@@ -79,7 +88,6 @@
     opacity: 0.7;
 }
 
-/* Mensagens de feedback */
 .loading-message {
     color: #007bff;
     font-size: 1rem;
@@ -97,7 +105,6 @@
     text-align: center;
 }
 
-/* Links adicionais */
 .login-container p {
     margin-top: 15px;
     font-size: 0.95rem;
@@ -117,8 +124,7 @@
     text-decoration: underline;
 }
 
-/* Remova ou comente este bloco se não estiver a usar o Google Login */
-.google-login-button-wrapper {
+.google-login-button-wrapper { /* Mantenha se for reativar o Google Login */
     margin-top: 20px;
     margin-bottom: 20px;
     display: flex;
@@ -146,6 +152,9 @@
         font-size: 1rem;
         padding: 10px 15px;
     }
+    .login-logo {
+        height: 50px; /* Logo um pouco menor em telas menores */
+    }
 }
 
 @media (max-width: 480px) {
@@ -155,5 +164,8 @@
 
     .login-form {
         padding: 15px;
+    }
+    .login-logo {
+        height: 45px; /* Logo ainda menor em telas muito pequenas */
     }
 }
