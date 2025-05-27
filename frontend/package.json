@@ -18,7 +18,8 @@
     "react-leaflet": "^4.2.1",
     "react-router-dom": "^7.6.0",
     "sweetalert2": "^11.6.13",
-    "sweetalert2-react-content": "^5.1.0"
+    "sweetalert2-react-content": "^5.1.0",
+    "@react-oauth/google": "^0.7.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.21",
