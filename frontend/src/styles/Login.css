@@ -169,3 +169,38 @@
         height: 45px; /* Logo ainda menor em telas muito pequenas */
     }
 }
+
+/* src/styles/Login.css */
+
+/* ... (Mantenha todo o CSS existente para .login-container, .login-logo-wrapper, .login-logo, etc.) ... */
+
+/* Adicione esta classe para mensagens de sucesso */
+.success-message {
+    color: #155724; /* Verde escuro */
+    background-color: #d4edda; /* Fundo verde claro */
+    border: 1px solid #c3e6cb;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* ... (Mantenha o resto do CSS existente para .login-form, .form-group, .login-button, etc.) ... */
+
+/* Certifique-se de que as media queries também estão abrangendo os novos campos */
+@media (max-width: 768px) {
+    /* ... (Mantenha os estilos existentes para telas menores) ... */
+    .login-form {
+        /* Garanta que o padding e gap se ajustem bem */
+        padding: 20px;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* ... (Mantenha os estilos existentes para telas muito pequenas) ... */
+    .login-form {
+        padding: 15px;
+    }
+}
