@@ -35,11 +35,12 @@ const Navbar = () => {
           <Link to="/paroquias" className="navbar-link" onClick={() => setIsOpen(false)}>Paróquias</Link>
           <Link to="/buscar" className="navbar-link" onClick={() => setIsOpen(false)}>Buscar</Link>
           <Link to="/contato" className="navbar-link" onClick={() => setIsOpen(false)}>Contato</Link>
-        </nav>
-
-        <Link to="/login" className="navbar-login-icon" title="Login" onClick={() => setIsOpen(false)}>
+       <Link to="/login" className="navbar-login-icon" title="Login" onClick={() => setIsOpen(false)}>
           <FaUserCircle size={28} />
          </Link>
+        </nav>
+
+        
       </div>
     </header>
   );
