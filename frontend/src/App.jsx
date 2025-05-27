@@ -12,8 +12,8 @@ import BackofficeLayout from './components/BackofficeLayout.jsx';
 import InserirParoquia from './pages/InserirParoquia';
 import InserirHorario from './pages/InserirHorario';
 import InserirEvento from './pages/InserirEvento';
-
 import Login from './pages/Login';
+
 function App() {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
