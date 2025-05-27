@@ -1,0 +1,84 @@
+/* src/styles/Login.css */
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza horizontalmente */
+    justify-content: center; /* Centraliza verticalmente (se houver espaço) */
+    min-height: calc(100vh - 65px); /* Ocupa a altura da viewport menos a navbar */
+    padding: 20px;
+    box-sizing: border-box; /* Garante que o padding não adicione largura extra */
+    background-color: #f8f9fa; /* Um fundo suave */
+}
+
+.login-container h2 {
+    margin-bottom: 30px;
+    color: #333;
+    font-size: 2.2rem;
+    text-align: center;
+}
+
+.google-login-button-wrapper {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    /* Centraliza o botão GoogleLogin que pode ter largura variável */
+    display: flex;
+    justify-content: center;
+    width: 100%; /* Permite que o wrapper ocupe a largura total do container flex */
+    max-width: 300px; /* Limita a largura do botão em telas maiores para não esticar demais */
+}
+
+/* Mensagens de feedback */
+.loading-message {
+    color: #007bff;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.error-message {
+    color: #dc3545; /* Vermelho para erro */
+    background-color: #f8d7da; /* Fundo mais claro para erro */
+    border: 1px solid #f5c6cb;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* Links adicionais */
+.login-container p {
+    margin-top: 15px;
+    font-size: 0.95rem;
+    color: #555;
+    text-align: center;
+}
+
+.login-container p a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.login-container p a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* --- Responsividade --- */
+@media (max-width: 768px) {
+    .login-container {
+        padding: 15px;
+    }
+
+    .login-container h2 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container h2 {
+        font-size: 1.5rem;
+    }
+}
