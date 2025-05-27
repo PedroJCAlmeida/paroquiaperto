@@ -18,6 +18,10 @@ const Navbar = () => {
           <img src={logo} alt="Paróquia Perto" />
         </Link>
 
+         <Link to="/login" className="navbar-login-icon" title="Login" onClick={() => setIsOpen(false)}>
+          <FaUserCircle size={28} />
+         </Link>
+        
         <button
           className={isOpen ? 'active navbar-toggle' : 'navbar-toggle'}
           onClick={toggleMenu}
@@ -35,10 +39,6 @@ const Navbar = () => {
           <Link to="/contato" className="navbar-link" onClick={() => setIsOpen(false)}>Contato</Link>
         </nav>
 
-        {/* Ícone de login sempre visível */}
-        <Link to="/login" className="navbar-login-icon" title="Login" onClick={() => setIsOpen(false)}>
-          <FaUserCircle size={28} />
-        </Link>
       </div>
     </header>
   );
