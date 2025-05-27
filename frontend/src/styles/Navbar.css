@@ -120,8 +120,9 @@ body {
 /* Responsivo */
 @media (max-width: 768px) {
   .navbar-toggle {
-    display: flex;
-  }
+  margin-left: auto;
+  margin-right: 20px;
+}
 
   .navbar-nav {
     position: absolute;
@@ -137,6 +138,13 @@ body {
 
   .navbar-nav.active {
     display: flex;
+  }
+
+   .navbar-login-icon {
+    position: absolute;
+    right: 25px;
+    top: 15px;
+    margin-left: 0;
   }
 }
 
@@ -167,15 +175,6 @@ body {
   color: #007bff;
 }
 
-/* Para mobile, posicionar no canto direito */
-@media (max-width: 768px) {
-  .navbar-login-icon {
-    position: absolute;
-    right: 25px;
-    top: 15px;
-    margin-left: 0;
-  }
-}
 
 /* Telas menores (ex: tablets e celulares) - Começa a partir de 992px para desktop médio */
 @media (max-width: 992px) {
