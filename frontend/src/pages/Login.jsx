@@ -1,11 +1,14 @@
 // src/components/Login.js
 
 import React, { useState } from 'react';
-// Removemos a importação do GoogleLogin por enquanto
-import { useNavigate, Link } from 'react-router-dom'; // Mantemos useNavigate e Link
-import axios from 'axios'; // Mantemos axios se for simular uma chamada para o backend
+// import { GoogleLogin } from '@react-oauth/google'; // Removido por enquanto, como combinado
+import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
 
-import '../styles/Login.css'; // Mantenha seu arquivo de estilos
+// Importa o logo (assumindo que está na mesma pasta ou similar à Navbar)
+import logo from '../assets/logo.png'; // <--- Adicione esta linha
+
+import '../styles/Login.css';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -14,54 +17,39 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Função para lidar com o envio do formulário
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Impede o comportamento padrão de recarregar a página
+    e.preventDefault();
     setLoading(true);
     setError(null);
 
-    // --- Simulação de Login (Substituir pela chamada real ao backend depois) ---
     try {
       console.log('Tentando login com:', { email, password });
 
-      // **AQUI VOCÊ FARIA A CHAMADA AXIOS REAL PARA SEU BACKEND**
-      // Exemplo:
-      /*
-      const response = await axios.post('http://localhost:8080/api/auth/login', {
-        email: email,
-        password: password
-      });
-
-      if (response.data.success) { // Supondo que seu backend retorna { success: true, authToken: '...' }
-        localStorage.setItem('authToken', response.data.authToken);
-        navigate('/backoffice');
-      } else {
-        setError('Email ou palavra-passe inválidos.');
-      }
-      */
-
-      // --- SIMULAÇÃO: Apenas para testar o fluxo frontend ---
-      // Atraso para simular uma chamada de rede
+      // SIMULAÇÃO: Apenas para testar o fluxo frontend
       await new Promise(resolve => setTimeout(resolve, 1500));
 
-      if (email === 'teste@teste.com' && password === '123456') { // Credenciais de teste
+      if (email === 'teste@teste.com' && password === '123456') {
         console.log('Login simulado bem-sucedido!');
-        navigate('/backoffice'); // Redireciona para o backoffice
+        navigate('/backoffice');
       } else {
         setError('Email ou palavra-passe inválidos. Tente: teste@teste.com / 123456');
       }
 
     } catch (err) {
       console.error('Erro durante o login:', err);
-      // Aqui você pode verificar o erro do backend e exibir uma mensagem mais específica
       setError('Ocorreu um erro ao tentar fazer login. Por favor, tente novamente.');
     } finally {
-      setLoading(false); // Finaliza o carregamento
+      setLoading(false);
     }
   };
 
   return (
     <div className="login-container">
+      {/* Adicione o logo aqui, antes do título */}
+      <div className="login-logo-wrapper"> {/* <--- Novo wrapper para estilização */}
+        <img src={logo} alt="Paróquia Perto" className="login-logo" /> {/* <--- Imagem do logo */}
+      </div>
+
       <h2>Entrar no Paróquia Perto</h2>
 
       {loading && <p className="loading-message">A iniciar sessão...</p>}
@@ -95,16 +83,8 @@ const Login = () => {
         </button>
       </form>
 
-      {/* Links opcionais */}
       <p>Ainda não tem conta? <Link to="/register">Registe-se aqui</Link></p>
       <p><Link to="/forgot-password">Esqueceu a sua palavra-passe?</Link></p>
-
-      {/* Pode manter o botão do Google Login comentado para reativar depois */}
-      {/*
-      <div className="google-login-button-wrapper">
-        <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
-      </div>
-      */}
     </div>
   );
 };
