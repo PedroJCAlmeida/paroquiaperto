@@ -13,7 +13,7 @@ import InserirParoquia from './pages/InserirParoquia';
 import InserirHorario from './pages/InserirHorario';
 import InserirEvento from './pages/InserirEvento';
 
-
+import Login from './pages/Login';
 function App() {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
@@ -44,6 +44,7 @@ function App() {
               <Route path="horarios" element={<InserirHorario />} />
               <Route path="eventos" element={<InserirEvento />} />
             </Route>
+            <Route path="/login" element={<Login />} />
           </Routes>
         )}
       </main>
