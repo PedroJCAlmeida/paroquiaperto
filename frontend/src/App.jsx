@@ -13,6 +13,7 @@ import InserirParoquia from './pages/InserirParoquia';
 import InserirHorario from './pages/InserirHorario';
 import InserirEvento from './pages/InserirEvento';
 import Login from './pages/Login';
+import Registar from './pages/RegistarUtilizador';
 
 function App() {
   const location = useLocation();
