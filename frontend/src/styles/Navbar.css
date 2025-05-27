@@ -149,3 +149,26 @@ body {
         font-size: 1.15rem; /* Fonte um pouco menor nos links para telas muito pequenas */
     }
 }
+
+.navbar-login-icon {
+  display: flex;
+  align-items: center;
+  color: #333;
+  font-size: 1.3rem; /* para aumentar um pouco o tamanho */
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding-left: 10px; /* espaçamento do ícone em relação aos links */
+}
+
+.navbar-login-icon:hover {
+  color: #007bff;
+}
+
+/* Para o menu responsivo (mobile) */
+@media (max-width: 768px) {
+  .navbar-login-icon {
+    padding-left: 0;
+    margin-top: 8px; /* um espacinho extra no menu vertical */
+  }
+}
+
