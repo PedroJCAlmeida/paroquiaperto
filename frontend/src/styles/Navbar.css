@@ -14,7 +14,7 @@
 
 
 body {
-  padding-top: 70px;
+  padding-top: 65px;
   margin: 0;
 }
 
@@ -23,7 +23,7 @@ body {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: 960px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 10px 25px;
 
@@ -92,6 +92,8 @@ body {
   padding: 0;
   z-index: 1001;
   outline: none;
+  margin-left: auto;
+  margin-right: 20px;
 }
 
 .hamburger {
@@ -171,4 +173,71 @@ body {
     top: 15px;
     margin-left: 0;
   }
+}
+
+/* Telas menores (ex: tablets e celulares) - Começa a partir de 992px para desktop médio */
+@media (max-width: 992px) {
+    .navbar-nav {
+        /* Oculta a navegação principal em telas menores */
+        display: none;
+    }
+
+    .navbar-toggle {
+        /* Mostra o botão do menu hambúrguer */
+        display: flex;
+    }
+
+    .navbar-login-icon {
+        /* Remove a margem para telas menores, deixa o flexbox cuidar do espaçamento */
+        margin-left: 0;
+    }
+
+    .navbar-nav.active {
+        display: flex; /* Mostra o menu quando ativo */
+        position: absolute; /* Posicionamento absoluto para menu em mobile */
+        top: 65px; /* Ajuste para ficar abaixo da navbar */
+        left: 0; /* Começa da esquerda */
+        right: 0; /* Estende para a direita */
+        background: white;
+        flex-direction: column;
+        align-items: center; /* Centraliza os links verticalmente */
+        gap: 15px; /* Aumenta o espaço entre os links */
+        padding: 20px 0; /* Padding vertical */
+        border-top: 1px solid #eee; /* Linha divisória */
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05); /* Sombra mais suave */
+        width: 100%; /* Ocupa a largura total */
+    }
+
+    .navbar-link {
+        font-size: 1.1rem; /* Aumenta a fonte para melhor toque */
+        width: fit-content; /* Faz com que o sublinhado se ajuste ao texto */
+    }
+}
+
+/* Telas muito pequenas (ex: celulares pequenos) */
+@media (max-width: 576px) {
+    .navbar-inner {
+        padding: 10px 15px; /* Menos padding lateral */
+    }
+
+    .navbar-logo img {
+        height: 40px; /* Logo um pouco menor */
+    }
+
+    .navbar-toggle {
+        width: 25px; /* Botão hambúrguer um pouco menor */
+        height: 18px;
+    }
+
+    .hamburger {
+        height: 2px;
+    }
+
+    .navbar-toggle.active .hamburger:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    .navbar-toggle.active .hamburger:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
 }
