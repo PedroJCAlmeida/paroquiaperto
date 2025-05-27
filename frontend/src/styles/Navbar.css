@@ -150,25 +150,25 @@ body {
     }
 }
 
-.navbar-login-icon {
-  display: flex;
-  align-items: center;
+..navbar-login-icon {
   color: #333;
-  font-size: 1.3rem; /* para aumentar um pouco o tamanho */
   cursor: pointer;
   transition: color 0.3s ease;
-  padding-left: 10px; /* espaçamento do ícone em relação aos links */
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
 }
 
 .navbar-login-icon:hover {
   color: #007bff;
 }
 
-/* Para o menu responsivo (mobile) */
+/* Para mobile, posicionar no canto direito */
 @media (max-width: 768px) {
   .navbar-login-icon {
-    padding-left: 0;
-    margin-top: 8px; /* um espacinho extra no menu vertical */
+    position: absolute;
+    right: 25px;
+    top: 15px;
+    margin-left: 0;
   }
 }
-
