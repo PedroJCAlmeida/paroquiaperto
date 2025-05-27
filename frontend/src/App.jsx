@@ -38,6 +38,7 @@ function App() {
             <Route path="/contato" element={<Contato />} />
             <Route path="/Buscar" element={<Buscar />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Registar />} /> 
             {/* outras rotas */}
             {/* Backoffice com layout e sub-rotas */}
             <Route path="/backoffice" element={<BackofficeLayout />}>
