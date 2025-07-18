@@ -1,0 +1,178 @@
+{
+  "paroquias": [
+    {
+      "nome": "Paróquia de Nossa Senhora de Fátima",
+      "endereco": "Rua da Igreja, 123, Lisboa",
+      "descricao": "Paróquia dedicada a Nossa Senhora de Fátima, com missas diárias e atividades comunitárias.",
+      "latitude": 38.7223,
+      "longitude": -9.1393,
+      "imageUrl": "https://example.com/images/fatima.jpg"
+    },
+    {
+      "nome": "Paróquia do Sagrado Coração de Jesus",
+      "endereco": "Avenida da Liberdade, 456, Porto",
+      "descricao": "Paróquia no centro do Porto, conhecida por suas atividades culturais e sociais.",
+      "latitude": 41.1579,
+      "longitude": -8.6291,
+      "imageUrl": "https://example.com/images/sagrado_coracao.jpg"
+    },
+    {
+      "nome": "Paróquia de São João Baptista",
+      "endereco": "Largo de São João, 789, Braga",
+      "descricao": "Uma das paróquias mais antigas de Braga, com arquitetura histórica preservada.",
+      "latitude": 41.5518,
+      "longitude": -8.4229,
+      "imageUrl": "https://example.com/images/sao_joao.jpg"
+    },
+    {
+      "nome": "Paróquia de Santa Maria Maior",
+      "endereco": "Rua de Santa Maria, 321, Coimbra",
+      "descricao": "Paróquia universitária em Coimbra, frequentada por muitos estudantes.",
+      "latitude": 40.2033,
+      "longitude": -8.4103,
+      "imageUrl": "https://example.com/images/santa_maria.jpg"
+    },
+    {
+      "nome": "Paróquia de Santo António",
+      "endereco": "Praceta Santo António, 654, Aveiro",
+      "descricao": "Paróquia moderna em Aveiro, com programas para jovens e famílias.",
+      "latitude": 40.6443,
+      "longitude": -8.6455,
+      "imageUrl": "https://example.com/images/santo_antonio.jpg"
+    }
+  ],
+  "missas": [
+    {
+      "horario": "2025-07-19T08:00:00",
+      "descricao": "Missa da manhã - Domingo",
+      "paroquiaId": 1
+    },
+    {
+      "horario": "2025-07-19T10:30:00",
+      "descricao": "Missa solene de domingo",
+      "paroquiaId": 1
+    },
+    {
+      "horario": "2025-07-19T19:00:00",
+      "descricao": "Missa vespertina",
+      "paroquiaId": 1
+    },
+    {
+      "horario": "2025-07-19T09:00:00",
+      "descricao": "Missa dominical",
+      "paroquiaId": 2
+    },
+    {
+      "horario": "2025-07-19T11:00:00",
+      "descricao": "Missa das famílias",
+      "paroquiaId": 2
+    },
+    {
+      "horario": "2025-07-19T18:30:00",
+      "descricao": "Missa da tarde",
+      "paroquiaId": 2
+    },
+    {
+      "horario": "2025-07-19T08:30:00",
+      "descricao": "Missa matinal",
+      "paroquiaId": 3
+    },
+    {
+      "horario": "2025-07-19T10:00:00",
+      "descricao": "Missa principal de domingo",
+      "paroquiaId": 3
+    },
+    {
+      "horario": "2025-07-19T09:30:00",
+      "descricao": "Missa universitária",
+      "paroquiaId": 4
+    },
+    {
+      "horario": "2025-07-19T19:30:00",
+      "descricao": "Missa dos estudantes",
+      "paroquiaId": 4
+    },
+    {
+      "horario": "2025-07-19T10:00:00",
+      "descricao": "Missa dos jovens",
+      "paroquiaId": 5
+    },
+    {
+      "horario": "2025-07-19T18:00:00",
+      "descricao": "Missa das famílias",
+      "paroquiaId": 5
+    }
+  ],
+  "eventos": [
+    {
+      "nome": "Festa de Nossa Senhora de Fátima",
+      "descricao": "Celebração anual em honra de Nossa Senhora de Fátima com procissão e festa popular.",
+      "dataHora": "2025-05-13T15:00:00",
+      "local": "Adro da Igreja",
+      "paroquiaId": 1
+    },
+    {
+      "nome": "Catequese para Crianças",
+      "descricao": "Encontros semanais de catequese para preparação dos sacramentos.",
+      "dataHora": "2025-07-26T14:00:00",
+      "local": "Salão Paroquial",
+      "paroquiaId": 1
+    },
+    {
+      "nome": "Festa do Sagrado Coração",
+      "descricao": "Festa tradicional com missa solene e atividades culturais.",
+      "dataHora": "2025-06-28T16:00:00",
+      "local": "Igreja e Jardins",
+      "paroquiaId": 2
+    },
+    {
+      "nome": "Grupo de Jovens",
+      "descricao": "Encontro mensal do grupo de jovens da paróquia.",
+      "dataHora": "2025-07-25T19:30:00",
+      "local": "Centro Paroquial",
+      "paroquiaId": 2
+    },
+    {
+      "nome": "Festa de São João",
+      "descricao": "Celebração tradicional de São João com fogueira e sardinhas.",
+      "dataHora": "2025-06-24T20:00:00",
+      "local": "Largo da Igreja",
+      "paroquiaId": 3
+    },
+    {
+      "nome": "Conferência sobre História Local",
+      "descricao": "Palestra sobre a história da paróquia e da cidade de Braga.",
+      "dataHora": "2025-08-15T18:00:00",
+      "local": "Auditório Paroquial",
+      "paroquiaId": 3
+    },
+    {
+      "nome": "Retiro Universitário",
+      "descricao": "Retiro espiritual destinado aos estudantes universitários.",
+      "dataHora": "2025-09-15T09:00:00",
+      "local": "Casa de Retiros",
+      "paroquiaId": 4
+    },
+    {
+      "nome": "Feira do Livro Religioso",
+      "descricao": "Exposição e venda de livros religiosos e de espiritualidade.",
+      "dataHora": "2025-10-12T10:00:00",
+      "local": "Átrio da Igreja",
+      "paroquiaId": 4
+    },
+    {
+      "nome": "Encontro de Casais",
+      "descricao": "Encontro mensal para casais da comunidade paroquial.",
+      "dataHora": "2025-07-30T20:00:00",
+      "local": "Salão de Festas",
+      "paroquiaId": 5
+    },
+    {
+      "nome": "Bazar Beneficente",
+      "descricao": "Bazar anual para angariação de fundos para obras sociais.",
+      "dataHora": "2025-11-20T14:00:00",
+      "local": "Pavilhão Paroquial",
+      "paroquiaId": 5
+    }
+  ]
+}

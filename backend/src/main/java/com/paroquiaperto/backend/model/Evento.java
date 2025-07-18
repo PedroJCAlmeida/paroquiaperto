@@ -9,58 +9,67 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table; // Importar para @Table
 
-import java.time.LocalDateTime; // Para data e hora de início/fim
+import java.time.LocalDateTime;
 
-// Importações Lombok (se você decidiu usar Lombok no seu projeto)
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data // Gera getters, setters, toString, equals e hashCode
-@NoArgsConstructor // Gera construtor sem argumentos (necessário para JPA)
-@AllArgsConstructor // Gera construtor com todos os argumentos
-@Entity // Indica que esta classe é uma entidade JPA e será mapeada para uma tabela
-@Table(name = "eventos") // Define o nome da tabela no banco de dados
+@Entity
+@Table(name = "eventos")
 public class Evento {
 
-    @Id // Define 'id' como a chave primária
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Configura a geração automática de ID
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false) // Título não pode ser nulo
+    @Column(nullable = false)
     private String titulo;
 
-    @Column(nullable = false) // Data e hora de início não podem ser nulas
-    private LocalDateTime dataHoraInicio; // Renomeado para mais clareza
+    @Column(nullable = false)
+    private LocalDateTime dataHoraInicio;
 
-    private LocalDateTime dataHoraFim; // Data e hora de fim (pode ser nula para eventos sem duração definida)
+    private LocalDateTime dataHoraFim;
 
-    @Column(length = 2000) // Descrição do evento (aumentei o limite para 2000 caracteres)
+    @Column(length = 2000)
     private String descricao;
 
-    private String local; // Local específico do evento, se não for na própria paróquia (opcional)
+    private String local;
 
-    private String imagemUrl; // URL de uma imagem para o evento (opcional)
+    private String imagemUrl;
 
-    // Relacionamento Many-to-One com Paroquia:
-    // Muitos Eventos podem pertencer a uma Paróquia.
-    @ManyToOne // Define o relacionamento Many-to-One
-    @JoinColumn(name = "paroquia_id", nullable = false) // 'paroquia_id' é a chave estrangeira, não pode ser nula
+    @ManyToOne
+    @JoinColumn(name = "paroquia_id", nullable = false)
     private Paroquia paroquia;
 
-    // Se você não estiver usando Lombok, os getters e setters que você já tinha
-    // continuam sendo necessários e devem ser mantidos.
-    // Exemplo de como seriam os construtores sem Lombok:
-    /*
-    // Construtor padrão (necessário para JPA)
+    // Construtores
     public Evento() {}
 
-    // Construtor com campos necessários (exemplo)
     public Evento(String titulo, LocalDateTime dataHoraInicio, String descricao, Paroquia paroquia) {
         this.titulo = titulo;
         this.dataHoraInicio = dataHoraInicio;
         this.descricao = descricao;
         this.paroquia = paroquia;
     }
-    */
+
+    // Getters e Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getTitulo() { return titulo; }
+    public void setTitulo(String titulo) { this.titulo = titulo; }
+
+    public LocalDateTime getDataHoraInicio() { return dataHoraInicio; }
+    public void setDataHoraInicio(LocalDateTime dataHoraInicio) { this.dataHoraInicio = dataHoraInicio; }
+
+    public LocalDateTime getDataHoraFim() { return dataHoraFim; }
+    public void setDataHoraFim(LocalDateTime dataHoraFim) { this.dataHoraFim = dataHoraFim; }
+
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
+
+    public String getLocal() { return local; }
+    public void setLocal(String local) { this.local = local; }
+
+    public String getImagemUrl() { return imagemUrl; }
+    public void setImagemUrl(String imagemUrl) { this.imagemUrl = imagemUrl; }
+
+    public Paroquia getParoquia() { return paroquia; }
+    public void setParoquia(Paroquia paroquia) { this.paroquia = paroquia; }
 }

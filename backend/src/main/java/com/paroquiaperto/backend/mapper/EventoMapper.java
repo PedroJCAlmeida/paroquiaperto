@@ -2,14 +2,14 @@
 
 package com.paroquiaperto.backend.mapper;
 
-import com.paroquiaperto.backend.model.Evento;
-import com.paroquiaperto.backend.model.Paroquia; // Precisamos para o relacionamento
-import com.paroquiaperto.backend.dto.EventoDTO;
-
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.Mapping; // Precisamos para o relacionamento
 import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
+
+import com.paroquiaperto.backend.dto.EventoDTO;
+import com.paroquiaperto.backend.model.Evento;
+import com.paroquiaperto.backend.model.Paroquia;
 
 @Mapper(componentModel = "spring", // Gera o mapper como um bean Spring
         unmappedTargetPolicy = ReportingPolicy.IGNORE, // Ignora campos não mapeados

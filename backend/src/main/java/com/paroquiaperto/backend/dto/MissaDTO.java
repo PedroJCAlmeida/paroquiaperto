@@ -2,15 +2,8 @@
 
 package com.paroquiaperto.backend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 
-@Data // Anotação Lombok para gerar getters, setters, toString, equals e hashCode
-@NoArgsConstructor // Anotação Lombok para gerar construtor sem argumentos
-@AllArgsConstructor // Anotação Lombok para gerar construtor com todos os argumentos
 public class MissaDTO {
     private Long id;
     private LocalDateTime horario;
@@ -19,4 +12,27 @@ public class MissaDTO {
     private Long paroquiaId;
     // Opcional: Se quiser incluir o nome da paróquia para exibição simples sem buscar a paróquia inteira
     // private String paroquiaNome;
+
+    // Construtores
+    public MissaDTO() {}
+
+    public MissaDTO(Long id, LocalDateTime horario, String descricao, Long paroquiaId) {
+        this.id = id;
+        this.horario = horario;
+        this.descricao = descricao;
+        this.paroquiaId = paroquiaId;
+    }
+
+    // Getters e Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public LocalDateTime getHorario() { return horario; }
+    public void setHorario(LocalDateTime horario) { this.horario = horario; }
+
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
+
+    public Long getParoquiaId() { return paroquiaId; }
+    public void setParoquiaId(Long paroquiaId) { this.paroquiaId = paroquiaId; }
 }

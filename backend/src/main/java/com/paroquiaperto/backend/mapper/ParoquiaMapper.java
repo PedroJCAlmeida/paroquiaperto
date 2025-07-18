@@ -2,12 +2,12 @@
 
 package com.paroquiaperto.backend.mapper;
 
-import com.paroquiaperto.backend.model.Paroquia;
-import com.paroquiaperto.backend.dto.ParoquiaDTO; // Importe o DTO que acabamos de criar
-
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping; // Necessário para mapeamentos específicos
-import org.mapstruct.ReportingPolicy; // Para controle de relatórios de erros/avisos
+import org.mapstruct.Mapping; // Importe o DTO que acabamos de criar
+import org.mapstruct.ReportingPolicy;
+
+import com.paroquiaperto.backend.dto.ParoquiaDTO; // Necessário para mapeamentos específicos
+import com.paroquiaperto.backend.model.Paroquia; // Para controle de relatórios de erros/avisos
 
 @Mapper(componentModel = "spring", // Diz ao MapStruct para gerar o mapper como um bean Spring
         unmappedTargetPolicy = ReportingPolicy.IGNORE) // Ignora campos no DTO que não têm correspondência na Entidade (e vice-versa)

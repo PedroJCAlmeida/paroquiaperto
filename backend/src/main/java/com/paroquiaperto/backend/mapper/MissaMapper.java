@@ -2,14 +2,14 @@
 
 package com.paroquiaperto.backend.mapper;
 
-import com.paroquiaperto.backend.model.Missa;
-import com.paroquiaperto.backend.model.Paroquia; // Precisamos para o relacionamento na entidade
-import com.paroquiaperto.backend.dto.MissaDTO; // O DTO que criamos
-
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.Mapping; // Precisamos para o relacionamento na entidade
+import org.mapstruct.Named; // O DTO que criamos
 import org.mapstruct.ReportingPolicy;
-import org.mapstruct.Named; // Para métodos de mapeamento personalizados, se necessário
+
+import com.paroquiaperto.backend.dto.MissaDTO;
+import com.paroquiaperto.backend.model.Missa;
+import com.paroquiaperto.backend.model.Paroquia; // Para métodos de mapeamento personalizados, se necessário
 
 @Mapper(componentModel = "spring", // Diz ao MapStruct para gerar o mapper como um bean Spring
         unmappedTargetPolicy = ReportingPolicy.IGNORE, // Ignora campos não mapeados para evitar erros de compilação
