@@ -15,11 +15,13 @@ public class ParoquiaController {
     private ParoquiaRepository paroquiaRepository;
 
     @PostMapping
-    public ResponseEntity<?> criarParoquia(@RequestBody Paroquia paroquia) {
-        if (paroquia.getNome() == null || paroquia.getNome().isEmpty()) {
-            return ResponseEntity.badRequest().body("Nome da paróquia é obrigatório");
-        }
-        Paroquia saved = paroquiaRepository.save(paroquia);
-        return ResponseEntity.ok(saved);
+    public ResponseEntity<?> criarParoquia(@RequestBody Paroquia paroquia, @RequestHeader(value = "Authorization", required = false) String authorization) {
+    System.out.println("Authorization header: " + authorization);
+
+    if (paroquia.getNome() == null || paroquia.getNome().isEmpty()) {
+        return ResponseEntity.badRequest().body("Nome da paróquia é obrigatório");
+    }
+    Paroquia saved = paroquiaRepository.save(paroquia);
+    return ResponseEntity.ok(saved);
     }
 }

@@ -23,6 +23,8 @@ import com.paroquiaperto.backend.repository.UserRepository;
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3001"})
 public class AuthController {
+    @Autowired
+    private com.paroquiaperto.backend.security.JwtUtil jwtUtil;
     // Substitua pelo seu CLIENT_ID do Google
     private static final String GOOGLE_CLIENT_ID = "348004977357-46935g5vv612ak9qgb8prqp4o8pcd7dl.apps.googleusercontent.com";
 
@@ -56,12 +58,15 @@ public class AuthController {
                     newUser.setAuthProvider("google");
                     return userRepository.save(newUser);
                 });
-                    // Retorna dados do usuário, exceto senha
+                    // Gera token JWT
+                    String jwtToken = jwtUtil.generateToken(user.getEmail());
+                    // Retorna dados do usuário + token
                     Map<String, Object> userData = Map.of(
                         "id", user.getId(),
                         "name", user.getName(),
                         "email", user.getEmail(),
-                        "authProvider", user.getAuthProvider()
+                        "authProvider", user.getAuthProvider(),
+                        "token", jwtToken
                     );
                     return ResponseEntity.ok(userData);
             } else {
@@ -107,12 +112,15 @@ public class AuthController {
         return userRepository.findByEmail(email)
             .map(user -> {
                 if (passwordEncoder.matches(password, user.getPassword())) {
-                    // Retorna dados do usuário, exceto senha
+                    // Gera token JWT
+                    String token = jwtUtil.generateToken(user.getEmail());
+                    // Retorna dados do usuário + token
                     Map<String, Object> userData = Map.of(
                         "id", user.getId(),
                         "name", user.getName(),
                         "email", user.getEmail(),
-                        "authProvider", user.getAuthProvider()
+                        "authProvider", user.getAuthProvider(),
+                        "token", token
                     );
                     return ResponseEntity.ok(userData);
                 } else {
