@@ -1,6 +1,9 @@
+C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\security\JwtUtil.java
 C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\model\User.java
 C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\controller\ParoquiaController.java
 C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\model\Paroquia.java
+C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\security\JwtAuthenticationFilter.java
+C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\security\CustomUserDetailsService.java
 C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\repository\ParoquiaRepository.java
 C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\repository\UserRepository.java
 C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\BackendApplication.java

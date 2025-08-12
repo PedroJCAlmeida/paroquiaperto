@@ -29,7 +29,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/register").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/paroquias/**").authenticated()
+                .requestMatchers("/api/paroquias/**").permitAll()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

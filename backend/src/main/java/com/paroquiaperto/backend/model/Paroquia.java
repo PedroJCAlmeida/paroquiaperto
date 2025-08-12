@@ -49,6 +49,9 @@ public class Paroquia {
 
     @Column
     private String descricao;
+
+    @Column
+    private java.util.List<String> horarios;
     
     // Getters e setters
     public Long getId() { return id; }
@@ -89,4 +92,7 @@ public class Paroquia {
 
     public String getDescricao() { return descricao; }
     public void setDescricao(String descricao) { this.descricao = descricao; }
+
+    public java.util.List<String> getHorarios() { return horarios; }
+    public void setHorarios(java.util.List<String> horarios) { this.horarios = horarios; }
 }

@@ -1,8 +1,10 @@
 com\paroquiaperto\backend\model\User.class
+com\paroquiaperto\backend\security\JwtUtil.class
+com\paroquiaperto\backend\config\SecurityConfig.class
 com\paroquiaperto\backend\model\Paroquia.class
 com\paroquiaperto\backend\repository\UserRepository.class
 com\paroquiaperto\backend\repository\ParoquiaRepository.class
 com\paroquiaperto\backend\controller\ParoquiaController.class
+com\paroquiaperto\backend\security\JwtAuthenticationFilter.class
 com\paroquiaperto\backend\BackendApplication.class
 com\paroquiaperto\backend\controller\AuthController.class
-com\paroquiaperto\backend\config\SecurityConfig.class
