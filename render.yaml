@@ -2,7 +2,7 @@ services:
   - type: web
     name: paroquiaperto-api
     env: java
-    rootDirectory: paroquiaperto/backend
+    rootDirectory: backend
     buildCommand: ./mvnw -DskipTests package
     startCommand: java -Dserver.port=$PORT -jar target/backend-1.0.0.jar
     envVars:
