@@ -10,11 +10,4 @@ services:
         value: 17
       - key: DATABASE_URL
         value: postgresql://postgres:tCxMXQUMGjZXUkkPyPMzqZBKNrjUSxQG@postgres-w3oz.railway.internal:5432/railway
-  # --- FRONTEND (site estático) ---
-  - type: static
-    name: paroquiaperto-frontend
-    rootDirectory: frontend
-    buildCommand: |
-      npm ci
-      npm run build
-    publishPath: dist  # mude para 'build' se for CRA; para Next estático use '.next' com 'next export'
+  
