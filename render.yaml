@@ -3,7 +3,6 @@ services:
     name: paroquiaperto-api
     env: java
     rootDirectory: backend
-    plan: free
     buildCommand: ./mvnw -DskipTests package
     startCommand: java -Dserver.port=$PORT -jar target/backend-1.0.0.jar
     envVars:
@@ -11,7 +10,6 @@ services:
         value: 17
       - key: DATABASE_URL
         value: postgresql://postgres:tCxMXQUMGjZXUkkPyPMzqZBKNrjUSxQG@postgres-w3oz.railway.internal:5432/railway
-  
   # --- FRONTEND (site estático) ---
   - type: static
     name: paroquiaperto-frontend
