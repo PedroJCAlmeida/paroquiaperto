@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: paroquiaperto-api
+    env: java
+    plan: free
+    buildCommand: ./mvnw -DskipTests package
+    startCommand: java -Dserver.port=$PORT -jar $(ls target/*-SNAPSHOT.jar | head -n 1)
+    envVars:
+      - key: JAVA_VERSION
+        value: 17
