@@ -56,15 +56,6 @@ const RegistarUtlizardor = () => {
         setError(response.data.message || 'Erro ao registar utilizador.');
       }
      
-
-      // --- SIMULAÇÃO: Apenas para testar o fluxo frontend ---
-      await new Promise(resolve => setTimeout(resolve, 1500)); // Simula atraso da rede
-
-      setSuccess('Registo efetuado com sucesso! Redirecionando para o login...');
-      setTimeout(() => {
-        navigate('/login'); // Redireciona para a página de login
-      }, 2000); // Espera 2 segundos antes de redirecionar
-
     } catch (err) {
       console.error('Erro durante o registo:', err);
       // Aqui você pode verificar o erro do backend para mensagens mais específicas
