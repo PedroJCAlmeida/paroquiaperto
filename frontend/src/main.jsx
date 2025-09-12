@@ -7,8 +7,8 @@ import './index.css'; // se tiver arquivo css global ou tailwind
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <GoogleOAuthProvider clientId="348004977357-46935g5vv612ak9qgb8prqp4o8pcd7dl.apps.googleusercontent.com">
-      <BrowserRouter>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+<BrowserRouter>
         <App />
       </BrowserRouter>
     </GoogleOAuthProvider>
