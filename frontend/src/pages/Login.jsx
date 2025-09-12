@@ -1,6 +1,7 @@
 // src/components/Login.js
 
 import React, { useState } from 'react';
+import { GoogleLogin } from '@react-oauth/google';
 // import { GoogleLogin } from '@react-oauth/google'; // Removido por enquanto, como combinado
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -11,6 +12,26 @@ import logo from '../assets/logo.png'; // <--- Adicione esta linha
 import '../styles/Login.css';
 
 const Login = () => {
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const handleGoogleLogin = async (credentialResponse) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await axios.post(`${apiUrl}/api/auth/google`, {
+        token: credentialResponse.credential
+      });
+      if (response.status === 200 && response.data.token) {
+        localStorage.setItem('token', response.data.token); // Salva o token JWT
+        navigate('/backoffice');
+      } else {
+        setError(response.data || 'Falha na autenticação Google.');
+      }
+    } catch (err) {
+      setError('Erro ao autenticar com Google.');
+    } finally {
+      setLoading(false);
+    }
+  };
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,20 +45,29 @@ const Login = () => {
 
     try {
       console.log('Tentando login com:', { email, password });
-
-      // SIMULAÇÃO: Apenas para testar o fluxo frontend
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      if (email === 'teste@teste.com' && password === '123456') {
-        console.log('Login simulado bem-sucedido!');
+      const response = await axios.post(`${apiUrl}/api/auth/login`, {
+        email,
+        password
+      });
+      if (response.status === 200 && response.data.token) {
+        localStorage.setItem('token', response.data.token); // Salva o token JWT
+        // Se quiser, salve outros dados do usuário também
         navigate('/backoffice');
       } else {
-        setError('Email ou palavra-passe inválidos. Tente: teste@teste.com / 123456');
+        setError(response.data || 'Email ou palavra-passe inválidos.');
       }
-
     } catch (err) {
-      console.error('Erro durante o login:', err);
-      setError('Ocorreu um erro ao tentar fazer login. Por favor, tente novamente.');
+      if (err.response) {
+        if (err.response.status === 401) {
+          setError('Palavra-passe incorreta.');
+        } else if (err.response.status === 404) {
+          setError('Utilizador não encontrado.');
+        } else {
+          setError(err.response.data || 'Erro ao tentar fazer login.');
+        }
+      } else {
+        setError('Ocorreu um erro ao tentar fazer login. Por favor, tente novamente.');
+      }
     } finally {
       setLoading(false);
     }
@@ -54,6 +84,13 @@ const Login = () => {
 
       {loading && <p className="loading-message">A iniciar sessão...</p>}
       {error && <p className="error-message">{error}</p>}
+
+      <div style={{ marginBottom: '1rem' }}>
+        <GoogleLogin
+          onSuccess={handleGoogleLogin}
+          onError={() => setError('Falha ao autenticar com Google.')}
+        />
+      </div>
 
       <form onSubmit={handleSubmit} className="login-form">
         <div className="form-group">

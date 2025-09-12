@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useMap } from 'react-leaflet';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -23,11 +24,15 @@ const cruzIcon = new L.Icon({
 export default function Mapa({ paroquias, coords }) {
   const [center, setCenter] = useState([41.14961, -8.61099]); // Porto centro
 
-  useEffect(() => {
-    if (coords) {
-      setCenter([coords.latitude, coords.longitude]);
-    }
-  }, [coords]);
+  function SetMapCenter({ coords }) {
+    const map = useMap();
+    useEffect(() => {
+      if (coords && coords.latitude && coords.longitude) {
+        map.setView([coords.latitude, coords.longitude], 13);
+      }
+    }, [coords, map]);
+    return null;
+  }
 
   return (
     <MapContainer
@@ -36,6 +41,7 @@ export default function Mapa({ paroquias, coords }) {
       style={{ height: '300px', width: '100%', borderRadius: '8px' }}
       scrollWheelZoom
     >
+      <SetMapCenter coords={coords} />
       <TileLayer
         attribution='&copy; OpenStreetMap'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -55,7 +61,6 @@ export default function Mapa({ paroquias, coords }) {
             <strong>{p.nome}</strong><br/>
             {p.endereco}<br/>
             {p.distancia && `${p.distancia.toFixed(1)} km`}
-            
           </Popup>
         </Marker>
       ))}

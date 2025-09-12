@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import BuscaIgrejas from '../components/BuscaIgrejas';
+import BuscarParoquias from '../components/BuscarParoquias';
 
 
 function Buscar() {    
     return (
       
-        <BuscaIgrejas />
+  <BuscarParoquias />
       
     );
   }

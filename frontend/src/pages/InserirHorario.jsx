@@ -1,12 +1,7 @@
 // InserirHorario.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/Backoffice.css';
 
-// Exemplo de paróquias para selecionar (substituir por dados reais do backend)
-const paroquiasExemplo = [
-  { id: 1, nome: 'Paróquia de São João' },
-  { id: 2, nome: 'Paróquia de Nossa Senhora da Luz' },
-];
 
 export default function InserirHorario() {
   const [form, setForm] = useState({
@@ -16,14 +11,55 @@ export default function InserirHorario() {
     tipo: 'Missa',
   });
 
+  const [paroquias, setParoquias] = useState([]);
+
+  useEffect(() => {
+    const apiUrl = import.meta.env.VITE_API_URL;
+    const fetchParoquias = async () => {
+      try {
+        const res = await fetch(`${apiUrl}/api/paroquias`);
+        const data = await res.json();
+        setParoquias(data);
+      } catch (err) {
+        setParoquias([]);
+      }
+    };
+    fetchParoquias();
+  }, []);
+
   const handleChange = (e) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Horário enviado:', form);
-    // Enviar para backend
+    try {
+      const token = localStorage.getItem('token');
+      const payload = {
+        ...form,
+        paroquiaId: parseInt(form.paroquiaId)
+      };
+      const response = await fetch(`${apiUrl}/api/horarios`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) {
+        const errorText = await response.text();
+        alert(`Erro ao enviar horário: ${response.status} ${errorText}`);
+        return;
+      }
+      const data = await response.json();
+      alert('Horário enviado com sucesso!');
+      console.log('Resposta do backend:', data);
+    } catch (error) {
+      alert('Erro ao enviar horário');
+      console.error(error);
+    }
   };
 
   return (
@@ -34,8 +70,8 @@ export default function InserirHorario() {
           Paróquia
           <select name="paroquiaId" value={form.paroquiaId} onChange={handleChange} required>
             <option value="">Selecione uma paróquia</option>
-            {paroquiasExemplo.map(p => (
-              <option key={p.id} value={p.id}>{p.nome}</option>
+            {paroquias.map(p => (
+              <option key={p.id} value={p.id}>{p.nomeIgreja || p.nome}</option>
             ))}
           </select>
         </label>

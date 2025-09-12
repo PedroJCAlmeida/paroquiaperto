@@ -1,14 +1,25 @@
 // InserirEvento.jsx
 import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../styles/Backoffice.css';
 
-// Exemplo de paróquias para seleção
-const paroquiasExemplo = [
-  { id: 1, nome: 'Paróquia de São João' },
-  { id: 2, nome: 'Paróquia de Nossa Senhora da Luz' },
-];
 
 export default function InserirEvento() {
+  const [paroquias, setParoquias] = useState([]);
+
+  useEffect(() => {
+    const apiUrl = import.meta.env.VITE_API_URL;
+    const fetchParoquias = async () => {
+      try {
+        const res = await fetch(`${apiUrl}/api/paroquias`);
+        const data = await res.json();
+        setParoquias(data);
+      } catch (err) {
+        setParoquias([]);
+      }
+    };
+    fetchParoquias();
+  }, []);
   const [form, setForm] = useState({
     paroquiaId: '',
     titulo: '',
@@ -22,10 +33,35 @@ export default function InserirEvento() {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Evento enviado:', form);
-    // Enviar para o backend aqui
+    try {
+      const token = localStorage.getItem('token');
+      const payload = {
+        ...form,
+        paroquiaId: parseInt(form.paroquiaId)
+      };
+      const response = await fetch(`${apiUrl}/api/eventos`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) {
+        const errorText = await response.text();
+        alert(`Erro ao enviar evento: ${response.status} ${errorText}`);
+        return;
+      }
+      const data = await response.json();
+      alert('Evento enviado com sucesso!');
+      console.log('Resposta do backend:', data);
+    } catch (error) {
+      alert('Erro ao enviar evento');
+      console.error(error);
+    }
   };
 
   return (
@@ -36,8 +72,8 @@ export default function InserirEvento() {
           Paróquia
           <select name="paroquiaId" value={form.paroquiaId} onChange={handleChange} required>
             <option value="">Selecione uma paróquia</option>
-            {paroquiasExemplo.map(p => (
-              <option key={p.id} value={p.id}>{p.nome}</option>
+            {paroquias.map(p => (
+              <option key={p.id} value={p.id}>{p.nomeIgreja || p.nome}</option>
             ))}
           </select>
         </label>

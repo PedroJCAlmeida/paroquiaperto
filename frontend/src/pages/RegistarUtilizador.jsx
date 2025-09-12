@@ -39,14 +39,13 @@ const RegistarUtlizardor = () => {
     try {
       console.log('Tentando registar com:', { name, email, password });
 
-      // --- SIMULAÇÃO DE REGISTO (Substituir pela chamada real ao backend) ---
-      // Aqui você faria a chamada axios.post para seu backend, ex:
-      /*
-      const response = await axios.post('http://localhost:8080/api/auth/register', {
+      // Chamada real ao backend
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const response = await axios.post(`${apiUrl}/register`, {
         name: name,
         email: email,
         password: password
-      });
+    });
 
       if (response.data.success) { // Supondo que o backend retorna { success: true }
         setSuccess('Registo efetuado com sucesso! Redirecionando para o login...');
@@ -56,7 +55,7 @@ const RegistarUtlizardor = () => {
       } else {
         setError(response.data.message || 'Erro ao registar utilizador.');
       }
-      */
+     
 
       // --- SIMULAÇÃO: Apenas para testar o fluxo frontend ---
       await new Promise(resolve => setTimeout(resolve, 1500)); // Simula atraso da rede

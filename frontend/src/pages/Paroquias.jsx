@@ -24,25 +24,37 @@ const Paroquias = () => {
   const [coords, setCoords] = useState(null);
 
   useEffect(() => {
+    const apiUrl = import.meta.env.VITE_API_URL;
+    const fetchParoquias = async (latitude, longitude) => {
+      try {
+        const res = await fetch(`${apiUrl}/api/paroquias`);
+        const data = await res.json();
+        console.log('Paróquias recebidas do backend:', data);
+        let paroquias = data;
+        if (latitude && longitude) {
+          paroquias = paroquias.map(p => ({
+            ...p,
+            distancia: calcularDistancia(latitude, longitude, p.lat, p.lng)
+          })).sort((a, b) => a.distancia - b.distancia);
+        }
+        setLista(paroquias);
+      } catch (err) {
+        setLista([]);
+      }
+    };
+
     if (!navigator.geolocation) {
-      setLista(json);
+      fetchParoquias();
       return;
     }
 
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude, longitude } }) => {
         setCoords({ latitude, longitude });
-        const ordenadas = json
-          .map(p => ({
-            ...p,
-            distancia: calcularDistancia(latitude, longitude, p.lat, p.lng)
-          }))
-          .sort((a, b) => a.distancia - b.distancia);
-        setLista(ordenadas);
+        fetchParoquias(latitude, longitude);
       },
       () => {
-        // usuário negou ou erro => exibe ordem original
-        setLista(json);
+        fetchParoquias();
       }
     );
   }, []);

@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Home.css';
 import { MapPin } from 'lucide-react';
-import BuscaIgrejas from '../components/BuscaIgrejas';
+import BuscarParoquias from '../components/BuscarParoquias';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -60,7 +60,7 @@ const Home = () => {
         </div>
       </section>
 
-     <BuscaIgrejas/>
+  <BuscarParoquias/>
      
 
     </div>

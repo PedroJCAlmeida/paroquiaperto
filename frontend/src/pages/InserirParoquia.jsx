@@ -5,13 +5,12 @@ import '../styles/Backoffice.css';
 export default function InserirParoquia() {
   const [form, setForm] = useState({
     nome: '',
-    nomeIgreja: '',
     endereco: '',
     lat: '',
     lng: '',
     telefone: '',
-    horarioSecretaria: '',
     email: '',
+    descricao: '',
     site: '',
     imagem: '',
     facebook: '',
@@ -23,11 +22,65 @@ export default function InserirParoquia() {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Aqui você pode enviar os dados para o backend com fetch ou axios
-    console.log('Paróquia enviada:', form);
+  const buscarLocalizacao = async () => {
+    if (!form.endereco) {
+      alert('Digite o endereço para buscar localização.');
+      return;
+    }
+    try {
+      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(form.endereco)}`;
+      const response = await fetch(url);
+      const data = await response.json();
+      if (data && data.length > 0) {
+        setForm(prev => ({
+          ...prev,
+          lat: data[0].lat,
+          lng: data[0].lon
+        }));
+        alert('Localização encontrada!');
+      } else {
+        alert('Endereço não encontrado.');
+      }
+    } catch (error) {
+      alert('Erro ao buscar localização.');
+    }
   };
+
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem('token');
+      const payload = {
+        ...form,
+        lat: parseFloat(form.lat),
+        lng: parseFloat(form.lng)
+      };
+      const response = await fetch(`${apiUrl}/api/paroquias`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(payload),
+      });
+
+    if (!response.ok) {
+      // Tenta ler texto ou JSON, se houver
+      const errorText = await response.text();
+      alert(`Erro ao enviar paróquia: ${response.status} ${errorText}`);
+      return;
+    }
+
+    // Só tenta ler JSON se status for ok
+    const data = await response.json();
+    alert('Paróquia enviada com sucesso!');
+    console.log('Resposta do backend:', data);
+  } catch (error) {
+    alert('Erro ao enviar paróquia');
+    console.error(error);
+  }
+};
 
   return (
     <div className="backoffice-page">
@@ -39,13 +92,13 @@ export default function InserirParoquia() {
         </label>
 
         <label>
-          Nome da Igreja
-          <input type="text" name="nomeIgreja" value={form.nomeIgreja} onChange={handleChange} required />
+          Descrição
+          <textarea name="descricao" value={form.descricao} onChange={handleChange} />
         </label>
-
         <label>
           Endereço
           <input type="text" name="endereco" value={form.endereco} onChange={handleChange} required />
+          <button type="button" style={{ marginLeft: '8px' }} onClick={buscarLocalizacao}>Buscar localização</button>
         </label>
 
         <label>
@@ -60,13 +113,10 @@ export default function InserirParoquia() {
 
         <label>
           Telefone de Contato
-          <input type="text" name="telefone" value={form.telefone} onChange={handleChange} required />
+          <input type="text" name="telefone" value={form.telefone} onChange={handleChange} />
         </label>
 
-        <label>
-          Horário da Secretaria
-          <input type="text" name="horarioSecretaria" value={form.horarioSecretaria} onChange={handleChange} required />
-        </label>
+        {/* removido campo Horário da Secretaria */}
 
         <label>
           E-mail

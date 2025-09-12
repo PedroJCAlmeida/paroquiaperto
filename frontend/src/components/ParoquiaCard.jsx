@@ -10,8 +10,13 @@ import withReactContent from 'sweetalert2-react-content'
 
 export default function ParoquiaCard({ dados }) {
   const MySwal = withReactContent(Swal);
+  // Fallback para horarios ser array vazio se undefined
+  const safeDados = {
+    ...dados,
+    horarios: Array.isArray(dados.horarios) ? dados.horarios : [],
+  };
   const handleClick = () => {
-  const { nome, imagem, endereco, distancia, horarios, descricao, contato, email, site, whatsapp, instagram, facebook } = dados;
+    const { nome, imagem, endereco, distancia, horarios, descricao, contato, email, site, whatsapp, instagram, facebook } = safeDados;
 
     const html = `
       
@@ -69,20 +74,17 @@ export default function ParoquiaCard({ dados }) {
     <div className="paroquia-card">
 
       <div className="paroquia-card-interno">
-        <h3>{dados.nome}</h3> 
-        <p><MapPin size={16} /> {dados.endereco}</p>
+        <h3>{safeDados.nome}</h3> 
+        <p><MapPin size={16} /> {safeDados.endereco}</p>
 
-        
-        {dados.distancia && dados.distancia !== '-' && (
-          <span className="paroquia-distancia">{dados.distancia} km</span>
+        {safeDados.distancia && safeDados.distancia !== '-' && (
+          <span className="paroquia-distancia">{safeDados.distancia} km</span>
         )}
 
         <p><span className="paroquia-horario-label">Horários: </span></p>
-        {
-          dados.horarios.map((horario, index) => (
-            <p key={index} className="paroquia-horario">{horario}</p>
-          ))
-        }
+        {safeDados.horarios.map((horario, index) => (
+          <p key={index} className="paroquia-horario">{horario}</p>
+        ))}
       </div>
 
       <div className='saberMaisAreaButton'>
