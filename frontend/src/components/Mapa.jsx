@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useMapEvents } from 'react-leaflet';
 import { useMap } from 'react-leaflet';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
@@ -21,8 +22,15 @@ const cruzIcon = new L.Icon({
   popupAnchor: [0, -40],
 });
 
-export default function Mapa({ paroquias, coords }) {
+export default function Mapa({ paroquias, coords, onVisibleChange }) {
   const [center, setCenter] = useState([41.14961, -8.61099]); // Porto centro
+  const [visibleParoquias, setVisibleParoquias] = useState(paroquias);
+  // Atualiza lista visível no pai sempre que muda
+  useEffect(() => {
+    if (onVisibleChange) {
+      onVisibleChange(visibleParoquias);
+    }
+  }, [visibleParoquias, onVisibleChange]);
 
   function SetMapCenter({ coords }) {
     const map = useMap();
@@ -34,6 +42,38 @@ export default function Mapa({ paroquias, coords }) {
     return null;
   }
 
+  function FilterParoquiasOnBounds() {
+    const map = useMapEvents({
+      moveend: () => {
+        const bounds = map.getBounds();
+        setVisibleParoquias(
+          paroquias.filter(p =>
+            bounds.contains([p.lat, p.lng])
+          )
+        );
+      },
+      zoomend: () => {
+        const bounds = map.getBounds();
+        setVisibleParoquias(
+          paroquias.filter(p =>
+            bounds.contains([p.lat, p.lng])
+          )
+        );
+      }
+    });
+    useEffect(() => {
+      if (map) {
+        const bounds = map.getBounds();
+        setVisibleParoquias(
+          paroquias.filter(p =>
+            bounds.contains([p.lat, p.lng])
+          )
+        );
+      }
+    }, [map, paroquias]);
+    return null;
+  }
+
   return (
     <MapContainer
       center={center}
@@ -42,6 +82,7 @@ export default function Mapa({ paroquias, coords }) {
       scrollWheelZoom
     >
       <SetMapCenter coords={coords} />
+      <FilterParoquiasOnBounds />
       <TileLayer
         attribution='&copy; OpenStreetMap'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -54,8 +95,8 @@ export default function Mapa({ paroquias, coords }) {
         </Marker>
       )}
 
-      {/* Marcadores das paróquias */}
-      {paroquias.map(p => (
+      {/* Marcadores das paróquias visíveis */}
+      {visibleParoquias.map(p => (
         <Marker key={p.id} position={[p.lat, p.lng]} icon={cruzIcon}>
           <Popup>
             <strong>{p.nome}</strong><br/>
