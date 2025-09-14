@@ -23,7 +23,7 @@ const Login = () => {
       });
       if (response.status === 200 && response.data.token) {
         localStorage.setItem('token', response.data.token); // Salva o token JWT
-        navigate('/backoffice');
+        navigate('/');
       } else {
         setError(response.data || 'Falha na autenticação Google.');
       }
@@ -53,7 +53,7 @@ const Login = () => {
       if (response.status === 200 && response.data.token) {
         localStorage.setItem('token', response.data.token); // Salva o token JWT
         // Se quiser, salve outros dados do usuário também
-        navigate('/backoffice');
+        navigate('/');
       } else {
         setError(response.data || 'Email ou palavra-passe inválidos.');
       }
