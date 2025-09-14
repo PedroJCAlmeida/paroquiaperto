@@ -1,5 +1,7 @@
+
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import logo from '../assets/logo.png';
 
 const ParoquiaDetalhe = () => {
   const { id } = useParams();
@@ -49,7 +51,7 @@ const ParoquiaDetalhe = () => {
         {paroquia?.imagem ? (
           <img src={paroquia.imagem} alt={paroquia.nome} style={{ maxWidth: '100%', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.07)', maxHeight: '220px' }} />
         ) : (
-          <div style={{ width: '220px', height: '120px', background: '#e0e7ef', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#7c3aed', fontSize: '2rem', fontWeight: 'bold' }}>Sem imagem</div>
+          <img src={logo} alt="Imagem padrão igreja" style={{ width: '120px', height: '120px', objectFit: 'contain', borderRadius: '12px', background: '#e0e7ef', boxShadow: '0 2px 8px rgba(0,0,0,0.07)' }} />
         )}
       </div>
       {/* Dados principais */}
@@ -99,7 +101,11 @@ const ParoquiaDetalhe = () => {
             {eventos.map(e => (
               <li key={e.id} style={{ background: '#f9f5ff', borderRadius: '8px', marginBottom: '12px', padding: '12px 18px', fontSize: '1.08rem', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  {e.imagem ? <img src={e.imagem} alt={e.titulo} style={{ width: '48px', height: '48px', objectFit: 'cover', borderRadius: '8px' }} /> : <div style={{ width: '48px', height: '48px', background: '#e0e7ef', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#7c3aed', fontSize: '1.2rem' }}>Sem imagem</div>}
+                  {e.imagem ? (
+                    <img src={e.imagem} alt={e.titulo} style={{ width: '48px', height: '48px', objectFit: 'cover', borderRadius: '8px' }} />
+                  ) : (
+                    <img src={logo} alt="Imagem padrão igreja" style={{ width: '48px', height: '48px', objectFit: 'contain', borderRadius: '8px', background: '#e0e7ef' }} />
+                  )}
                   <div>
                     <strong style={{ fontSize: '1.1rem', color: '#7c3aed' }}>{e.titulo || 'Evento'}</strong>
                     <div style={{ fontSize: '0.98rem', color: '#444' }}>{e.data ? `${e.data} às ${e.hora}` : 'Data não informada'}</div>
