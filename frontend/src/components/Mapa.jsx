@@ -23,7 +23,7 @@ const cruzIcon = new L.Icon({
 });
 
 export default function Mapa({ paroquias, coords, onBoundsChange }) {
-  const initialCenter = [41.14961, -8.61099]; // Porto centro
+  const [center, setCenter] = useState([41.14961, -8.61099]); // Porto centro
 
   function SetMapCenter({ coords }) {
     const map = useMap();
@@ -61,7 +61,7 @@ export default function Mapa({ paroquias, coords, onBoundsChange }) {
 
   return (
     <MapContainer
-      center={initialCenter}
+      center={center}
       zoom={13}
       style={{ height: '300px', width: '100%', borderRadius: '8px' }}
       scrollWheelZoom
