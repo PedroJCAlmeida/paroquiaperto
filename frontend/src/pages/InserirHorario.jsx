@@ -70,6 +70,7 @@ export default function InserirHorario() {
 
   return (
     <div className="backoffice-page">
+      {require('../components/BackofficeNavbar.jsx').default()}
       <h2>Inserir Horário de Missa</h2>
       <SuccessModal
         show={showModal}

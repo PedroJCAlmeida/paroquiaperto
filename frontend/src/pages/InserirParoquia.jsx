@@ -5,6 +5,7 @@ import Toast from '../components/Toast';
 import '../styles/Backoffice.css';
 
 export default function InserirParoquia() {
+  // ...existing code...
   const [showToast, setShowToast] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const initialForm = {
@@ -91,6 +92,7 @@ export default function InserirParoquia() {
 
   return (
     <div className="backoffice-page">
+      {require('../components/BackofficeNavbar.jsx').default()}
       <h2>Inserir Paróquia</h2>
       <SuccessModal
         show={showModal}

@@ -71,6 +71,7 @@ export default function InserirEvento() {
 
   return (
     <div className="backoffice-page">
+      {require('../components/BackofficeNavbar.jsx').default()}
       <h2>Inserir Evento</h2>
       <SuccessModal
         show={showModal}
