@@ -30,8 +30,8 @@ public class SecurityConfig {
     CorsConfiguration config = new CorsConfiguration();
     config.setAllowCredentials(true);
     config.setAllowedOriginPatterns(java.util.Arrays.asList("https://www.paroquiaperto.com"));
-    config.addAllowedHeader("*");
-    config.addAllowedMethod("*");
+    config.setAllowedMethods(java.util.Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+    config.setAllowedHeaders(java.util.Arrays.asList("*"));
     config.addExposedHeader("Access-Control-Allow-Origin");
     config.addExposedHeader("Access-Control-Allow-Credentials");
 
@@ -50,6 +50,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/paroquias/**").permitAll()
                 .anyRequest().authenticated()
             )
+            .addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

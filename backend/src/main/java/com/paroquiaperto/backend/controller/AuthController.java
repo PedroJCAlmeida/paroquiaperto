@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +20,7 @@ import com.paroquiaperto.backend.repository.UserRepository;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3001"})
+//@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3001"})
 public class AuthController {
     @Autowired
     private com.paroquiaperto.backend.security.JwtUtil jwtUtil;
