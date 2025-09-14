@@ -44,7 +44,7 @@ export default function InserirEvento() {
       const token = localStorage.getItem('token');
       const payload = {
         ...form,
-        paroquiaId: parseInt(form.paroquiaId)
+        paroquia: { id: parseInt(form.paroquiaId) }
       };
       const response = await fetch(`${apiUrl}/api/eventos`, {
         method: 'POST',
@@ -61,8 +61,8 @@ export default function InserirEvento() {
       }
       await response.json();
       setForm(initialForm);
-  setShowModal(true);
-  setShowToast(true);
+      setShowModal(true);
+      setShowToast(true);
     } catch (error) {
       alert('Erro ao enviar evento');
       console.error(error);

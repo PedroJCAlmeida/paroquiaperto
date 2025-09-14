@@ -43,7 +43,7 @@ export default function InserirHorario() {
       const token = localStorage.getItem('token');
       const payload = {
         ...form,
-        paroquiaId: parseInt(form.paroquiaId)
+        paroquia: { id: parseInt(form.paroquiaId) }
       };
       const response = await fetch(`${apiUrl}/api/horarios`, {
         method: 'POST',
@@ -60,8 +60,8 @@ export default function InserirHorario() {
       }
       await response.json();
       setForm(initialForm);
-  setShowModal(true);
-  setShowToast(true);
+      setShowModal(true);
+      setShowToast(true);
     } catch (error) {
       alert('Erro ao enviar horário');
       console.error(error);
