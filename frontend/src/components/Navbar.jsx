@@ -6,6 +6,7 @@ import '../styles/Navbar.css';
 
 const Navbar = () => {
   const isLoggedIn = Boolean(localStorage.getItem('token'));
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showBackofficeMenu, setShowBackofficeMenu] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -63,9 +64,44 @@ const Navbar = () => {
               )}
             </div>
           )}
-          <Link to="/login" className="navbar-login-icon" title="Login" onClick={() => setIsOpen(false)}>
-            <FaUserCircle size={28} />
-          </Link>
+          {isLoggedIn ? (
+            <div
+              className="navbar-login-icon"
+              style={{ position: 'relative', display: 'inline-block' }}
+              onMouseEnter={() => setShowProfileMenu(true)}
+              onMouseLeave={() => setShowProfileMenu(false)}
+              onClick={() => setShowProfileMenu(v => !v)}
+              title="Perfil"
+            >
+              <FaUserCircle size={28} />
+              {showProfileMenu && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '100%',
+                    right: 0,
+                    background: '#fff',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                    borderRadius: '4px',
+                    minWidth: '140px',
+                    zIndex: 1000,
+                  }}
+                >
+                  <button
+                    style={{ display: 'block', width: '100%', padding: '10px 16px', background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer', color: '#333' }}
+                    onClick={() => {
+                      localStorage.removeItem('token');
+                      window.location.href = '/login';
+                    }}
+                  >Sair</button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link to="/login" className="navbar-login-icon" title="Login" onClick={() => setIsOpen(false)}>
+              <FaUserCircle size={28} />
+            </Link>
+          )}
         </nav>
       </div>
     </header>

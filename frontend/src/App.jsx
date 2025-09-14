@@ -8,6 +8,7 @@ import Buscar from './pages/Buscar';
 import './assets/logo.png';
 import './styles/Navbar.css';
 import LoadingScreen from './components/LoadingScreen';
+import PrivateRoute from './components/PrivateRoute';
 import BackofficeLayout from './components/BackofficeLayout.jsx';
 import InserirParoquia from './pages/InserirParoquia';
 import InserirHorario from './pages/InserirHorario';
@@ -41,12 +42,14 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registar />} /> 
             {/* outras rotas */}
-            {/* Backoffice com layout e sub-rotas */}
-            <Route path="/backoffice" element={<BackofficeLayout />}>
-              <Route path="paroquias" element={<InserirParoquia />} />
-              <Route path="horarios" element={<InserirHorario />} />
-              <Route path="eventos" element={<InserirEvento />} />
-            </Route>           
+            {/* Backoffice protegido por PrivateRoute */}
+            <Route path="/backoffice" element={<PrivateRoute />}>
+              <Route element={<BackofficeLayout />}>
+                <Route path="paroquias" element={<InserirParoquia />} />
+                <Route path="horarios" element={<InserirHorario />} />
+                <Route path="eventos" element={<InserirEvento />} />
+              </Route>
+            </Route>
           </Routes>
         )}
       </main>
