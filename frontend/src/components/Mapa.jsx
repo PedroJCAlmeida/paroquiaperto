@@ -28,9 +28,11 @@ export default function Mapa({ paroquias, coords, onVisibleChange }) {
   // Atualiza lista visível no pai sempre que muda
   useEffect(() => {
     if (onVisibleChange) {
+      // Só atualiza se mudou
       onVisibleChange(visibleParoquias);
     }
-  }, [visibleParoquias, onVisibleChange]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(visibleParoquias), onVisibleChange]);
 
   function SetMapCenter({ coords }) {
     const map = useMap();
