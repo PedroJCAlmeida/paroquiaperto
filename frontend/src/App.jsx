@@ -15,6 +15,7 @@ import InserirHorario from './pages/InserirHorario';
 import InserirEvento from './pages/InserirEvento';
 import Login from './pages/Login';
 import Registar from './pages/RegistarUtilizador';
+import ParoquiaDetalhe from './pages/ParoquiaDetalhe';
 
 function App() {
   const location = useLocation();
@@ -41,6 +42,7 @@ function App() {
             <Route path="/Buscar" element={<Buscar />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registar />} /> 
+            <Route path="/paroquia/:id" element={<ParoquiaDetalhe />} />
             {/* outras rotas */}
             {/* Backoffice protegido por PrivateRoute */}
             <Route path="/backoffice" element={<PrivateRoute />}>
