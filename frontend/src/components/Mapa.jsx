@@ -27,9 +27,16 @@ export default function Mapa({ paroquias, coords, onBoundsChange }) {
 
   function SetMapCenter({ coords }) {
     const map = useMap();
+    const prevCoords = React.useRef();
     useEffect(() => {
-      if (coords && coords.latitude && coords.longitude) {
+    if (
+        coords && coords.latitude && coords.longitude &&
+        (!prevCoords.current ||
+          prevCoords.current.latitude !== coords.latitude ||
+          prevCoords.current.longitude !== coords.longitude)
+      ) {
         map.setView([coords.latitude, coords.longitude], 13);
+        prevCoords.current = coords;
       }
     }, [coords, map]);
     return null;
