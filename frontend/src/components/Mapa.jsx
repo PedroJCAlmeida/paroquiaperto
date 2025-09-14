@@ -61,7 +61,7 @@ export default function Mapa({ paroquias, coords, onBoundsChange }) {
 
   return (
     <MapContainer
-      center={center}
+      defaultCenter={center}
       zoom={13}
       style={{ height: '300px', width: '100%', borderRadius: '8px' }}
       scrollWheelZoom
