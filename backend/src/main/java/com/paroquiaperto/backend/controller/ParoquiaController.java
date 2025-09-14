@@ -20,6 +20,12 @@ import com.paroquiaperto.backend.repository.ParoquiaRepository;
 @RequestMapping("/api/paroquias")
 @CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3001"})
 public class ParoquiaController {
+    @GetMapping("/{id}")
+    public ResponseEntity<Paroquia> buscarPorId(@org.springframework.web.bind.annotation.PathVariable Long id) {
+        return paroquiaRepository.findById(id)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
+    }
     @GetMapping(params = "search")
     public ResponseEntity<List<Paroquia>> buscarParoquias(String search) {
         String termo = search.trim().toLowerCase();

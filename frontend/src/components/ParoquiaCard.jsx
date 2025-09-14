@@ -69,33 +69,31 @@ export default function ParoquiaCard({ dados }) {
 
   return (
     <>
-   
-   
-    <div className="paroquia-card">
-
-      <div className="paroquia-card-interno">
-        <h3>{safeDados.nome}</h3> 
-        <p><MapPin size={16} /> {safeDados.endereco}</p>
-
-        {safeDados.distancia && safeDados.distancia !== '-' && (
-          <span className="paroquia-distancia">{safeDados.distancia} km</span>
-        )}
-
-        <p><span className="paroquia-horario-label">Horários: </span></p>
-        {safeDados.horarios.map((horario, index) => (
-          <p key={index} className="paroquia-horario">{horario}</p>
-        ))}
-      </div>
-
-      <div className='saberMaisAreaButton'>
-        <div className='saberMais'>
+      <div className="paroquia-card">
+        <div className="paroquia-card-interno">
+          <h3>{safeDados.nome}</h3> 
+          <p><MapPin size={16} /> {safeDados.endereco}</p>
+          {safeDados.distancia && safeDados.distancia !== '-' && (
+            <span className="paroquia-distancia">{safeDados.distancia} km</span>
+          )}
+          <p><span className="paroquia-horario-label">Horários: </span></p>
+          {safeDados.horarios.map((horario, index) => (
+            <p key={index} className="paroquia-horario">{horario}</p>
+          ))}
+        </div>
+        <div className='saberMaisAreaButton' style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <div className='saberMais'>
             <button className="saberMais-button" onPointerDown={handleClick}>Ver mais</button>
+          </div>
+          <a
+            href={`/paroquia/${safeDados.id}`}
+            className="saberMais-button"
+            style={{ textDecoration: 'none', color: '#fff', background: '#2d6cdf', padding: '6px 16px', borderRadius: '4px', fontWeight: 'bold' }}
+          >
+            Ver página
+          </a>
         </div>
       </div>
-     
-
-    </div>
-   
     </>
   );
 }
