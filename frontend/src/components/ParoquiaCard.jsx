@@ -49,7 +49,7 @@ export default function ParoquiaCard({ dados }) {
           </div>` : ''}
       ${(whatsapp || instagram || facebook) ? `</div>` : ''}
       <div style="margin: 18px 0 0 0; display: flex; justify-content: center;">
-        <a href="/paroquia/${safeDados.id}" style="text-decoration: none; color: #fff; background: #2d6cdf; padding: 8px 22px; border-radius: 6px; font-weight: bold; font-size: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.07); transition: background 0.2s; display: inline-block;" onmouseover="this.style.background='#1e4fa3'" onmouseout="this.style.background='#2d6cdf'">
+        <a href="/paroquia/${safeDados.id}" class="saberMais-button" style="text-decoration: none; color: #fff; background: #1e293b; padding: 8px 22px; border-radius: 8px; font-weight: bold; font-size: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.07); transition: background 0.2s; display: inline-block; margin-bottom: 8px;">
           Ver página
         </a>
       </div>

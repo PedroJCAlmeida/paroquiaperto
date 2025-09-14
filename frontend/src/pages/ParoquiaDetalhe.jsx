@@ -90,8 +90,8 @@ const ParoquiaDetalhe = () => {
       <div className="paroquia-detalhe-card" style={{ background: '#fff', borderRadius: '16px', boxShadow: '0 4px 24px rgba(0,0,0,0.08)', maxWidth: '700px', margin: '0 auto', padding: '24px', width: '95vw', minWidth: '0' }}>
         <button
           onClick={() => window.history.back()}
-          className="transition-colors duration-150 mb-4 px-5 py-2 rounded-lg font-semibold text-white bg-blue-700 hover:bg-blue-800 shadow"
-          style={{ outline: 'none', border: 'none' }}
+          className="saberMais-button"
+          style={{ outline: 'none', border: 'none', marginBottom: '18px', padding: '8px 22px', fontWeight: 'bold', fontSize: '1rem', borderRadius: '8px', background: '#1e293b', color: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.07)' }}
         >
           ← Voltar para lista
         </button>
