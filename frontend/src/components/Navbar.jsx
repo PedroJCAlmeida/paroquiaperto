@@ -6,6 +6,7 @@ import '../styles/Navbar.css';
 
 const Navbar = () => {
   const isLoggedIn = Boolean(localStorage.getItem('token'));
+  const [showBackofficeMenu, setShowBackofficeMenu] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -33,9 +34,34 @@ const Navbar = () => {
           <Link to="/buscar" className="navbar-link" onClick={() => setIsOpen(false)}>Buscar</Link>
           <Link to="/contato" className="navbar-link" onClick={() => setIsOpen(false)}>Contato</Link>
           {isLoggedIn && (
-            <Link to="/backoffice" className="navbar-link" onClick={() => setIsOpen(false)}>
+            <div
+              className="navbar-link navbar-backoffice-dropdown"
+              style={{ position: 'relative', display: 'inline-block' }}
+              onMouseEnter={() => setShowBackofficeMenu(true)}
+              onMouseLeave={() => setShowBackofficeMenu(false)}
+              onClick={() => setShowBackofficeMenu(v => !v)}
+            >
               Backoffice
-            </Link>
+              {showBackofficeMenu && (
+                <div
+                  className="navbar-backoffice-menu"
+                  style={{
+                    position: 'absolute',
+                    top: '100%',
+                    left: 0,
+                    background: '#fff',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                    borderRadius: '4px',
+                    minWidth: '180px',
+                    zIndex: 1000,
+                  }}
+                >
+                  <Link to="/backoffice/paroquias" className="navbar-link" style={{ display: 'block', padding: '10px 16px' }} onClick={() => setShowBackofficeMenu(false)}>Inserir Paróquia</Link>
+                  <Link to="/backoffice/horarios" className="navbar-link" style={{ display: 'block', padding: '10px 16px' }} onClick={() => setShowBackofficeMenu(false)}>Inserir Horários</Link>
+                  <Link to="/backoffice/eventos" className="navbar-link" style={{ display: 'block', padding: '10px 16px' }} onClick={() => setShowBackofficeMenu(false)}>Inserir Eventos</Link>
+                </div>
+              )}
+            </div>
           )}
           <Link to="/login" className="navbar-login-icon" title="Login" onClick={() => setIsOpen(false)}>
             <FaUserCircle size={28} />
