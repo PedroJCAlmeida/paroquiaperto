@@ -30,6 +30,7 @@ export default function ParoquiaCard({ dados }) {
       ${(whatsapp || instagram || facebook) ? `<p><strong>Redes sociais:</strong></p>
         <div style="display: flex; justify-content: center; align-items: center; margin-top: 10px;">` : ''}
         ${whatsapp ? `
+        import { useNavigate } from 'react-router-dom';
           <div>
             <a href="https://api.whatsapp.com/send?phone=${whatsapp}" target="_blank" style="text-decoration: none; cursor: pointer;">
               <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="width: 30px; height: 30px; margin-right: 10px;" />
@@ -38,6 +39,7 @@ export default function ParoquiaCard({ dados }) {
         ${instagram ? `
           <div>
             <a href="${instagram}" target="_blank" style="text-decoration: none; cursor: pointer;">
+          const navigate = useNavigate();
               <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" style="width: 30px; height: 30px; margin-right: 10px;" />
             </a>
           </div>` : ''}
