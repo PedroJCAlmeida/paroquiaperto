@@ -5,9 +5,10 @@ import BackofficeMenu from './BackofficeMenu';
 import '../styles/BackofficeLayout.css';
 
 export default function BackofficeLayout() {
+  const BackofficeNavbar = require('./BackofficeNavbar.jsx').default;
   return (
     <div className="backoffice-container">
-      <BackofficeMenu />
+      <BackofficeNavbar />
       <main className="backoffice-content">
         <Outlet />
       </main>
