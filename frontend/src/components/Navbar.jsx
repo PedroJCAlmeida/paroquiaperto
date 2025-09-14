@@ -10,6 +10,16 @@ const Navbar = () => {
   const [showBackofficeMenu, setShowBackofficeMenu] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
+  // Fecha menu ao mudar de rota
+  React.useEffect(() => {
+    const handleRouteChange = () => {
+      setIsOpen(false);
+      setShowBackofficeMenu(false);
+    };
+    window.addEventListener('popstate', handleRouteChange);
+    return () => window.removeEventListener('popstate', handleRouteChange);
+  }, []);
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
