@@ -94,7 +94,7 @@ const ParoquiaDetalhe = () => {
           <ul style={{ listStyle: 'none', padding: 0 }}>
             {horarios.map(h => (
               <li key={h.id} style={{ background: '#f1f5fb', borderRadius: '8px', marginBottom: '8px', padding: '10px 16px', fontSize: '1.08rem' }}>
-                <strong>{h.diaSemana}</strong> - {h.hora} <span style={{ color: '#2563eb', fontWeight: 'bold' }}>{h.tipo}</span>
+                <strong>{h.diaSemana || h.dia_semana}</strong> - {h.hora || h.hora} <span style={{ color: '#2563eb', fontWeight: 'bold' }}>{h.tipo || h.tipo}</span>
               </li>
             ))}
           </ul>
@@ -112,15 +112,15 @@ const ParoquiaDetalhe = () => {
             {eventos.map(e => (
               <li key={e.id} style={{ background: '#f9f5ff', borderRadius: '8px', marginBottom: '12px', padding: '12px 18px', fontSize: '1.08rem', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  {e.imagem ? (
-                    <img src={e.imagem} alt={e.titulo} style={{ width: '48px', height: '48px', objectFit: 'cover', borderRadius: '8px' }} />
+                  {(e.imagem || e.imagem_evento) ? (
+                    <img src={e.imagem || e.imagem_evento} alt={e.titulo || e.titulo_evento} style={{ width: '48px', height: '48px', objectFit: 'cover', borderRadius: '8px' }} />
                   ) : (
                     <img src={logo} alt="Imagem padrão igreja" style={{ width: '48px', height: '48px', objectFit: 'contain', borderRadius: '8px', background: '#e0e7ef' }} />
                   )}
                   <div>
-                    <strong style={{ fontSize: '1.1rem', color: '#7c3aed' }}>{e.titulo || 'Evento'}</strong>
-                    <div style={{ fontSize: '0.98rem', color: '#444' }}>{e.data ? `${e.data} às ${e.hora}` : 'Data não informada'}</div>
-                    {e.descricao ? <div style={{ marginTop: '4px', color: '#555' }}>{e.descricao}</div> : <div style={{ marginTop: '4px', color: '#bbb' }}>Sem descrição</div>}
+                    <strong style={{ fontSize: '1.1rem', color: '#7c3aed' }}>{e.titulo || e.titulo_evento || 'Evento'}</strong>
+                    <div style={{ fontSize: '0.98rem', color: '#444' }}>{(e.data || e.data_evento) ? `${e.data || e.data_evento} às ${(e.hora || e.hora_evento)}` : 'Data não informada'}</div>
+                    {(e.descricao || e.descricao_evento) ? <div style={{ marginTop: '4px', color: '#555' }}>{e.descricao || e.descricao_evento}</div> : <div style={{ marginTop: '4px', color: '#bbb' }}>Sem descrição</div>}
                   </div>
                 </div>
               </li>
