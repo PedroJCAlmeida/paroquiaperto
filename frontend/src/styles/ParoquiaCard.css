@@ -55,7 +55,8 @@
   
 }
 
-.saberMais-button {
+
+.saberMais-button, .saberMais-button:visited {
   background-color: #273E54;
   color: #ffffff;
   border: none;
@@ -64,10 +65,15 @@
   font-size: 1rem;
   align-items: center;
   cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  justify-content: center;
+  transition: background 0.2s;
 }
 
-.SaberMais-button:hover {
+.saberMais-button:hover {
   background-color: #EEC651;
+  color: #273E54;
 }
 
 .swal2-html-container img {
