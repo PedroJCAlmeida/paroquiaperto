@@ -31,8 +31,19 @@ const ParoquiaDetalhe = () => {
     ])
       .then(([paroquiaData, horariosData, eventosData]) => {
         setParoquia(paroquiaData);
-        setHorarios(Array.isArray(horariosData) ? horariosData.filter(h => h.paroquia && String(h.paroquia.id) === String(id)) : []);
-        setEventos(Array.isArray(eventosData) ? eventosData.filter(e => e.paroquia && String(e.paroquia.id) === String(id)) : []);
+        // Aceita tanto h.paroquia.id quanto h.paroquia_id
+        setHorarios(Array.isArray(horariosData)
+          ? horariosData.filter(h =>
+              (h.paroquia && String(h.paroquia.id) === String(id)) ||
+              (h.paroquia_id && String(h.paroquia_id) === String(id))
+            )
+          : []);
+        setEventos(Array.isArray(eventosData)
+          ? eventosData.filter(e =>
+              (e.paroquia && String(e.paroquia.id) === String(id)) ||
+              (e.paroquia_id && String(e.paroquia_id) === String(id))
+            )
+          : []);
         setLoading(false);
       })
       .catch(err => {
