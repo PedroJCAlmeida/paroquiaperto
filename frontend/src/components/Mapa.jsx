@@ -22,9 +22,8 @@ const cruzIcon = new L.Icon({
   popupAnchor: [0, -40],
 });
 
-export default function Mapa({ paroquias, coords, onVisibleChange }) {
+export default function Mapa({ paroquias, coords, onBoundsChange }) {
   const [center, setCenter] = useState([41.14961, -8.61099]); // Porto centro
-  const [visibleParoquias, setVisibleParoquias] = useState(paroquias);
   // Atualiza lista visível no pai sempre que muda
   useEffect(() => {
     if (onVisibleChange) {
@@ -44,35 +43,20 @@ export default function Mapa({ paroquias, coords, onVisibleChange }) {
     return null;
   }
 
-  function FilterParoquiasOnBounds() {
+  function ReportBoundsToParent() {
     const map = useMapEvents({
       moveend: () => {
-        const bounds = map.getBounds();
-        setVisibleParoquias(
-          paroquias.filter(p =>
-            bounds.contains([p.lat, p.lng])
-          )
-        );
+        if (onBoundsChange) onBoundsChange(map.getBounds());
       },
       zoomend: () => {
-        const bounds = map.getBounds();
-        setVisibleParoquias(
-          paroquias.filter(p =>
-            bounds.contains([p.lat, p.lng])
-          )
-        );
+        if (onBoundsChange) onBoundsChange(map.getBounds());
       }
     });
     useEffect(() => {
-      if (map) {
-        const bounds = map.getBounds();
-        setVisibleParoquias(
-          paroquias.filter(p =>
-            bounds.contains([p.lat, p.lng])
-          )
-        );
+      if (map && onBoundsChange) {
+        onBoundsChange(map.getBounds());
       }
-    }, [map, paroquias]);
+    }, [map, onBoundsChange]);
     return null;
   }
 
@@ -84,7 +68,7 @@ export default function Mapa({ paroquias, coords, onVisibleChange }) {
       scrollWheelZoom
     >
       <SetMapCenter coords={coords} />
-      <FilterParoquiasOnBounds />
+  <ReportBoundsToParent />
       <TileLayer
         attribution='&copy; OpenStreetMap'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -98,7 +82,7 @@ export default function Mapa({ paroquias, coords, onVisibleChange }) {
       )}
 
       {/* Marcadores das paróquias visíveis */}
-      {visibleParoquias.map(p => (
+      {paroquias.map(p => (
         <Marker key={p.id} position={[p.lat, p.lng]} icon={cruzIcon}>
           <Popup>
             <strong>{p.nome}</strong><br/>

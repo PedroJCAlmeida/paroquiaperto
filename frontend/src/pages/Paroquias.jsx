@@ -23,6 +23,7 @@ const Paroquias = () => {
   const [lista, setLista] = useState([]);
   const [coords, setCoords] = useState(null);
   const [visiveis, setVisiveis] = useState([]);
+  const [bounds, setBounds] = useState(null);
 
   useEffect(() => {
     const apiUrl = import.meta.env.VITE_API_URL;
@@ -40,6 +41,18 @@ const Paroquias = () => {
         }
   setLista(paroquias);
   setVisiveis(paroquias); // Inicialmente, todas visíveis
+  // Atualiza lista visível conforme bounds mudam
+  useEffect(() => {
+    if (!bounds) {
+      setVisiveis(lista);
+      return;
+    }
+    setVisiveis(lista.filter(p => {
+      if (!p.lat || !p.lng) return false;
+      // Leaflet bounds tem métodos lat/lng
+      return bounds.contains && bounds.contains([p.lat, p.lng]);
+    }));
+  }, [bounds, lista]);
       } catch (err) {
         setLista([]);
       }
@@ -67,7 +80,7 @@ const Paroquias = () => {
 
       {/* Mapa com Leaflet */}
       <div className="paroquias-mapa">
-        <Mapa paroquias={lista} coords={coords} onVisibleChange={setVisiveis} />
+        <Mapa paroquias={visiveis} coords={coords} onBoundsChange={setBounds} />
       </div>
 
       {/* Lista de cartões filtrada */}
