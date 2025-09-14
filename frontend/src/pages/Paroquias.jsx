@@ -22,8 +22,6 @@ function calcularDistancia(lat1, lon1, lat2, lon2) {
 const Paroquias = () => {
   const [lista, setLista] = useState([]);
   const [coords, setCoords] = useState(null);
-  const [visiveis, setVisiveis] = useState([]);
-  const [bounds, setBounds] = useState(null);
 
   useEffect(() => {
     const apiUrl = import.meta.env.VITE_API_URL;
@@ -40,19 +38,6 @@ const Paroquias = () => {
           })).sort((a, b) => a.distancia - b.distancia);
         }
   setLista(paroquias);
-  setVisiveis(paroquias); // Inicialmente, todas visíveis
-  // Atualiza lista visível conforme bounds mudam
-  useEffect(() => {
-    if (!bounds) {
-      setVisiveis(lista);
-      return;
-    }
-    setVisiveis(lista.filter(p => {
-      if (!p.lat || !p.lng) return false;
-      // Leaflet bounds tem métodos lat/lng
-      return bounds.contains && bounds.contains([p.lat, p.lng]);
-    }));
-  }, [bounds, lista]);
       } catch (err) {
         setLista([]);
       }
@@ -80,12 +65,12 @@ const Paroquias = () => {
 
       {/* Mapa com Leaflet */}
       <div className="paroquias-mapa">
-        <Mapa paroquias={visiveis} coords={coords} onBoundsChange={setBounds} />
+    <Mapa paroquias={lista} coords={coords} />
       </div>
 
       {/* Lista de cartões filtrada */}
       <div className="paroquias-lista">
-        {visiveis.map(p => (
+        {lista.map(p => (
           <ParoquiaCard
             key={p.id}
             dados={{
