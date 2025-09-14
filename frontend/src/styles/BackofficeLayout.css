@@ -13,3 +13,21 @@
   min-height: 100vh;
   box-sizing: border-box;
 }
+
+@media (max-width: 900px) {
+  .backoffice-container {
+    flex-direction: column;
+  }
+  .backoffice-menu {
+    width: 100% !important;
+    min-height: auto !important;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+    position: static;
+  }
+  .backoffice-content {
+    margin-left: 0;
+    padding: 1rem;
+    min-height: auto;
+  }
+}

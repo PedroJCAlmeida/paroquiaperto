@@ -1,9 +1,11 @@
 // InserirParoquia.jsx
 import React, { useState } from 'react';
 import SuccessModal from '../components/SuccessModal';
+import Toast from '../components/Toast';
 import '../styles/Backoffice.css';
 
 export default function InserirParoquia() {
+  const [showToast, setShowToast] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const initialForm = {
     nome: '',
@@ -80,6 +82,7 @@ export default function InserirParoquia() {
   setForm(initialForm); // Limpa os campos
   setSuccess("");
   setShowModal(true); // Exibe modal de agradecimento
+  setShowToast(true); // Exibe toast de sucesso
     } catch (error) {
       alert('Erro ao enviar paróquia');
       console.error(error);
@@ -94,6 +97,12 @@ export default function InserirParoquia() {
         onClose={() => setShowModal(false)}
         title="Obrigado pela colaboração!"
         message="Sua paróquia foi enviada com sucesso."
+      />
+      <Toast
+        show={showToast}
+        type="success"
+        message="Paróquia enviada com sucesso!"
+        onClose={() => setShowToast(false)}
       />
       <form className="backoffice-form" onSubmit={handleSubmit}>
         <label>

@@ -1,10 +1,12 @@
 // InserirEvento.jsx
 import React, { useState, useEffect } from 'react';
 import SuccessModal from '../components/SuccessModal';
+import Toast from '../components/Toast';
 import '../styles/Backoffice.css';
 
 
 export default function InserirEvento() {
+  const [showToast, setShowToast] = useState(false);
   const [paroquias, setParoquias] = useState([]);
 
   useEffect(() => {
@@ -59,7 +61,8 @@ export default function InserirEvento() {
       }
       await response.json();
       setForm(initialForm);
-      setShowModal(true);
+  setShowModal(true);
+  setShowToast(true);
     } catch (error) {
       alert('Erro ao enviar evento');
       console.error(error);
@@ -74,6 +77,12 @@ export default function InserirEvento() {
         onClose={() => setShowModal(false)}
         title="Obrigado pela colaboração!"
         message="Evento enviado com sucesso."
+      />
+      <Toast
+        show={showToast}
+        type="success"
+        message="Evento enviado com sucesso!"
+        onClose={() => setShowToast(false)}
       />
       <form className="backoffice-form" onSubmit={handleSubmit}>
         <label>
