@@ -74,7 +74,7 @@ const Paroquias = () => {
           <ParoquiaCard
             key={p.id}
             dados={{
-              
+              id: p.id,
               distancia: p.distancia ? p.distancia.toFixed(1) : '-',
               nomeIgreja: p.nomeIgreja ? p.nomeIgreja : 'UNDEFINED',
               nome: p.nome,
