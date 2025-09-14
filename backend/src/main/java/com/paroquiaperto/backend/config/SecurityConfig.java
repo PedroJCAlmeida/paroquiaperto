@@ -27,15 +27,17 @@ public class SecurityConfig {
 
     @Bean
     public CorsFilter corsFilter() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("https://www.paroquiaperto.com"); // Troque pela URL do seu frontend no Vercel
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
+    CorsConfiguration config = new CorsConfiguration();
+    config.setAllowCredentials(true);
+    config.setAllowedOriginPatterns(java.util.Arrays.asList("https://www.paroquiaperto.com"));
+    config.addAllowedHeader("*");
+    config.addAllowedMethod("*");
+    config.addExposedHeader("Access-Control-Allow-Origin");
+    config.addExposedHeader("Access-Control-Allow-Credentials");
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", config);
+    return new CorsFilter(source);
     }
 
     @Bean
