@@ -8,7 +8,6 @@ import '../styles/BackofficeLayout.css';
 export default function BackofficeLayout() {
   return (
     <div className="backoffice-container">
-      <BackofficeNavbar />
       <main className="backoffice-content">
         <Outlet />
       </main>
