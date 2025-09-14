@@ -32,16 +32,15 @@ const Navbar = () => {
           <Link to="/paroquias" className="navbar-link" onClick={() => setIsOpen(false)}>Paróquias</Link>
           <Link to="/buscar" className="navbar-link" onClick={() => setIsOpen(false)}>Buscar</Link>
           <Link to="/contato" className="navbar-link" onClick={() => setIsOpen(false)}>Contato</Link>
+          {isLoggedIn && (
+            <Link to="/backoffice" className="navbar-link" onClick={() => setIsOpen(false)}>
+              Backoffice
+            </Link>
+          )}
           <Link to="/login" className="navbar-login-icon" title="Login" onClick={() => setIsOpen(false)}>
             <FaUserCircle size={28} />
           </Link>
         </nav>
-        {/* Renderiza o menu do backoffice se logado */}
-        {isLoggedIn && (
-          <div style={{ position: 'absolute', top: 0, right: 0, zIndex: 100 }}>
-            {require('./BackofficeMenu.jsx').default()}
-          </div>
-        )}
       </div>
     </header>
   );
