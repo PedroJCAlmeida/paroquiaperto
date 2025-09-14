@@ -24,14 +24,6 @@ const cruzIcon = new L.Icon({
 
 export default function Mapa({ paroquias, coords, onBoundsChange }) {
   const [center, setCenter] = useState([41.14961, -8.61099]); // Porto centro
-  // Atualiza lista visível no pai sempre que muda
-  useEffect(() => {
-    if (onVisibleChange) {
-      // Só atualiza se mudou
-      onVisibleChange(visibleParoquias);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(visibleParoquias), onVisibleChange]);
 
   function SetMapCenter({ coords }) {
     const map = useMap();
