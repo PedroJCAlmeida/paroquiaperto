@@ -1,5 +1,6 @@
 // InserirEvento.jsx
 import React, { useState, useEffect } from 'react';
+import SuccessModal from '../components/SuccessModal';
 import '../styles/Backoffice.css';
 
 
@@ -19,14 +20,16 @@ export default function InserirEvento() {
     };
     fetchParoquias();
   }, []);
-  const [form, setForm] = useState({
+  const initialForm = {
     paroquiaId: '',
     titulo: '',
     data: '',
     hora: '',
     descricao: '',
     imagem: '',
-  });
+  };
+  const [form, setForm] = useState(initialForm);
+  const [showModal, setShowModal] = useState(false);
 
   const handleChange = (e) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -54,9 +57,9 @@ export default function InserirEvento() {
         alert(`Erro ao enviar evento: ${response.status} ${errorText}`);
         return;
       }
-      const data = await response.json();
-      alert('Evento enviado com sucesso!');
-      console.log('Resposta do backend:', data);
+      await response.json();
+      setForm(initialForm);
+      setShowModal(true);
     } catch (error) {
       alert('Erro ao enviar evento');
       console.error(error);
@@ -66,6 +69,12 @@ export default function InserirEvento() {
   return (
     <div className="backoffice-page">
       <h2>Inserir Evento</h2>
+      <SuccessModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        title="Obrigado pela colaboração!"
+        message="Evento enviado com sucesso."
+      />
       <form className="backoffice-form" onSubmit={handleSubmit}>
         <label>
           Paróquia

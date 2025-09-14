@@ -60,7 +60,7 @@ const Home = () => {
         </div>
       </section>
 
-<div className="flex items-center justify-center min-h-screen">
+<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end', minHeight: '40vh', marginBottom: '2rem' }}>
   <BuscarParoquias />
 </div>
   

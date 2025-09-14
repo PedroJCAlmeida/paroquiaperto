@@ -1,9 +1,11 @@
 // InserirParoquia.jsx
 import React, { useState } from 'react';
+import SuccessModal from '../components/SuccessModal';
 import '../styles/Backoffice.css';
 
 export default function InserirParoquia() {
-  const [form, setForm] = useState({
+  const [showModal, setShowModal] = useState(false);
+  const initialForm = {
     nome: '',
     endereco: '',
     lat: '',
@@ -16,7 +18,9 @@ export default function InserirParoquia() {
     facebook: '',
     instagram: '',
     whatsapp: '',
-  });
+  };
+  const [form, setForm] = useState(initialForm);
+  const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -49,6 +53,7 @@ export default function InserirParoquia() {
   const apiUrl = import.meta.env.VITE_API_URL;
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSuccess("");
     try {
       const token = localStorage.getItem('token');
       const payload = {
@@ -65,26 +70,31 @@ export default function InserirParoquia() {
         body: JSON.stringify(payload),
       });
 
-    if (!response.ok) {
-      // Tenta ler texto ou JSON, se houver
-      const errorText = await response.text();
-      alert(`Erro ao enviar paróquia: ${response.status} ${errorText}`);
-      return;
-    }
+      if (!response.ok) {
+        const errorText = await response.text();
+        alert(`Erro ao enviar paróquia: ${response.status} ${errorText}`);
+        return;
+      }
 
-    // Só tenta ler JSON se status for ok
-    const data = await response.json();
-    alert('Paróquia enviada com sucesso!');
-    console.log('Resposta do backend:', data);
-  } catch (error) {
-    alert('Erro ao enviar paróquia');
-    console.error(error);
-  }
-};
+  await response.json();
+  setForm(initialForm); // Limpa os campos
+  setSuccess("");
+  setShowModal(true); // Exibe modal de agradecimento
+    } catch (error) {
+      alert('Erro ao enviar paróquia');
+      console.error(error);
+    }
+  };
 
   return (
     <div className="backoffice-page">
       <h2>Inserir Paróquia</h2>
+      <SuccessModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        title="Obrigado pela colaboração!"
+        message="Sua paróquia foi enviada com sucesso."
+      />
       <form className="backoffice-form" onSubmit={handleSubmit}>
         <label>
           Nome da Paróquia

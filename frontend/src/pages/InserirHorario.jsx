@@ -1,15 +1,18 @@
 // InserirHorario.jsx
 import React, { useState, useEffect } from 'react';
+import SuccessModal from '../components/SuccessModal';
 import '../styles/Backoffice.css';
 
 
 export default function InserirHorario() {
-  const [form, setForm] = useState({
+  const initialForm = {
     paroquiaId: '',
     diaSemana: '',
     hora: '',
     tipo: 'Missa',
-  });
+  };
+  const [form, setForm] = useState(initialForm);
+  const [showModal, setShowModal] = useState(false);
 
   const [paroquias, setParoquias] = useState([]);
 
@@ -53,9 +56,9 @@ export default function InserirHorario() {
         alert(`Erro ao enviar horário: ${response.status} ${errorText}`);
         return;
       }
-      const data = await response.json();
-      alert('Horário enviado com sucesso!');
-      console.log('Resposta do backend:', data);
+      await response.json();
+      setForm(initialForm);
+      setShowModal(true);
     } catch (error) {
       alert('Erro ao enviar horário');
       console.error(error);
@@ -65,6 +68,12 @@ export default function InserirHorario() {
   return (
     <div className="backoffice-page">
       <h2>Inserir Horário de Missa</h2>
+      <SuccessModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        title="Obrigado pela colaboração!"
+        message="Horário enviado com sucesso."
+      />
       <form className="backoffice-form" onSubmit={handleSubmit}>
         <label>
           Paróquia
