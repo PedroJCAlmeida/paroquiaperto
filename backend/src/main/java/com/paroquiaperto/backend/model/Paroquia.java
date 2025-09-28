@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,11 +16,20 @@ public class Paroquia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @Column(nullable = false)
     private String nome;
 
     @Column(nullable = false)
     private String endereco;
+
+    @ManyToOne
+    @JoinColumn(name = "distrito_id")
+    private Distrito distrito;
+
+    @ManyToOne
+    @JoinColumn(name = "conselho_id")
+    private Conselho conselho;
 
     @Column(nullable = false)
     private String lat;
@@ -95,4 +106,10 @@ public class Paroquia {
 
     public java.util.List<String> getHorarios() { return horarios; }
     public void setHorarios(java.util.List<String> horarios) { this.horarios = horarios; }
+
+    public Distrito getDistrito() { return distrito; }
+    public void setDistrito(Distrito distrito) { this.distrito = distrito; }
+
+    public Conselho getConselho() { return conselho; }
+    public void setConselho(Conselho conselho) { this.conselho = conselho; }
 }
