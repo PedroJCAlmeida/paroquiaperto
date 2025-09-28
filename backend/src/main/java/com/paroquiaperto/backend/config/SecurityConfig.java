@@ -30,7 +30,7 @@ public class SecurityConfig {
     public CorsFilter corsFilter() {
     CorsConfiguration config = new CorsConfiguration();
     config.setAllowCredentials(true);
-    config.setAllowedOriginPatterns(java.util.Arrays.asList("https://www.paroquiaperto.com"));
+    config.setAllowedOriginPatterns(java.util.Arrays.asList("*"));
     config.setAllowedMethods(java.util.Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     config.setAllowedHeaders(java.util.Arrays.asList("*"));
     config.addExposedHeader("Access-Control-Allow-Origin");
@@ -51,6 +51,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/paroquias/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/horarios/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/eventos/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/distritos").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/conselhos").permitAll()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)

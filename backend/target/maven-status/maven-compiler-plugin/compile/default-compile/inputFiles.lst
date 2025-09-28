@@ -1,7 +1,9 @@
+C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\controller\ConselhoController.java
 C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\controller\HorarioController.java
 C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\model\User.java
 C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\model\Horario.java
 C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\model\Evento.java
+C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\model\Conselho.java
 C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\repository\HorarioRepository.java
 C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\security\JwtAuthenticationFilter.java
 C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\security\CustomUserDetailsService.java
@@ -11,7 +13,11 @@ C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\con
 C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\config\SecurityConfig.java
 C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\security\JwtUtil.java
 C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\controller\ParoquiaController.java
+C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\model\Distrito.java
 C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\model\Paroquia.java
 C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\repository\EventoRepository.java
 C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\BackendApplication.java
 C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\controller\AuthController.java
+C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\controller\DistritoController.java
+C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\repository\DistritoRepository.java
+C:\Users\jessi\paroquiaperto\backend\src\main\java\com\paroquiaperto\backend\repository\ConselhoRepository.java
