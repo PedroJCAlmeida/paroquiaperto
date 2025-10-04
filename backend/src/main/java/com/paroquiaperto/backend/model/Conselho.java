@@ -1,6 +1,7 @@
 package com.paroquiaperto.backend.model;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "conselhos")
@@ -14,6 +15,7 @@ public class Conselho {
 
     @ManyToOne
     @JoinColumn(name = "distrito_id", nullable = false)
+    @JsonBackReference
     private Distrito distrito;
 
     public Long getId() { return id; }

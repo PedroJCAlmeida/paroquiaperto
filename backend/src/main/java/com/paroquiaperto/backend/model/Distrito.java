@@ -2,6 +2,7 @@ package com.paroquiaperto.backend.model;
 
 import jakarta.persistence.*;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "distritos")
@@ -14,6 +15,7 @@ public class Distrito {
     private String nome;
 
     @OneToMany(mappedBy = "distrito")
+    @JsonManagedReference
     private List<Conselho> conselhos;
 
     public Long getId() { return id; }
