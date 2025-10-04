@@ -24,7 +24,7 @@ const Paroquias = () => {
   const [coords, setCoords] = useState(null);
   const [distrito, setDistrito] = useState('');
   const [conselho, setConselho] = useState('');
-  const [km, setKm] = useState('');
+  const [km, setKm] = useState('10'); // valor padrão igual ao BuscarParoquias
 
   // Carregar distritos ao montar
   useEffect(() => {
@@ -88,11 +88,13 @@ const Paroquias = () => {
   // Função para filtrar lista conforme campos
   const listaFiltrada = () => {
     return lista.filter(p => {
-      // Filtro por distrito
-      if (distrito && (!p.distrito || String(p.distrito.id) !== String(distrito))) return false;
-      // Filtro por conselho
-      if (conselho && (!p.conselho || String(p.conselho.id) !== String(conselho))) return false;
-      // Filtro por km
+      // Se distrito ou conselho estiverem preenchidos, ignora filtro de raio
+      if (distrito || conselho) {
+        if (distrito && (!p.distrito || String(p.distrito.id) !== String(distrito))) return false;
+        if (conselho && (!p.conselho || String(p.conselho.id) !== String(conselho))) return false;
+        return true;
+      }
+      // Se raio estiver preenchido, ignora distrito/conselho
       if (km && coords && p.lat && p.lng) {
         const dist = calcularDistancia(coords.latitude, coords.longitude, p.lat, p.lng);
         if (dist > Number(km)) return false;
@@ -105,11 +107,17 @@ const Paroquias = () => {
     <div className="paroquias-page">
       <h2 className="paroquias-title">Paróquias Próximas</h2>
       {/* Filtros */}
-      <div style={{ display: 'flex', gap: '16px', marginBottom: '24px', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: '18px', marginBottom: '28px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
         <select
           value={distrito}
-          onChange={e => setDistrito(e.target.value)}
-          style={{ padding: '8px', borderRadius: '6px', border: '1px solid #ccc', minWidth: '120px' }}
+          onChange={e => {
+            setDistrito(e.target.value);
+            if (e.target.value) {
+              setKm(''); // Limpa raio se distrito selecionado
+              setConselho(''); // Limpa conselho se distrito selecionado
+            }
+          }}
+          style={{ padding: '12px', borderRadius: '10px', border: '1.5px solid #a5b4fc', minWidth: '140px', fontSize: '1.08rem', background: '#f8fafc', color: '#2563eb', fontWeight: 600 }}
         >
           <option value="">Distrito</option>
           {distritos.map(d => (
@@ -118,8 +126,11 @@ const Paroquias = () => {
         </select>
         <select
           value={conselho}
-          onChange={e => setConselho(e.target.value)}
-          style={{ padding: '8px', borderRadius: '6px', border: '1px solid #ccc', minWidth: '120px' }}
+          onChange={e => {
+            setConselho(e.target.value);
+            if (e.target.value) setKm(''); // Limpa raio se conselho selecionado
+          }}
+          style={{ padding: '12px', borderRadius: '10px', border: '1.5px solid #a5b4fc', minWidth: '140px', fontSize: '1.08rem', background: !distrito ? '#f3f3f3' : '#f8fafc', color: '#7c3aed', fontWeight: 600 }}
           disabled={!distrito}
         >
           <option value="">Conselho</option>
@@ -127,13 +138,25 @@ const Paroquias = () => {
             <option key={c.id} value={c.id}>{c.nome}</option>
           ))}
         </select>
-        <input
-          type="number"
-          placeholder="Raio (km)"
+        <select
           value={km}
-          onChange={e => setKm(e.target.value)}
-          style={{ padding: '8px', borderRadius: '6px', border: '1px solid #ccc', minWidth: '120px' }}
-        />
+          onChange={e => {
+            setKm(e.target.value);
+            if (e.target.value) {
+              setDistrito('');
+              setConselho('');
+            }
+          }}
+          style={{ padding: '12px', borderRadius: '10px', border: '2px solid #fbbf24', minWidth: '140px', fontSize: '1.08rem', background: distrito || conselho ? '#f3f3f3' : '#fffbe8', color: '#7c3aed', fontWeight: 700 }}
+          disabled={!!distrito || !!conselho}
+        >
+          <option value="">Raio (km)</option>
+          <option value={5}>5 km</option>
+          <option value={10}>10 km</option>
+          <option value={20}>20 km</option>
+          <option value={50}>50 km</option>
+          <option value={100}>100 km</option>
+        </select>
       </div>
       {/* Mapa com Leaflet */}
       <div className="paroquias-mapa">

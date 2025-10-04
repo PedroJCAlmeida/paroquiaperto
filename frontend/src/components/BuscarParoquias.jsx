@@ -13,6 +13,9 @@ function BuscarParoquias() {
   const [conselhos, setConselhos] = useState([]);
   const buscaTrim = busca.trim().toLowerCase();
 
+  // Adiciona responsividade mobile via JS inline
+  const isMobile = window.innerWidth < 600;
+
   // Carregar distritos ao montar
   useEffect(() => {
     const apiUrl = import.meta.env.VITE_API_URL;
@@ -70,6 +73,7 @@ function BuscarParoquias() {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'flex-start',
+      overflowX: 'hidden',
     }}>
       <div style={{
         maxWidth: 980,
@@ -92,17 +96,17 @@ function BuscarParoquias() {
           background: 'rgba(255,255,255,0.98)',
           borderRadius: '26px',
           boxShadow: '0 6px 36px rgba(60, 60, 120, 0.15)',
-          padding: '44px 38px',
+          padding: isMobile ? '24px 8px' : '44px 38px',
           display: 'flex',
-          flexDirection: 'row',
-          gap: '36px',
+          flexDirection: isMobile ? 'column' : 'row',
+          gap: isMobile ? '18px' : '36px',
           flexWrap: 'wrap',
-          alignItems: 'flex-end',
+          alignItems: isMobile ? 'stretch' : 'flex-end',
           justifyContent: 'center',
           border: '2px solid #e0e7ff',
           marginBottom: 32,
         }}>
-          <label style={{ fontWeight: 800, color: '#2563eb', fontSize: '1.18rem', minWidth: 220, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
+          <label style={{ fontWeight: 800, color: '#2563eb', fontSize: isMobile ? '1.08rem' : '1.18rem', minWidth: isMobile ? 120 : 220, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
             <span style={{ marginBottom: 2 }}>Buscar Paróquia</span>
             <input
               type="text"
@@ -111,11 +115,11 @@ function BuscarParoquias() {
               onChange={(e) => setBusca(e.target.value)}
               style={{
                 width: '100%',
-                padding: '14px',
+                padding: isMobile ? '10px' : '14px',
                 borderRadius: '14px',
                 border: '2px solid #a5b4fc',
                 marginTop: 2,
-                fontSize: '1.12rem',
+                fontSize: isMobile ? '1rem' : '1.12rem',
                 background: '#f8fafc',
                 transition: 'box-shadow 0.2s',
                 boxShadow: '0 2px 10px rgba(60,60,120,0.09)',
@@ -125,15 +129,15 @@ function BuscarParoquias() {
               onBlur={e => e.target.style.boxShadow = '0 2px 10px rgba(60,60,120,0.09)'}
             />
           </label>
-          <label style={{ fontWeight: 700, color: '#7c3aed', fontSize: '1.12rem', minWidth: 180, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
+          <label style={{ fontWeight: 700, color: '#7c3aed', fontSize: isMobile ? '1rem' : '1.12rem', minWidth: isMobile ? 120 : 180, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
             <span>Distrito</span>
             <select value={distrito} onChange={e => setDistrito(e.target.value)} style={{
               width: '100%',
-              padding: '14px',
+              padding: isMobile ? '10px' : '14px',
               borderRadius: '14px',
               border: '2px solid #a5b4fc',
               marginTop: 2,
-              fontSize: '1.12rem',
+              fontSize: isMobile ? '1rem' : '1.12rem',
               background: '#f8fafc',
               color: '#3b2f6b',
               fontWeight: 600,
@@ -146,15 +150,15 @@ function BuscarParoquias() {
               ))}
             </select>
           </label>
-          <label style={{ fontWeight: 700, color: '#7c3aed', fontSize: '1.12rem', minWidth: 180, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
+          <label style={{ fontWeight: 700, color: '#7c3aed', fontSize: isMobile ? '1rem' : '1.12rem', minWidth: isMobile ? 120 : 180, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
             <span>Conselho</span>
             <select value={conselho} onChange={e => setConselho(e.target.value)} disabled={!distrito} style={{
               width: '100%',
-              padding: '14px',
+              padding: isMobile ? '10px' : '14px',
               borderRadius: '14px',
               border: '2px solid #a5b4fc',
               marginTop: 2,
-              fontSize: '1.12rem',
+              fontSize: isMobile ? '1rem' : '1.12rem',
               background: !distrito ? '#f3f3f3' : '#f8fafc',
               color: '#3b2f6b',
               fontWeight: 600,
@@ -167,18 +171,18 @@ function BuscarParoquias() {
               ))}
             </select>
           </label>
-          <label style={{ fontWeight: 800, color: '#fbbf24', fontSize: '1.18rem', minWidth: 180, letterSpacing: '0.5px', display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
+          <label style={{ fontWeight: 800, color: '#fbbf24', fontSize: isMobile ? '1rem' : '1.18rem', minWidth: isMobile ? 120 : 180, letterSpacing: '0.5px', display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
             <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 4 }}><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
               Raio de busca
             </span>
             <select value={raio} onChange={e => setRaio(Number(e.target.value))} disabled={!!distrito || !!conselho} style={{
               width: '100%',
-              padding: '16px',
+              padding: isMobile ? '12px' : '16px',
               borderRadius: '16px',
               border: '2px solid #fbbf24',
               marginTop: 4,
-              fontSize: '1.18rem',
+              fontSize: isMobile ? '1rem' : '1.18rem',
               background: !!distrito || !!conselho ? '#f3f3f3' : '#f8fafc',
               color: '#7c3aed',
               fontWeight: 800,
@@ -292,8 +296,8 @@ function BuscarParoquias() {
           )}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
-            gap: '32px',
+            gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(340px, 1fr))',
+            gap: isMobile ? '18px' : '32px',
           }}>
             {buscaTrim &&
               paroquias.map((p) => (
