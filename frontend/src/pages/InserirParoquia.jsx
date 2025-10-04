@@ -49,12 +49,14 @@ export default function InserirParoquia() {
   };
 
   const buscarLocalizacao = async () => {
-    if (!form.endereco) {
-      alert('Digite o endereço para buscar localização.');
+    // Monta o endereço completo a partir dos campos separados
+    const enderecoCompleto = `${form.rua}, ${form.numero}, ${form.codigoPostal} ${form.cidade}`;
+    if (!form.rua || !form.numero || !form.codigoPostal || !form.cidade) {
+      alert('Preencha todos os campos de endereço para buscar localização.');
       return;
     }
     try {
-      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(form.endereco)}`;
+      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(enderecoCompleto)}`;
       const response = await fetch(url);
       const data = await response.json();
       if (data && data.length > 0) {
@@ -165,6 +167,7 @@ export default function InserirParoquia() {
         <label>
           Latitude
           <input type="number" step="any" name="lat" value={form.lat} onChange={handleChange} required />
+          <button type="button" style={{ marginLeft: '8px' }} onClick={buscarLocalizacao}>Buscar localização</button>
         </label>
 
         <label>
