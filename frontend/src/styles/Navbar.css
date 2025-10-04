@@ -33,8 +33,11 @@ body {
   display: flex;
 }
 
-.navbar-logo img {
-  height: 45px;
+ .navbar-logo img {
+  height: 8vw;
+  min-height: 36px;
+  max-height: 80px;
+  width: auto;
   transition: transform 0.2s ease-in-out;
 }
 

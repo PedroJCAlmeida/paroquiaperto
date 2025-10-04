@@ -27,6 +27,25 @@ export default function InserirParoquia() {
 
   const handleChange = (e) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    if (e.target.name === 'codigoPostal' && e.target.value.length >= 8) {
+      buscarDistritoConselho(e.target.value);
+    }
+  };
+
+  const buscarDistritoConselho = async (codigoPostal) => {
+    try {
+      const url = `http://api.geonames.org/postalCodeLookupJSON?postalcode=${codigoPostal}&country=PT&username=demo`;
+      const response = await fetch(url);
+      const data = await response.json();
+      if (data && data.postalcodes && data.postalcodes.length > 0) {
+        const info = data.postalcodes[0];
+        setForm(prev => ({
+          ...prev,
+          distrito: info.adminName1 || '',
+          conselho: info.adminName2 || ''
+        }));
+      }
+    } catch (error) {}
   };
 
   const buscarLocalizacao = async () => {
@@ -59,8 +78,11 @@ export default function InserirParoquia() {
     setSuccess("");
     try {
       const token = localStorage.getItem('token');
+      // Monta o endereço completo para o backend
+      const enderecoCompleto = `${form.rua}, ${form.numero}, ${form.codigoPostal} ${form.cidade}`;
       const payload = {
         ...form,
+        endereco: enderecoCompleto,
         lat: parseFloat(form.lat),
         lng: parseFloat(form.lng)
       };
@@ -116,9 +138,28 @@ export default function InserirParoquia() {
           <textarea name="descricao" value={form.descricao} onChange={handleChange} />
         </label>
         <label>
-          Endereço
-          <input type="text" name="endereco" value={form.endereco} onChange={handleChange} required />
-          <button type="button" style={{ marginLeft: '8px' }} onClick={buscarLocalizacao}>Buscar localização</button>
+          Rua
+          <input type="text" name="rua" value={form.rua || ''} onChange={handleChange} required />
+        </label>
+        <label>
+          Número
+          <input type="text" name="numero" value={form.numero || ''} onChange={handleChange} required />
+        </label>
+        <label>
+          Código Postal
+          <input type="text" name="codigoPostal" value={form.codigoPostal || ''} onChange={handleChange} required pattern="\d{4}-\d{3}" placeholder="1234-567" />
+        </label>
+        <label>
+          Cidade/Localidade
+          <input type="text" name="cidade" value={form.cidade || ''} onChange={handleChange} required />
+        </label>
+        <label>
+          Distrito (preenchido automaticamente)
+          <input type="text" name="distrito" value={form.distrito || ''} readOnly style={{ background: '#f3f3f3' }} />
+        </label>
+        <label>
+          Conselho (preenchido automaticamente)
+          <input type="text" name="conselho" value={form.conselho || ''} readOnly style={{ background: '#f3f3f3' }} />
         </label>
 
         <label>

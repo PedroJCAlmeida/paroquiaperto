@@ -2,10 +2,12 @@ com\paroquiaperto\backend\model\Horario.class
 com\paroquiaperto\backend\security\JwtUtil.class
 com\paroquiaperto\backend\model\Distrito.class
 com\paroquiaperto\backend\controller\ConselhoController.class
+com\paroquiaperto\backend\service\GeoNamesService.class
 com\paroquiaperto\backend\model\Conselho.class
 com\paroquiaperto\backend\security\CustomUserDetailsService.class
 com\paroquiaperto\backend\model\Paroquia.class
 com\paroquiaperto\backend\repository\HorarioRepository.class
+com\paroquiaperto\backend\service\GeoNamesService$GeoInfo.class
 com\paroquiaperto\backend\controller\ParoquiaController.class
 com\paroquiaperto\backend\repository\DistritoRepository.class
 com\paroquiaperto\backend\security\JwtAuthenticationFilter.class

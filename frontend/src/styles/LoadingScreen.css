@@ -13,7 +13,9 @@
 }
 
 .loading-logo {
-  width: 100px;
+  width: 22vw;
+  min-width: 80px;
+  max-width: 180px;
   animation: pulse 1.5s infinite ease-in-out;
 }
 
