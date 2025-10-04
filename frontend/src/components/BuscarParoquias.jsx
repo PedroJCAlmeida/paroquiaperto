@@ -4,6 +4,11 @@ import '../styles/BuscarParoquias.css';
 function BuscarParoquias() {
   const [busca, setBusca] = useState('');
   const [paroquias, setParoquias] = useState([]);
+  const [raio, setRaio] = useState(10); // valor padrão 10km
+  const [lat, setLat] = useState(null);
+  const [lng, setLng] = useState(null);
+  const [distrito, setDistrito] = useState('');
+  const [conselho, setConselho] = useState('');
   const buscaTrim = busca.trim().toLowerCase();
 
   useEffect(() => {
@@ -12,12 +17,22 @@ function BuscarParoquias() {
       setParoquias([]);
       return;
     }
-    // Consulta ao backend
-    fetch(`${apiUrl}/api/paroquias?search=${encodeURIComponent(buscaTrim)}`)
+    let url = `${apiUrl}/api/paroquias?search=${encodeURIComponent(buscaTrim)}`;
+    // Se distrito ou conselho estiverem preenchidos, ignora filtro de distância
+    if (distrito || conselho) {
+      if (distrito) url += `&distrito=${encodeURIComponent(distrito)}`;
+      if (conselho) url += `&conselho=${encodeURIComponent(conselho)}`;
+    } else {
+      url += `&raio=${raio}`;
+      if (lat && lng) {
+        url += `&lat=${lat}&lng=${lng}`;
+      }
+    }
+    fetch(url)
       .then(res => res.ok ? res.json() : [])
       .then(data => setParoquias(Array.isArray(data) ? data : []))
       .catch(() => setParoquias([]));
-  }, [buscaTrim]);
+  }, [buscaTrim, raio, lat, lng, distrito, conselho]);
 
   return (
     <div className='container'>
@@ -43,6 +58,87 @@ function BuscarParoquias() {
             style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }}
           />
         </label>
+        <label style={{ fontWeight: 500, color: '#334155', fontSize: '1rem', marginBottom: 6 }}>
+          Distrito
+          <input
+            type="text"
+            placeholder="Digite o distrito"
+            value={distrito}
+            onChange={e => setDistrito(e.target.value)}
+            style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }}
+          />
+        </label>
+        <label style={{ fontWeight: 500, color: '#334155', fontSize: '1rem', marginBottom: 6 }}>
+          Conselho
+          <input
+            type="text"
+            placeholder="Digite o conselho"
+            value={conselho}
+            onChange={e => setConselho(e.target.value)}
+            style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }}
+          />
+        </label>
+        <label style={{ fontWeight: 500, color: '#334155', fontSize: '1rem', marginBottom: 6 }}>
+          Raio de busca
+          <select value={raio} onChange={e => setRaio(Number(e.target.value))} disabled={!!distrito || !!conselho} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem', background: !!distrito || !!conselho ? '#f3f3f3' : '#f8fafc' }}>
+            <option value={5}>5 km</option>
+            <option value={10}>10 km</option>
+            <option value={20}>20 km</option>
+            <option value={50}>50 km</option>
+            <option value={100}>100 km</option>
+          </select>
+        </label>
+        <button type="button" style={{
+          padding: '8px 10px',
+          fontSize: '0.95rem',
+          borderRadius: '6px',
+          background: distrito || conselho ? '#cbd5e1' : '#2563eb',
+          color: distrito || conselho ? '#334155' : '#fff',
+          border: 'none',
+          cursor: distrito || conselho ? 'not-allowed' : 'pointer',
+          marginTop: '4px',
+          marginBottom: '4px',
+          boxShadow: '0 1px 4px rgba(37,99,235,0.08)'
+        }}
+        disabled={!!distrito || !!conselho}
+        onClick={() => {
+          if (distrito || conselho) return;
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              pos => {
+                setLat(pos.coords.latitude);
+                setLng(pos.coords.longitude);
+              },
+              err => {
+                alert('Não foi possível obter sua localização.');
+              }
+            );
+          } else {
+            alert('Geolocalização não suportada.');
+          }
+        }}>
+          Usar minha localização
+        </button>
+        {(lat && lng) && (
+          <button type="button" style={{
+            padding: '6px 10px',
+            fontSize: '0.92rem',
+            borderRadius: '6px',
+            background: '#e11d48',
+            color: '#fff',
+            border: 'none',
+            cursor: 'pointer',
+            marginTop: '2px',
+            marginBottom: '2px',
+            boxShadow: '0 1px 4px rgba(225,29,72,0.08)'
+          }}
+          onClick={() => {
+            setLat(null);
+            setLng(null);
+          }}>
+            Limpar filtro de distância
+          </button>
+        )}
       </form>
 
       <div className="results-list-container">

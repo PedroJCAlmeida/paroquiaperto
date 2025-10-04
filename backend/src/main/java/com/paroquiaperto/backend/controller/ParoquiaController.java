@@ -32,7 +32,12 @@ public class ParoquiaController {
             .orElse(ResponseEntity.notFound().build());
     }
     @GetMapping(params = "search")
-    public ResponseEntity<List<Paroquia>> buscarParoquias(String search) {
+    public ResponseEntity<List<Paroquia>> buscarParoquias(
+        String search,
+        @org.springframework.web.bind.annotation.RequestParam(required = false) Integer raio,
+        @org.springframework.web.bind.annotation.RequestParam(required = false) Double lat,
+        @org.springframework.web.bind.annotation.RequestParam(required = false) Double lng
+    ) {
         String termo = search.trim().toLowerCase();
         List<Paroquia> todas = paroquiaRepository.findAll();
         List<Paroquia> filtradas = todas.stream()
@@ -44,8 +49,33 @@ public class ParoquiaController {
                 }
                 return nomeCombina || horarioCombina;
             })
+            .filter(p -> {
+                if (raio != null && lat != null && lng != null && p.getLat() != null && p.getLng() != null) {
+                    try {
+                        double plat = Double.parseDouble(p.getLat());
+                        double plng = Double.parseDouble(p.getLng());
+                        double distancia = distanciaKm(lat, lng, plat, plng);
+                        return distancia <= raio;
+                    } catch (Exception e) {
+                        return true; // Se não conseguir calcular, não filtra
+                    }
+                }
+                return true; // Se não informado, retorna todos
+            })
             .toList();
         return ResponseEntity.ok(filtradas);
+    }
+
+    // Calcula distância entre dois pontos (Haversine)
+    private double distanciaKm(double lat1, double lng1, double lat2, double lng2) {
+        double R = 6371.0; // Raio da Terra em km
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLng = Math.toRadians(lng2 - lng1);
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                   Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                   Math.sin(dLng/2) * Math.sin(dLng/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return R * c;
     }
     @Autowired
     private ParoquiaRepository paroquiaRepository;
