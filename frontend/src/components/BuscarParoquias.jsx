@@ -66,11 +66,18 @@ function BuscarParoquias() {
       background: 'linear-gradient(120deg, #f8fafc 0%, #e0e7ff 100%)',
       padding: '0',
       margin: '0',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
     }}>
       <div style={{
         maxWidth: 980,
+        width: '100%',
         margin: '0 auto',
-        paddingTop: 48,
+        paddingTop: 56,
+        paddingLeft: 16,
+        paddingRight: 16,
       }}>
         <h2 style={{
           textAlign: 'center',
@@ -78,23 +85,24 @@ function BuscarParoquias() {
           fontWeight: 900,
           color: '#2563eb',
           letterSpacing: '1.5px',
-          marginBottom: 22,
+          marginBottom: 32,
           textShadow: '0 2px 16px #e0e7ff',
         }}>Buscar Paróquias</h2>
         <form style={{
           background: 'rgba(255,255,255,0.98)',
           borderRadius: '26px',
           boxShadow: '0 6px 36px rgba(60, 60, 120, 0.15)',
-          padding: '36px 28px',
+          padding: '44px 38px',
           display: 'flex',
           flexDirection: 'row',
-          gap: '28px',
+          gap: '36px',
           flexWrap: 'wrap',
-          alignItems: 'center',
+          alignItems: 'flex-end',
           justifyContent: 'center',
           border: '2px solid #e0e7ff',
+          marginBottom: 32,
         }}>
-          <label style={{ fontWeight: 800, color: '#2563eb', fontSize: '1.18rem', minWidth: 200, display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <label style={{ fontWeight: 800, color: '#2563eb', fontSize: '1.18rem', minWidth: 220, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
             <span style={{ marginBottom: 2 }}>Buscar Paróquia</span>
             <input
               type="text"
@@ -117,7 +125,7 @@ function BuscarParoquias() {
               onBlur={e => e.target.style.boxShadow = '0 2px 10px rgba(60,60,120,0.09)'}
             />
           </label>
-          <label style={{ fontWeight: 700, color: '#7c3aed', fontSize: '1.12rem', minWidth: 180, display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <label style={{ fontWeight: 700, color: '#7c3aed', fontSize: '1.12rem', minWidth: 180, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
             <span>Distrito</span>
             <select value={distrito} onChange={e => setDistrito(e.target.value)} style={{
               width: '100%',
@@ -138,7 +146,7 @@ function BuscarParoquias() {
               ))}
             </select>
           </label>
-          <label style={{ fontWeight: 700, color: '#7c3aed', fontSize: '1.12rem', minWidth: 180, display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <label style={{ fontWeight: 700, color: '#7c3aed', fontSize: '1.12rem', minWidth: 180, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
             <span>Conselho</span>
             <select value={conselho} onChange={e => setConselho(e.target.value)} disabled={!distrito} style={{
               width: '100%',
@@ -159,7 +167,7 @@ function BuscarParoquias() {
               ))}
             </select>
           </label>
-          <label style={{ fontWeight: 800, color: '#fbbf24', fontSize: '1.18rem', minWidth: 180, letterSpacing: '0.5px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <label style={{ fontWeight: 800, color: '#fbbf24', fontSize: '1.18rem', minWidth: 180, letterSpacing: '0.5px', display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
             <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 4 }}><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
               Raio de busca
@@ -185,42 +193,64 @@ function BuscarParoquias() {
               <option value={100}>100 km</option>
             </select>
           </label>
-          <button type="button" style={{
-            padding: '14px 22px',
-            fontSize: '1.15rem',
-            borderRadius: '12px',
-            background: distrito || conselho ? '#cbd5e1' : 'linear-gradient(90deg,#2563eb 0%,#7c3aed 100%)',
-            color: distrito || conselho ? '#334155' : '#fff',
-            border: 'none',
-            cursor: distrito || conselho ? 'not-allowed' : 'pointer',
-            marginTop: '4px',
-            marginBottom: '4px',
-            fontWeight: 800,
-            boxShadow: distrito || conselho ? 'none' : '0 2px 14px rgba(99,102,241,0.15)',
-            transition: 'background 0.2s',
-          }}
-          disabled={!!distrito || !!conselho}
-          onClick={() => {
-            if (distrito || conselho) return;
-            if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(
-                pos => {
-                  setLat(pos.coords.latitude);
-                  setLng(pos.coords.longitude);
-                },
-                err => {
-                  alert('Não foi possível obter sua localização.');
-                }
-              );
-            } else {
-              alert('Geolocalização não suportada.');
-            }
-          }}>
-            <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 2"/></svg>
-              Usar minha localização
-            </span>
-          </button>
+          <div style={{ display: 'flex', flexDirection: 'row', gap: 18, alignItems: 'center', marginTop: 12 }}>
+            <button type="button" style={{
+              padding: '16px 32px',
+              fontSize: '1.15rem',
+              borderRadius: '14px',
+              background: distrito || conselho ? '#cbd5e1' : 'linear-gradient(90deg,#2563eb 0%,#7c3aed 100%)',
+              color: distrito || conselho ? '#334155' : '#fff',
+              border: 'none',
+              cursor: distrito || conselho ? 'not-allowed' : 'pointer',
+              fontWeight: 800,
+              boxShadow: distrito || conselho ? 'none' : '0 2px 14px rgba(99,102,241,0.15)',
+              transition: 'background 0.2s',
+              margin: 0,
+            }}
+            disabled={!!distrito || !!conselho}
+            onClick={() => {
+              if (distrito || conselho) return;
+              if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                  pos => {
+                    setLat(pos.coords.latitude);
+                    setLng(pos.coords.longitude);
+                  },
+                  err => {
+                    alert('Não foi possível obter sua localização.');
+                  }
+                );
+              } else {
+                alert('Geolocalização não suportada.');
+              }
+            }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 2"/></svg>
+                Usar minha localização
+              </span>
+            </button>
+            {(lat && lng) && (
+              <button type="button" style={{
+                padding: '14px 24px',
+                fontSize: '1.12rem',
+                borderRadius: '14px',
+                background: 'linear-gradient(90deg,#e11d48 0%,#fbbf24 100%)',
+                color: '#fff',
+                border: 'none',
+                cursor: 'pointer',
+                fontWeight: 800,
+                boxShadow: '0 2px 14px rgba(251,191,36,0.10)',
+                transition: 'background 0.2s',
+                margin: 0,
+              }}
+              onClick={() => {
+                setLat(null);
+                setLng(null);
+              }}>
+                Limpar filtro de distância
+              </button>
+            )}
+          </div>
           {(lat && lng) && (
             <button type="button" style={{
               padding: '12px 18px',
@@ -245,7 +275,7 @@ function BuscarParoquias() {
           )}
         </form>
 
-        <div style={{ marginTop: 42 }}>
+  <div style={{ marginTop: 48 }}>
           {buscaTrim && (
             <p style={{
               textAlign: 'center',
