@@ -86,83 +86,83 @@ const ParoquiaDetalhe = () => {
 
   // ...existing code...
   return (
-    <div className="paroquia-detalhe-page" style={{ background: 'linear-gradient(135deg, #e3f0ff 0%, #f8fafc 100%)', minHeight: '100vh', padding: '24px 0' }}>
-      <div className="paroquia-detalhe-card" style={{ background: '#fff', borderRadius: '16px', boxShadow: '0 4px 24px rgba(0,0,0,0.08)', maxWidth: '700px', margin: '0 auto', padding: '24px', width: '95vw', minWidth: '0' }}>
+    <div className="paroquia-detalhe-page" style={{ background: 'linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%)', minHeight: '100vh', padding: '32px 0' }}>
+      <div className="paroquia-detalhe-card" style={{ background: '#fff', borderRadius: '28px', boxShadow: '0 8px 40px rgba(60,60,120,0.13)', maxWidth: '760px', margin: '0 auto', padding: '38px', width: '95vw', minWidth: '0', border: '2px solid #e0e7ff' }}>
         <button
           onClick={() => window.history.back()}
           className="saberMais-button"
-          style={{ outline: 'none', border: 'none', marginBottom: '18px', padding: '8px 22px', fontWeight: 'bold', fontSize: '1rem', borderRadius: '8px', background: '#1e293b', color: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.07)' }}
+          style={{ outline: 'none', border: 'none', marginBottom: '22px', padding: '12px 28px', fontWeight: 900, fontSize: '1.08rem', borderRadius: '12px', background: 'linear-gradient(90deg,#2563eb 0%,#7c3aed 100%)', color: '#fff', boxShadow: '0 2px 12px rgba(99,102,241,0.13)' }}
         >
           ← Voltar para lista
         </button>
         {/* Header */}
-        <h2 className="text-3xl font-bold text-blue-700 mb-6" style={{ textAlign: 'center' }}>{paroquia?.nome || 'Nome da Paróquia'}</h2>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '24px' }}>
+        <h2 className="text-3xl font-bold text-blue-700 mb-6" style={{ textAlign: 'center', fontSize: '2.2rem', fontWeight: 900, color: '#2563eb', letterSpacing: '1.2px', marginBottom: 18, textShadow: '0 2px 16px #e0e7ff' }}>{paroquia?.nome || 'Nome da Paróquia'}</h2>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '28px' }}>
           {paroquia?.imagem ? (
-            <img src={paroquia.imagem} alt={paroquia.nome} style={{ maxWidth: '100%', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.07)', maxHeight: '220px' }} />
+            <img src={paroquia.imagem} alt={paroquia.nome} style={{ maxWidth: '100%', borderRadius: '18px', boxShadow: '0 4px 18px rgba(124,58,237,0.13)', maxHeight: '260px', border: '2px solid #fbbf24' }} />
           ) : (
-            <img src={logo} alt="Imagem padrão igreja" style={{ width: '120px', height: '120px', objectFit: 'contain', borderRadius: '12px', background: '#e0e7ef', boxShadow: '0 2px 8px rgba(0,0,0,0.07)' }} />
+            <img src={logo} alt="Imagem padrão igreja" style={{ width: '130px', height: '130px', objectFit: 'contain', borderRadius: '18px', background: '#e0e7ef', boxShadow: '0 2px 8px rgba(0,0,0,0.07)', border: '2px solid #fbbf24' }} />
           )}
         </div>
         {/* Dados principais */}
-  <div style={{ marginBottom: '18px', display: 'grid', gridTemplateColumns: '1fr', gap: '12px' }} className="paroquia-detalhe-info-grid">
+        <div style={{ marginBottom: '22px', display: 'grid', gridTemplateColumns: '1fr', gap: '16px' }} className="paroquia-detalhe-info-grid">
           <style>{`
             @media (min-width: 600px) {
-              .paroquia-detalhe-card { padding: 32px; }
+              .paroquia-detalhe-card { padding: 48px; }
               .paroquia-detalhe-info-grid { grid-template-columns: 1fr 1fr; }
             }
             @media (max-width: 599px) {
-              .paroquia-detalhe-card { padding: 16px; }
+              .paroquia-detalhe-card { padding: 18px; }
               .paroquia-detalhe-info-grid { grid-template-columns: 1fr; }
-              .paroquia-detalhe-page { padding: 8px 0; }
+              .paroquia-detalhe-page { padding: 12px 0; }
             }
           `}</style>
           <div>
-            <p className="text-lg mb-2"><strong>Endereço:</strong> {
+            <p className="text-lg mb-2"><strong style={{ color: '#2563eb' }}>Endereço:</strong> {
               paroquia?.endereco
                 ? <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(paroquia.endereco)}`}
-                     target="_blank" rel="noopener noreferrer" style={{ color: '#2563eb', textDecoration: 'underline' }}>{paroquia.endereco}</a>
+                     target="_blank" rel="noopener noreferrer" style={{ color: '#7c3aed', textDecoration: 'underline', fontWeight: 700 }}>{paroquia.endereco}</a>
                 : <span style={{ color: '#bbb' }}>Não informado</span>
             }</p>
-            <p className="text-lg mb-2"><strong>Descrição:</strong> {paroquia?.descricao || <span style={{ color: '#bbb' }}>Não informado</span>}</p>
-            <p className="text-lg mb-2"><strong>Telefone:</strong> {
+            <p className="text-lg mb-2"><strong style={{ color: '#2563eb' }}>Descrição:</strong> {paroquia?.descricao || <span style={{ color: '#bbb' }}>Não informado</span>}</p>
+            <p className="text-lg mb-2"><strong style={{ color: '#2563eb' }}>Telefone:</strong> {
               paroquia?.telefone
-                ? <a href={`tel:${paroquia.telefone.replace(/\D/g, '')}`} style={{ color: '#2563eb', textDecoration: 'underline' }}>{paroquia.telefone}</a>
+                ? <a href={`tel:${paroquia.telefone.replace(/\D/g, '')}`} style={{ color: '#fbbf24', textDecoration: 'underline', fontWeight: 700 }}>{paroquia.telefone}</a>
                 : <span style={{ color: '#bbb' }}>Não informado</span>
             }</p>
-            <p className="text-lg mb-2"><strong>Email:</strong> {
+            <p className="text-lg mb-2"><strong style={{ color: '#2563eb' }}>Email:</strong> {
               paroquia?.email
-                ? <a href={`mailto:${paroquia.email}`} style={{ color: '#2563eb', textDecoration: 'underline' }}>{paroquia.email}</a>
+                ? <a href={`mailto:${paroquia.email}`} style={{ color: '#7c3aed', textDecoration: 'underline', fontWeight: 700 }}>{paroquia.email}</a>
                 : <span style={{ color: '#bbb' }}>Não informado</span>
             }</p>
           </div>
           <div>
-            <p className="text-lg mb-2"><strong>Site:</strong> {paroquia?.site ? <a href={paroquia.site} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">{paroquia.site}</a> : <span style={{ color: '#bbb' }}>Não informado</span>}</p>
-            <p className="text-lg mb-2"><strong>Whatsapp:</strong> {
+            <p className="text-lg mb-2"><strong style={{ color: '#2563eb' }}>Site:</strong> {paroquia?.site ? <a href={paroquia.site} target="_blank" rel="noopener noreferrer" style={{ color: '#2563eb', textDecoration: 'underline', fontWeight: 700 }}>{paroquia.site}</a> : <span style={{ color: '#bbb' }}>Não informado</span>}</p>
+            <p className="text-lg mb-2"><strong style={{ color: '#2563eb' }}>Whatsapp:</strong> {
               paroquia?.whatsapp
-                ? <a href={`https://wa.me/${paroquia.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" style={{ color: '#25d366', textDecoration: 'underline' }}>{paroquia.whatsapp}</a>
+                ? <a href={`https://wa.me/${paroquia.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" style={{ color: '#25d366', textDecoration: 'underline', fontWeight: 700 }}>{paroquia.whatsapp}</a>
                 : <span style={{ color: '#bbb' }}>Não informado</span>
             }</p>
             <div style={{ marginTop: '8px' }}>
-              <strong>Redes sociais:</strong>
+              <strong style={{ color: '#2563eb' }}>Redes sociais:</strong>
               <div style={{ display: 'flex', gap: '16px', marginTop: '6px' }}>
-                {paroquia?.instagram ? <a href={paroquia.instagram} target="_blank" rel="noopener noreferrer" className="text-pink-600">Instagram</a> : <span style={{ color: '#bbb' }}>Instagram</span>}
-                {paroquia?.facebook ? <a href={paroquia.facebook} target="_blank" rel="noopener noreferrer" className="text-blue-600">Facebook</a> : <span style={{ color: '#bbb' }}>Facebook</span>}
+                {paroquia?.instagram ? <a href={paroquia.instagram} target="_blank" rel="noopener noreferrer" style={{ color: '#7c3aed', fontWeight: 700 }}>Instagram</a> : <span style={{ color: '#bbb' }}>Instagram</span>}
+                {paroquia?.facebook ? <a href={paroquia.facebook} target="_blank" rel="noopener noreferrer" style={{ color: '#2563eb', fontWeight: 700 }}>Facebook</a> : <span style={{ color: '#bbb' }}>Facebook</span>}
               </div>
             </div>
           </div>
         </div>
         {/* Horários */}
-        <div style={{ marginBottom: '28px' }}>
-          <strong className="block mb-2 text-blue-700 text-xl" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style={{ verticalAlign: 'middle' }}><circle cx="12" cy="12" r="10" stroke="#2563eb" strokeWidth="2"/><path d="M12 7v5l3 3" stroke="#2563eb" strokeWidth="2" strokeLinecap="round"/></svg>
+        <div style={{ marginBottom: '32px' }}>
+          <strong className="block mb-2 text-blue-700 text-xl" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#fbbf24', fontSize: '1.18rem', fontWeight: 900 }}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style={{ verticalAlign: 'middle' }}><circle cx="12" cy="12" r="10" stroke="#fbbf24" strokeWidth="2"/><path d="M12 7v5l3 3" stroke="#2563eb" strokeWidth="2" strokeLinecap="round"/></svg>
             Horários
           </strong>
           {horarios.length > 0 ? (
             <ul style={{ listStyle: 'none', padding: 0 }}>
               {horarios.map(h => (
-                <li key={h.id} style={{ background: '#f1f5fb', borderRadius: '8px', marginBottom: '8px', padding: '10px 16px', fontSize: '1.08rem' }}>
-                  <strong>{h.diaSemana || h.dia_semana}</strong> - {h.hora || h.hora} <span style={{ color: '#2563eb', fontWeight: 'bold' }}>{h.tipo || h.tipo}</span>
+                <li key={h.id} style={{ background: '#f8fafc', borderRadius: '10px', marginBottom: '10px', padding: '12px 20px', fontSize: '1.12rem', border: '1.5px solid #e0e7ff', boxShadow: '0 2px 8px rgba(124,58,237,0.07)' }}>
+                  <strong style={{ color: '#2563eb' }}>{h.diaSemana || h.dia_semana}</strong> - {h.hora || h.hora} <span style={{ color: '#7c3aed', fontWeight: 'bold' }}>{h.tipo || h.tipo}</span>
                 </li>
               ))}
             </ul>
@@ -171,25 +171,25 @@ const ParoquiaDetalhe = () => {
           )}
         </div>
         {/* Eventos */}
-        <div style={{ marginBottom: '18px' }}>
-          <strong className="block mb-2 text-blue-700 text-xl" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style={{ verticalAlign: 'middle' }}><rect x="3" y="5" width="18" height="16" rx="2" stroke="#7c3aed" strokeWidth="2"/><path d="M16 3v4M8 3v4" stroke="#7c3aed" strokeWidth="2" strokeLinecap="round"/></svg>
+        <div style={{ marginBottom: '22px' }}>
+          <strong className="block mb-2 text-blue-700 text-xl" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#7c3aed', fontSize: '1.18rem', fontWeight: 900 }}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style={{ verticalAlign: 'middle' }}><rect x="3" y="5" width="18" height="16" rx="2" stroke="#7c3aed" strokeWidth="2"/><path d="M16 3v4M8 3v4" stroke="#fbbf24" strokeWidth="2" strokeLinecap="round"/></svg>
             Eventos
           </strong>
           {eventos.length > 0 ? (
             <ul style={{ listStyle: 'none', padding: 0 }}>
               {eventos.map(e => (
-                <li key={e.id} style={{ background: '#f9f5ff', borderRadius: '8px', marginBottom: '12px', padding: '12px 18px', fontSize: '1.08rem', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <li key={e.id} style={{ background: '#f9f5ff', borderRadius: '10px', marginBottom: '14px', padding: '14px 22px', fontSize: '1.12rem', boxShadow: '0 2px 8px rgba(124,58,237,0.07)', border: '1.5px solid #e0e7ff' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
                     {(e.imagem || e.imagem_evento) ? (
-                      <img src={e.imagem || e.imagem_evento} alt={e.titulo || e.titulo_evento} style={{ width: '48px', height: '48px', objectFit: 'cover', borderRadius: '8px' }} />
+                      <img src={e.imagem || e.imagem_evento} alt={e.titulo || e.titulo_evento} style={{ width: '54px', height: '54px', objectFit: 'cover', borderRadius: '10px', border: '2px solid #fbbf24' }} />
                     ) : (
-                      <img src={logo} alt="Imagem padrão igreja" style={{ width: '48px', height: '48px', objectFit: 'contain', borderRadius: '8px', background: '#e0e7ef' }} />
+                      <img src={logo} alt="Imagem padrão igreja" style={{ width: '54px', height: '54px', objectFit: 'contain', borderRadius: '10px', background: '#e0e7ef', border: '2px solid #fbbf24' }} />
                     )}
                     <div>
-                      <strong style={{ fontSize: '1.1rem', color: '#7c3aed' }}>{e.titulo || e.titulo_evento || 'Evento'}</strong>
-                      <div style={{ fontSize: '0.98rem', color: '#444' }}>{(e.data || e.data_evento) ? `${e.data || e.data_evento} às ${(e.hora || e.hora_evento)}` : 'Data não informada'}</div>
-                      {(e.descricao || e.descricao_evento) ? <div style={{ marginTop: '4px', color: '#555' }}>{e.descricao || e.descricao_evento}</div> : <div style={{ marginTop: '4px', color: '#bbb' }}>Sem descrição</div>}
+                      <strong style={{ fontSize: '1.13rem', color: '#7c3aed', fontWeight: 900 }}>{e.titulo || e.titulo_evento || 'Evento'}</strong>
+                      <div style={{ fontSize: '1.01rem', color: '#2563eb', fontWeight: 700 }}>{(e.data || e.data_evento) ? `${e.data || e.data_evento} às ${(e.hora || e.hora_evento)}` : 'Data não informada'}</div>
+                      {(e.descricao || e.descricao_evento) ? <div style={{ marginTop: '4px', color: '#334155' }}>{e.descricao || e.descricao_evento}</div> : <div style={{ marginTop: '4px', color: '#bbb' }}>Sem descrição</div>}
                     </div>
                   </div>
                 </li>
