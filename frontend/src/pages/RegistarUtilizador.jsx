@@ -77,7 +77,6 @@ const RegistarUtlizardor = () => {
       {error && <p className="error-message">{error}</p>}
       {success && <p className="success-message">{success}</p>} {/* Mensagem de sucesso */}
 
-      <form onSubmit={handleSubmit} className="login-form"> {/* Reutilizamos os estilos do formulário */}
         <form className="register-form" onSubmit={handleSubmit} style={{
           maxWidth: 400,
           margin: '0 auto',

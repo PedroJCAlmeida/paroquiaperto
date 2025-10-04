@@ -163,7 +163,7 @@ body {
     }
 }
 
-..navbar-login-icon {
+.navbar-login-icon {
   color: #333;
   cursor: pointer;
   transition: color 0.3s ease;
