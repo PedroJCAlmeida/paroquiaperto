@@ -78,9 +78,12 @@ function BuscarParoquias() {
             style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }}
           />
         </label>
-        <label style={{ fontWeight: 500, color: '#334155', fontSize: '1rem', marginBottom: 6 }}>
-          Raio de busca
-          <select value={raio} onChange={e => setRaio(Number(e.target.value))} disabled={!!distrito || !!conselho} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem', background: !!distrito || !!conselho ? '#f3f3f3' : '#f8fafc' }}>
+        <label style={{ fontWeight: 700, color: '#7c3aed', fontSize: '1.08rem', marginBottom: 6, letterSpacing: '0.5px' }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 4 }}><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            Raio de busca
+          </span>
+          <select value={raio} onChange={e => setRaio(Number(e.target.value))} disabled={!!distrito || !!conselho} style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '2px solid #7c3aed', marginTop: 8, fontSize: '1.08rem', background: !!distrito || !!conselho ? '#f3f3f3' : '#f8fafc', color: '#3b2f6b', fontWeight: 600, boxShadow: '0 2px 8px rgba(124, 58, 237, 0.08)' }}>
             <option value={5}>5 km</option>
             <option value={10}>10 km</option>
             <option value={20}>20 km</option>
