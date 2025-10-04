@@ -164,11 +164,13 @@ export default function InserirParoquia() {
           <input type="text" name="conselho" value={form.conselho || ''} readOnly style={{ background: '#f3f3f3' }} />
         </label>
 
-        <label>
-          Latitude
-          <input type="number" step="any" name="lat" value={form.lat} onChange={handleChange} required />
-          <button type="button" style={{ marginLeft: '8px' }} onClick={buscarLocalizacao}>Buscar localização</button>
-        </label>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+          <button type="button" style={{ padding: '4px 10px', fontSize: '0.95rem', borderRadius: '6px', background: '#2563eb', color: '#fff', border: 'none', cursor: 'pointer' }} onClick={buscarLocalizacao}>Buscar localização</button>
+          <label style={{ marginBottom: 0 }}>
+            Latitude
+            <input type="number" step="any" name="lat" value={form.lat} onChange={handleChange} required />
+          </label>
+        </div>
 
         <label>
           Longitude
