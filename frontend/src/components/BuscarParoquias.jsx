@@ -22,14 +22,27 @@ function BuscarParoquias() {
   return (
     <div className='container'>
       <h2>Buscar Paróquias</h2>
-      <form>
-        <input
-          type="text"
-          placeholder="Digite o nome ou horário"
-          value={busca}
-          onChange={(e) => setBusca(e.target.value)}
-          className="search-input"
-        />
+      <form style={{
+        maxWidth: 400,
+        margin: '0 auto',
+        background: '#fff',
+        borderRadius: '16px',
+        boxShadow: '0 2px 16px rgba(0,0,0,0.08)',
+        padding: '24px 18px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '12px',
+      }}>
+        <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem', marginBottom: 6 }}>
+          Buscar Paróquia
+          <input
+            type="text"
+            placeholder="Digite o nome ou horário"
+            value={busca}
+            onChange={(e) => setBusca(e.target.value)}
+            style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }}
+          />
+        </label>
       </form>
 
       <div className="results-list-container">

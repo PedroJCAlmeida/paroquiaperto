@@ -93,30 +93,38 @@ const Login = () => {
         />
       </div>
 
-      <form onSubmit={handleSubmit} className="login-form">
-        <div className="form-group">
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            aria-label="Email"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Palavra-passe:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            aria-label="Palavra-passe"
-          />
-        </div>
-        <button type="submit" disabled={loading} className="login-button">
+      <form onSubmit={handleSubmit} className="login-form" style={{
+        maxWidth: 400,
+        margin: '0 auto',
+        background: '#fff',
+        borderRadius: '16px',
+        boxShadow: '0 2px 16px rgba(0,0,0,0.08)',
+        padding: '32px 18px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '18px',
+      }}>
+        <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem', marginBottom: 6 }}>
+          E-mail
+          <input type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
+        </label>
+        <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem', marginBottom: 6 }}>
+          Senha
+          <input type="password" name="senha" value={password} onChange={(e) => setPassword(e.target.value)} required style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
+        </label>
+        <button type="submit" disabled={loading} style={{
+          background: 'linear-gradient(90deg,#2563eb 60%,#7c3aed 100%)',
+          color: '#fff',
+          fontWeight: 600,
+          fontSize: '1.08rem',
+          border: 'none',
+          borderRadius: '10px',
+          padding: '12px 0',
+          marginTop: '12px',
+          boxShadow: '0 2px 8px rgba(37,99,235,0.08)',
+          cursor: 'pointer',
+          transition: 'background 0.2s',
+        }}>
           {loading ? 'A Entrar...' : 'Entrar'}
         </button>
       </form>

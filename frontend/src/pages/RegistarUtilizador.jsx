@@ -78,39 +78,29 @@ const RegistarUtlizardor = () => {
       {success && <p className="success-message">{success}</p>} {/* Mensagem de sucesso */}
 
       <form onSubmit={handleSubmit} className="login-form"> {/* Reutilizamos os estilos do formulário */}
-        <div className="form-group">
-          <label htmlFor="name">Nome Completo:</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            aria-label="Nome Completo"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            aria-label="Email"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Palavra-passe:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            aria-label="Palavra-passe"
-          />
-        </div>
+        <form className="register-form" onSubmit={handleSubmit} style={{
+          maxWidth: 400,
+          margin: '0 auto',
+          background: '#fff',
+          borderRadius: '16px',
+          boxShadow: '0 2px 16px rgba(0,0,0,0.08)',
+          padding: '32px 18px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '18px',
+        }}>
+          <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem', marginBottom: 6 }}>
+            Nome
+            <input type="text" name="nome" value={name} onChange={(e) => setName(e.target.value)} required style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
+          </label>
+        <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem', marginBottom: 6 }}>
+          E-mail
+          <input type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
+        </label>
+        <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem', marginBottom: 6 }}>
+          Senha
+          <input type="password" name="senha" value={password} onChange={(e) => setPassword(e.target.value)} required style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
+        </label>
         <div className="form-group">
           <label htmlFor="confirmPassword">Confirmar Palavra-passe:</label>
           <input
@@ -122,9 +112,19 @@ const RegistarUtlizardor = () => {
             aria-label="Confirmar Palavra-passe"
           />
         </div>
-        <button type="submit" disabled={loading} className="login-button">
-          {loading ? 'A Registar...' : 'Registar'}
-        </button>
+        <button type="submit" style={{
+          background: 'linear-gradient(90deg,#2563eb 60%,#7c3aed 100%)',
+          color: '#fff',
+          fontWeight: 600,
+          fontSize: '1.08rem',
+          border: 'none',
+          borderRadius: '10px',
+          padding: '12px 0',
+          marginTop: '12px',
+          boxShadow: '0 2px 8px rgba(37,99,235,0.08)',
+          cursor: 'pointer',
+          transition: 'background 0.2s',
+        }}>Registrar</button>
       </form>
 
       <p>Já tem conta? <Link to="/login">Faça login aqui</Link></p>

@@ -129,92 +129,114 @@ export default function InserirParoquia() {
         message="Paróquia enviada com sucesso!"
         onClose={() => setShowToast(false)}
       />
-      <form className="backoffice-form" onSubmit={handleSubmit}>
-        <label>
+      <form className="backoffice-form" onSubmit={handleSubmit} style={{
+        maxWidth: 480,
+        margin: '0 auto',
+        background: '#fff',
+        borderRadius: '16px',
+        boxShadow: '0 2px 16px rgba(0,0,0,0.08)',
+        padding: '32px 18px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '18px',
+      }}>
+        <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem', marginBottom: 6 }}>
           Nome da Paróquia
-          <input type="text" name="nome" value={form.nome} onChange={handleChange} required />
+          <input type="text" name="nome" value={form.nome} onChange={handleChange} required style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
         </label>
 
-        <label>
+        <label style={{ fontWeight: 500, color: '#334155', fontSize: '1rem', marginBottom: 6 }}>
           Descrição
-          <textarea name="descricao" value={form.descricao} onChange={handleChange} />
+          <textarea name="descricao" value={form.descricao} onChange={handleChange} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem', minHeight: 60 }} />
         </label>
-        <label>
+        <label style={{ fontWeight: 500, color: '#334155', fontSize: '1rem', marginBottom: 6 }}>
           Rua
-          <input type="text" name="rua" value={form.rua || ''} onChange={handleChange} required />
+          <input type="text" name="rua" value={form.rua || ''} onChange={handleChange} required style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
         </label>
-        <label>
+        <label style={{ fontWeight: 500, color: '#334155', fontSize: '1rem', marginBottom: 6 }}>
           Número
-          <input type="text" name="numero" value={form.numero || ''} onChange={handleChange} required />
+          <input type="text" name="numero" value={form.numero || ''} onChange={handleChange} required style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
         </label>
-        <label>
+        <label style={{ fontWeight: 500, color: '#334155', fontSize: '1rem', marginBottom: 6 }}>
           Código Postal
-          <input type="text" name="codigoPostal" value={form.codigoPostal || ''} onChange={handleChange} required pattern="\d{4}-\d{3}" placeholder="1234-567" />
+          <input type="text" name="codigoPostal" value={form.codigoPostal || ''} onChange={handleChange} required pattern="\d{4}-\d{3}" placeholder="1234-567" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
         </label>
-        <label>
+        <label style={{ fontWeight: 500, color: '#334155', fontSize: '1rem', marginBottom: 6 }}>
           Cidade/Localidade
-          <input type="text" name="cidade" value={form.cidade || ''} onChange={handleChange} required />
+          <input type="text" name="cidade" value={form.cidade || ''} onChange={handleChange} required style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
         </label>
-        <label>
+        <label style={{ fontWeight: 500, color: '#334155', fontSize: '1rem', marginBottom: 6 }}>
           Distrito (preenchido automaticamente)
-          <input type="text" name="distrito" value={form.distrito || ''} readOnly style={{ background: '#f3f3f3' }} />
+          <input type="text" name="distrito" value={form.distrito || ''} readOnly style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #e0e7ef', background: '#f3f3f3', marginTop: 4, fontSize: '1rem' }} />
         </label>
-        <label>
+        <label style={{ fontWeight: 500, color: '#334155', fontSize: '1rem', marginBottom: 6 }}>
           Conselho (preenchido automaticamente)
-          <input type="text" name="conselho" value={form.conselho || ''} readOnly style={{ background: '#f3f3f3' }} />
+          <input type="text" name="conselho" value={form.conselho || ''} readOnly style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #e0e7ef', background: '#f3f3f3', marginTop: 4, fontSize: '1rem' }} />
         </label>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-          <button type="button" style={{ padding: '4px 10px', fontSize: '0.95rem', borderRadius: '6px', background: '#2563eb', color: '#fff', border: 'none', cursor: 'pointer' }} onClick={buscarLocalizacao}>Buscar localização</button>
-          <label style={{ marginBottom: 0 }}>
+          <button type="button" style={{ padding: '4px 10px', fontSize: '0.95rem', borderRadius: '6px', background: '#2563eb', color: '#fff', border: 'none', cursor: 'pointer', boxShadow: '0 1px 4px rgba(37,99,235,0.08)' }} onClick={buscarLocalizacao}>Buscar localização</button>
+          <label style={{ marginBottom: 0, fontWeight: 500, color: '#334155', fontSize: '1rem' }}>
             Latitude
-            <input type="number" step="any" name="lat" value={form.lat} onChange={handleChange} required />
+            <input type="number" step="any" name="lat" value={form.lat} onChange={handleChange} required style={{ width: '120px', padding: '8px', borderRadius: '8px', border: '1px solid #cbd5e1', marginLeft: 4, fontSize: '1rem' }} />
           </label>
         </div>
 
-        <label>
+        <label style={{ fontWeight: 500, color: '#334155', fontSize: '1rem', marginBottom: 6 }}>
           Longitude
-          <input type="number" step="any" name="lng" value={form.lng} onChange={handleChange} required />
+          <input type="number" step="any" name="lng" value={form.lng} onChange={handleChange} required style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
         </label>
 
-        <label>
+        <label style={{ fontWeight: 500, color: '#334155', fontSize: '1rem', marginBottom: 6 }}>
           Telefone de Contato
-          <input type="text" name="telefone" value={form.telefone} onChange={handleChange} />
+          <input type="text" name="telefone" value={form.telefone} onChange={handleChange} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
         </label>
 
         {/* removido campo Horário da Secretaria */}
 
-        <label>
+        <label style={{ fontWeight: 500, color: '#334155', fontSize: '1rem', marginBottom: 6 }}>
           E-mail
-          <input type="email" name="email" value={form.email} onChange={handleChange} />
+          <input type="email" name="email" value={form.email} onChange={handleChange} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
         </label>
 
-        <label>
+        <label style={{ fontWeight: 500, color: '#334155', fontSize: '1rem', marginBottom: 6 }}>
           Site
-          <input type="url" name="site" value={form.site} onChange={handleChange} />
+          <input type="url" name="site" value={form.site} onChange={handleChange} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
         </label>
 
-        <label>
+        <label style={{ fontWeight: 500, color: '#334155', fontSize: '1rem', marginBottom: 6 }}>
           Link da Imagem
-          <input type="url" name="imagem" value={form.imagem} onChange={handleChange} />
+          <input type="url" name="imagem" value={form.imagem} onChange={handleChange} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
         </label>
 
-        <label>
+        <label style={{ fontWeight: 500, color: '#334155', fontSize: '1rem', marginBottom: 6 }}>
           Facebook
-          <input type="url" name="facebook" value={form.facebook} onChange={handleChange} />
+          <input type="url" name="facebook" value={form.facebook} onChange={handleChange} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
         </label>
 
-        <label>
+        <label style={{ fontWeight: 500, color: '#334155', fontSize: '1rem', marginBottom: 6 }}>
           Instagram
-          <input type="url" name="instagram" value={form.instagram} onChange={handleChange} />
+          <input type="url" name="instagram" value={form.instagram} onChange={handleChange} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
         </label>
 
-        <label>
+        <label style={{ fontWeight: 500, color: '#334155', fontSize: '1rem', marginBottom: 6 }}>
           WhatsApp
-          <input type="text" name="whatsapp" value={form.whatsapp} onChange={handleChange} />
+          <input type="text" name="whatsapp" value={form.whatsapp} onChange={handleChange} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
         </label>
 
-        <button type="submit">Salvar Paróquia</button>
+        <button type="submit" style={{
+          background: 'linear-gradient(90deg,#2563eb 60%,#7c3aed 100%)',
+          color: '#fff',
+          fontWeight: 600,
+          fontSize: '1.08rem',
+          border: 'none',
+          borderRadius: '10px',
+          padding: '12px 0',
+          marginTop: '12px',
+          boxShadow: '0 2px 8px rgba(37,99,235,0.08)',
+          cursor: 'pointer',
+          transition: 'background 0.2s',
+        }}>Salvar Paróquia</button>
       </form>
     </div>
   );
