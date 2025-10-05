@@ -117,13 +117,14 @@ export default function InserirParoquia() {
   return (
     <div className="backoffice-page" style={{
       minHeight: '100vh',
-      width: '100vw',
+      background: 'linear-gradient(120deg,#f8fafc 0%,#e0e7ff 100%)',
       display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'center',
       alignItems: 'center',
-      background: 'linear-gradient(120deg,#f8fafc 0%,#e0e7ff 100%)',
-      padding: 0,
+      justifyContent: 'flex-start',
+      paddingTop: 32,
+      paddingLeft: 0,
+      paddingRight: 0,
       margin: 0,
     }}>
       <h2 style={{ textAlign: 'center', color: '#2563eb', fontWeight: 900, fontSize: '2rem', marginBottom: 18, letterSpacing: '1px' }}>Inserir Paróquia</h2>
@@ -139,19 +140,17 @@ export default function InserirParoquia() {
         message="Paróquia enviada com sucesso!"
         onClose={() => setShowToast(false)}
       />
-      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <form className="backoffice-form" onSubmit={handleSubmit} style={{
-          maxWidth: 480,
-          width: '100%',
-          background: 'linear-gradient(120deg,#f8fafc 0%,#e0e7ff 100%)',
-          borderRadius: '22px',
-          boxShadow: '0 6px 32px rgba(60,60,120,0.13)',
-          padding: window.innerWidth < 600 ? '18px 6px' : '38px 22px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '22px',
-          justifyContent: 'center',
-        }}>
+      <form className="backoffice-form" onSubmit={handleSubmit} style={{
+        maxWidth: 400,
+        margin: '0 auto',
+        background: '#fff',
+        borderRadius: '16px',
+        boxShadow: '0 2px 16px rgba(0,0,0,0.08)',
+        padding: '32px 18px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '18px',
+      }}>
           <div style={{ width: '100%', marginBottom: 8 }}>
             <h3 style={{ textAlign: 'center', color: '#2563eb', fontWeight: 900, fontSize: '1.35rem', marginBottom: 12, letterSpacing: '1px' }}>Dados Básicos</h3>
             <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -253,7 +252,6 @@ export default function InserirParoquia() {
             transition: 'background 0.2s',
           }}>Salvar Paróquia</button>
         </form>
-      </div>
     </div>
   );
 }
