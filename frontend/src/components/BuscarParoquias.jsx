@@ -63,6 +63,29 @@ function BuscarParoquias() {
       .catch(() => setParoquias([]));
   }, [buscaTrim, raio, lat, lng, distrito, conselho]);
 
+  // Adiciona um useEffect para disparar busca ao mudar raio
+  useEffect(() => {
+    const apiUrl = import.meta.env.VITE_API_URL;
+    if (!buscaTrim) {
+      setParoquias([]);
+      return;
+    }
+    let url = `${apiUrl}/api/paroquias?search=${encodeURIComponent(buscaTrim)}`;
+    if (distrito || conselho) {
+      if (distrito) url += `&distrito=${encodeURIComponent(distrito)}`;
+      if (conselho) url += `&conselho=${encodeURIComponent(conselho)}`;
+    } else {
+      url += `&raio=${raio}`;
+      if (lat && lng) {
+        url += `&lat=${lat}&lng=${lng}`;
+      }
+    }
+    fetch(url)
+      .then(res => res.ok ? res.json() : [])
+      .then(data => setParoquias(Array.isArray(data) ? data : []))
+      .catch(() => setParoquias([]));
+  }, [buscaTrim, raio, lat, lng, distrito, conselho]);
+
   return (
     <div style={{
       minHeight: '100vh',
@@ -101,10 +124,14 @@ function BuscarParoquias() {
           flexDirection: isMobile ? 'column' : 'row',
           gap: isMobile ? '18px' : '36px',
           flexWrap: 'wrap',
-          alignItems: isMobile ? 'stretch' : 'flex-end',
+          alignItems: isMobile ? 'center' : 'flex-end',
           justifyContent: 'center',
           border: '2px solid #e0e7ff',
           marginBottom: 32,
+          width: isMobile ? '100%' : undefined,
+          maxWidth: isMobile ? 400 : undefined,
+          marginLeft: isMobile ? 'auto' : undefined,
+          marginRight: isMobile ? 'auto' : undefined,
         }}>
           <label style={{ fontWeight: 800, color: '#2563eb', fontSize: isMobile ? '1.08rem' : '1.18rem', minWidth: isMobile ? 120 : 220, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
             <span style={{ marginBottom: 2 }}>Buscar Paróquia</span>
@@ -176,7 +203,9 @@ function BuscarParoquias() {
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 4 }}><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
               Raio de busca
             </span>
-            <select value={raio} onChange={e => setRaio(Number(e.target.value))} disabled={!!distrito || !!conselho} style={{
+            <select value={raio} onChange={e => {
+              setRaio(Number(e.target.value));
+            }} disabled={!!distrito || !!conselho} style={{
               width: '100%',
               padding: isMobile ? '12px' : '16px',
               borderRadius: '16px',
