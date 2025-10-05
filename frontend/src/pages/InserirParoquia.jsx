@@ -117,14 +117,13 @@ export default function InserirParoquia() {
   return (
     <div className="backoffice-page" style={{
       minHeight: '100vh',
-      background: 'linear-gradient(120deg,#f8fafc 0%,#e0e7ff 100%)',
+      width: '100vw',
       display: 'flex',
       flexDirection: 'column',
+      justifyContent: 'center',
       alignItems: 'center',
-      justifyContent: 'flex-start',
-      paddingTop: 32,
-      paddingLeft: 0,
-      paddingRight: 0,
+      background: 'linear-gradient(120deg,#f8fafc 0%,#e0e7ff 100%)',
+      padding: 0,
       margin: 0,
     }}>
       <h2 style={{ textAlign: 'center', color: '#2563eb', fontWeight: 900, fontSize: '2rem', marginBottom: 18, letterSpacing: '1px' }}>Inserir Paróquia</h2>
@@ -142,7 +141,7 @@ export default function InserirParoquia() {
       />
       <form className="backoffice-form" onSubmit={handleSubmit} style={{
         maxWidth: 400,
-        margin: '0 auto',
+        width: '100%',
         background: '#fff',
         borderRadius: '16px',
         boxShadow: '0 2px 16px rgba(0,0,0,0.08)',
@@ -150,6 +149,7 @@ export default function InserirParoquia() {
         display: 'flex',
         flexDirection: 'column',
         gap: '18px',
+        margin: 0,
       }}>
           <div style={{ width: '100%', marginBottom: 8 }}>
             <h3 style={{ textAlign: 'center', color: '#2563eb', fontWeight: 900, fontSize: '1.35rem', marginBottom: 12, letterSpacing: '1px' }}>Dados Básicos</h3>
