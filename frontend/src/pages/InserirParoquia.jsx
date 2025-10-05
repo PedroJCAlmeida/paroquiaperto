@@ -115,8 +115,19 @@ export default function InserirParoquia() {
   };
 
   return (
-    <div className="backoffice-page">
-      <h2>Inserir Paróquia</h2>
+    <div className="backoffice-page" style={{
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      background: 'linear-gradient(120deg,#f8fafc 0%,#e0e7ff 100%)',
+      paddingTop: 32,
+      paddingLeft: 8,
+      paddingRight: 8,
+      margin: 0,
+    }}>
+      <h2 style={{ textAlign: 'center', color: '#2563eb', fontWeight: 900, fontSize: '2rem', marginBottom: 18, letterSpacing: '1px' }}>Inserir Paróquia</h2>
       <SuccessModal
         show={showModal}
         onClose={() => setShowModal(false)}
@@ -132,7 +143,8 @@ export default function InserirParoquia() {
       <form className="backoffice-form" onSubmit={handleSubmit} style={{
         maxWidth: 480,
         width: '100%',
-        margin: '0 auto',
+        marginLeft: 'auto',
+        marginRight: 'auto',
         background: 'linear-gradient(120deg,#f8fafc 0%,#e0e7ff 100%)',
         borderRadius: '22px',
         boxShadow: '0 6px 32px rgba(60,60,120,0.13)',
@@ -141,6 +153,7 @@ export default function InserirParoquia() {
         flexDirection: 'column',
         gap: '22px',
         alignItems: 'center',
+        justifyContent: 'center',
       }}>
         <div style={{ width: '100%', marginBottom: 8 }}>
           <h3 style={{ textAlign: 'center', color: '#2563eb', fontWeight: 900, fontSize: '1.35rem', marginBottom: 12, letterSpacing: '1px' }}>Dados Básicos</h3>
