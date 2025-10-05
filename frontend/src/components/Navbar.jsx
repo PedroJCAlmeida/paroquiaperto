@@ -97,6 +97,11 @@ const Navbar = () => {
                     zIndex: 1000,
                   }}
                 >
+                  <Link
+                    to="/usuario"
+                    style={{ display: 'block', width: '100%', padding: '10px 16px', background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer', color: '#333', textDecoration: 'none' }}
+                    onClick={() => setShowProfileMenu(false)}
+                  >Configurações</Link>
                   <button
                     style={{ display: 'block', width: '100%', padding: '10px 16px', background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer', color: '#333' }}
                     onClick={() => {

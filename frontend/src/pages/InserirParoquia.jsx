@@ -250,7 +250,7 @@ export default function InserirParoquia() {
             boxShadow: '0 2px 14px rgba(99,102,241,0.15)',
             cursor: 'pointer',
             transition: 'background 0.2s',
-          }}>Salvar Paróquia</button>
+          }}>Salvar</button>
         </form>
     </div>
   );
