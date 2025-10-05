@@ -143,8 +143,7 @@ export default function InserirParoquia() {
       <form className="backoffice-form" onSubmit={handleSubmit} style={{
         maxWidth: 480,
         width: '100%',
-        marginLeft: 'auto',
-        marginRight: 'auto',
+        margin: '0 auto',
         background: 'linear-gradient(120deg,#f8fafc 0%,#e0e7ff 100%)',
         borderRadius: '22px',
         boxShadow: '0 6px 32px rgba(60,60,120,0.13)',
@@ -152,7 +151,6 @@ export default function InserirParoquia() {
         display: 'flex',
         flexDirection: 'column',
         gap: '22px',
-        alignItems: 'center',
         justifyContent: 'center',
       }}>
         <div style={{ width: '100%', marginBottom: 8 }}>
