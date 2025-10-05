@@ -67,9 +67,9 @@ const Navbar = () => {
                     zIndex: 1000,
                   }}
                 >
-                  <Link to="/backoffice/paroquias" className="navbar-link" style={{ display: 'block', padding: '10px 16px' }} onClick={() => setShowBackofficeMenu(false)}>Inserir Paróquia</Link>
-                  <Link to="/backoffice/horarios" className="navbar-link" style={{ display: 'block', padding: '10px 16px' }} onClick={() => setShowBackofficeMenu(false)}>Inserir Horários</Link>
-                  <Link to="/backoffice/eventos" className="navbar-link" style={{ display: 'block', padding: '10px 16px' }} onClick={() => setShowBackofficeMenu(false)}>Inserir Eventos</Link>
+                  <Link to="/backoffice/paroquias" className="navbar-link" style={{ display: 'block', padding: '10px 16px' }} onClick={() => { setShowBackofficeMenu(false); setIsOpen(false); }}>Inserir Paróquia</Link>
+                  <Link to="/backoffice/horarios" className="navbar-link" style={{ display: 'block', padding: '10px 16px' }} onClick={() => { setShowBackofficeMenu(false); setIsOpen(false); }}>Inserir Horários</Link>
+                  <Link to="/backoffice/eventos" className="navbar-link" style={{ display: 'block', padding: '10px 16px' }} onClick={() => { setShowBackofficeMenu(false); setIsOpen(false); }}>Inserir Eventos</Link>
                 </div>
               )}
             </div>
@@ -100,7 +100,7 @@ const Navbar = () => {
                   <Link
                     to="/usuario"
                     style={{ display: 'block', width: '100%', padding: '10px 16px', background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer', color: '#333', textDecoration: 'none' }}
-                    onClick={() => setShowProfileMenu(false)}
+                    onClick={() => { setShowProfileMenu(false); setIsOpen(false); }}
                   >Configurações</Link>
                   <button
                     style={{ display: 'block', width: '100%', padding: '10px 16px', background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer', color: '#333' }}
