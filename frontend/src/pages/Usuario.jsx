@@ -6,58 +6,119 @@ function Usuario() {
   const [paroquias, setParoquias] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [form, setForm] = useState(user);
+  const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   useEffect(() => {
-    // Simula fetch do usuário logado
-    setUser({ nome: 'João da Silva', email: 'joao@email.com', paroquiaPreferida: '2' });
-    setForm({ nome: 'João da Silva', email: 'joao@email.com', paroquiaPreferida: '2' });
-    // Busca lista de paróquias
+    const token = localStorage.getItem('token');
     const apiUrl = import.meta.env.VITE_API_URL;
-    fetch(`${apiUrl}/api/paroquias`)
-      .then(res => res.json())
-      .then(setParoquias)
-      .catch(() => setParoquias([]));
+    setLoading(true);
+    Promise.all([
+      fetch(`${apiUrl}/api/usuario`, {
+        headers: { Authorization: `Bearer ${token}` }
+      }).then(res => res.json()),
+      fetch(`${apiUrl}/api/paroquias`).then(res => res.json())
+    ])
+      .then(([userData, paroquiasData]) => {
+        setUser(userData);
+        setForm({
+          nome: userData.nome || '',
+          email: userData.email || '',
+          paroquiaPreferida: userData.paroquiaPreferida || ''
+        });
+        setParoquias(paroquiasData);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError('Erro ao carregar dados.');
+        setLoading(false);
+      });
   }, []);
 
   const handleChange = e => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSave = e => {
+  const handleSave = async e => {
     e.preventDefault();
-    // Aqui faria chamada ao backend para salvar dados
-    setUser(form);
-    setEditMode(false);
-    // Feedback visual pode ser adicionado
+    setSaving(true);
+    setError('');
+    setSuccess('');
+    const token = localStorage.getItem('token');
+    const apiUrl = import.meta.env.VITE_API_URL;
+    try {
+      const res = await fetch(`${apiUrl}/api/usuario`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(form)
+      });
+      if (!res.ok) throw new Error('Erro ao salvar dados');
+      const updated = await res.json();
+      setUser(updated);
+      setForm({
+        nome: updated.nome || '',
+        email: updated.email || '',
+        paroquiaPreferida: updated.paroquiaPreferida || ''
+      });
+      setSuccess('Dados salvos com sucesso!');
+      setEditMode(false);
+    } catch (err) {
+      setError('Erro ao salvar dados.');
+    } finally {
+      setSaving(false);
+    }
   };
+
+  const paroquiasFiltradas = paroquias.filter(p => {
+    const nome = (p.nomeIgreja || p.nome || '').toLowerCase();
+    return nome.includes(search.toLowerCase());
+  });
 
   return (
     <div className="backoffice-page">
       <h2 style={{ textAlign: 'center', color: '#2563eb', fontWeight: 900, fontSize: '2rem', marginBottom: 18 }}>Área do Usuário</h2>
+      {loading ? <p>Carregando...</p> : (
       <form className="backoffice-form" style={{ maxWidth: 400, margin: '0 auto' }} onSubmit={handleSave}>
+        {error && <div style={{ color: '#e11d48', fontWeight: 700, marginBottom: 8 }}>{error}</div>}
+        {success && <div style={{ color: '#2563eb', fontWeight: 700, marginBottom: 8 }}>{success}</div>}
         <label>
           Nome
-          <input type="text" name="nome" value={form.nome} onChange={handleChange} disabled={!editMode} />
+          <input type="text" name="nome" value={form.nome} onChange={handleChange} disabled={!editMode || saving} />
         </label>
         <label>
           E-mail
-          <input type="email" name="email" value={form.email} onChange={handleChange} disabled={!editMode} />
+          <input type="email" name="email" value={form.email} onChange={handleChange} disabled={!editMode || saving} />
         </label>
         <label>
           Paróquia de preferência
-          <select name="paroquiaPreferida" value={form.paroquiaPreferida} onChange={handleChange} disabled={!editMode}>
+          <input
+            type="text"
+            placeholder="Pesquisar paróquia..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            disabled={!editMode || saving}
+            style={{ marginBottom: 8 }}
+          />
+          <select name="paroquiaPreferida" value={form.paroquiaPreferida} onChange={handleChange} disabled={!editMode || saving}>
             <option value="">Selecione...</option>
-            {paroquias.map(p => (
+            {paroquiasFiltradas.map(p => (
               <option key={p.id} value={p.id}>{p.nomeIgreja || p.nome}</option>
             ))}
           </select>
         </label>
         {editMode ? (
-          <button type="submit">Salvar</button>
+          <button type="submit" disabled={saving}>{saving ? 'Salvando...' : 'Salvar'}</button>
         ) : (
           <button type="button" onClick={() => setEditMode(true)}>Editar</button>
         )}
       </form>
+      )}
     </div>
   );
 }
