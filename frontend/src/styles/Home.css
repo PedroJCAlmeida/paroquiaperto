@@ -1,4 +1,4 @@
-/* --- Container Geral --- */
+/* Container geral */
 .home-container {
   font-family: Arial, sans-serif;
   color: #1f2937;
@@ -7,62 +7,89 @@
   padding: 0;
 }
 
-* {
-  transition: all 0.2s ease-in-out;
+/* --- Header --- */
+.home-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.home-header-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.home-logo {
+  font-size: 1.25rem;
+  color: #2563eb;
+  margin: 0;
+}
+
+.home-nav {
+  display: flex;
+  gap: 24px;
+}
+
+.home-nav-link {
+  color: #4b5563;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.home-nav-link:hover {
+  color: #1e3a8a;
+}
+
+/* Espaço para conteúdo não ficar escondido sob o header */
+.home-hero,
+.home-destaques {
+  padding-top: 80px;
 }
 
 /* --- Hero Section --- */
 .home-hero {
   background: #e0f2fe;
   text-align: center;
-  padding: 80px 16px 60px;
+  padding: 60px 16px 40px;
 }
 
 .home-hero-inner {
-  max-width: 700px;
+  max-width: 600px;
   margin: 0 auto;
 }
 
 .home-hero-title {
-  font-size: 2rem;
+  font-size: 1.75rem;
   margin-bottom: 16px;
-  font-weight: 700;
-  line-height: 1.2;
 }
 
 .home-hero-text {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #4b5563;
   margin-bottom: 24px;
-  line-height: 1.6;
 }
 
 .home-hero-button {
   background-color: #273E54;
   color: #ffffff;
   border: none;
-  padding: 12px 28px;
+  padding: 12px 24px;
   border-radius: 9999px;
   font-size: 1rem;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
 }
 
 .home-hero-button:hover {
   background-color: #EEC651;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-  transform: translateY(-2px);
-}
-
-.home-hero-button:active {
-  transform: scale(0.97);
-}
-
-.home-hero-button .icon {
-  margin-right: 8px;
 }
 
 /* --- Buscar Paróquias --- */
@@ -98,7 +125,7 @@
 .home-highlight-card {
   background: #f9fafb;
   border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   padding: 24px;
   text-align: left;
   transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
@@ -106,7 +133,7 @@
 
 .home-highlight-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
   background-color: #f0f9ff;
 }
 
