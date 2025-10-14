@@ -78,32 +78,39 @@
   z-index: 1001;
   outline: none;
 }
+
 .hamburger {
   width: 100%;
   height: 3px;
   background: #333;
   border-radius: 2px;
   transition: all 0.3s ease-in-out;
+  transform-origin: center; /* essencial para rotacionar centralizado */
 }
+
+/* Hamburger ativo - X perfeito */
 .navbar-toggle.active .hamburger:nth-child(1) {
-  transform: translateY(9.5px) rotate(45deg);
+  transform: rotate(45deg) translate(5px, 5px);
 }
+
 .navbar-toggle.active .hamburger:nth-child(2) {
   opacity: 0;
 }
+
 .navbar-toggle.active .hamburger:nth-child(3) {
-  transform: translateY(-9.5px) rotate(-45deg);
+  transform: rotate(-45deg) translate(5px, -5px);
 }
+
 
 /* Submenus */
 .navbar-submenu {
   position: absolute;
   top: 100%;
   left: 0;
+  min-width: 180px;
   background: #fff;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   border-radius: 4px;
-  min-width: 180px;
   display: flex;
   flex-direction: column;
   z-index: 1000;
