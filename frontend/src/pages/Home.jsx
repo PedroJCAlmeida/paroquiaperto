@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import '../styles/Home.css';
-import { MapPin, Church, HandsPraying, Heart } from 'lucide-react';
+import { MapPin, Church, Heart, HandHeart } from 'lucide-react';
 import BuscarParoquias from '../components/BuscarParoquias';
 
 const Home = () => {
@@ -65,7 +65,7 @@ const Home = () => {
 
           <div className="home-highlight-card">
             <div className="home-highlight-header">
-              <HandsPraying size={24} color="#273E54" />
+              <HandHeart size={24} color="#273E54" />
               <h4>Participe</h4>
             </div>
             <p>
