@@ -149,6 +149,26 @@
   line-height: 1.6;
 }
 
+/* Header visual e ícones nos cards */
+.home-highlight-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.home-highlight-icon {
+  color: #273E54;
+}
+
+.icon-encontre { color: #1d4ed8; }
+.icon-participe { color: #7c3aed; }
+.icon-contribua { color: #ef4444; }
+
+.home-highlight-card:hover .home-highlight-icon.icon-encontre { color: #2563eb; }
+.home-highlight-card:hover .home-highlight-icon.icon-participe { color: #8b5cf6; }
+.home-highlight-card:hover .home-highlight-icon.icon-contribua { color: #f05959; }
+
 /* --- Responsividade --- */
 
 /* Tablets */
