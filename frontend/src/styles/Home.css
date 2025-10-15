@@ -47,9 +47,18 @@
   color: #1e3a8a;
 }
 
+/* Fallback: estiliza âncoras dentro do nav caso a classe não esteja presente */
+.home-nav a {
+  color: #4b5563;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+.home-nav a:hover {
+  color: #1e3a8a;
+}
+
 /* Espaço para conteúdo não ficar escondido sob o header */
-.home-hero,
-.home-destaques {
+.home-hero {
   padding-top: 80px;
 }
 

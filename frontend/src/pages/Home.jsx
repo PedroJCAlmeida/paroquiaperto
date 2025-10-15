@@ -36,9 +36,9 @@ const Home = () => {
         <div className="home-header-inner">
           <h1 className="home-logo">Paróquia Perto</h1>
           <nav className="home-nav">
-            <a href="/">Início</a>
-            <a href="/paroquias">Paróquias</a>
-            <a href="/contato">Contato</a>
+            <a className="home-nav-link" href="/">Início</a>
+            <a className="home-nav-link" href="/paroquias">Paróquias</a>
+            <a className="home-nav-link" href="/contato">Contato</a>
           </nav>
         </div>
       </header>

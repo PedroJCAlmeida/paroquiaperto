@@ -89,6 +89,57 @@
   letter-spacing: 1px !important;
 }
 
+/* Utilitários e seções do formulário */
+.bo-section {
+  width: 100% !important;
+  margin-bottom: 8px !important;
+}
+
+.bo-h3-purple {
+  color: #7c3aed !important;
+}
+
+.bo-h3-amber {
+  color: #f59e0b !important;
+}
+
+.bo-grid-2 {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 14px !important;
+}
+
+.bo-actions {
+  display: flex !important;
+  gap: 10px !important;
+  flex-wrap: wrap !important;
+  margin-bottom: 8px !important;
+}
+
+.bo-btn-secondary {
+  padding: 10px 14px !important;
+  font-size: 1rem !important;
+  border-radius: 10px !important;
+  background: linear-gradient(90deg,#2563eb 60%,#7c3aed 100%) !important;
+  color: #fff !important;
+  border: none !important;
+  cursor: pointer !important;
+  box-shadow: 0 1px 4px rgba(37,99,235,0.08) !important;
+  font-weight: 700 !important;
+}
+
+.bo-latlng {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  flex-wrap: wrap !important;
+}
+
+.bo-latlng input[name="lat"],
+.bo-latlng input[name="lng"] {
+  max-width: 180px !important;
+}
+
 @media (max-width: 600px) {
   .backoffice-page {
     padding: 0 !important;
@@ -112,6 +163,19 @@
   .backoffice-form h3 {
     font-size: 1.08rem !important;
     margin-bottom: 10px !important;
+  }
+
+  .bo-grid-2 {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  .bo-actions {
+    gap: 8px !important;
+  }
+
+  .bo-latlng {
+    gap: 10px !important;
   }
 
   .backoffice-form label {
