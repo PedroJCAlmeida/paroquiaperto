@@ -109,6 +109,56 @@
   min-height: 40vh;
   margin-bottom: 4rem;
 }
+/* Container principal da seção de busca */
+.search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centraliza horizontalmente */
+  justify-content: flex-start;
+  text-align: center;
+  width: 100%;
+  max-width: 500px; /* Evita ficar muito largo em telas grandes */
+  margin: 0 auto; /* Centraliza o container */
+  padding: 1rem;
+}
+
+/* Ajusta os campos de input e selects */
+.search-container input,
+.search-container select {
+  width: 100%;
+  max-width: 400px;
+  margin: 0.5rem 0;
+  box-sizing: border-box;
+}
+
+/* Título “Buscar Paróquia” */
+.search-container h1,
+.search-container h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+/* Botão principal */
+.search-container button {
+  width: 100%;
+  max-width: 400px;
+  margin-top: 1rem;
+}
+
+/* Ajustes específicos para mobile */
+@media (max-width: 768px) {
+  .search-container {
+    padding: 1rem;
+    max-width: 90%;
+  }
+
+  .search-container input,
+  .search-container select,
+  .search-container button {
+    max-width: 100%;
+  }
+}
 
 /* --- Destaques --- */
 .home-highlights {
