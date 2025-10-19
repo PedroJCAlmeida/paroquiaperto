@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/BuscarParoquias.css';
 
-function BuscarParoquias() {
+function BuscarParoquias({ embedded = false }) {
   const [busca, setBusca] = useState('');
   const [paroquias, setParoquias] = useState([]);
   const [raio, setRaio] = useState(10); // valor padrão 10km
@@ -88,10 +88,10 @@ function BuscarParoquias() {
 
   return (
     <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(120deg, #f8fafc 0%, #e0e7ff 100%)',
-      padding: '0',
-      margin: '0',
+      minHeight: embedded ? undefined : '100vh',
+      background: embedded ? 'transparent' : 'linear-gradient(120deg, #f8fafc 0%, #e0e7ff 100%)',
+      padding: 0,
+      margin: 0,
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -106,6 +106,7 @@ function BuscarParoquias() {
         paddingLeft: 16,
         paddingRight: 16,
       }}>
+        {!embedded && (
         <h2 style={{
           textAlign: 'center',
           fontSize: '2.3rem',
@@ -115,11 +116,12 @@ function BuscarParoquias() {
           marginBottom: 32,
           textShadow: '0 2px 16px #e0e7ff',
         }}>Buscar Paróquias</h2>
+        )}
         <form style={{
           background: 'rgba(255,255,255,0.98)',
           borderRadius: '26px',
           boxShadow: '0 6px 36px rgba(60, 60, 120, 0.15)',
-          padding: isMobile ? '24px 8px' : '44px 38px',
+          padding: isMobile ? '24px 8px' : (embedded ? '28px 24px' : '44px 38px'),
           display: 'flex',
           flexDirection: isMobile ? 'column' : 'row',
           gap: isMobile ? '18px' : '36px',
@@ -128,10 +130,10 @@ function BuscarParoquias() {
           justifyContent: 'center',
           border: '2px solid #e0e7ff',
           marginBottom: 32,
-          width: isMobile ? '100%' : undefined,
-          maxWidth: isMobile ? 400 : undefined,
-          marginLeft: isMobile ? 'auto' : undefined,
-          marginRight: isMobile ? 'auto' : undefined,
+          width: '100%',
+          maxWidth: isMobile ? 400 : (embedded ? 840 : 760),
+          marginLeft: 'auto',
+          marginRight: 'auto',
         }}>
           <label style={{ fontWeight: 800, color: '#2563eb', fontSize: isMobile ? '1.08rem' : '1.18rem', minWidth: isMobile ? 120 : 220, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
             <span style={{ marginBottom: 2 }}>Buscar Paróquia</span>

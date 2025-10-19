@@ -63,7 +63,7 @@ const Home = () => {
 
       {/* Buscar Paróquias */}
       <div className="home-search-area">
-        <BuscarParoquias />
+        <BuscarParoquias embedded />
       </div>
 
       {/* Destaques */}
