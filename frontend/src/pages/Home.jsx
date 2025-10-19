@@ -62,7 +62,7 @@ const Home = () => {
       </section>
 
       {/* Buscar Paróquias */}
-      <div className="search-container">
+      <div className="home-search-area">
         <BuscarParoquias />
       </div>
 
