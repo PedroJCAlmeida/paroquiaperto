@@ -1,3 +1,7 @@
+/* Wrapper para unificar o background do herói e da busca */
+.home-hero-wrap {
+  background: linear-gradient(180deg, #e0f2fe 0%, #e0f2fe 64%, #f9fafb 64%);
+}
 /* Container geral */
 .home-container {
   font-family: Arial, sans-serif;
@@ -64,7 +68,7 @@
 
 /* --- Hero Section --- */
 .home-hero {
-  background: #e0f2fe;
+  background: transparent; /* usa o gradiente do wrapper */
   text-align: center;
   padding: 60px 16px 40px;
 }
@@ -182,6 +186,10 @@
 
 /* Tablets */
 @media (max-width: 900px) {
+  .home-hero-wrap {
+    background: linear-gradient(180deg, #e0f2fe 0%, #e0f2fe 72%, #f9fafb 72%);
+  }
+
   .home-hero {
     padding: 60px 16px 40px;
   }
@@ -197,10 +205,19 @@
   .home-highlights {
     padding: 40px 16px;
   }
+
+  .home-search-area {
+    min-height: 0;
+    margin-bottom: 3rem;
+  }
 }
 
 /* Celulares */
 @media (max-width: 600px) {
+  .home-hero-wrap {
+    background: linear-gradient(180deg, #e0f2fe 0%, #e0f2fe 78%, #f9fafb 78%);
+  }
+
   .home-hero {
     padding: 40px 12px 30px;
   }
@@ -229,5 +246,10 @@
 
   .home-highlights-grid {
     gap: 16px;
+  }
+
+  .home-search-area {
+    min-height: 0;
+    margin-bottom: 2rem;
   }
 }

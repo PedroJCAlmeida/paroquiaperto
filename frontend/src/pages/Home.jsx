@@ -43,27 +43,29 @@ const Home = () => {
         </div>
       </header>
 
-      <section className="home-hero">
-        <div className="home-hero-inner">
-          <h2 className="home-hero-title">
-            Encontre a paróquia mais próxima de você
-          </h2>
-          <p className="home-hero-text">
-            Com base na sua localização, mostramos a igreja católica mais perto.
-          </p>
-          <button
-            className="home-hero-button"
-            onClick={handleEncontrar}
-          >
-            <MapPin size={20} style={{ marginRight: '8px' }} />
-            Encontrar Paróquia Perto
-          </button>
-        </div>
-      </section>
+      <div className="home-hero-wrap">
+        <section className="home-hero">
+          <div className="home-hero-inner">
+            <h2 className="home-hero-title">
+              Encontre a paróquia mais próxima de você
+            </h2>
+            <p className="home-hero-text">
+              Com base na sua localização, mostramos a igreja católica mais perto.
+            </p>
+            <button
+              className="home-hero-button"
+              onClick={handleEncontrar}
+            >
+              <MapPin size={20} style={{ marginRight: '8px' }} />
+              Encontrar Paróquia Perto
+            </button>
+          </div>
+        </section>
 
-      {/* Buscar Paróquias */}
-      <div className="home-search-area">
-        <BuscarParoquias embedded />
+        {/* Buscar Paróquias */}
+        <div className="home-search-area">
+          <BuscarParoquias embedded />
+        </div>
       </div>
 
       {/* Destaques */}
