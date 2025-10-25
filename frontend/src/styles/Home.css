@@ -1,6 +1,6 @@
-/* Wrapper para unificar o background do herói e da busca */
+/* Wrapper do herói + busca (fundo neutro e consistente) */
 .home-hero-wrap {
-  background: linear-gradient(180deg, #e0f2fe 0%, #e0f2fe 64%, #f9fafb 64%);
+  background: #f9fafb; /* mantém a mesma base do container para evitar "quebra" de camadas */
 }
 /* Container geral */
 .home-container {
@@ -110,8 +110,9 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  min-height: 40vh;
-  margin-bottom: 4rem;
+  padding: 8px 16px 48px; /* espaçamento previsível em vez de altura mínima variável */
+  margin: 0 auto;
+  max-width: 1100px; /* mantém o conteúdo centralizado de forma consistente */
 }
 
 /* --- Destaques --- */
@@ -186,10 +187,6 @@
 
 /* Tablets */
 @media (max-width: 900px) {
-  .home-hero-wrap {
-    background: linear-gradient(180deg, #e0f2fe 0%, #e0f2fe 72%, #f9fafb 72%);
-  }
-
   .home-hero {
     padding: 60px 16px 40px;
   }
@@ -207,17 +204,13 @@
   }
 
   .home-search-area {
-    min-height: 0;
-    margin-bottom: 3rem;
+    padding: 8px 16px 40px;
+    max-width: 96vw;
   }
 }
 
 /* Celulares */
 @media (max-width: 600px) {
-  .home-hero-wrap {
-    background: linear-gradient(180deg, #e0f2fe 0%, #e0f2fe 78%, #f9fafb 78%);
-  }
-
   .home-hero {
     padding: 40px 12px 30px;
   }
@@ -249,7 +242,7 @@
   }
 
   .home-search-area {
-    min-height: 0;
-    margin-bottom: 2rem;
+    padding: 4px 12px 28px;
+    max-width: 98vw;
   }
 }
