@@ -76,7 +76,7 @@ export default function Mapa({ paroquias = [], coords, onBoundsChange }) {
             <Popup>
               <strong>{p.nome}</strong><br />
               {p.endereco}<br />
-              {p.distancia && `${p.distancia.toFixed ? p.distancia.toFixed(1) : p.distancia} km`}
+              {typeof p.distancia === 'number' ? `${p.distancia.toFixed(1)} km` : p.distancia || ''}
             </Popup>
           </Marker>
         );
