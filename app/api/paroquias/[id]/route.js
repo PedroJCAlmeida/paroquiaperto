@@ -5,8 +5,9 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET(request, { params }) {
   try {
+    const { id } = await params;
     const paroquia = await prisma.paroquia.findUnique({
-      where: { id: parseInt(params.id) },
+      where: { id: parseInt(id) },
       include: { distrito: true, conselho: true, horarios: true, eventos: true }
     });
     if (!paroquia) {
