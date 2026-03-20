@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { FaUserCircle } from 'react-icons/fa';
 import '@/styles/Navbar.css';
@@ -30,7 +31,7 @@ const Navbar = () => {
     <header className="navbar">
       <div className="navbar-inner">
         <Link href="/" className="navbar-logo" onClick={() => setIsOpen(false)}>
-          <img src="/logo.png" alt="Paróquia Perto" />
+          <Image src="/logo.png" alt="Paróquia Perto" width={120} height={40} priority />
         </Link>
         <button
           className={isOpen ? 'active navbar-toggle' : 'navbar-toggle'}
