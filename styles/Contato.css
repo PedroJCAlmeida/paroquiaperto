@@ -1,0 +1,121 @@
+.contato-page {
+  max-width: 960px;
+  margin: 100px auto 40px;
+  padding: 0 16px;
+  font-family: Arial, sans-serif;
+  color: #1f2937;
+}
+
+.contato-title {
+  text-align: center;
+  font-size: 1.75rem;
+  margin-bottom: 32px;
+}
+
+/* Grid para form + redes */
+.contato-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+@media (min-width: 768px) {
+  .contato-grid {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+/* Formulário */
+.contato-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contato-form label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.95rem;
+  color: #4b5563;
+}
+
+.contato-form input,
+.contato-form textarea {
+  margin-top: 4px;
+  padding: 10px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.contato-form input:focus,
+.contato-form textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.contato-submit {
+  background-color: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 14px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.contato-submit:hover {
+  background-color: #1e40af;
+}
+
+.contato-status {
+  margin-top: 12px;
+  color: #16a34a;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Redes Sociais */
+.contato-redes {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rede-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.2s ease;
+}
+
+.rede-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.rede-icon {
+  flex-shrink: 0;
+  color: #2563eb;
+}
+
+.rede-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.rede-titulo {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.rede-texto {
+  font-size: 0.9rem;
+  color: #4b5563;
+}

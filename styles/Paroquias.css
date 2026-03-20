@@ -1,0 +1,54 @@
+/* Responsividade Paróquias */
+@media (max-width: 900px) {
+  .paroquias-page {
+    max-width: 98vw !important;
+    margin: 80px auto 24px !important;
+    padding: 0 2vw !important;
+  }
+  .paroquias-title {
+    font-size: 1.25rem !important;
+    margin-bottom: 16px !important;
+  }
+  .paroquias-lista {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+  .paroquias-mapa {
+    margin-bottom: 18px !important;
+  }
+}
+@media (max-width: 600px) {
+  .paroquias-page {
+    margin: 60px auto 12px !important;
+    padding: 0 1vw !important;
+  }
+  .paroquias-title {
+    font-size: 1.08rem !important;
+    margin-bottom: 10px !important;
+  }
+  .paroquias-lista {
+    gap: 10px !important;
+  }
+}
+.paroquias-page {
+  max-width: 960px;
+  margin: 100px auto 40px;
+  padding: 0 16px;
+}
+
+.paroquias-title {
+  font-size: 1.75rem;
+  text-align: center;
+  color: #1f2937;
+  margin-bottom: 24px;
+}
+
+.paroquias-mapa {
+  margin-bottom: 32px;
+}
+
+.paroquias-lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}

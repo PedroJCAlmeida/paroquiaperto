@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  password     String
+  authProvider String   @default("local")
+  @@map("users")
+}
+
+model Distrito {
+  id        Int        @id @default(autoincrement())
+  nome      String     @unique
+  conselhos Conselho[]
+  paroquias Paroquia[]
+  @@map("distritos")
+}
+
+model Conselho {
+  id         Int        @id @default(autoincrement())
+  nome       String
+  distrito   Distrito   @relation(fields: [distritoId], references: [id])
+  distritoId Int
+  paroquias  Paroquia[]
+  @@map("conselhos")
+}
+
+model Paroquia {
+  id         Int       @id @default(autoincrement())
+  nome       String
+  endereco   String
+  lat        String
+  lng        String
+  telefone   String?
+  email      String?
+  site       String?
+  imagem     String?
+  facebook   String?
+  instagram  String?
+  whatsapp   String?
+  descricao  String?
+  horarios   Horario[]
+  eventos    Evento[]
+  distrito   Distrito? @relation(fields: [distritoId], references: [id])
+  conselho   Conselho? @relation(fields: [conselhoId], references: [id])
+  distritoId Int?
+  conselhoId Int?
+  @@map("paroquias")
+}
+
+model Horario {
+  id         Int      @id @default(autoincrement())
+  diaSemana  String
+  hora       String
+  tipo       String
+  paroquia   Paroquia @relation(fields: [paroquiaId], references: [id])
+  paroquiaId Int
+  @@map("horarios")
+}
+
+model Evento {
+  id         Int      @id @default(autoincrement())
+  titulo     String
+  data       String
+  hora       String
+  descricao  String?
+  imagem     String?
+  paroquia   Paroquia @relation(fields: [paroquiaId], references: [id])
+  paroquiaId Int
+  @@map("eventos")
+}
