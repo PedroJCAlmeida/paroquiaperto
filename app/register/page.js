@@ -36,6 +36,9 @@ const RegistarUtilizador = () => {
       const response = await axios.post('/api/auth/register', { name, email, password });
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
+        if (response.data.user?.role) {
+          localStorage.setItem('role', response.data.user.role);
+        }
         setSuccess('Registo efetuado com sucesso! Redirecionando...');
         setTimeout(() => router.push('/'), 1500);
       } else {
