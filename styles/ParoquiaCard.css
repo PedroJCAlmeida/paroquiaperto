@@ -1,0 +1,92 @@
+.paroquia-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #fff;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.paroquia-card-interno {
+  width: 100%;
+}
+
+.paroquia-card-conteudo {
+  flex-grow: 1;
+}
+
+.paroquia-card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.paroquia-card p {
+  display: flex;
+  align-items: center;
+  margin: 4px 0;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.paroquia-card p svg {
+  margin-right: 6px;
+}
+
+.paroquia-card span {
+  font-weight: bold;
+  color: #2c7a7b;
+}
+
+.saberMaisAreaButton{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+  width: 100%;
+  
+}
+
+.saberMais{
+  display: flex;
+  justify-content: center;
+  
+}
+
+
+.saberMais-button, .saberMais-button:visited {
+  background-color: #273E54;
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 9999px;
+  font-size: 1rem;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.saberMais-button:hover {
+  background-color: #EEC651;
+  color: #273E54;
+}
+
+.swal2-html-container img {
+  width: 100%; 
+  max-width: 337px;
+}
+
+.swal2-confirm{
+  width: 100%;
+  max-width: 337px;
+  background-color: #273E54;
+  border-radius: 20px;
+  color: #ffffff;
+  padding: 10px 30px;
+}
+

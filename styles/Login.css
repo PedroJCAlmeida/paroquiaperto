@@ -1,0 +1,213 @@
+/* src/styles/Login.css */
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 65px);
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #f8f9fa;
+}
+
+/* --- Novo estilo para o logo na página de login --- */
+.login-logo-wrapper {
+    margin-bottom: 20px; /* Espaço abaixo do logo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-logo {
+    height: 60px; /* Ajuste o tamanho conforme preferir */
+    width: auto;
+    max-width: 100%; /* Garante que o logo não ultrapasse o container em telas pequenas */
+}
+
+/* O resto do CSS do login.css continua aqui... */
+
+/* Estilos para o formulário */
+.login-form {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+}
+
+.form-group input {
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    outline: none;
+}
+
+.login-button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+    margin-top: 10px;
+}
+
+.login-button:hover {
+    background-color: #0056b3;
+}
+
+.login-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.loading-message {
+    color: #007bff;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.error-message {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.login-container p {
+    margin-top: 15px;
+    font-size: 0.95rem;
+    color: #555;
+    text-align: center;
+}
+
+.login-container p a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.login-container p a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+.google-login-button-wrapper { /* Mantenha se for reativar o Google Login */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: 300px;
+}
+
+/* --- Responsividade --- */
+@media (max-width: 768px) {
+    .login-container {
+        padding: 0 !important;
+        min-height: 100vh !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    .login-form {
+        max-width: 98vw !important;
+        width: 98vw !important;
+        padding: 18px 3vw !important;
+        border-radius: 14px !important;
+        gap: 18px !important;
+        margin: 0 auto !important;
+        box-sizing: border-box !important;
+    }
+
+    .login-logo {
+        height: 48px !important;
+    }
+    .login-button {
+        font-size: 1rem !important;
+        padding: 12px 0 !important;
+        margin-top: 10px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container h2 {
+        font-size: 1.3rem !important;
+    }
+    .login-form {
+        padding: 12px 2vw !important;
+        gap: 12px !important;
+    }
+    .login-logo {
+        height: 38px !important;
+    }
+}
+
+/* src/styles/Login.css */
+
+/* ... (Mantenha todo o CSS existente para .login-container, .login-logo-wrapper, .login-logo, etc.) ... */
+
+/* Adicione esta classe para mensagens de sucesso */
+.success-message {
+    color: #155724; /* Verde escuro */
+    background-color: #d4edda; /* Fundo verde claro */
+    border: 1px solid #c3e6cb;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* ... (Mantenha o resto do CSS existente para .login-form, .form-group, .login-button, etc.) ... */
+
+/* Certifique-se de que as media queries também estão abrangendo os novos campos */
+@media (max-width: 768px) {
+    /* ... (Mantenha os estilos existentes para telas menores) ... */
+    .login-form {
+        /* Garanta que o padding e gap se ajustem bem */
+        padding: 20px;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* ... (Mantenha os estilos existentes para telas muito pequenas) ... */
+    .login-form {
+        padding: 15px;
+    }
+}

@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "nome": "Sé do Porto",
+    "lat": 41.142517,
+    "lng": -8.61104,
+    "endereco": "Largo da Sé",
+    "descricao": "A Sé do Porto, também conhecida como Catedral da Sé, é um dos principais monumentos da cidade do Porto, em Portugal. É um exemplo notável da arquitetura românica e gótica, com uma história rica que remonta ao século XII.",
+    "contato": "+ 351 22 201 28 00",
+    "email": "contato@se-do-porto.pt",
+    "site": "https://www.se-do-porto.pt/",
+    "instagram": "https://www.instagram.com/igrejadose/",
+    "facebook": "https://www.facebook.com/igrejadose/",
+    "imagem": "https://i0.wp.com/walkinporto.com/wp-content/uploads/2021/04/terreiro_se_813_490.jpg",
+    "whatsapp": "+351222012800",
+    "horarios": [
+      "(seg-sex) 12h00 - 13h00",
+      "(sábados) 18h00 - 19h00",
+      "(domingo )20h00 - 21h00"
+    ]
+    
+  },
+  {
+    "id": 2,
+    "nome": "Igreja de São Francisco",
+    "lat": 41.14311,
+    "lng": -8.61172,
+    "endereco": "Rua do Infante D. Henrique, 4050-297 Porto",
+    "descricao": "Principal templo gótico do Porto, com interior barroco ricamente decorado em talha dourada dos séculos XVII e XVIII. Destaca-se a Árvore de Jessé e o Cemitério Catacumbal. Monumento Nacional desde 1910 e Património Mundial da UNESCO desde 1996.",
+    "contato": "+351 222 062 125",
+    "email": "museu@ordemsaofrancisco.pt",
+    "site": "https://visitporto.travel/pt-PT/poi/5cd04b44f979e00001d9a7ef",
+    "instagram": "",
+    "facebook": "",
+    "imagem": "",
+    "whatsapp": "+351 969 550 167",
+    "horarios": [
+      "(jan, fev, nov, dez) 09h00 - 18h00",
+      "(mar, abr, mai, jun, out) 09h00 - 20h00",
+      "(jul, ago, set) 09h00 - 20h00"
+  ]
+  },
+  {
+    "id": 3,
+    "nome": "Paróquia de Cedofeita",
+    "lat": 41.1543,
+    "lng": -8.62804,
+    "endereco": "Rua da Igreja de Cedofeita, 4, 4050-177 Porto",
+    "descricao": "Igreja paroquial histórica com serviços religiosos e sociais. Oferece Eucaristias, batismos e casamentos, além de apoio comunitário através do seu Centro Social.",
+    "contato": "+351 222 000 635",
+    "email": "cartorioparoquialcedofeita@gmail.com",
+    "site": "https://igrejacedofeita.wixsite.com/website",
+    "instagram": "",
+    "facebook": "",
+    "imagem": "",
+    "whatsapp": "",
+    "horarios": [
+      "(sábado) 15h30, 19h00",
+      "(domingo) 10h00, 12h00, 18h00 (sj), 19h15 (sj), 21h30"
+  ]
+  },
+  {
+    "id": 4,
+    "nome": "Igreja de Santo Ildefonso",
+    "lat": 41.1513,
+    "lng": -8.6115,
+    "endereco": "Praça da Batalha, 4000-101 Porto",
+    "descricao": "Igreja barroca construída entre 1709 e 1739. A fachada é revestida com cerca de 11.000 azulejos de Jorge Colaço, representando cenas da vida de Santo Ildefonso. No interior, destaca-se o retábulo em talha barroca e rococó da primeira metade do século XVIII.",
+    "contato": "+351 222 004 366",
+    "email": "santoildefonso@hotmail.com",
+    "site": "https://visitporto.travel/pt-PT/poi/5cd04b43f979e000013bee74",
+    "instagram": "",
+    "facebook": "",
+    "imagem": "",
+    "whatsapp": "",
+    "horarios": [
+      "(segunda-feira) 15h00 - 18h00",
+      "(terça a sexta-feira) 09h00 - 12h00, 15h00 - 18h30",
+      "(sábado) 09h00 - 12h00, 15h00 - 20h00",
+      "(domingo) 09h00 - 12h45, 18h00 - 19h45"
+  ]
+  },
+  {
+    "id": 5,
+    "nome": "Igreja de Nossa Senhora da Conceição",
+    "lat": 41.142,
+    "lng": -8.6135,
+    "endereco": "Praça Marquês de Pombal, 111, 4000-391 Porto",
+    "descricao": "Igreja neo-gótica construída entre 1938 e 1947, com influências bizantinas e árabes. Possui uma torre de 50 metros com o miradouro mais alto da cidade e um carrilhão de 18 sinos.",
+    "contato": "+351 225 072 190",
+    "email": "senhoraconceicao@gmail.com",
+    "site": "https://visitporto.travel/pt-PT/poi/5cd04b43f979e000013bee43",
+    "instagram": "",
+    "facebook": "",
+    "imagem": "",
+    "whatsapp": "+351 916 325 055",
+    "horarios": [
+      "(segunda a sábado) 08h00 - 20h00",
+      "(domingo) 08h30 - 13h00, 17h30 - 20h00"
+    ]
+  }
+]
