@@ -24,8 +24,8 @@ export async function POST(request) {
       });
     }
 
-    const jwtToken = await signJWT({ sub: String(user.id), email: user.email, name: user.name });
-    return NextResponse.json({ token: jwtToken, user: { id: user.id, name: user.name, email: user.email } });
+    const jwtToken = await signJWT({ sub: String(user.id), email: user.email, name: user.name, role: user.role });
+    return NextResponse.json({ token: jwtToken, user: { id: user.id, name: user.name, email: user.email, role: user.role } });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: 'Erro interno do servidor.' }, { status: 500 });

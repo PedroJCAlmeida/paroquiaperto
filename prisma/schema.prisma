@@ -8,12 +8,37 @@ datasource db {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  name         String
-  email        String   @unique
-  password     String
-  authProvider String   @default("local")
+  id                Int       @id @default(autoincrement())
+  name              String
+  email             String    @unique
+  password          String
+  authProvider      String    @default("local")
+  role              String    @default("user")
+  escaloesTreinador Escalao[] @relation("EscalaoTreinador")
+  escaloesDelegado  Escalao[] @relation("EscalaoDelegado")
+  escaloesAuxiliar  Escalao[] @relation("EscalaoAuxiliar")
   @@map("users")
+}
+
+model Clube {
+  id       Int       @id @default(autoincrement())
+  nome     String
+  escaloes Escalao[]
+  @@map("clubes")
+}
+
+model Escalao {
+  id          Int    @id @default(autoincrement())
+  nome        String
+  clube       Clube  @relation(fields: [clubeId], references: [id])
+  clubeId     Int
+  treinador   User?  @relation("EscalaoTreinador", fields: [treinadorId], references: [id])
+  treinadorId Int?
+  delegado    User?  @relation("EscalaoDelegado", fields: [delegadoId], references: [id])
+  delegadoId  Int?
+  auxiliar    User?  @relation("EscalaoAuxiliar", fields: [auxiliarId], references: [id])
+  auxiliarId  Int?
+  @@map("escaloes")
 }
 
 model Distrito {

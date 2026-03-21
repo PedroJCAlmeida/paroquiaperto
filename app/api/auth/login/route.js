@@ -17,8 +17,8 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Palavra-passe incorreta.' }, { status: 401 });
     }
 
-    const token = await signJWT({ sub: String(user.id), email: user.email, name: user.name });
-    return NextResponse.json({ token, user: { id: user.id, name: user.name, email: user.email } });
+    const token = await signJWT({ sub: String(user.id), email: user.email, name: user.name, role: user.role });
+    return NextResponse.json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role } });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: 'Erro interno do servidor.' }, { status: 500 });

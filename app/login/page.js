@@ -22,6 +22,9 @@ const Login = () => {
       });
       if (response.status === 200 && response.data.token) {
         localStorage.setItem('token', response.data.token);
+        if (response.data.user?.role) {
+          localStorage.setItem('role', response.data.user.role);
+        }
         router.push('/');
       } else {
         setError('Falha na autenticação Google.');
@@ -41,6 +44,9 @@ const Login = () => {
       const response = await axios.post('/api/auth/login', { email, password });
       if (response.status === 200 && response.data.token) {
         localStorage.setItem('token', response.data.token);
+        if (response.data.user?.role) {
+          localStorage.setItem('role', response.data.user.role);
+        }
         router.push('/');
       } else {
         setError('Email ou palavra-passe inválidos.');

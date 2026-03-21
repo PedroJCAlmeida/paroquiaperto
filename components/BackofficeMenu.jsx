@@ -1,12 +1,13 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Home, Calendar, PlusCircle } from 'lucide-react';
+import { Home, Calendar, PlusCircle, Shield } from 'lucide-react';
 import '@/styles/BackofficeMenu.css';
 
 export default function BackofficeMenu() {
   const [expanded, setExpanded] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [userRole, setUserRole] = useState(null);
 
   React.useEffect(() => {
     const checkMobile = () => {
@@ -16,6 +17,10 @@ export default function BackofficeMenu() {
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    setUserRole(localStorage.getItem('role'));
   }, []);
 
   const handleNavClick = () => {
@@ -61,6 +66,23 @@ export default function BackofficeMenu() {
               {expanded && <span>Inserir Eventos</span>}
             </Link>
           </li>
+          {userRole === 'coordenador_futebol' && (
+            <>
+              {expanded && <li style={{ width: '100%', paddingLeft: isMobile ? '2rem' : '0.5rem', fontSize: '0.75rem', color: '#6b7280', fontWeight: 700, letterSpacing: 1, textTransform: 'uppercase', marginTop: isMobile ? '1rem' : '0.5rem' }}>Futebol</li>}
+              <li>
+                <Link href="/backoffice/futebol/clubes" style={{ display: 'flex', alignItems: 'center', color: '#16a34a', textDecoration: 'none', fontWeight: 'bold', fontSize: isMobile ? '1.3rem' : '1rem', padding: isMobile ? '1rem 2rem' : '0.5rem 0', width: '100%' }} onClick={handleNavClick}>
+                  <Shield size={isMobile ? 28 : 22} style={{ marginRight: expanded ? '12px' : '0' }} />
+                  {expanded && <span>Inserir Clube</span>}
+                </Link>
+              </li>
+              <li>
+                <Link href="/backoffice/futebol/escaloes" style={{ display: 'flex', alignItems: 'center', color: '#16a34a', textDecoration: 'none', fontWeight: 'bold', fontSize: isMobile ? '1.3rem' : '1rem', padding: isMobile ? '1rem 2rem' : '0.5rem 0', width: '100%' }} onClick={handleNavClick}>
+                  <Shield size={isMobile ? 28 : 22} style={{ marginRight: expanded ? '12px' : '0' }} />
+                  {expanded && <span>Inserir Escalão</span>}
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
     </>
