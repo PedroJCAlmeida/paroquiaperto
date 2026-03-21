@@ -14,6 +14,7 @@ model User {
   password          String
   authProvider      String    @default("local")
   role              String    @default("user")
+  imagem            String?
   escaloesTreinador Escalao[] @relation("EscalaoTreinador")
   escaloesDelegado  Escalao[] @relation("EscalaoDelegado")
   escaloesAuxiliar  Escalao[] @relation("EscalaoAuxiliar")
@@ -23,22 +24,38 @@ model User {
 model Clube {
   id       Int       @id @default(autoincrement())
   nome     String
+  escudo   String?
   escaloes Escalao[]
+  atletas  Atleta[]
   @@map("clubes")
 }
 
 model Escalao {
-  id          Int    @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   nome        String
-  clube       Clube  @relation(fields: [clubeId], references: [id])
+  clube       Clube    @relation(fields: [clubeId], references: [id])
   clubeId     Int
-  treinador   User?  @relation("EscalaoTreinador", fields: [treinadorId], references: [id])
+  treinador   User?    @relation("EscalaoTreinador", fields: [treinadorId], references: [id])
   treinadorId Int?
-  delegado    User?  @relation("EscalaoDelegado", fields: [delegadoId], references: [id])
+  delegado    User?    @relation("EscalaoDelegado", fields: [delegadoId], references: [id])
   delegadoId  Int?
-  auxiliar    User?  @relation("EscalaoAuxiliar", fields: [auxiliarId], references: [id])
+  auxiliar    User?    @relation("EscalaoAuxiliar", fields: [auxiliarId], references: [id])
   auxiliarId  Int?
+  atletas     Atleta[]
   @@map("escaloes")
+}
+
+model Atleta {
+  id        Int     @id @default(autoincrement())
+  nome      String
+  posicao   String?
+  numero    Int?
+  imagem    String?
+  clube     Clube   @relation(fields: [clubeId], references: [id])
+  clubeId   Int
+  escalao   Escalao? @relation(fields: [escalaoId], references: [id])
+  escalaoId Int?
+  @@map("atletas")
 }
 
 model Distrito {
