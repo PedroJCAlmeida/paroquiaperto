@@ -30,7 +30,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'O nome do clube é obrigatório.' }, { status: 400 });
     }
 
-    const clube = await prisma.clube.create({ data: { nome: data.nome, escudo: data.escudo || null } });
+    const clube = await prisma.clube.create({ data: { nome: data.nome } });
     return NextResponse.json(clube, { status: 201 });
   } catch (error) {
     console.error(error);
