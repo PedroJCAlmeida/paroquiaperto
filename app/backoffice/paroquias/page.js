@@ -10,10 +10,13 @@ export default function InserirParoquia() {
   const initialForm = {
     nome: '', rua: '', numero: '', codigoPostal: '', cidade: '',
     distrito: '', conselho: '', lat: '', lng: '', telefone: '',
-    email: '', descricao: '', site: '', imagem: '', facebook: '',
+    email: '', descricao: '', site: '', facebook: '',
     instagram: '', whatsapp: '',
   };
   const [form, setForm] = useState(initialForm);
+  const [imagemFile, setImagemFile] = useState(null);
+  const [imagemPreview, setImagemPreview] = useState('');
+  const [uploading, setUploading] = useState(false);
 
   const handleChange = (e) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -55,12 +58,42 @@ export default function InserirParoquia() {
     }
   };
 
+  const handleImagemChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImagemFile(file);
+      setImagemPreview(URL.createObjectURL(file));
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
+      let imagemUrl = form.imagem || null;
+
+      if (imagemFile) {
+        setUploading(true);
+        const formData = new FormData();
+        formData.append('file', imagemFile);
+        formData.append('folder', 'paroquias');
+        const uploadRes = await fetch('/api/upload', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` },
+          body: formData,
+        });
+        setUploading(false);
+        if (!uploadRes.ok) {
+          const err = await uploadRes.json();
+          alert(`Erro ao fazer upload da imagem: ${err.error || uploadRes.status}`);
+          return;
+        }
+        const uploadData = await uploadRes.json();
+        imagemUrl = uploadData.url;
+      }
+
       const enderecoCompleto = `${form.rua}, ${form.numero}, ${form.codigoPostal} ${form.cidade}`;
-      const payload = { ...form, endereco: enderecoCompleto, lat: String(form.lat), lng: String(form.lng) };
+      const payload = { ...form, imagem: imagemUrl, endereco: enderecoCompleto, lat: String(form.lat), lng: String(form.lng) };
       const response = await fetch('/api/paroquias', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
@@ -73,6 +106,8 @@ export default function InserirParoquia() {
       }
       await response.json();
       setForm(initialForm);
+      setImagemFile(null);
+      setImagemPreview('');
       setShowModal(true);
       setShowToast(true);
     } catch (error) {
@@ -124,12 +159,18 @@ export default function InserirParoquia() {
           <label>Telefone<input type="text" name="telefone" value={form.telefone} onChange={handleChange} /></label>
           <label>E-mail<input type="email" name="email" value={form.email} onChange={handleChange} /></label>
           <label>Site<input type="url" name="site" value={form.site} onChange={handleChange} /></label>
-          <label>Link da Imagem<input type="url" name="imagem" value={form.imagem} onChange={handleChange} /></label>
+          <label>
+            Imagem
+            <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" onChange={handleImagemChange} />
+          </label>
+          {imagemPreview && (
+            <img src={imagemPreview} alt="Pré-visualização" style={{ maxWidth: 120, marginTop: 4, marginBottom: 8, borderRadius: 8 }} />
+          )}
           <label>Facebook<input type="url" name="facebook" value={form.facebook} onChange={handleChange} /></label>
           <label>Instagram<input type="url" name="instagram" value={form.instagram} onChange={handleChange} /></label>
           <label>WhatsApp<input type="text" name="whatsapp" value={form.whatsapp} onChange={handleChange} /></label>
         </section>
-        <button type="submit">Salvar</button>
+        <button type="submit" disabled={uploading}>{uploading ? 'A carregar imagem...' : 'Salvar'}</button>
       </form>
     </div>
   );

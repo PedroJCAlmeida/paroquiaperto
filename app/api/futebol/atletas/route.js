@@ -6,11 +6,11 @@ import { verifyJWT, getTokenFromRequest } from '@/lib/auth';
 
 export async function GET() {
   try {
-    const clubes = await prisma.clube.findMany({
-      include: { escaloes: true },
+    const atletas = await prisma.atleta.findMany({
+      include: { clube: true, escalao: true },
       orderBy: { nome: 'asc' },
     });
-    return NextResponse.json(clubes);
+    return NextResponse.json(atletas);
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: 'Erro interno.' }, { status: 500 });
@@ -26,12 +26,21 @@ export async function POST(request) {
     }
 
     const data = await request.json();
-    if (!data.nome) {
-      return NextResponse.json({ error: 'O nome do clube é obrigatório.' }, { status: 400 });
+    if (!data.nome || !data.clubeId) {
+      return NextResponse.json({ error: 'O nome e o clube do atleta são obrigatórios.' }, { status: 400 });
     }
 
-    const clube = await prisma.clube.create({ data: { nome: data.nome, escudo: data.escudo || null } });
-    return NextResponse.json(clube, { status: 201 });
+    const atleta = await prisma.atleta.create({
+      data: {
+        nome: data.nome,
+        posicao: data.posicao || null,
+        numero: data.numero ? parseInt(data.numero) : null,
+        imagem: data.imagem || null,
+        clubeId: parseInt(data.clubeId),
+        escalaoId: data.escalaoId ? parseInt(data.escalaoId) : null,
+      },
+    });
+    return NextResponse.json(atleta, { status: 201 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: 'Erro interno.' }, { status: 500 });

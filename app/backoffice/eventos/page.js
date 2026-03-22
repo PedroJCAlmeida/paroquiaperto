@@ -8,8 +8,11 @@ export default function InserirEvento() {
   const [showToast, setShowToast] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [paroquias, setParoquias] = useState([]);
-  const initialForm = { paroquiaId: '', titulo: '', data: '', hora: '', descricao: '', imagem: '' };
+  const initialForm = { paroquiaId: '', titulo: '', data: '', hora: '', descricao: '' };
   const [form, setForm] = useState(initialForm);
+  const [imagemFile, setImagemFile] = useState(null);
+  const [imagemPreview, setImagemPreview] = useState('');
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     fetch('/api/paroquias')
@@ -20,14 +23,44 @@ export default function InserirEvento() {
 
   const handleChange = (e) => setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
 
+  const handleImagemChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImagemFile(file);
+      setImagemPreview(URL.createObjectURL(file));
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
+      let imagemUrl = null;
+
+      if (imagemFile) {
+        setUploading(true);
+        const formData = new FormData();
+        formData.append('file', imagemFile);
+        formData.append('folder', 'eventos');
+        const uploadRes = await fetch('/api/upload', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` },
+          body: formData,
+        });
+        setUploading(false);
+        if (!uploadRes.ok) {
+          const err = await uploadRes.json();
+          alert(`Erro ao fazer upload da imagem: ${err.error || uploadRes.status}`);
+          return;
+        }
+        const uploadData = await uploadRes.json();
+        imagemUrl = uploadData.url;
+      }
+
       const response = await fetch('/api/eventos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify({ paroquiaId: form.paroquiaId, titulo: form.titulo, data: form.data, hora: form.hora, descricao: form.descricao, imagem: form.imagem }),
+        body: JSON.stringify({ paroquiaId: form.paroquiaId, titulo: form.titulo, data: form.data, hora: form.hora, descricao: form.descricao, imagem: imagemUrl }),
       });
       if (!response.ok) {
         const errorText = await response.text();
@@ -36,6 +69,8 @@ export default function InserirEvento() {
       }
       await response.json();
       setForm(initialForm);
+      setImagemFile(null);
+      setImagemPreview('');
       setShowModal(true);
       setShowToast(true);
     } catch (error) {
@@ -74,10 +109,13 @@ export default function InserirEvento() {
           <textarea name="descricao" value={form.descricao} onChange={handleChange} rows={4} placeholder="Detalhes sobre o evento..." style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem', minHeight: 60 }} />
         </label>
         <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem' }}>
-          Link da Imagem (opcional)
-          <input type="url" name="imagem" value={form.imagem} onChange={handleChange} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
+          Imagem (opcional)
+          <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" onChange={handleImagemChange} style={{ width: '100%', marginTop: 4, fontSize: '1rem' }} />
         </label>
-        <button type="submit" style={{ background: 'linear-gradient(90deg,#2563eb 60%,#7c3aed 100%)', color: '#fff', fontWeight: 600, fontSize: '1.08rem', border: 'none', borderRadius: '10px', padding: '12px 0', cursor: 'pointer' }}>Salvar Evento</button>
+        {imagemPreview && (
+          <img src={imagemPreview} alt="Pré-visualização" style={{ maxWidth: 120, borderRadius: 8 }} />
+        )}
+        <button type="submit" disabled={uploading} style={{ background: 'linear-gradient(90deg,#2563eb 60%,#7c3aed 100%)', color: '#fff', fontWeight: 600, fontSize: '1.08rem', border: 'none', borderRadius: '10px', padding: '12px 0', cursor: 'pointer' }}>{uploading ? 'A carregar imagem...' : 'Salvar Evento'}</button>
       </form>
     </div>
   );
