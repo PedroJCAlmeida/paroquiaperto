@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { FaUserCircle } from 'react-icons/fa';
+import ThemeToggle from './ThemeToggle';
 
 const Navbar = () => {
   const router = useRouter();
@@ -82,6 +83,7 @@ const Navbar = () => {
               )}
             </div>
           )}
+          <ThemeToggle />
           {isLoggedIn ? (
             <div
               className="navbar-login-icon"
@@ -91,13 +93,15 @@ const Navbar = () => {
             >
               <FaUserCircle size={28} />
               {showProfileMenu && (
-                <div style={{ position: 'absolute', top: '100%', right: 0, background: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', borderRadius: '4px', minWidth: '140px', zIndex: 1000 }}>
+                <div className="navbar-profile-menu" style={{ position: 'absolute', top: '100%', right: 0, background: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', borderRadius: '4px', minWidth: '140px', zIndex: 1000 }}>
                   <Link
                     href="/usuario"
+                    className="navbar-profile-menu-item"
                     style={{ display: 'block', width: '100%', padding: '10px 16px', background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer', color: '#333', textDecoration: 'none' }}
                     onClick={() => { setShowProfileMenu(false); setIsOpen(false); }}
                   >Configurações</Link>
                   <button
+                    className="navbar-profile-menu-item"
                     style={{ display: 'block', width: '100%', padding: '10px 16px', background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer', color: '#333' }}
                     onClick={() => {
                       localStorage.removeItem('token');

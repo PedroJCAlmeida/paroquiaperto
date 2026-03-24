@@ -55,6 +55,7 @@ export default function BackofficeMenu() {
     <>
       {isMobile && !expanded && (
         <button
+          className="bo-mobile-open-btn"
           style={{ position: 'fixed', top: 16, left: 16, background: '#fff', border: '1px solid #ddd', borderRadius: '50%', width: 44, height: 44, fontSize: '2rem', cursor: 'pointer', zIndex: 1001, boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}
           onClick={() => setExpanded(true)}
           aria-label="Abrir menu"
