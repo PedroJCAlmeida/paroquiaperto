@@ -1,11 +1,13 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Pencil, Trash2, PlusCircle } from 'lucide-react';
 import Toast from '@/components/Toast';
 import type { Paroquia } from '@/types';
 
 export default function ListarParoquias() {
+  const router = useRouter();
   const [paroquias, setParoquias] = useState<Paroquia[]>([]);
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState<{ show: boolean; type: 'success' | 'error'; message: string }>({
@@ -43,7 +45,15 @@ export default function ListarParoquias() {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!res.ok) throw new Error('Erro ao remover');
+      if (!res.ok) {
+        if (res.status === 401) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('role');
+          router.replace('/login');
+          return;
+        }
+        throw new Error('Erro ao remover');
+      }
       setToast({ show: true, type: 'success', message: 'Paróquia removida com sucesso!' });
       fetchParoquias();
     } catch {
@@ -88,7 +98,15 @@ export default function ListarParoquias() {
           whatsapp: p?.whatsapp,
         }),
       });
-      if (!res.ok) throw new Error('Erro ao editar');
+      if (!res.ok) {
+        if (res.status === 401) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('role');
+          router.replace('/login');
+          return;
+        }
+        throw new Error('Erro ao editar');
+      }
       setToast({ show: true, type: 'success', message: 'Paróquia atualizada com sucesso!' });
       setEditingId(null);
       fetchParoquias();

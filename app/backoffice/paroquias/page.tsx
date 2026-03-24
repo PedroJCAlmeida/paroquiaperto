@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import SuccessModal from '@/components/SuccessModal';
 import Toast from '@/components/Toast';
 import '@/styles/Backoffice.css';
@@ -31,6 +32,7 @@ interface NominatimResult {
 }
 
 export default function InserirParoquia() {
+  const router = useRouter();
   const [showToast, setShowToast] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [distritos, setDistritos] = useState<Distrito[]>([]);
@@ -122,6 +124,12 @@ export default function InserirParoquia() {
         body: JSON.stringify(payload),
       });
       if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('role');
+          router.replace('/login');
+          return;
+        }
         const errorText = await response.text();
         alert(`Erro ao enviar paróquia: ${response.status} ${errorText}`);
         return;
