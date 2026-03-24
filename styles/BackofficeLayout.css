@@ -6,7 +6,7 @@
 }
 
 .backoffice-content {
-  margin-left: 0;
+  margin-left: 220px;
   padding: 2rem;
   position: relative;
   overflow: hidden;
@@ -61,5 +61,11 @@
     margin-left: 0;
     padding: 1rem;
     min-height: auto;
+  }
+}
+
+@media (max-width: 700px) {
+  .backoffice-content {
+    margin-left: 0;
   }
 }

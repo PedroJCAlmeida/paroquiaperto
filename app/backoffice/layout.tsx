@@ -1,5 +1,6 @@
 import PrivateRoute from '@/components/PrivateRoute';
 import Navbar from '@/components/Navbar';
+import BackofficeMenu from '@/components/BackofficeMenu';
 import '@/styles/BackofficeLayout.css';
 
 export default function BackofficeLayout({ children }: { children: React.ReactNode }) {
@@ -7,6 +8,7 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
     <PrivateRoute>
       <Navbar />
       <div className="backoffice-container" style={{ paddingTop: '64px' }}>
+        <BackofficeMenu />
         <main className="backoffice-content">{children}</main>
       </div>
     </PrivateRoute>
