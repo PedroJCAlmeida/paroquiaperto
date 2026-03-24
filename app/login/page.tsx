@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import axios, { AxiosError } from 'axios';
@@ -10,7 +10,7 @@ interface AuthResponse {
   user: { id: number; name: string; email: string; role: string };
 }
 
-const Login = () => {
+const LoginForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState('');
@@ -158,5 +158,11 @@ const Login = () => {
     </div>
   );
 };
+
+const Login = () => (
+  <Suspense fallback={<div className="login-container"><p className="loading-message">A carregar...</p></div>}>
+    <LoginForm />
+  </Suspense>
+);
 
 export default Login;
