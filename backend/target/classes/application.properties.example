@@ -1,0 +1,22 @@
+# Porta (obrigatório para cloud providers como Google Cloud Run)
+server.port=${PORT:8080}
+spring.main.banner-mode=off
+
+# Datasource - definir estas variáveis de ambiente no servidor / Google Cloud
+# DATABASE_URL  -> JDBC URL completo, ex: jdbc:postgresql://HOST:5432/DB?sslmode=require
+# DB_USER       -> utilizador da base de dados
+# DB_PASSWORD   -> palavra-passe da base de dados
+spring.datasource.url=${DATABASE_URL}
+spring.datasource.username=${DB_USER}
+spring.datasource.password=${DB_PASSWORD}
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+# JPA
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.show-sql=false
+
+# CORS - origens permitidas separadas por vírgula
+# Ex (desenvolvimento): http://localhost:3001,http://localhost:9090
+# Ex (produção):        https://www.paroquiaperto.com,https://paroquiaperto.vercel.app
+cors.allowed-origins=${CORS_ALLOWED_ORIGINS:http://localhost:3001,http://localhost:9090}
