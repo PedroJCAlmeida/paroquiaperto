@@ -1,0 +1,36 @@
+/* Paróquia Detail Page */
+.paroquia-detalhe-bg {
+  background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+  min-height: 100vh;
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+
+.paroquia-detalhe-card {
+  background: #fff;
+  border-radius: 28px;
+  box-shadow: 0 8px 40px rgba(60, 60, 120, 0.13);
+  max-width: 760px;
+  margin: 0 auto;
+  padding: clamp(16px, 5vw, 38px);
+  width: 95vw;
+  border: 2px solid #e0e7ff;
+}
+
+.paroquia-detalhe-grid {
+  margin-bottom: 22px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .paroquia-detalhe-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .paroquia-detalhe-card {
+    border-radius: 16px;
+    width: 98vw;
+  }
+}

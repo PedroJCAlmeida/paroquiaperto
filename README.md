@@ -55,15 +55,31 @@ npx prisma db push
 npm run dev  # Runs on http://localhost:3000
 ```
 
+## ☁️ Deploy no Vercel
+
+1. Importe o repositório no [Vercel](https://vercel.com/new).
+2. Nas configurações do projeto no Vercel, certifique-se de que:
+   - **Framework Preset**: Next.js
+   - **Root Directory**: `/` (raiz do repositório)
+   - **Build Command**: `npx prisma generate && npm run build` *(já definido em `vercel.json`)*
+3. Adicione as variáveis de ambiente no painel do Vercel:
+   - `DATABASE_URL` — string de ligação PostgreSQL (ex: Neon, Supabase, Railway)
+   - `JWT_SECRET` — chave secreta para geração de tokens JWT
+   - `NEXT_PUBLIC_GOOGLE_CLIENT_ID` — Client ID da Google OAuth
+4. Clique em **Deploy**.
+
+> **Nota:** O script `postinstall` no `package.json` executa `prisma generate` automaticamente após `npm install`, garantindo que o Prisma Client seja gerado antes do `next build`.
+
 ## 🛠️ Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
-| Frontend | Next.js 14 (App Router) |
+| Frontend | Next.js 15 (App Router) |
 | Backend | Next.js API Routes |
+| Language | TypeScript |
 | ORM | Prisma |
 | Database | PostgreSQL |
 | Auth | JWT + Google OAuth |
 | Maps | Leaflet + React-Leaflet |
 | UI | Tailwind CSS + Custom CSS |
-| Deploy | Render |
+| Deploy | Vercel |
