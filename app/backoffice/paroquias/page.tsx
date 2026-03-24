@@ -1,8 +1,9 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SuccessModal from '@/components/SuccessModal';
 import Toast from '@/components/Toast';
 import '@/styles/Backoffice.css';
+import type { Distrito, Conselho } from '@/types';
 
 interface ParoquiaForm {
   nome: string;
@@ -10,8 +11,8 @@ interface ParoquiaForm {
   numero: string;
   codigoPostal: string;
   cidade: string;
-  distrito: string;
-  conselho: string;
+  distritoId: string;
+  conselhoId: string;
   lat: string;
   lng: string;
   telefone: string;
@@ -24,10 +25,6 @@ interface ParoquiaForm {
   whatsapp: string;
 }
 
-interface GeoNamesResult {
-  postalcodes?: Array<{ adminName1?: string; adminName2?: string }>;
-}
-
 interface NominatimResult {
   lat: string;
   lon: string;
@@ -36,41 +33,49 @@ interface NominatimResult {
 export default function InserirParoquia() {
   const [showToast, setShowToast] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [distritos, setDistritos] = useState<Distrito[]>([]);
+  const [conselhos, setConselhos] = useState<Conselho[]>([]);
   const initialForm: ParoquiaForm = {
     nome: '', rua: '', numero: '', codigoPostal: '', cidade: '',
-    distrito: '', conselho: '', lat: '', lng: '', telefone: '',
+    distritoId: '', conselhoId: '', lat: '', lng: '', telefone: '',
     email: '', descricao: '', site: '', imagem: '', facebook: '',
     instagram: '', whatsapp: '',
   };
   const [form, setForm] = useState<ParoquiaForm>(initialForm);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    if (e.target.name === 'codigoPostal' && e.target.value.replace('-', '').length >= 7) {
-      buscarDistritoConselho(e.target.value);
-    }
-  };
+  useEffect(() => {
+    fetch('/api/distritos')
+      .then((res) => res.json())
+      .then((data: Distrito[]) => setDistritos(Array.isArray(data) ? data : []))
+      .catch(() => setDistritos([]));
+  }, []);
 
-  const buscarDistritoConselho = async (codigoPostal: string) => {
-    try {
-      const url = `https://api.geonames.org/postalCodeLookupJSON?postalcode=${codigoPostal}&country=PT&username=demo`;
-      const response = await fetch(url);
-      const data = (await response.json()) as GeoNamesResult;
-      if (data?.postalcodes?.length && data.postalcodes.length > 0) {
-        const info = data.postalcodes[0];
-        setForm((prev) => ({ ...prev, distrito: info.adminName1 ?? '', conselho: info.adminName2 ?? '' }));
-      }
-    } catch {
-      // silently ignore geolocation lookup errors
+  useEffect(() => {
+    if (!form.distritoId) {
+      setConselhos([]);
+      return;
     }
+    fetch(`/api/conselhos?distritoId=${form.distritoId}`)
+      .then((res) => res.json())
+      .then((data: Conselho[]) => setConselhos(Array.isArray(data) ? data : []))
+      .catch(() => setConselhos([]));
+  }, [form.distritoId]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+      ...(name === 'distritoId' ? { conselhoId: '' } : {}),
+    }));
   };
 
   const buscarLocalizacao = async () => {
-    const enderecoCompleto = `${form.rua}, ${form.numero}, ${form.codigoPostal} ${form.cidade}`;
     if (!form.rua || !form.numero || !form.codigoPostal || !form.cidade) {
       alert('Preencha todos os campos de endereço para buscar localização.');
       return;
     }
+    const enderecoCompleto = `${form.rua}, ${form.numero}, ${form.codigoPostal} ${form.cidade}`;
     try {
       const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(enderecoCompleto)}`;
       const response = await fetch(url);
@@ -79,7 +84,7 @@ export default function InserirParoquia() {
         setForm((prev) => ({ ...prev, lat: data[0].lat, lng: data[0].lon }));
         alert('Localização encontrada!');
       } else {
-        alert('Endereço não encontrado.');
+        alert('Endereço não encontrado. Tente um endereço mais genérico ou verifique os dados.');
       }
     } catch {
       alert('Erro ao buscar localização.');
@@ -88,10 +93,29 @@ export default function InserirParoquia() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!form.lat || !form.lng) {
+      alert('Clique em "Buscar localização" para obter as coordenadas antes de guardar.');
+      return;
+    }
     try {
       const token = localStorage.getItem('token');
       const enderecoCompleto = `${form.rua}, ${form.numero}, ${form.codigoPostal} ${form.cidade}`;
-      const payload = { ...form, endereco: enderecoCompleto, lat: String(form.lat), lng: String(form.lng) };
+      const payload = {
+        nome: form.nome,
+        endereco: enderecoCompleto,
+        lat: form.lat,
+        lng: form.lng,
+        telefone: form.telefone,
+        email: form.email,
+        descricao: form.descricao,
+        site: form.site,
+        imagem: form.imagem,
+        facebook: form.facebook,
+        instagram: form.instagram,
+        whatsapp: form.whatsapp,
+        ...(form.distritoId ? { distritoId: parseInt(form.distritoId, 10) } : {}),
+        ...(form.conselhoId ? { conselhoId: parseInt(form.conselhoId, 10) } : {}),
+      };
       const response = await fetch('/api/paroquias', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
@@ -136,8 +160,20 @@ export default function InserirParoquia() {
             <label>Número<input type="text" name="numero" value={form.numero} onChange={handleChange} required /></label>
             <label>Código Postal<input type="text" name="codigoPostal" value={form.codigoPostal} onChange={handleChange} required pattern="\d{4}-\d{3}" placeholder="1234-567" /></label>
             <label>Cidade/Localidade<input type="text" name="cidade" value={form.cidade} onChange={handleChange} required /></label>
-            <label>Distrito (preenchido automaticamente)<input type="text" name="distrito" value={form.distrito} readOnly /></label>
-            <label>Conselho (preenchido automaticamente)<input type="text" name="conselho" value={form.conselho} readOnly /></label>
+            <label>
+              Distrito
+              <select name="distritoId" value={form.distritoId} onChange={handleChange} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '1rem', background: '#f8fafc' }}>
+                <option value="">Selecione um distrito</option>
+                {distritos.map((d) => <option key={d.id} value={d.id}>{d.nome}</option>)}
+              </select>
+            </label>
+            <label>
+              Conselho
+              <select name="conselhoId" value={form.conselhoId} onChange={handleChange} disabled={!form.distritoId} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '1rem', background: form.distritoId ? '#f8fafc' : '#f1f5f9' }}>
+                <option value="">Selecione um conselho</option>
+                {conselhos.map((c) => <option key={c.id} value={c.id}>{c.nome}</option>)}
+              </select>
+            </label>
           </div>
         </section>
         <section className="bo-section">
@@ -146,9 +182,20 @@ export default function InserirParoquia() {
             <button type="button" className="bo-btn-secondary" onClick={buscarLocalizacao}>Buscar localização</button>
           </div>
           <div className="bo-latlng">
-            <label>Latitude<input type="number" step="any" name="lat" value={form.lat} onChange={handleChange} required /></label>
-            <label>Longitude<input type="number" step="any" name="lng" value={form.lng} onChange={handleChange} required /></label>
+            <label>
+              Latitude
+              <input type="text" name="lat" value={form.lat} readOnly placeholder="Preenchido automaticamente" style={{ background: '#f1f5f9', cursor: 'not-allowed' }} />
+            </label>
+            <label>
+              Longitude
+              <input type="text" name="lng" value={form.lng} readOnly placeholder="Preenchido automaticamente" style={{ background: '#f1f5f9', cursor: 'not-allowed' }} />
+            </label>
           </div>
+          {!form.lat && !form.lng && (
+            <p style={{ color: '#f59e0b', fontSize: '0.88rem', marginTop: 6 }}>
+              ⚠ Clique em &ldquo;Buscar localização&rdquo; após preencher o endereço para obter as coordenadas.
+            </p>
+          )}
         </section>
         <section className="bo-section">
           <h3>Contatos &amp; Redes Sociais</h3>

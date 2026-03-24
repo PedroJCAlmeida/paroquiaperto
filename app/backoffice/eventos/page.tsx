@@ -24,7 +24,7 @@ export default function InserirEvento() {
   useEffect(() => {
     fetch('/api/paroquias')
       .then((res) => res.json())
-      .then((data: Paroquia[]) => setParoquias(data))
+      .then((data: Paroquia[]) => setParoquias(Array.isArray(data) ? data : []))
       .catch(() => setParoquias([]));
   }, []);
 
@@ -67,6 +67,11 @@ export default function InserirEvento() {
             <option value="">Selecione uma paróquia</option>
             {paroquias.map((p) => <option key={p.id} value={p.id}>{p.nome}</option>)}
           </select>
+          {paroquias.length === 0 && (
+            <span style={{ display: 'block', marginTop: 6, color: '#ef4444', fontSize: '0.88rem' }}>
+              Nenhuma paróquia disponível. <a href="/backoffice/paroquias" style={{ color: '#2563eb', textDecoration: 'underline' }}>Insira uma paróquia</a> primeiro.
+            </span>
+          )}
         </label>
         <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem' }}>
           Título do Evento
