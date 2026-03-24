@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import ParoquiaCard from '@/components/ParoquiaCard';
 import '@/styles/Paroquias.css';
 import type { Paroquia, Distrito, Conselho } from '@/types';
@@ -108,9 +109,10 @@ const Paroquias = () => {
   };
 
   return (
-    <div className="paroquias-page">
-      <Navbar />
-      <h2 className="paroquias-title">Paróquias Próximas</h2>
+    <>
+      <div className="paroquias-page">
+        <Navbar />
+        <h2 className="paroquias-title">Paróquias Próximas</h2>
       <div className="paroquias-filters">
         <select
           value={distrito}
@@ -191,6 +193,8 @@ const Paroquias = () => {
         ))}
       </div>
     </div>
+    <Footer />
+  </>
   );
 };
 

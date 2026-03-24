@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import '@/styles/Contato.css';
 import { Mail, Facebook, Instagram } from 'lucide-react';
 
@@ -104,6 +105,7 @@ const Contato = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

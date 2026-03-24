@@ -7,8 +7,9 @@ function isTokenValid(token: string | null): boolean {
   try {
     const parts = token.split('.');
     if (parts.length !== 3) return false;
-    const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
-    const payload = JSON.parse(atob(base64));
+    const base64url = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+    const padded = base64url.padEnd(base64url.length + (4 - (base64url.length % 4)) % 4, '=');
+    const payload = JSON.parse(atob(padded));
     return typeof payload.exp === 'number' && payload.exp * 1000 > Date.now();
   } catch {
     return false;
