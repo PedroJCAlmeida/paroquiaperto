@@ -1,7 +1,6 @@
 import './globals.css';
 import '@/styles/Navbar.css';
 import '@/styles/dark-mode.css';
-import GoogleProvider from '@/components/GoogleProvider';
 import ThemeProvider from '@/components/ThemeProvider';
 import type { Metadata } from 'next';
 
@@ -32,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <ThemeProvider>
-          <GoogleProvider>{children}</GoogleProvider>
+          {children}
         </ThemeProvider>
       </body>
     </html>
