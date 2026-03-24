@@ -5,9 +5,9 @@ import Link from 'next/link';
 import axios, { AxiosError } from 'axios';
 import '@/styles/Login.css';
 
-interface AuthResponse {
-  token: string;
-  user: { id: number; name: string; email: string; role: string };
+interface RegisterResponse {
+  message: string;
+  requiresEmailVerification?: boolean;
 }
 
 const RegistarUtilizador = () => {
@@ -38,14 +38,10 @@ const RegistarUtilizador = () => {
     }
 
     try {
-      const response = await axios.post<AuthResponse>('/api/auth/register', { name, email, password });
-      if (response.data.token) {
-        localStorage.setItem('token', response.data.token);
-        if (response.data.user?.role) {
-          localStorage.setItem('role', response.data.user.role);
-        }
-        setSuccess('Registo efetuado com sucesso! Redirecionando...');
-        setTimeout(() => router.push('/'), 1500);
+      const response = await axios.post<RegisterResponse>('/api/auth/register', { name, email, password });
+      if (response.status === 200 && response.data.requiresEmailVerification) {
+        setSuccess(response.data.message);
+        setTimeout(() => router.push('/login'), 2000);
       } else {
         setError('Erro ao registar utilizador.');
       }

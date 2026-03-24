@@ -1,6 +1,6 @@
 'use client';
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import axios, { AxiosError } from 'axios';
 import '@/styles/Login.css';
@@ -12,10 +12,38 @@ interface AuthResponse {
 
 const Login = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [info, setInfo] = useState<string | null>(null);
+
+  useEffect(() => {
+    const verified = searchParams.get('verified');
+
+    if (verified === 'success') {
+      setInfo('Conta confirmada com sucesso. Já pode iniciar sessão.');
+      return;
+    }
+
+    if (verified === 'expired-token') {
+      setInfo('O link de confirmação expirou. Registe-se novamente para receber novo e-mail.');
+      return;
+    }
+
+    if (verified === 'missing-token' || verified === 'invalid-token') {
+      setInfo('Link de confirmação inválido.');
+      return;
+    }
+
+    if (verified === 'error') {
+      setInfo('Não foi possível confirmar a conta. Tente novamente mais tarde.');
+      return;
+    }
+
+    setInfo(null);
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -51,6 +79,7 @@ const Login = () => {
       </div>
       <h2>Entrar no Paróquia Perto</h2>
       {loading && <p className="loading-message">A iniciar sessão...</p>}
+      {info && <p className="success-message">{info}</p>}
       {error && <p className="error-message">{error}</p>}
       <form
         onSubmit={handleSubmit}

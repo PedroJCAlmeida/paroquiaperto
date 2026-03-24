@@ -20,6 +20,8 @@ async function main() {
         email: adminEmail,
         password: hashed,
         role: 'admin',
+        emailVerified: true,
+        emailVerifiedAt: new Date(),
       },
     });
     console.log(`Seed: Admin user created (${adminEmail})`);

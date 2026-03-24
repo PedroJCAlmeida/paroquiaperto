@@ -24,6 +24,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
+    if (user.authProvider === 'local' && !user.emailVerified) {
+      return NextResponse.json(
+        { error: 'Conta ainda não verificada. Verifique o seu e-mail para ativar a conta.' },
+        { status: 403 },
+      );
+    }
+
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) {
       return NextResponse.json({ error: 'Palavra-passe incorreta.' }, { status: 401 });
