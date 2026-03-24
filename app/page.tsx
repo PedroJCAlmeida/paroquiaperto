@@ -3,6 +3,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import '@/styles/Home.css';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import { MapPin, Church, UsersRound, HandHeart } from 'lucide-react';
 import BuscarParoquias from '@/components/BuscarParoquias';
 
@@ -26,6 +27,7 @@ const Home = () => {
   };
 
   return (
+    <>
     <div className="home-container">
       <Navbar />
 
@@ -75,6 +77,8 @@ const Home = () => {
         </div>
       </section>
     </div>
+    <Footer />
+    </>
   );
 };
 
