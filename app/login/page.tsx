@@ -133,6 +133,11 @@ const Login = () => {
             }}
           />
         </label>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Link href="/recuperar-palavra-passe" style={{ fontSize: '0.9rem', color: '#2563eb' }}>
+            Esqueci a palavra-passe
+          </Link>
+        </div>
         <button
           type="submit"
           disabled={loading}
