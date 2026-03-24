@@ -8,3 +8,7 @@ next-env.d.ts
 tsconfig.tsbuildinfo
 .env.local
 .env*.local
+
+# Backend – ficheiro de configuração com credenciais reais
+# Copiar application.properties.example e preencher com os valores corretos
+backend/src/main/resources/application.properties

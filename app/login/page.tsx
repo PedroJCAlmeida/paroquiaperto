@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import axios, { AxiosError } from 'axios';
 import '@/styles/Login.css';
 
@@ -17,29 +16,6 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const handleGoogleLogin = async (credentialResponse: CredentialResponse) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await axios.post<AuthResponse>('/api/auth/google', {
-        token: credentialResponse.credential,
-      });
-      if (response.status === 200 && response.data.token) {
-        localStorage.setItem('token', response.data.token);
-        if (response.data.user?.role) {
-          localStorage.setItem('role', response.data.user.role);
-        }
-        router.push('/');
-      } else {
-        setError('Falha na autenticação Google.');
-      }
-    } catch {
-      setError('Erro ao autenticar com Google.');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -76,12 +52,6 @@ const Login = () => {
       <h2>Entrar no Paróquia Perto</h2>
       {loading && <p className="loading-message">A iniciar sessão...</p>}
       {error && <p className="error-message">{error}</p>}
-      <div style={{ marginBottom: '1rem' }}>
-        <GoogleLogin
-          onSuccess={handleGoogleLogin}
-          onError={() => setError('Falha ao autenticar com Google.')}
-        />
-      </div>
       <form
         onSubmit={handleSubmit}
         className="login-form"
