@@ -48,12 +48,19 @@ cp .env.example .env.local
 # Generate Prisma client
 npx prisma generate
 
-# Run database migrations (first time)
+# Create database tables (first time or after schema changes)
 npx prisma db push
+
+# Seed the database with an initial admin user
+npx prisma db seed
 
 # Start development server
 npm run dev  # Runs on http://localhost:3000
 ```
+
+> **Credenciais do utilizador admin padrão:** `admin@paroquiaperto.pt` / `Admin123!`
+> Altere imediatamente após o primeiro login (perfil do utilizador).
+> Pode personalizar as credenciais através das variáveis de ambiente `ADMIN_EMAIL`, `ADMIN_PASSWORD` e `ADMIN_NAME`.
 
 ## ☁️ Deploy no Vercel
 
@@ -61,14 +68,17 @@ npm run dev  # Runs on http://localhost:3000
 2. Nas configurações do projeto no Vercel, certifique-se de que:
    - **Framework Preset**: Next.js
    - **Root Directory**: `/` (raiz do repositório)
-   - **Build Command**: `npx prisma generate && npm run build` *(já definido em `vercel.json`)*
+   - **Build Command**: `npx prisma generate && npx prisma db push && npx prisma db seed && npm run build` *(já definido em `vercel.json`)*
 3. Adicione as variáveis de ambiente no painel do Vercel:
    - `DATABASE_URL` — string de ligação PostgreSQL (ex: Neon, Supabase, Railway)
    - `JWT_SECRET` — chave secreta para geração de tokens JWT
    - `NEXT_PUBLIC_GOOGLE_CLIENT_ID` — Client ID da Google OAuth
+   - `ADMIN_EMAIL` *(opcional)* — e-mail do utilizador admin inicial (padrão: `admin@paroquiaperto.pt`)
+   - `ADMIN_PASSWORD` *(opcional)* — palavra-passe do admin inicial (padrão: `Admin123!`)
+   - `ADMIN_NAME` *(opcional)* — nome do admin inicial (padrão: `Administrador`)
 4. Clique em **Deploy**.
 
-> **Nota:** O script `postinstall` no `package.json` executa `prisma generate` automaticamente após `npm install`, garantindo que o Prisma Client seja gerado antes do `next build`.
+> **Nota:** O comando de build inclui `prisma db push` (cria/atualiza tabelas) e `prisma db seed` (cria o utilizador admin inicial), garantindo que a base de dados esteja pronta após cada deploy.
 
 ## 🛠️ Tech Stack
 

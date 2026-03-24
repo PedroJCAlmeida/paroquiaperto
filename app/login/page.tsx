@@ -59,9 +59,7 @@ const Login = () => {
     } catch (err) {
       const axiosErr = err as AxiosError<{ error?: string }>;
       if (axiosErr.response) {
-        if (axiosErr.response.status === 401) setError('Palavra-passe incorreta.');
-        else if (axiosErr.response.status === 404) setError('Utilizador não encontrado.');
-        else setError(axiosErr.response.data?.error ?? 'Erro ao tentar fazer login.');
+        setError(axiosErr.response.data?.error ?? 'Erro ao tentar fazer login.');
       } else {
         setError('Ocorreu um erro ao tentar fazer login. Por favor, tente novamente.');
       }
