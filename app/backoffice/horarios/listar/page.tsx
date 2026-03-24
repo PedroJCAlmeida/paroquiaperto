@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Trash2, PlusCircle } from 'lucide-react';
 import Toast from '@/components/Toast';
 import type { Horario } from '@/types';
@@ -8,6 +9,7 @@ import type { Horario } from '@/types';
 const DIAS = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
 
 export default function ListarHorarios() {
+  const router = useRouter();
   const [horarios, setHorarios] = useState<Horario[]>([]);
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState<{ show: boolean; type: 'success' | 'error'; message: string }>({
@@ -37,7 +39,15 @@ export default function ListarHorarios() {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!res.ok) throw new Error('Erro ao remover');
+      if (!res.ok) {
+        if (res.status === 401) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('role');
+          router.replace('/login');
+          return;
+        }
+        throw new Error('Erro ao remover');
+      }
       setToast({ show: true, type: 'success', message: 'Horário removido com sucesso!' });
       fetchHorarios();
     } catch {

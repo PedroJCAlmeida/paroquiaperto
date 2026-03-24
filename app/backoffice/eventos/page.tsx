@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import SuccessModal from '@/components/SuccessModal';
 import Toast from '@/components/Toast';
 import '@/styles/Backoffice.css';
@@ -15,6 +16,7 @@ interface EventoForm {
 }
 
 export default function InserirEvento() {
+  const router = useRouter();
   const [showToast, setShowToast] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [paroquias, setParoquias] = useState<Paroquia[]>([]);
@@ -41,6 +43,12 @@ export default function InserirEvento() {
         body: JSON.stringify({ paroquiaId: form.paroquiaId, titulo: form.titulo, data: form.data, hora: form.hora, descricao: form.descricao, imagem: form.imagem }),
       });
       if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('role');
+          router.replace('/login');
+          return;
+        }
         const errorText = await response.text();
         alert(`Erro ao enviar evento: ${response.status} ${errorText}`);
         return;

@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import '@/styles/ParoquiaDetalhe.css';
 import type { Paroquia, Horario, Evento } from '@/types';
 
@@ -62,6 +63,7 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
             <style>{`@keyframes spin { 100% { transform: rotate(360deg); } }`}</style>
           </div>
         </div>
+        <Footer />
       </>
     );
   }
@@ -75,6 +77,7 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
             <div style={{ marginTop: '16px', color: '#ef4444', fontWeight: 'bold' }}>Erro: {error}</div>
           </div>
         </div>
+        <Footer />
       </>
     );
   }
@@ -210,6 +213,7 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

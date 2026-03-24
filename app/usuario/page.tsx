@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import '@/styles/Backoffice.css';
 import type { Paroquia, UserProfile } from '@/types';
 
@@ -133,6 +134,7 @@ function Usuario() {
           )}
         </div>
       </div>
+      <Footer />
     </>
   );
 }

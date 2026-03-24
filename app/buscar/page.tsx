@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import BuscarParoquias from '@/components/BuscarParoquias';
 
 export default function Buscar() {
@@ -8,6 +9,7 @@ export default function Buscar() {
     <>
       <Navbar />
       <BuscarParoquias />
+      <Footer />
     </>
   );
 }

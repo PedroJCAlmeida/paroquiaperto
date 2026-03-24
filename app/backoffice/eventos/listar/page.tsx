@@ -1,11 +1,13 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Trash2, PlusCircle } from 'lucide-react';
 import Toast from '@/components/Toast';
 import type { Evento } from '@/types';
 
 export default function ListarEventos() {
+  const router = useRouter();
   const [eventos, setEventos] = useState<Evento[]>([]);
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState<{ show: boolean; type: 'success' | 'error'; message: string }>({
@@ -35,7 +37,15 @@ export default function ListarEventos() {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!res.ok) throw new Error('Erro ao remover');
+      if (!res.ok) {
+        if (res.status === 401) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('role');
+          router.replace('/login');
+          return;
+        }
+        throw new Error('Erro ao remover');
+      }
       setToast({ show: true, type: 'success', message: 'Evento removido com sucesso!' });
       fetchEventos();
     } catch {
