@@ -1,0 +1,143 @@
+/* ── Shared styles for static/legal pages (Sobre, Políticas, RGPD, Cookies) ── */
+.static-page {
+  max-width: 860px;
+  margin: 0 auto 60px;
+  padding: 32px 20px 0;
+  color: #1f2937;
+  font-family: Arial, sans-serif;
+  line-height: 1.7;
+}
+
+.static-page-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.static-page-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+  color: #273E54;
+}
+
+.static-page-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #273E54;
+  margin-bottom: 8px;
+}
+
+.static-page-subtitle {
+  font-size: 1rem;
+  color: #6b7280;
+}
+
+.static-page-divider {
+  border: none;
+  border-top: 2px solid #e5e7eb;
+  margin: 0 auto 40px;
+  max-width: 200px;
+}
+
+/* ── Section ── */
+.static-section {
+  margin-bottom: 36px;
+}
+
+.static-section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #273E54;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.static-section p {
+  color: #374151;
+  margin-bottom: 12px;
+}
+
+.static-section ul,
+.static-section ol {
+  padding-left: 1.4rem;
+  color: #374151;
+  margin-bottom: 12px;
+}
+
+.static-section li {
+  margin-bottom: 6px;
+}
+
+/* ── Highlight box ── */
+.static-highlight {
+  background: #f0f9ff;
+  border-left: 4px solid #273E54;
+  border-radius: 0 8px 8px 0;
+  padding: 14px 18px;
+  margin-bottom: 16px;
+  color: #1e40af;
+  font-size: 0.95rem;
+}
+
+/* ── Contact CTA ── */
+.static-contact-cta {
+  background: linear-gradient(135deg, #273E54 0%, #3b5876 100%);
+  border-radius: 12px;
+  padding: 28px 24px;
+  text-align: center;
+  color: #fff;
+  margin-top: 48px;
+}
+
+.static-contact-cta h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.static-contact-cta p {
+  color: #cbd5e1;
+  margin-bottom: 16px;
+  font-size: 0.95rem;
+}
+
+.static-contact-cta a {
+  display: inline-block;
+  background: #EEC651;
+  color: #273E54;
+  font-weight: 700;
+  padding: 10px 24px;
+  border-radius: 9999px;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: background 0.2s;
+}
+
+.static-contact-cta a:hover {
+  background: #f5d37a;
+}
+
+/* ── Last updated badge ── */
+.static-updated {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .static-page {
+    padding: 20px 14px 0;
+  }
+
+  .static-page-title {
+    font-size: 1.5rem;
+  }
+
+  .static-section-title {
+    font-size: 1.1rem;
+  }
+}

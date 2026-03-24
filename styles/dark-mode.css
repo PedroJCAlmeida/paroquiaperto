@@ -1,0 +1,509 @@
+/* =============================================================
+   DARK MODE OVERRIDES
+   Applied when <html> has the class "dark"
+   ============================================================= */
+
+/* ── Body ── */
+.dark body {
+  background-color: #0f172a;
+  color: #f1f5f9;
+}
+
+/* ── Theme toggle button ── */
+.theme-toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 6px;
+  transition: color 0.2s;
+}
+
+.dark .theme-toggle-btn {
+  color: #e2e8f0;
+}
+
+.theme-toggle-btn:hover {
+  color: #007bff;
+}
+
+.dark .theme-toggle-btn:hover {
+  color: #60a5fa;
+}
+
+/* ── Navbar ── */
+.dark .navbar {
+  background: #1e293b;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+.dark .navbar-link {
+  color: #e2e8f0;
+}
+
+.dark .navbar-link:hover {
+  color: #60a5fa;
+}
+
+.dark .navbar-link::after {
+  background-color: #60a5fa;
+}
+
+.dark .hamburger {
+  background: #e2e8f0;
+}
+
+.dark .navbar-login-icon {
+  color: #e2e8f0;
+}
+
+.dark .navbar-login-icon:hover {
+  color: #60a5fa;
+}
+
+/* Mobile nav open state */
+.dark .navbar-nav.active {
+  background: #1e293b;
+  border-top-color: #334155;
+  border-color: #334155;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Backoffice dropdown */
+.dark .navbar-backoffice-menu {
+  background: #1e293b !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+  border: 1px solid #334155 !important;
+}
+
+/* Profile dropdown */
+.dark .navbar-profile-menu {
+  background: #1e293b !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+  border: 1px solid #334155 !important;
+}
+
+.dark .navbar-profile-menu-item {
+  color: #e2e8f0 !important;
+}
+
+.dark .navbar-profile-menu-item:hover {
+  background: #334155 !important;
+}
+
+/* ── Home ── */
+.dark .home-container,
+.dark .home-hero-wrap {
+  background-color: #0f172a;
+  color: #f1f5f9;
+}
+
+.dark .home-hero-title {
+  color: #f1f5f9;
+}
+
+.dark .home-hero-text {
+  color: #94a3b8;
+}
+
+.dark .home-highlights {
+  background: #1e293b;
+}
+
+.dark .home-highlights-title {
+  color: #f1f5f9;
+}
+
+.dark .home-highlight-card {
+  background: #263345;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  color: #f1f5f9;
+}
+
+.dark .home-highlight-card h4 {
+  color: #93c5fd;
+}
+
+.dark .home-highlight-card p {
+  color: #94a3b8;
+}
+
+.dark .home-highlight-card:hover {
+  background-color: #1e3a5f;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Login / Register / Recuperar ── */
+.dark .login-container {
+  background-color: #0f172a;
+  color: #f1f5f9;
+}
+
+.dark .login-container h2 {
+  color: #f1f5f9;
+}
+
+.dark .login-container p {
+  color: #94a3b8;
+}
+
+.dark .login-container p a {
+  color: #60a5fa;
+}
+
+.dark .login-form,
+.dark .register-form {
+  background: #1e293b !important;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.5) !important;
+}
+
+.dark .login-form label,
+.dark .register-form label {
+  color: #93c5fd !important;
+}
+
+.dark .login-form input,
+.dark .register-form input {
+  background: #263345 !important;
+  border-color: #475569 !important;
+  color: #f1f5f9 !important;
+}
+
+.dark .login-form p,
+.dark .register-form p {
+  color: #94a3b8;
+}
+
+.dark .error-message {
+  color: #fca5a5 !important;
+  background-color: #450a0a !important;
+  border-color: #7f1d1d !important;
+}
+
+.dark .success-message {
+  color: #86efac !important;
+  background-color: #052e16 !important;
+  border-color: #14532d !important;
+}
+
+.dark .loading-message {
+  color: #60a5fa !important;
+}
+
+/* ── Paróquias list page ── */
+.dark .paroquias-page {
+  color: #f1f5f9;
+}
+
+.dark .paroquias-title {
+  color: #f1f5f9;
+}
+
+.dark .paroquias-select {
+  background: #1e293b !important;
+  color: #f1f5f9 !important;
+  border-color: #475569 !important;
+}
+
+.dark .paroquias-select--distrito {
+  border-color: #6366f1 !important;
+  color: #93c5fd !important;
+}
+
+.dark .paroquias-select--conselho {
+  border-color: #6366f1 !important;
+  color: #c4b5fd !important;
+}
+
+.dark .paroquias-select--km {
+  border-color: #d97706 !important;
+  color: #fde68a !important;
+  background: #1e1a0a !important;
+}
+
+.dark .paroquias-select--disabled {
+  background: #1a2535 !important;
+  opacity: 0.5 !important;
+}
+
+/* ── ParoquiaCard ── */
+.dark .paroquia-card {
+  background-color: #1e293b;
+  border-color: #334155;
+  color: #f1f5f9;
+}
+
+.dark .paroquia-card h3 {
+  color: #f1f5f9;
+}
+
+.dark .paroquia-card p {
+  color: #94a3b8;
+}
+
+.dark .paroquia-card span {
+  color: #5eead4;
+}
+
+/* ── Paróquia detail ── */
+.dark .paroquia-detalhe-bg {
+  background: linear-gradient(135deg, #0f172a 0%, #1a1a3e 100%);
+}
+
+.dark .paroquia-detalhe-card {
+  background: #1e293b;
+  border-color: #334155;
+  color: #f1f5f9;
+}
+
+/* ── BuscarParoquias ── */
+.dark .buscar-container {
+  background: #1e293b;
+  box-shadow: 0 2px 18px rgba(0, 0, 0, 0.4);
+}
+
+.dark .buscar-title {
+  color: #93c5fd;
+}
+
+.dark .buscar-form {
+  background: #263345;
+}
+
+.dark .buscar-label {
+  color: #c4b5fd;
+}
+
+.dark .buscar-input,
+.dark .buscar-select {
+  background: #1e293b;
+  border-color: #475569;
+  color: #f1f5f9;
+}
+
+/* ── BuscaIgrejas ── */
+.dark .church-item {
+  background: #1e293b;
+  border-color: #334155;
+  color: #f1f5f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.dark .search-input {
+  background: #1e293b;
+  border-color: #475569;
+  color: #f1f5f9;
+}
+
+/* ── Contato ── */
+.dark .contato-page {
+  color: #f1f5f9;
+}
+
+.dark .contato-title {
+  color: #f1f5f9;
+}
+
+.dark .contato-form label {
+  color: #94a3b8;
+}
+
+.dark .contato-form input,
+.dark .contato-form textarea {
+  background: #1e293b;
+  border-color: #475569;
+  color: #f1f5f9;
+}
+
+.dark .contato-form input:focus,
+.dark .contato-form textarea:focus {
+  border-color: #60a5fa;
+}
+
+.dark .rede-card {
+  background-color: #1e293b;
+  border-color: #334155;
+  color: #f1f5f9;
+}
+
+.dark .rede-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.dark .rede-texto {
+  color: #94a3b8;
+}
+
+/* ── Backoffice form pages ── */
+.dark .backoffice-page {
+  background: linear-gradient(120deg, #0f172a 0%, #1a1a3e 100%) !important;
+}
+
+.dark .backoffice-page h2 {
+  color: #93c5fd;
+}
+
+.dark .backoffice-form {
+  background: linear-gradient(120deg, #1e293b 80%, #1a1a3e 100%) !important;
+  box-shadow: 0 8px 36px rgba(0, 0, 0, 0.5) !important;
+}
+
+.dark .backoffice-form h3 {
+  color: #93c5fd !important;
+}
+
+.dark .backoffice-form label {
+  color: #93c5fd !important;
+}
+
+.dark .backoffice-form input,
+.dark .backoffice-form textarea,
+.dark .backoffice-form select {
+  background: #263345 !important;
+  border-color: #4f5c7a !important;
+  color: #f1f5f9 !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25) !important;
+}
+
+.dark .backoffice-form input:focus,
+.dark .backoffice-form textarea:focus,
+.dark .backoffice-form select:focus {
+  border-color: #818cf8 !important;
+  box-shadow: 0 0 0 2px #818cf8 !important;
+}
+
+/* ── Backoffice layout ── */
+.dark .backoffice-container {
+  background-color: #0f172a;
+}
+
+.dark .backoffice-content {
+  background: linear-gradient(135deg, #151f33 0%, #0f172a 100%);
+  background-color: #0f172a;
+}
+
+.dark .backoffice-footer {
+  color: #818cf8;
+}
+
+/* ── Backoffice sidebar menu ── */
+.dark .backoffice-menu {
+  background: #1e293b !important;
+  border-right-color: #334155 !important;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.4);
+}
+
+.dark .backoffice-menu a {
+  color: #cbd5e1 !important;
+}
+
+.dark .backoffice-menu a:hover {
+  background-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+.dark .bo-mobile-open-btn {
+  background: #1e293b !important;
+  border-color: #475569 !important;
+  color: #e2e8f0 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* ── Loading screen ── */
+.dark .loading-screen {
+  background: linear-gradient(to bottom right, #0f172a, #1e293b);
+}
+
+/* ── Static pages (Sobre, Políticas, RGPD, Cookies) ── */
+.dark .static-page {
+  color: #f1f5f9;
+}
+
+.dark .static-page-title {
+  color: #93c5fd;
+}
+
+.dark .static-page-subtitle {
+  color: #94a3b8;
+}
+
+.dark .static-page-divider {
+  border-top-color: #334155;
+}
+
+.dark .static-page-icon {
+  color: #93c5fd;
+}
+
+.dark .static-section-title {
+  color: #93c5fd;
+}
+
+.dark .static-section p,
+.dark .static-section li {
+  color: #cbd5e1;
+}
+
+.dark .static-section a {
+  color: #60a5fa;
+}
+
+.dark .static-section ul,
+.dark .static-section ol {
+  color: #cbd5e1;
+}
+
+.dark .static-highlight {
+  background: #1e3a5f;
+  border-left-color: #60a5fa;
+  color: #bfdbfe;
+}
+
+.dark .static-highlight a {
+  color: #93c5fd;
+}
+
+.dark .static-updated {
+  color: #475569;
+}
+
+/* ── Footer ── */
+.dark .site-footer {
+  background: #0f172a;
+}
+
+.dark .site-footer-brand-name {
+  color: #f1f5f9;
+}
+
+.dark .site-footer-brand-desc {
+  color: #64748b;
+}
+
+.dark .site-footer-col h4 {
+  color: #60a5fa;
+}
+
+.dark .site-footer-col a {
+  color: #64748b;
+}
+
+.dark .site-footer-col a:hover {
+  color: #cbd5e1;
+}
+
+.dark .site-footer-bottom {
+  border-top-color: #1e293b;
+  color: #475569;
+}
+
+.dark .site-footer-bottom a {
+  color: #475569;
+}
+
+.dark .site-footer-bottom a:hover {
+  color: #64748b;
+}
