@@ -14,32 +14,8 @@ model User {
   password          String
   authProvider      String               @default("local")
   role              String               @default("user")
-  escaloesTreinador Escalao[]            @relation("EscalaoTreinador")
-  escaloesDelegado  Escalao[]            @relation("EscalaoDelegado")
-  escaloesAuxiliar  Escalao[]            @relation("EscalaoAuxiliar")
   passwordResets    PasswordResetToken[]
   @@map("users")
-}
-
-model Clube {
-  id       Int       @id @default(autoincrement())
-  nome     String
-  escaloes Escalao[]
-  @@map("clubes")
-}
-
-model Escalao {
-  id          Int    @id @default(autoincrement())
-  nome        String
-  clube       Clube  @relation(fields: [clubeId], references: [id])
-  clubeId     Int
-  treinador   User?  @relation("EscalaoTreinador", fields: [treinadorId], references: [id])
-  treinadorId Int?
-  delegado    User?  @relation("EscalaoDelegado", fields: [delegadoId], references: [id])
-  delegadoId  Int?
-  auxiliar    User?  @relation("EscalaoAuxiliar", fields: [auxiliarId], references: [id])
-  auxiliarId  Int?
-  @@map("escaloes")
 }
 
 model Distrito {

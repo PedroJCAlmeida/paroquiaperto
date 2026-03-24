@@ -126,24 +126,6 @@ export default function BackofficeMenu() {
             </Link>
           </li>
 
-          {/* Football section */}
-          {userRole === 'coordenador_futebol' && (
-            <>
-              {expanded && <li style={sectionLabelStyle}>Futebol</li>}
-              <li>
-                <Link href="/backoffice/futebol/clubes" style={{ ...linkStyle, color: '#16a34a' }} onClick={handleNavClick}>
-                  <Shield size={isMobile ? 28 : 22} style={{ marginRight: expanded ? '12px' : '0' }} />
-                  {expanded && <span>Inserir Clube</span>}
-                </Link>
-              </li>
-              <li>
-                <Link href="/backoffice/futebol/escaloes" style={{ ...linkStyle, color: '#16a34a' }} onClick={handleNavClick}>
-                  <Shield size={isMobile ? 28 : 22} style={{ marginRight: expanded ? '12px' : '0' }} />
-                  {expanded && <span>Inserir Escalão</span>}
-                </Link>
-              </li>
-            </>
-          )}
         </ul>
       </nav>
     </>

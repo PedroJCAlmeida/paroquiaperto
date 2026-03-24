@@ -51,32 +51,13 @@ export interface Paroquia {
   conselhoId?: number | null;
   distancia?: number;
 }
-
-export interface UserSummary {
+export interface UserProfile {
   id: number;
   name: string;
   email: string;
+  authProvider?: string;
+  role?: string;
 }
-
-export interface Clube {
-  id: number;
-  nome: string;
-  escaloes?: Escalao[];
-}
-
-export interface Escalao {
-  id: number;
-  nome: string;
-  clubeId: number;
-  clube?: Clube;
-  treinadorId?: number | null;
-  treinador?: UserSummary | null;
-  delegadoId?: number | null;
-  delegado?: UserSummary | null;
-  auxiliarId?: number | null;
-  auxiliar?: UserSummary | null;
-}
-
 export interface JwtPayload {
   sub: string;
   email: string;
