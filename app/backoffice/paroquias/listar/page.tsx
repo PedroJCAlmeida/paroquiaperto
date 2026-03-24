@@ -76,16 +76,16 @@ export default function ListarParoquias() {
         body: JSON.stringify({
           nome: editForm.nome,
           endereco: editForm.endereco,
-          lat: p?.lat ?? '',
-          lng: p?.lng ?? '',
+          lat: p?.lat,
+          lng: p?.lng,
           telefone: editForm.telefone,
           email: editForm.email,
           descricao: editForm.descricao,
-          site: p?.site ?? '',
-          imagem: p?.imagem ?? '',
-          facebook: p?.facebook ?? '',
-          instagram: p?.instagram ?? '',
-          whatsapp: p?.whatsapp ?? '',
+          site: p?.site,
+          imagem: p?.imagem,
+          facebook: p?.facebook,
+          instagram: p?.instagram,
+          whatsapp: p?.whatsapp,
         }),
       });
       if (!res.ok) throw new Error('Erro ao editar');

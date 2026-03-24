@@ -42,8 +42,8 @@ export async function PUT(
       data: {
         nome: data.nome as string,
         endereco: data.endereco as string,
-        lat: String(data.lat),
-        lng: String(data.lng),
+        lat: data.lat != null && data.lat !== '' ? String(data.lat) : undefined,
+        lng: data.lng != null && data.lng !== '' ? String(data.lng) : undefined,
         telefone: (data.telefone as string) || null,
         email: (data.email as string) || null,
         site: (data.site as string) || null,

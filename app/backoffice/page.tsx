@@ -13,6 +13,7 @@ interface Stats {
 export default function BackofficeDashboard() {
   const [stats, setStats] = useState<Stats>({ paroquias: 0, horarios: 0, eventos: 0 });
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     Promise.all([
@@ -27,7 +28,7 @@ export default function BackofficeDashboard() {
           eventos: Array.isArray(eventos) ? eventos.length : 0,
         });
       })
-      .catch(() => {})
+      .catch(() => setError(true))
       .finally(() => setLoading(false));
   }, []);
 
@@ -66,6 +67,12 @@ export default function BackofficeDashboard() {
       <p style={{ color: '#64748b', marginBottom: '2rem' }}>
         Bem-vindo ao backoffice. Gerencie paróquias, horários e eventos.
       </p>
+
+      {error && (
+        <p style={{ color: '#e11d48', background: '#fff1f2', padding: '0.75rem 1rem', borderRadius: 8, marginBottom: '1.5rem' }}>
+          Erro ao carregar estatísticas. Verifique a ligação à base de dados.
+        </p>
+      )}
 
       <div
         style={{
