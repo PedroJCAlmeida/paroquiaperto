@@ -32,7 +32,7 @@ const Paroquias = () => {
   useEffect(() => {
     fetch('/api/distritos')
       .then(res => res.json())
-      .then(setDistritos)
+      .then(data => setDistritos(Array.isArray(data) ? data : []))
       .catch(() => setDistritos([]));
   }, []);
 
@@ -44,7 +44,7 @@ const Paroquias = () => {
     }
     fetch(`/api/conselhos?distritoId=${distrito}`)
       .then(res => res.json())
-      .then(setConselhos)
+      .then(data => setConselhos(Array.isArray(data) ? data : []))
       .catch(() => setConselhos([]));
     setConselho('');
   }, [distrito]);
@@ -98,34 +98,32 @@ const Paroquias = () => {
   return (
     <div className="paroquias-page">
       <Navbar />
-      <div style={{ paddingTop: '64px' }}>
-        <h2 className="paroquias-title">Paróquias Próximas</h2>
-        <div style={{ display: 'flex', gap: '18px', marginBottom: '28px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
-          <select value={distrito} onChange={e => { setDistrito(e.target.value); if (e.target.value) { setKm(''); setConselho(''); } }} style={{ padding: '12px', borderRadius: '10px', border: '1.5px solid #a5b4fc', minWidth: '140px', fontSize: '1.08rem', background: '#f8fafc', color: '#2563eb', fontWeight: 600 }}>
-            <option value="">Distrito</option>
-            {distritos.map(d => <option key={d.id} value={d.id}>{d.nome}</option>)}
-          </select>
-          <select value={conselho} onChange={e => { setConselho(e.target.value); if (e.target.value) setKm(''); }} style={{ padding: '12px', borderRadius: '10px', border: '1.5px solid #a5b4fc', minWidth: '140px', fontSize: '1.08rem', background: !distrito ? '#f3f3f3' : '#f8fafc', color: '#7c3aed', fontWeight: 600 }} disabled={!distrito}>
-            <option value="">Conselho</option>
-            {conselhos.map(c => <option key={c.id} value={c.id}>{c.nome}</option>)}
-          </select>
-          <select value={km} onChange={e => { setKm(e.target.value); if (e.target.value) { setDistrito(''); setConselho(''); } }} style={{ padding: '12px', borderRadius: '10px', border: '2px solid #fbbf24', minWidth: '140px', fontSize: '1.08rem', background: distrito || conselho ? '#f3f3f3' : '#fffbe8', color: '#7c3aed', fontWeight: 700 }} disabled={!!distrito || !!conselho}>
-            <option value="">Raio (km)</option>
-            <option value={5}>5 km</option>
-            <option value={10}>10 km</option>
-            <option value={20}>20 km</option>
-            <option value={50}>50 km</option>
-            <option value={100}>100 km</option>
-          </select>
-        </div>
-        <div className="paroquias-mapa">
-          <Mapa paroquias={listaFiltrada()} coords={coords} />
-        </div>
-        <div className="paroquias-lista">
-          {listaFiltrada().map(p => (
-            <ParoquiaCard key={p.id} dados={{ id: p.id, distancia: p.distancia ? p.distancia.toFixed(1) : '-', nome: p.nome, endereco: p.endereco, descricao: p.descricao, horarios: p.horarios, contato: p.contato, email: p.email, site: p.site, imagem: p.imagem, instagram: p.instagram, facebook: p.facebook, whatsapp: p.whatsapp }} />
-          ))}
-        </div>
+      <h2 className="paroquias-title">Paróquias Próximas</h2>
+      <div className="paroquias-filters">
+        <select value={distrito} onChange={e => { setDistrito(e.target.value); if (e.target.value) { setKm(''); setConselho(''); } }} className="paroquias-select paroquias-select--distrito">
+          <option value="">Distrito</option>
+          {distritos.map(d => <option key={d.id} value={d.id}>{d.nome}</option>)}
+        </select>
+        <select value={conselho} onChange={e => { setConselho(e.target.value); if (e.target.value) setKm(''); }} className={`paroquias-select paroquias-select--conselho${!distrito ? ' paroquias-select--disabled' : ''}`} disabled={!distrito}>
+          <option value="">Conselho</option>
+          {conselhos.map(c => <option key={c.id} value={c.id}>{c.nome}</option>)}
+        </select>
+        <select value={km} onChange={e => { setKm(e.target.value); if (e.target.value) { setDistrito(''); setConselho(''); } }} className={`paroquias-select paroquias-select--km${(distrito || conselho) ? ' paroquias-select--disabled' : ''}`} disabled={!!distrito || !!conselho}>
+          <option value="">Raio (km)</option>
+          <option value={5}>5 km</option>
+          <option value={10}>10 km</option>
+          <option value={20}>20 km</option>
+          <option value={50}>50 km</option>
+          <option value={100}>100 km</option>
+        </select>
+      </div>
+      <div className="paroquias-mapa">
+        <Mapa paroquias={listaFiltrada()} coords={coords} />
+      </div>
+      <div className="paroquias-lista">
+        {listaFiltrada().map(p => (
+          <ParoquiaCard key={p.id} dados={{ id: p.id, distancia: p.distancia ? p.distancia.toFixed(1) : '-', nome: p.nome, endereco: p.endereco, descricao: p.descricao, horarios: p.horarios, contato: p.contato, email: p.email, site: p.site, imagem: p.imagem, instagram: p.instagram, facebook: p.facebook, whatsapp: p.whatsapp }} />
+        ))}
       </div>
     </div>
   );

@@ -1,10 +1,9 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { FaUserCircle } from 'react-icons/fa';
-import '@/styles/Navbar.css';
 
 const Navbar = () => {
   const router = useRouter();
@@ -17,6 +16,7 @@ const Navbar = () => {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showBackofficeMenu, setShowBackofficeMenu] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const navRef = useRef(null);
 
   React.useEffect(() => {
     const checkAuth = () => setIsLoggedIn(Boolean(localStorage.getItem('token')));
@@ -25,10 +25,26 @@ const Navbar = () => {
     return () => window.removeEventListener('storage', checkAuth);
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (navRef.current && !navRef.current.contains(e.target)) {
+        setShowProfileMenu(false);
+        setShowBackofficeMenu(false);
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, []);
+
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
-    <header className="navbar">
+    <header className="navbar" ref={navRef}>
       <div className="navbar-inner">
         <Link href="/" className="navbar-logo" onClick={() => setIsOpen(false)}>
           <Image src="/logo.png" alt="Paróquia Perto" width={120} height={40} priority />
@@ -51,11 +67,9 @@ const Navbar = () => {
             <div
               className="navbar-link navbar-backoffice-dropdown"
               style={{ position: 'relative', display: 'inline-block' }}
-              onMouseEnter={() => setShowBackofficeMenu(true)}
-              onMouseLeave={() => setShowBackofficeMenu(false)}
               onClick={() => setShowBackofficeMenu(v => !v)}
             >
-              Backoffice
+              Backoffice <span aria-hidden="true">▾</span>
               {showBackofficeMenu && (
                 <div
                   className="navbar-backoffice-menu"
@@ -81,8 +95,6 @@ const Navbar = () => {
             <div
               className="navbar-login-icon"
               style={{ position: 'relative', display: 'inline-block' }}
-              onMouseEnter={() => setShowProfileMenu(true)}
-              onMouseLeave={() => setShowProfileMenu(false)}
               onClick={() => setShowProfileMenu(v => !v)}
               title="Perfil"
             >

@@ -1,7 +1,7 @@
 .contato-page {
   max-width: 960px;
-  margin: 100px auto 40px;
-  padding: 0 16px;
+  margin: 0 auto 40px;
+  padding: 24px 16px 0;
   font-family: Arial, sans-serif;
   color: #1f2937;
 }
@@ -118,4 +118,26 @@
 .rede-texto {
   font-size: 0.9rem;
   color: #4b5563;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .contato-page {
+    padding: 16px 12px 0;
+  }
+
+  .contato-title {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+  }
+
+  .contato-form input,
+  .contato-form textarea {
+    font-size: 1rem;
+  }
+
+  .contato-submit {
+    padding: 12px;
+    font-size: 0.95rem;
+  }
 }

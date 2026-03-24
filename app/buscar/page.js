@@ -7,9 +7,7 @@ export default function Buscar() {
   return (
     <>
       <Navbar />
-      <div style={{ paddingTop: '64px' }}>
-        <BuscarParoquias />
-      </div>
+      <BuscarParoquias />
     </>
   );
 }

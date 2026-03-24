@@ -11,66 +11,11 @@
   padding: 0;
 }
 
-/* --- Header --- */
-.home-header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 10;
-}
-
-.home-header-inner {
-  max-width: 960px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px;
-}
-
-.home-logo {
-  font-size: 1.25rem;
-  color: #2563eb;
-  margin: 0;
-}
-
-.home-nav {
-  display: flex;
-  gap: 24px;
-}
-
-.home-nav-link {
-  color: #4b5563;
-  text-decoration: none;
-  font-size: 0.95rem;
-}
-
-.home-nav-link:hover {
-  color: #1e3a8a;
-}
-
-/* Fallback: estiliza âncoras dentro do nav caso a classe não esteja presente */
-.home-nav a {
-  color: #4b5563;
-  text-decoration: none;
-  font-size: 0.95rem;
-}
-.home-nav a:hover {
-  color: #1e3a8a;
-}
-
-/* Espaço para conteúdo não ficar escondido sob o header */
-.home-hero {
-  padding-top: 80px;
-}
-
 /* --- Hero Section --- */
 .home-hero {
-  background: transparent; /* usa o gradiente do wrapper */
+  background: transparent;
   text-align: center;
-  padding: 60px 16px 40px;
+  padding: 48px 16px 40px;
 }
 
 .home-hero-inner {

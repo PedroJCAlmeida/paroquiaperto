@@ -28,16 +28,6 @@ const Home = () => {
   return (
     <div className="home-container">
       <Navbar />
-      <header className="home-header">
-        <div className="home-header-inner">
-          <h1 className="home-logo">Paróquia Perto</h1>
-          <nav className="home-nav">
-            <a className="home-nav-link" href="/">Início</a>
-            <a className="home-nav-link" href="/paroquias">Paróquias</a>
-            <a className="home-nav-link" href="/contato">Contato</a>
-          </nav>
-        </div>
-      </header>
 
       <div className="home-hero-wrap">
         <section className="home-hero">

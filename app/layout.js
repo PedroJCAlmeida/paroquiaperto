@@ -1,4 +1,5 @@
 import './globals.css';
+import '@/styles/Navbar.css';
 import GoogleProvider from '@/components/GoogleProvider';
 
 export const metadata = {

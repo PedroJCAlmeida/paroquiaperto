@@ -21,8 +21,7 @@ const Contato = () => {
   return (
     <>
       <Navbar />
-      <div style={{ paddingTop: '64px' }}>
-        <div className="contato-page">
+      <div className="contato-page">
           <h2 className="contato-title">Fale Conosco</h2>
           <div className="contato-grid">
             <form className="contato-form" onSubmit={handleSubmit}>
@@ -66,7 +65,6 @@ const Contato = () => {
             </div>
           </div>
         </div>
-      </div>
     </>
   );
 };

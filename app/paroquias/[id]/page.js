@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import Navbar from '@/components/Navbar';
+import '@/styles/ParoquiaDetalhe.css';
 
 export default function ParoquiaDetalhe({ params }) {
   const { id } = params;
@@ -72,8 +73,8 @@ export default function ParoquiaDetalhe({ params }) {
   return (
     <>
       <Navbar />
-      <div style={{ paddingTop: '64px', background: 'linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%)', minHeight: '100vh', padding: '32px 0' }}>
-        <div style={{ background: '#fff', borderRadius: '28px', boxShadow: '0 8px 40px rgba(60,60,120,0.13)', maxWidth: '760px', margin: '0 auto', padding: '38px', width: '95vw', border: '2px solid #e0e7ff' }}>
+      <div className="paroquia-detalhe-bg">
+        <div className="paroquia-detalhe-card">
           <button
             onClick={() => window.history.back()}
             style={{ outline: 'none', border: 'none', marginBottom: '22px', padding: '12px 28px', fontWeight: 900, fontSize: '1.08rem', borderRadius: '12px', background: 'linear-gradient(90deg,#2563eb 0%,#7c3aed 100%)', color: '#fff', cursor: 'pointer' }}
@@ -88,7 +89,7 @@ export default function ParoquiaDetalhe({ params }) {
               <img src="/logo.png" alt="Imagem padrão" style={{ width: '130px', height: '130px', objectFit: 'contain', borderRadius: '18px', background: '#e0e7ef', border: '2px solid #fbbf24' }} />
             )}
           </div>
-          <div style={{ marginBottom: '22px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+          <div className="paroquia-detalhe-grid">
             <div>
               <p><strong style={{ color: '#2563eb' }}>Endereço:</strong>{' '}
                 {paroquia?.endereco

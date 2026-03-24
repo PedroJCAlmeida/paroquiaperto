@@ -26,7 +26,7 @@ function BuscarParoquias({ embedded = false }) {
   useEffect(() => {
     fetch('/api/distritos')
       .then(res => res.json())
-      .then(setDistritos)
+      .then(data => setDistritos(Array.isArray(data) ? data : []))
       .catch(() => setDistritos([]));
   }, []);
 
@@ -38,7 +38,7 @@ function BuscarParoquias({ embedded = false }) {
     }
     fetch(`/api/conselhos?distritoId=${distrito}`)
       .then(res => res.json())
-      .then(setConselhos)
+      .then(data => setConselhos(Array.isArray(data) ? data : []))
       .catch(() => setConselhos([]));
     setConselho('');
   }, [distrito]);

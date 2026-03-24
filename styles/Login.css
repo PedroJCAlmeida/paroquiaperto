@@ -136,78 +136,53 @@
 /* --- Responsividade --- */
 @media (max-width: 768px) {
     .login-container {
-        padding: 0 !important;
-        min-height: 100vh !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: center !important;
-        align-items: center !important;
+        padding: 20px 12px;
     }
 
     .login-form {
         max-width: 98vw !important;
         width: 98vw !important;
-        padding: 18px 3vw !important;
+        padding: 18px 12px !important;
         border-radius: 14px !important;
-        gap: 18px !important;
+        gap: 15px !important;
         margin: 0 auto !important;
         box-sizing: border-box !important;
     }
 
     .login-logo {
-        height: 48px !important;
+        height: 48px;
     }
+
     .login-button {
-        font-size: 1rem !important;
-        padding: 12px 0 !important;
-        margin-top: 10px !important;
+        font-size: 1rem;
+        padding: 12px 0;
+        margin-top: 10px;
     }
 }
 
 @media (max-width: 480px) {
     .login-container h2 {
-        font-size: 1.3rem !important;
+        font-size: 1.3rem;
     }
+
     .login-form {
-        padding: 12px 2vw !important;
+        padding: 12px 8px !important;
         gap: 12px !important;
     }
+
     .login-logo {
-        height: 38px !important;
+        height: 38px;
     }
 }
 
-/* src/styles/Login.css */
-
-/* ... (Mantenha todo o CSS existente para .login-container, .login-logo-wrapper, .login-logo, etc.) ... */
-
 /* Adicione esta classe para mensagens de sucesso */
 .success-message {
-    color: #155724; /* Verde escuro */
-    background-color: #d4edda; /* Fundo verde claro */
+    color: #155724;
+    background-color: #d4edda;
     border: 1px solid #c3e6cb;
     padding: 10px 15px;
     border-radius: 5px;
     margin-bottom: 20px;
     font-size: 0.9rem;
     text-align: center;
-}
-
-/* ... (Mantenha o resto do CSS existente para .login-form, .form-group, .login-button, etc.) ... */
-
-/* Certifique-se de que as media queries também estão abrangendo os novos campos */
-@media (max-width: 768px) {
-    /* ... (Mantenha os estilos existentes para telas menores) ... */
-    .login-form {
-        /* Garanta que o padding e gap se ajustem bem */
-        padding: 20px;
-        gap: 15px;
-    }
-}
-
-@media (max-width: 480px) {
-    /* ... (Mantenha os estilos existentes para telas muito pequenas) ... */
-    .login-form {
-        padding: 15px;
-    }
 }
