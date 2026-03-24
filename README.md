@@ -74,8 +74,9 @@ npm run dev  # Runs on http://localhost:3000
 
 | Layer | Technology |
 |-------|-----------|
-| Frontend | Next.js 14 (App Router) |
+| Frontend | Next.js 15 (App Router) |
 | Backend | Next.js API Routes |
+| Language | TypeScript |
 | ORM | Prisma |
 | Database | PostgreSQL |
 | Auth | JWT + Google OAuth |
