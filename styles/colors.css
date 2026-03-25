@@ -1,40 +1,40 @@
-/* ── Catholic Color Palette ── */
+/* ── Catholic Color Palette - Clean & Elegant ── */
 :root {
-  /* Primary Colors - Traditional Catholic */
-  --color-gold: #D4AF37;
-  --color-gold-light: #E8C547;
-  --color-gold-dark: #B8860B;
+  /* Primary Colors - From Logo */
+  --color-blue: #1E40AF;           /* Deep blue - primary */
+  --color-blue-light: #3B82F6;     /* Light blue - hover states */
+  --color-blue-lighter: #DBEAFE;  /* Very light blue - backgrounds */
   
-  /* Secondary Colors */
-  --color-purple-dark: #5B3A70;
-  --color-purple: #7c3aed;
-  --color-purple-light: #9F7AEA;
+  /* Accent */
+  --color-gold: #D4AF37;           /* Elegant gold */
+  --color-gold-dark: #B8860B;      /* Dark gold */
   
-  /* Accent Colors */
-  --color-green-dark: #1B4D3E;
-  --color-green: #2D6A4F;
-  --color-red-deep: #A42537;
-  
-  /* Neutrals */
+  /* Neutrals - Clean palette */
   --color-white: #FFFFFF;
-  --color-cream: #F8F5F0;
-  --color-gray-light: #E8E4DF;
-  --color-gray: #9CA3AF;
-  --color-gray-dark: #4B5563;
-  --color-black: #1F2937;
+  --color-gray-50: #F9FAFB;
+  --color-gray-100: #F3F4F6;
+  --color-gray-200: #E5E7EB;
+  --color-gray-300: #D1D5DB;
+  --color-gray-400: #9CA3AF;
+  --color-gray-500: #6B7280;
+  --color-gray-600: #4B5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1F2937;
+  --color-black: #000000;
   
   /* Utilities */
   --color-border: #E5E7EB;
-  --color-shadow: rgba(0, 0, 0, 0.1);
+  --color-shadow: rgba(0, 0, 0, 0.08);
+  --color-shadow-md: rgba(0, 0, 0, 0.12);
 }
 
 /* Apply to both light and dark modes */
 body {
-  background-color: var(--color-cream);
-  color: var(--color-gray-dark);
+  background-color: var(--color-white);
+  color: var(--color-gray-700);
 }
 
 body.dark {
-  background-color: #1a1a1a;
-  color: #e0e0e0;
+  background-color: var(--color-gray-800);
+  color: var(--color-gray-100);
 }

@@ -1,17 +1,27 @@
 'use client';
 import React from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { Plus } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import '@/styles/ParoquiaDetalhe.css';
 import type { Paroquia, Horario, Evento } from '@/types';
 
 export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: string }> }) {
+  const router = useRouter();
   const [id, setId] = React.useState<string | null>(null);
   const [paroquia, setParoquia] = React.useState<Paroquia | null>(null);
   const [horarios, setHorarios] = React.useState<Horario[]>([]);
   const [eventos, setEventos] = React.useState<Evento[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
+  const [token, setToken] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    const t = localStorage.getItem('token');
+    setToken(t);
+  }, []);
 
   // Unwrap params Promise (Next.js 15)
   React.useEffect(() => {
@@ -49,6 +59,22 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
         setLoading(false);
       });
   }, [id]);
+
+  const handleCriarEvento = () => {
+    if (!token) {
+      router.push(`/register?redirect=/backoffice/eventos&message=Registe-se para criar um evento`);
+    } else {
+      router.push(`/backoffice/eventos`);
+    }
+  };
+
+  const handleCriarHorario = () => {
+    if (!token) {
+      router.push(`/register?redirect=/backoffice/horarios&message=Registe-se para registar um horário`);
+    } else {
+      router.push(`/backoffice/horarios`);
+    }
+  };
 
   if (loading) {
     return (
@@ -167,7 +193,38 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
           </div>
 
           <div style={{ marginBottom: '32px' }}>
-            <strong style={{ color: '#fbbf24', fontSize: '1.18rem', fontWeight: 900 }}>Horários</strong>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+              <strong style={{ color: '#fbbf24', fontSize: '1.18rem', fontWeight: 900 }}>Horários</strong>
+              <button 
+                onClick={handleCriarHorario}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '8px 14px',
+                  background: 'linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '6px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  fontSize: '0.85rem',
+                  boxShadow: '0 2px 8px rgba(30, 64, 175, 0.2)',
+                  transition: 'all 0.3s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(30, 64, 175, 0.3)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(30, 64, 175, 0.2)';
+                }}
+              >
+                <Plus size={16} />
+                Adicionar Horário
+              </button>
+            </div>
             {horarios.length > 0 ? (
               <ul style={{ listStyle: 'none', padding: 0, marginTop: 8 }}>
                 {horarios.map((h) => (
@@ -183,7 +240,38 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
           </div>
 
           <div style={{ marginBottom: '22px' }}>
-            <strong style={{ color: '#7c3aed', fontSize: '1.18rem', fontWeight: 900 }}>Eventos</strong>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+              <strong style={{ color: '#7c3aed', fontSize: '1.18rem', fontWeight: 900 }}>Eventos</strong>
+              <button 
+                onClick={handleCriarEvento}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '8px 14px',
+                  background: 'linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '6px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  fontSize: '0.85rem',
+                  boxShadow: '0 2px 8px rgba(30, 64, 175, 0.2)',
+                  transition: 'all 0.3s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(30, 64, 175, 0.3)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(30, 64, 175, 0.2)';
+                }}
+              >
+                <Plus size={16} />
+                Criar Evento
+              </button>
+            </div>
             {eventos.length > 0 ? (
               <ul style={{ listStyle: 'none', padding: 0, marginTop: 8 }}>
                 {eventos.map((e) => (

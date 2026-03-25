@@ -1,7 +1,8 @@
 'use client';
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { MapPin, Calendar, Bell, Share2 } from 'lucide-react';
 import axios, { AxiosError } from 'axios';
 import '@/styles/Login.css';
 
@@ -12,6 +13,7 @@ interface RegisterResponse {
 
 const RegistarUtilizador = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,6 +21,8 @@ const RegistarUtilizador = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const message = searchParams.get('message');
+  const redirect = searchParams.get('redirect');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -63,6 +67,78 @@ const RegistarUtilizador = () => {
         <img src="/logo.png" alt="Paróquia Perto" className="login-logo" />
       </div>
       <h2>Registar no Paróquia Perto</h2>
+      
+      {message && (
+        <div style={{ 
+          background: 'linear-gradient(135deg, #DBEAFE 0%, #FCE7F3 100%)',
+          border: '1px solid #BFDBFE',
+          borderRadius: '12px',
+          padding: '16px 20px',
+          marginBottom: '20px',
+          textAlign: 'center',
+          color: '#1E40AF',
+          fontWeight: '600',
+          fontSize: '0.95rem'
+        }}>
+          {message}
+        </div>
+      )}
+
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+        gap: '12px',
+        marginBottom: '24px',
+        maxWidth: '500px',
+        margin: '0 auto 24px'
+      }}>
+        <div style={{
+          background: '#F0F9FF',
+          border: '1px solid #BFDBFE',
+          borderRadius: '10px',
+          padding: '12px',
+          textAlign: 'center',
+          fontSize: '0.8rem'
+        }}>
+          <MapPin size={20} style={{ margin: '0 auto 8px', color: '#1E40AF' }} />
+          <strong style={{ color: '#1E40AF', display: 'block', marginBottom: '4px' }}>Registar Paróquia</strong>
+          <span style={{ color: '#64748B', fontSize: '0.75rem' }}>Adicione sua paróquia à rede</span>
+        </div>
+        <div style={{
+          background: '#F0F9FF',
+          border: '1px solid #BFDBFE',
+          borderRadius: '10px',
+          padding: '12px',
+          textAlign: 'center'
+        }}>
+          <Calendar size={20} style={{ margin: '0 auto 8px', color: '#1E40AF' }} />
+          <strong style={{ color: '#1E40AF', display: 'block', marginBottom: '4px', fontSize: '0.8rem' }}>Criar Eventos</strong>
+          <span style={{ color: '#64748B', fontSize: '0.75rem' }}>Publique eventos da comunidade</span>
+        </div>
+        <div style={{
+          background: '#F0F9FF',
+          border: '1px solid #BFDBFE',
+          borderRadius: '10px',
+          padding: '12px',
+          textAlign: 'center'
+        }}>
+          <Bell size={20} style={{ margin: '0 auto 8px', color: '#1E40AF' }} />
+          <strong style={{ color: '#1E40AF', display: 'block', marginBottom: '4px', fontSize: '0.8rem' }}>Notificações</strong>
+          <span style={{ color: '#64748B', fontSize: '0.75rem' }}>Receba atualizações importantes</span>
+        </div>
+        <div style={{
+          background: '#F0F9FF',
+          border: '1px solid #BFDBFE',
+          borderRadius: '10px',
+          padding: '12px',
+          textAlign: 'center'
+        }}>
+          <Share2 size={20} style={{ margin: '0 auto 8px', color: '#1E40AF' }} />
+          <strong style={{ color: '#1E40AF', display: 'block', marginBottom: '4px', fontSize: '0.8rem' }}>Contribuir</strong>
+          <span style={{ color: '#64748B', fontSize: '0.75rem' }}>Ajude a comunidade local</span>
+        </div>
+      </div>
+
       {loading && <p className="loading-message">A registar...</p>}
       {error && <p className="error-message">{error}</p>}
       {success && <p className="success-message">{success}</p>}

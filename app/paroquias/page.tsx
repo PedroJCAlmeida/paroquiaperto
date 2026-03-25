@@ -1,6 +1,9 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { Plus } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ParoquiaCard from '@/components/ParoquiaCard';
@@ -27,6 +30,7 @@ function calcularDistancia(lat1: number, lon1: number, lat2: number, lon2: numbe
 }
 
 const Paroquias = () => {
+  const router = useRouter();
   const [distritos, setDistritos] = useState<Distrito[]>([]);
   const [conselhos, setConselhos] = useState<Conselho[]>([]);
   const [lista, setLista] = useState<Paroquia[]>([]);
@@ -34,6 +38,12 @@ const Paroquias = () => {
   const [distrito, setDistrito] = useState('');
   const [conselho, setConselho] = useState('');
   const [km, setKm] = useState('10');
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    const t = localStorage.getItem('token');
+    setToken(t);
+  }, []);
 
   useEffect(() => {
     fetch('/api/distritos')
@@ -108,11 +118,50 @@ const Paroquias = () => {
     });
   };
 
+  const handleRegistarParoquia = () => {
+    if (!token) {
+      router.push('/register?redirect=/backoffice/paroquias&message=Registe-se para registar uma paroquia');
+    } else {
+      router.push('/backoffice/paroquias');
+    }
+  };
+
   return (
     <>
       <div className="paroquias-page">
         <Navbar />
-        <h2 className="paroquias-title">Paróquias Próximas</h2>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px', borderBottom: '1px solid #e5e7eb' }}>
+          <h2 className="paroquias-title" style={{ margin: 0 }}>Paróquias Próximas</h2>
+          <button 
+            onClick={handleRegistarParoquia}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '10px 16px',
+              background: 'linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              fontSize: '0.95rem',
+              boxShadow: '0 2px 8px rgba(30, 64, 175, 0.2)',
+              transition: 'all 0.3s'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 4px 12px rgba(30, 64, 175, 0.3)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 2px 8px rgba(30, 64, 175, 0.2)';
+            }}
+          >
+            <Plus size={18} />
+            Registar Paróquia
+          </button>
+        </div>
       <div className="paroquias-filters">
         <select
           value={distrito}

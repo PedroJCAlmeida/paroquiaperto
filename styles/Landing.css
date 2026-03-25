@@ -5,17 +5,17 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: var(--color-cream);
+  background-color: var(--color-white);
 }
 
 /* Header / Navigation */
 .landing-header {
   background-color: var(--color-white);
-  border-bottom: 2px solid var(--color-gold);
+  border-bottom: 1px solid var(--color-gray-200);
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px var(--color-shadow);
 }
 
 .landing-container {
@@ -34,7 +34,7 @@
 .landing-logo {
   font-size: 1.5rem;
   font-weight: 900;
-  color: var(--color-purple-dark);
+  color: var(--color-blue);
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -43,13 +43,13 @@
 }
 
 .landing-logo:hover {
-  color: var(--color-gold);
+  color: var(--color-blue-light);
 }
 
 .landing-logo-icon {
   width: 32px;
   height: 32px;
-  background: linear-gradient(135deg, #D4AF37 0%, #5B3A70 100%);
+  background: linear-gradient(135deg, #1E40AF 0%, #D4AF37 100%);
   color: white;
   border-radius: 50%;
   display: flex;
@@ -65,14 +65,14 @@
 }
 
 .landing-nav a {
-  color: var(--color-gray-dark);
+  color: var(--color-gray-600);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s;
 }
 
 .landing-nav a:hover {
-  color: var(--color-gold);
+  color: var(--color-blue);
 }
 
 .landing-nav-auth {
@@ -80,7 +80,7 @@
   gap: 12px;
   margin-left: 32px;
   padding-left: 32px;
-  border-left: 1px solid var(--color-gray-light);
+  border-left: 1px solid var(--color-gray-200);
 }
 
 @media (max-width: 768px) {
@@ -111,37 +111,37 @@
 }
 
 .landing-btn-primary {
-  background: linear-gradient(135deg, #D4AF37 0%, #C9A961 100%);
-  color: var(--color-purple-dark);
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+  background: var(--color-blue);
+  color: white;
+  box-shadow: 0 2px 8px rgba(30, 64, 175, 0.2);
 }
 
 .landing-btn-primary:hover {
+  background: var(--color-blue-light);
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
+  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
 }
 
 .landing-btn-secondary {
-  background-color: var(--color-purple-dark);
-  color: white;
-  box-shadow: 0 4px 12px rgba(91, 58, 112, 0.3);
+  background-color: var(--color-gray-100);
+  color: var(--color-blue);
+  border: 1px solid var(--color-gray-200);
 }
 
 .landing-btn-secondary:hover {
-  background-color: var(--color-purple);
+  background-color: var(--color-blue-lighter);
+  border-color: var(--color-blue);
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(91, 58, 112, 0.4);
 }
 
 .landing-btn-tertiary {
   background-color: transparent;
-  color: var(--color-gold);
-  border: 2px solid var(--color-gold);
+  color: var(--color-blue);
+  border: 2px solid var(--color-blue);
 }
 
 .landing-btn-tertiary:hover {
-  background-color: var(--color-gold);
-  color: var(--color-purple-dark);
+  background-color: var(--color-blue-lighter);
 }
 
 .landing-btn-large {
@@ -151,8 +151,8 @@
 
 /* Hero Section */
 .landing-hero {
-  background: linear-gradient(135deg, var(--color-purple-dark) 0%, var(--color-purple) 100%);
-  color: var(--color-cream);
+  background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%);
+  color: var(--color-white);
   padding: 80px 24px;
   position: relative;
   overflow: hidden;
@@ -166,7 +166,7 @@
   width: 500px;
   height: 500px;
   background: radial-gradient(circle, var(--color-gold), transparent);
-  opacity: 0.1;
+  opacity: 0.15;
   border-radius: 50%;
 }
 
@@ -195,7 +195,7 @@
 .landing-hero-subtitle {
   font-size: 1.2rem;
   margin-bottom: 32px;
-  color: rgba(248, 245, 240, 0.9);
+  color: rgba(255, 255, 255, 0.95);
   line-height: 1.6;
 }
 
@@ -212,19 +212,20 @@
 }
 
 .landing-hero-card {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 12px;
   padding: 24px;
   text-align: center;
-  color: var(--color-cream);
+  color: var(--color-white);
   transition: all 0.3s;
 }
 
 .landing-hero-card:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.18);
   transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.35);
 }
 
 .landing-hero-icon {
@@ -251,14 +252,14 @@
 .landing-section h2 {
   font-size: 2.5rem;
   font-weight: 900;
-  color: var(--color-purple-dark);
+  color: var(--color-blue);
   margin-bottom: 12px;
   text-align: center;
 }
 
 .landing-section-subtitle {
   font-size: 1.2rem;
-  color: var(--color-gray);
+  color: var(--color-gray-500);
   text-align: center;
   margin-bottom: 48px;
   max-width: 600px;
@@ -268,7 +269,7 @@
 
 /* How It Works */
 .landing-how-it-works {
-  background: linear-gradient(to bottom, var(--color-cream), var(--color-white));
+  background: var(--color-gray-50);
 }
 
 .landing-steps {
@@ -286,8 +287,8 @@
 .landing-step-number {
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg, #D4AF37 0%, #C9A961 100%);
-  color: var(--color-purple-dark);
+  background: var(--color-blue);
+  color: white;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -295,17 +296,17 @@
   font-size: 1.8rem;
   font-weight: 900;
   margin: 0 auto 20px;
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
 }
 
 .landing-step h3 {
   font-size: 1.3rem;
-  color: var(--color-purple-dark);
+  color: var(--color-blue);
   margin-bottom: 12px;
 }
 
 .landing-step p {
-  color: var(--color-gray);
+  color: var(--color-gray-600);
   line-height: 1.6;
   font-size: 1rem;
 }
@@ -324,8 +325,8 @@
 }
 
 .landing-feature-card {
-  background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-white) 100%);
-  border: 2px solid var(--color-gray-light);
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
   border-radius: 12px;
   padding: 32px 24px;
   text-align: center;
@@ -333,9 +334,9 @@
 }
 
 .landing-feature-card:hover {
-  border-color: var(--color-gold);
+  border-color: var(--color-blue);
   transform: translateY(-8px);
-  box-shadow: 0 12px 24px rgba(212, 175, 55, 0.15);
+  box-shadow: 0 12px 24px rgba(30, 64, 175, 0.1);
 }
 
 .landing-feature-icon {
@@ -345,27 +346,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #D4AF37 0%, #C9A961 100%);
+  background: var(--color-blue-lighter);
   border-radius: 12px;
-  color: var(--color-purple-dark);
+  color: var(--color-blue);
 }
 
 .landing-feature-card h3 {
   font-size: 1.2rem;
-  color: var(--color-purple-dark);
+  color: var(--color-blue);
   margin-bottom: 12px;
 }
 
 .landing-feature-card p {
-  color: var(--color-gray);
+  color: var(--color-gray-600);
   line-height: 1.6;
   font-size: 0.95rem;
 }
 
 /* Stats */
 .landing-stats {
-  background: linear-gradient(135deg, var(--color-purple-dark) 0%, var(--color-purple) 100%);
-  color: var(--color-cream);
+  background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%);
+  color: var(--color-white);
 }
 
 .landing-stats h2 {
@@ -393,13 +394,13 @@
 
 .landing-stat p {
   font-size: 1.1rem;
-  color: rgba(248, 245, 240, 0.9);
+  color: rgba(255, 255, 255, 0.95);
 }
 
 /* CTA Section */
 .landing-cta-section {
-  background: linear-gradient(135deg, var(--color-green-dark) 0%, var(--color-purple-dark) 100%);
-  color: var(--color-cream);
+  background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%);
+  color: var(--color-white);
   text-align: center;
 }
 
@@ -411,7 +412,7 @@
 .landing-cta-section > .landing-container > p {
   font-size: 1.2rem;
   margin-bottom: 32px;
-  color: rgba(248, 245, 240, 0.9);
+  color: rgba(255, 255, 255, 0.95);
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
@@ -424,9 +425,20 @@
   flex-wrap: wrap;
 }
 
+.landing-cta-section .landing-btn-secondary {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.landing-cta-section .landing-btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
 /* FAQ */
 .landing-faq {
-  background-color: var(--color-white);
+  background-color: var(--color-gray-50);
 }
 
 .landing-faq-list {
@@ -435,22 +447,23 @@
 }
 
 .landing-faq-item {
-  border: 1px solid var(--color-gray-light);
+  border: 1px solid var(--color-gray-200);
   border-radius: 8px;
   overflow: hidden;
   margin-bottom: 16px;
   transition: all 0.3s;
+  background-color: var(--color-white);
 }
 
 .landing-faq-item:hover {
-  border-color: var(--color-gold);
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.1);
+  border-color: var(--color-blue);
+  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.1);
 }
 
 .landing-faq-question {
   width: 100%;
   padding: 24px;
-  background-color: var(--color-cream);
+  background-color: var(--color-white);
   border: none;
   cursor: pointer;
   display: flex;
@@ -458,12 +471,12 @@
   align-items: center;
   font-size: 1.1rem;
   font-weight: 600;
-  color: var(--color-purple-dark);
+  color: var(--color-blue);
   transition: background-color 0.3s;
 }
 
 .landing-faq-question:hover {
-  background-color: var(--color-gray-light);
+  background-color: var(--color-gray-50);
 }
 
 .landing-faq-question span {
@@ -472,11 +485,11 @@
 
 .landing-faq-answer {
   padding: 24px;
-  background-color: var(--color-white);
-  color: var(--color-gray-dark);
+  background-color: var(--color-gray-50);
+  color: var(--color-gray-700);
   line-height: 1.7;
   font-size: 1rem;
-  border-top: 1px solid var(--color-gray-light);
+  border-top: 1px solid var(--color-gray-200);
 }
 
 /* Responsive */
