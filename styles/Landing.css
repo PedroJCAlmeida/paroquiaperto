@@ -211,6 +211,28 @@
   flex-wrap: wrap;
 }
 
+.landing-hero-ctas .landing-btn-primary {
+  background: var(--color-gold);
+  color: var(--color-blue);
+  box-shadow: 0 4px 16px rgba(156, 122, 70, 0.4);
+}
+
+.landing-hero-ctas .landing-btn-primary:hover {
+  background: var(--color-gold-dark);
+  color: var(--color-white);
+  box-shadow: 0 6px 20px rgba(156, 122, 70, 0.5);
+}
+
+.landing-hero-ctas .landing-btn-tertiary {
+  color: var(--color-white);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.landing-hero-ctas .landing-btn-tertiary:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: var(--color-white);
+}
+
 .landing-hero-visual {
   display: grid;
   grid-template-columns: 1fr;
