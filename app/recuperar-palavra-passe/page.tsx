@@ -38,55 +38,23 @@ export default function RecuperarPalavraPasse() {
       {error && <p className="error-message">{error}</p>}
       {success && <p className="success-message">{success}</p>}
       {!success && (
-        <form
-          onSubmit={handleSubmit}
-          className="login-form"
-          style={{
-            maxWidth: 400,
-            margin: '0 auto',
-            background: '#fff',
-            borderRadius: '16px',
-            boxShadow: '0 2px 16px rgba(0,0,0,0.08)',
-            padding: '32px 18px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '18px',
-          }}
-        >
+        <form onSubmit={handleSubmit} className="login-form">
           <p style={{ color: '#64748b', fontSize: '0.95rem', margin: 0 }}>
             Introduza o seu e-mail e enviaremos um link para redefinir a sua palavra-passe.
           </p>
-          <label style={{ fontWeight: 600, color: '#243B55', fontSize: '1.08rem' }}>
-            E-mail
+          <div className="form-field">
+            <label className="form-label" htmlFor="recovery-email">E-mail</label>
             <input
+              id="recovery-email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              style={{
-                width: '100%',
-                padding: '10px',
-                borderRadius: '8px',
-                border: '1px solid #cbd5e1',
-                marginTop: 4,
-                fontSize: '1rem',
-              }}
+              className="form-input"
+              placeholder="seu@email.com"
             />
-          </label>
-          <button
-            type="submit"
-            disabled={loading}
-            style={{
-              background: 'linear-gradient(135deg,#243B55 0%,#3E5C76 100%)',
-              color: '#fff',
-              fontWeight: 600,
-              fontSize: '1.08rem',
-              border: 'none',
-              borderRadius: '10px',
-              padding: '12px 0',
-              cursor: loading ? 'not-allowed' : 'pointer',
-            }}
-          >
+          </div>
+          <button type="submit" disabled={loading} className="login-button">
             {loading ? 'A enviar...' : 'Enviar link de recuperação'}
           </button>
         </form>

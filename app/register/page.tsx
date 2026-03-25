@@ -205,75 +205,56 @@ function RegistarUtilizadorForm() {
 
       {loading && <p className="loading-message">A registar...</p>}
       {error && <p className="error-message">{error}</p>}
-      <form
-        className="register-form"
-        onSubmit={handleSubmit}
-        style={{
-          maxWidth: 400,
-          margin: '0 auto',
-          background: '#fff',
-          borderRadius: '16px',
-          boxShadow: '0 2px 16px rgba(0,0,0,0.08)',
-          padding: '32px 18px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '18px',
-        }}
-      >
-        <label style={{ fontWeight: 600, color: '#243B55', fontSize: '1.08rem' }}>
-          Nome
+      <form className="register-form" onSubmit={handleSubmit}>
+        <div className="form-field">
+          <label className="form-label" htmlFor="nome">Nome</label>
           <input
+            id="nome"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }}
+            className="form-input"
+            placeholder="O seu nome completo"
           />
-        </label>
-        <label style={{ fontWeight: 600, color: '#243B55', fontSize: '1.08rem' }}>
-          E-mail
+        </div>
+        <div className="form-field">
+          <label className="form-label" htmlFor="reg-email">E-mail</label>
           <input
+            id="reg-email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }}
+            className="form-input"
+            placeholder="seu@email.com"
           />
-        </label>
-        <label style={{ fontWeight: 600, color: '#243B55', fontSize: '1.08rem' }}>
-          Senha
+        </div>
+        <div className="form-field">
+          <label className="form-label" htmlFor="reg-password">Palavra-passe</label>
           <input
+            id="reg-password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }}
+            className="form-input"
+            placeholder="Mínimo 6 caracteres"
           />
-        </label>
-        <label style={{ fontWeight: 600, color: '#243B55', fontSize: '1.08rem' }}>
-          Confirmar Senha
+        </div>
+        <div className="form-field">
+          <label className="form-label" htmlFor="reg-confirm-password">Confirmar palavra-passe</label>
           <input
+            id="reg-confirm-password"
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
-            style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }}
+            className="form-input"
+            placeholder="Repita a palavra-passe"
           />
-        </label>
-        <button
-          type="submit"
-          disabled={loading}
-          style={{
-            background: 'linear-gradient(135deg,#243B55 0%,#3E5C76 100%)',
-            color: '#fff',
-            fontWeight: 600,
-            fontSize: '1.08rem',
-            border: 'none',
-            borderRadius: '10px',
-            padding: '12px 0',
-            cursor: 'pointer',
-          }}
-        >
+        </div>
+        <button type="submit" disabled={loading} className="login-button">
           {loading ? 'A Registar...' : 'Registar'}
         </button>
       </form>
