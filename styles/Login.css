@@ -83,6 +83,29 @@
     margin: 0;
 }
 
+.auth-brand-benefits {
+    margin-top: 1.5rem;
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.auth-brand-benefit {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.84);
+    font-size: 0.84rem;
+    line-height: 1.35;
+}
+
+.auth-brand-icon {
+    color: var(--color-gold);
+    flex-shrink: 0;
+}
+
 /* ── Painel direito: formulário ── */
 .login-form-panel {
     flex: 1;
@@ -265,6 +288,77 @@
     max-width: 380px;
 }
 
+.register-success-card {
+    width: 100%;
+    max-width: 420px;
+    background: #ffffff;
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    box-shadow: 0 4px 24px var(--color-shadow);
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.9rem;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.register-success-icon {
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    background: #edfbf4;
+    border: 1px solid #a3e9c3;
+    color: #146a40;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.register-success-title {
+    margin: 0;
+    color: var(--color-blue);
+    font-size: 1.35rem;
+    font-weight: 700;
+}
+
+.register-success-text {
+    margin: 0;
+    color: var(--color-gray-600);
+    font-size: 0.92rem;
+    line-height: 1.5;
+}
+
+.register-success-email {
+    margin: 0;
+    width: 100%;
+    color: var(--color-blue);
+    font-weight: 700;
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    word-break: break-all;
+}
+
+.register-success-note {
+    margin: 0;
+    color: var(--color-gray-600);
+    font-size: 0.85rem;
+    line-height: 1.45;
+    background: #fff8ea;
+    border: 1px solid #f0d9aa;
+    border-radius: 10px;
+    padding: 10px 12px;
+}
+
+.register-success-button {
+    text-decoration: none;
+    text-align: center;
+}
+
 /* ── Link de registo ── */
 .login-register-link {
     margin-top: 0.85rem;
@@ -286,6 +380,18 @@
 .login-register-link a:hover {
     color: var(--color-gold);
     text-decoration: underline;
+}
+
+/* ── Recovery Forms ── */
+.recovery-instruction {
+    color: var(--color-gray-500);
+    font-size: 0.95rem;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.4;
+}
+
+.recovery-form {
+    /* Reuses default .login-form styles */
 }
 
 /* ── Responsividade ── */
@@ -314,5 +420,14 @@
         max-width: 100%;
         box-shadow: none;
         border: 1px solid var(--color-border);
+    }
+
+    .register-success-card {
+        max-width: 100%;
+        box-shadow: none;
+    }
+
+    .auth-brand-benefits {
+        display: none;
     }
 }
