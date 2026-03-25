@@ -60,7 +60,7 @@ function RegistarUtilizadorForm() {
         <div className="login-logo-wrapper">
           <img src="/logo_paroquia.png" alt="Paróquia Perto" className="login-logo" />
         </div>
-        <div style={{
+        <div className="register-success-card" style={{
           maxWidth: 440,
           width: '100%',
           margin: '0 auto',
@@ -152,7 +152,7 @@ function RegistarUtilizadorForm() {
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
         gap: '12px',
-        marginBottom: '24px',
+        width: '100%',
         maxWidth: '500px',
         margin: '0 auto 24px'
       }}>
