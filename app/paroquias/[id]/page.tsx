@@ -175,15 +175,15 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
                 )}
               </p>
               <div style={{ marginTop: '8px' }}>
-                <strong style={{ color: '#2563eb' }}>Redes sociais:</strong>
+                <strong style={{ color: '#9C7A46' }}>Redes sociais:</strong>
                 <div style={{ display: 'flex', gap: '16px', marginTop: '6px' }}>
                   {paroquia?.instagram ? (
-                    <a href={paroquia.instagram} target="_blank" rel="noopener noreferrer" style={{ color: '#1E40AF', fontWeight: 700 }}>Instagram</a>
+                    <a href={paroquia.instagram} target="_blank" rel="noopener noreferrer" style={{ color: '#9C7A46', fontWeight: 700 }}>Instagram</a>
                   ) : (
                     <span style={{ color: '#bbb' }}>Instagram</span>
                   )}
                   {paroquia?.facebook ? (
-                    <a href={paroquia.facebook} target="_blank" rel="noopener noreferrer" style={{ color: '#2563eb', fontWeight: 700 }}>Facebook</a>
+                    <a href={paroquia.facebook} target="_blank" rel="noopener noreferrer" style={{ color: '#9C7A46', fontWeight: 700 }}>Facebook</a>
                   ) : (
                     <span style={{ color: '#bbb' }}>Facebook</span>
                   )}

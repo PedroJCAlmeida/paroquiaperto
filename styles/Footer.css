@@ -1,7 +1,9 @@
 /* ── Footer ── */
+@import '@/styles/colors.css';
+
 .site-footer {
-  background: #273E54;
-  color: #cbd5e1;
+  background: linear-gradient(135deg, #1f2f46 0%, #273a54 100%);
+  color: #d6ccbf;
   padding: 40px 24px 24px;
   margin-top: auto;
 }
@@ -36,12 +38,12 @@
 .site-footer-brand-name {
   font-size: 1.25rem;
   font-weight: 800;
-  color: #f1f5f9;
+  color: #f4ede3;
 }
 
 .site-footer-brand-desc {
   font-size: 0.9rem;
-  color: #94a3b8;
+  color: #c9bbab;
   line-height: 1.6;
 }
 
@@ -59,13 +61,17 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--color-gold);
+  background: rgba(156, 122, 70, 0.15);
+  border: 1px solid rgba(156, 122, 70, 0.45);
   transition: all 0.3s ease;
   text-decoration: none;
 }
 
 .site-footer-social-link:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  color: #f0dfc7;
+  background: rgba(156, 122, 70, 0.3);
+  border-color: rgba(240, 223, 199, 0.6);
   transform: translateY(-2px);
 }
 
@@ -75,7 +81,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: #93c5fd;
+  color: var(--color-gold);
   margin-bottom: 12px;
 }
 
@@ -89,19 +95,19 @@
 }
 
 .site-footer-col a {
-  color: #94a3b8;
+  color: #c9bbab;
   text-decoration: none;
   font-size: 0.9rem;
   transition: color 0.2s;
 }
 
 .site-footer-col a:hover {
-  color: #f1f5f9;
+  color: #f0dfc7;
 }
 
 /* Bottom bar */
 .site-footer-bottom {
-  border-top: 1px solid #334155;
+  border-top: 1px solid rgba(156, 122, 70, 0.35);
   margin-top: 32px;
   padding-top: 20px;
   display: flex;
@@ -109,20 +115,20 @@
   justify-content: center;
   gap: 8px;
   font-size: 0.8rem;
-  color: #64748b;
+  color: #a78f70;
   text-align: center;
 }
 
 .site-footer-bottom a {
-  color: #64748b;
+  color: #b89f7d;
   text-decoration: none;
   transition: color 0.2s;
 }
 
 .site-footer-bottom a:hover {
-  color: #94a3b8;
+  color: #f0dfc7;
 }
 
 .site-footer-separator {
-  color: #475569;
+  color: #8f7658;
 }

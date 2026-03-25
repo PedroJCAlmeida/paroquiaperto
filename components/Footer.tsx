@@ -7,9 +7,9 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   const socialLinks = [
-    { name: 'Facebook', url: 'https://facebook.com/paroquiaperto', icon: FaFacebook, color: '#1877f2' },
-    { name: 'Instagram', url: 'https://instagram.com/paroquiaperto', icon: FaInstagram, color: '#e4405f' },
-    { name: 'WhatsApp', url: 'https://wa.me/351911837861', icon: FaWhatsapp, color: '#25d366' },
+    { name: 'Facebook', url: 'https://facebook.com/paroquiaperto', icon: FaFacebook },
+    { name: 'Instagram', url: 'https://instagram.com/paroquiaperto', icon: FaInstagram },
+    { name: 'WhatsApp', url: 'https://wa.me/351911837861', icon: FaWhatsapp },
   ];
 
   return (
@@ -31,7 +31,6 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 title={social.name}
                 className="site-footer-social-link"
-                style={{ color: social.color }}
               >
                 <social.icon size={24} />
               </a>
