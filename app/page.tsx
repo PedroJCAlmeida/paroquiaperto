@@ -73,7 +73,6 @@ export default function Landing() {
                 className="landing-btn-primary landing-btn-large"
                 onClick={() => router.push('/descobrir')}
               >
-                <MapPin size={20} />
                 Começar Agora
               </button>
               <Link href="#como-funciona" className="landing-btn-tertiary landing-btn-large">
