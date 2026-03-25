@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { MapPin, Calendar, Bell, Share2 } from 'lucide-react';
@@ -11,7 +11,7 @@ interface RegisterResponse {
   requiresEmailVerification?: boolean;
 }
 
-const RegistarUtilizador = () => {
+function RegistarUtilizadorForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [name, setName] = useState('');
@@ -22,7 +22,6 @@ const RegistarUtilizador = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const message = searchParams.get('message');
-  const redirect = searchParams.get('redirect');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -219,6 +218,12 @@ const RegistarUtilizador = () => {
       </p>
     </div>
   );
-};
+}
 
-export default RegistarUtilizador;
+export default function RegistarUtilizador() {
+  return (
+    <Suspense fallback={<div className="login-container"><p className="loading-message">A carregar...</p></div>}>
+      <RegistarUtilizadorForm />
+    </Suspense>
+  );
+}
