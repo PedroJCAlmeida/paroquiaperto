@@ -107,7 +107,7 @@ const LoginForm = () => {
           />
         </div>
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Link href="/recuperar-palavra-passe" style={{ fontSize: '0.9rem', color: '#243B55' }}>
+          <Link href="/recuperar-palavra-passe" style={{ fontSize: '0.9rem', color: '#1F2F46' }}>
             Esqueci a palavra-passe
           </Link>
         </div>
