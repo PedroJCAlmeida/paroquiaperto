@@ -28,6 +28,22 @@ export default function BackofficeMenu() {
   };
 
   const menuWidth = expanded ? (isMobile ? '80vw' : '220px') : (isMobile ? '0' : '48px');
+  const navbarHeight = 65;
+
+  const mobileOpenButtonStyle: React.CSSProperties = {
+    position: 'fixed',
+    top: navbarHeight + 8,
+    left: 12,
+    background: '#fff',
+    border: '1px solid #ddd',
+    borderRadius: '50%',
+    width: 44,
+    height: 44,
+    fontSize: '2rem',
+    cursor: 'pointer',
+    zIndex: 1001,
+    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+  };
 
   const linkStyle: React.CSSProperties = {
     display: 'flex',
@@ -53,17 +69,24 @@ export default function BackofficeMenu() {
 
   return (
     <>
+      {isMobile && expanded && (
+        <div
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.35)', zIndex: 999 }}
+          onClick={() => setExpanded(false)}
+          aria-hidden="true"
+        />
+      )}
       {isMobile && !expanded && (
         <button
           className="bo-mobile-open-btn"
-          style={{ position: 'fixed', top: 16, left: 16, background: '#fff', border: '1px solid #ddd', borderRadius: '50%', width: 44, height: 44, fontSize: '2rem', cursor: 'pointer', zIndex: 1001, boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}
+          style={mobileOpenButtonStyle}
           onClick={() => setExpanded(true)}
           aria-label="Abrir menu"
         >☰</button>
       )}
       <nav
         className={`backoffice-menu${expanded ? ' expanded' : ' collapsed'}${isMobile ? ' mobile' : ''}`}
-        style={{ width: menuWidth, maxWidth: isMobile ? '320px' : '220px', minWidth: isMobile ? '0' : '48px', transition: 'width 0.3s', overflow: 'hidden', minHeight: '100vh', background: '#f5f5f5', borderRight: '1px solid #ddd', position: isMobile ? 'fixed' : 'relative', top: 0, left: 0, zIndex: isMobile ? 1000 : 1 }}
+        style={{ width: menuWidth, maxWidth: isMobile ? '320px' : '220px', minWidth: isMobile ? '0' : '48px', transition: 'width 0.3s', overflow: 'hidden', minHeight: isMobile ? `calc(100vh - ${navbarHeight}px)` : '100vh', background: '#f5f5f5', borderRight: '1px solid #ddd', position: isMobile ? 'fixed' : 'relative', top: isMobile ? navbarHeight : 0, left: 0, zIndex: isMobile ? 1000 : 1 }}
       >
         <button
           style={{ position: 'absolute', top: 10, right: expanded ? 10 : 'auto', left: expanded ? 'auto' : 10, background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', zIndex: 2, color: '#333' }}
