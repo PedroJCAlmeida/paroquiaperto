@@ -90,11 +90,20 @@
 }
 
 @media (max-width: 768px) {
-  .landing-nav {
+  .landing-nav > a:not(:is(.landing-btn-primary, .landing-btn-secondary)) {
     display: none;
   }
   .landing-nav-auth {
-    display: none;
+    display: flex;
+    margin-left: 0;
+    padding-left: 0;
+    border-left: none;
+    gap: 8px;
+  }
+  .landing-nav-auth .landing-btn-primary,
+  .landing-nav-auth .landing-btn-secondary {
+    padding: 8px 14px;
+    font-size: 0.9rem;
   }
 }
 
@@ -541,10 +550,6 @@
   .landing-btn-large {
     width: 100%;
     justify-content: center;
-  }
-
-  .landing-nav {
-    display: none;
   }
 }
 

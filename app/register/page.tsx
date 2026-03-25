@@ -152,7 +152,7 @@ function RegistarUtilizadorForm() {
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
         gap: '12px',
-        marginBottom: '24px',
+        width: '100%',
         maxWidth: '500px',
         margin: '0 auto 24px'
       }}>

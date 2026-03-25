@@ -56,7 +56,7 @@ const LoginForm = () => {
         if (response.data.user?.role) {
           localStorage.setItem('role', response.data.user.role);
         }
-        router.push('/');
+        router.push('/descobrir');
       } else {
         setError('Email ou palavra-passe inválidos.');
       }
