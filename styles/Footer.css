@@ -115,12 +115,12 @@
   justify-content: center;
   gap: 8px;
   font-size: 0.8rem;
-  color: #a78f70;
+  color: #c9bbab;
   text-align: center;
 }
 
 .site-footer-bottom a {
-  color: #b89f7d;
+  color: #c9bbab;
   text-decoration: none;
   transition: color 0.2s;
 }
@@ -130,5 +130,5 @@
 }
 
 .site-footer-separator {
-  color: #8f7658;
+  color: #a78f70;
 }
