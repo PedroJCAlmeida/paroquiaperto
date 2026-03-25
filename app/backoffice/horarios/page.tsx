@@ -17,6 +17,7 @@ export default function InserirHorario() {
   const router = useRouter();
   const [showToast, setShowToast] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [paroquias, setParoquias] = useState<Paroquia[]>([]);
   const initialForm: HorarioForm = { paroquiaId: '', diaSemana: '', hora: '', tipo: 'Missa' };
   const [form, setForm] = useState<HorarioForm>(initialForm);
@@ -33,6 +34,7 @@ export default function InserirHorario() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSubmitting(true);
     try {
       const token = localStorage.getItem('token');
       const response = await fetch('/api/horarios', {
@@ -45,10 +47,12 @@ export default function InserirHorario() {
           localStorage.removeItem('token');
           localStorage.removeItem('role');
           router.replace('/login');
+          setSubmitting(false);
           return;
         }
         const errorText = await response.text();
         alert(`Erro ao enviar horário: ${response.status} ${errorText}`);
+        setSubmitting(false);
         return;
       }
       await response.json();
@@ -58,6 +62,8 @@ export default function InserirHorario() {
     } catch (error) {
       alert('Erro ao enviar horário');
       console.error(error);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -98,7 +104,10 @@ export default function InserirHorario() {
             {['Missa','Confissão','Adoração','Outros'].map((t) => <option key={t} value={t}>{t}</option>)}
           </select>
         </label>
-        <button type="submit">Salvar</button>
+        <button type="submit" disabled={submitting}>
+          {submitting && <span className="bo-spinner" aria-hidden="true" />}
+          {submitting ? 'A enviar horário...' : 'Salvar'}
+        </button>
       </form>
     </div>
   );

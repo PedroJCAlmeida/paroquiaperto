@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import { prisma } from '@/lib/prisma';
 import { sendAccountVerificationEmail } from '@/lib/email';
+import { validatePassword } from '@/lib/validation';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
@@ -10,6 +11,14 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     if (!name || !email || !password) {
       return NextResponse.json({ error: 'Campos obrigatórios em falta.' }, { status: 400 });
+    }
+
+    const validation = validatePassword(password);
+    if (!validation.isValid) {
+      return NextResponse.json(
+        { error: `Palavra-passe fraca. ${validation.errors.join(', ')}` },
+        { status: 400 }
+      );
     }
 
     const existing = await prisma.user.findUnique({ where: { email } });

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import SuccessModal from '@/components/SuccessModal';
+import AlertModal from '@/components/AlertModal';
 import Toast from '@/components/Toast';
 import '@/styles/Backoffice.css';
 import type { Distrito, Conselho } from '@/types';
@@ -35,11 +36,16 @@ export default function InserirParoquia() {
   const router = useRouter();
   const [showToast, setShowToast] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertType, setAlertType] = useState<'error' | 'warning' | 'info'>('error');
+  const [alertTitle, setAlertTitle] = useState('');
+  const [alertMessage, setAlertMessage] = useState('');
   const [distritos, setDistritos] = useState<Distrito[]>([]);
   const [conselhos, setConselhos] = useState<Conselho[]>([]);
   const [imagemFile, setImagemFile] = useState<File | null>(null);
   const [imagemPreview, setImagemPreview] = useState<string>('');
   const [uploadingImagem, setUploadingImagem] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const initialForm: ParoquiaForm = {
     nome: '', rua: '', numero: '', codigoPostal: '', cidade: '',
     distritoId: '', conselhoId: '', lat: '', lng: '', telefone: '',
@@ -91,9 +97,16 @@ export default function InserirParoquia() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const showAlertModal = (type: 'error' | 'warning' | 'info', title: string, message: string) => {
+    setAlertType(type);
+    setAlertTitle(title);
+    setAlertMessage(message);
+    setShowAlert(true);
+  };
+
   const buscarLocalizacao = async () => {
     if (!form.rua || !form.numero || !form.codigoPostal || !form.cidade) {
-      alert('Preencha todos os campos de endereço para buscar localização.');
+      showAlertModal('warning', 'Campos incompletos', 'Preencha todos os campos de endereço para buscar localização.');
       return;
     }
     const enderecoCompleto = `${form.rua}, ${form.numero}, ${form.codigoPostal} ${form.cidade}`;
@@ -103,21 +116,23 @@ export default function InserirParoquia() {
       const data = (await response.json()) as NominatimResult[];
       if (data?.length > 0) {
         setForm((prev) => ({ ...prev, lat: data[0].lat, lng: data[0].lon }));
-        alert('Localização encontrada!');
+        showAlertModal('info', 'Localização encontrada', 'Coordenadas preenchidas com sucesso.');
       } else {
-        alert('Endereço não encontrado. Tente um endereço mais genérico ou verifique os dados.');
+        showAlertModal('warning', 'Endereço não encontrado', 'Tente um endereço mais genérico ou verifique os dados informados.');
       }
-    } catch {
-      alert('Erro ao buscar localização.');
+    } catch (err) {
+      console.error('Geolocation error:', err);
+      showAlertModal('error', 'Erro na localização', 'Não foi possível buscar a localização. Verifique o endereço digitado.');
     }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!form.lat || !form.lng) {
-      alert('Clique em "Buscar localização" para obter as coordenadas antes de guardar.');
+      showAlertModal('warning', 'Localização não confirmada', 'Clique em "Buscar localização" para obter as coordenadas antes de guardar.');
       return;
     }
+    setSubmitting(true);
     try {
       const token = localStorage.getItem('token');
 
@@ -134,8 +149,14 @@ export default function InserirParoquia() {
         });
         setUploadingImagem(false);
         if (!uploadRes.ok) {
-          const err = await uploadRes.json() as { error?: string };
-          alert(`Erro ao fazer upload da imagem: ${err.error ?? uploadRes.status}`);
+          let errorMsg = 'Erro ao fazer upload da imagem.';
+          try {
+            const err = await uploadRes.json() as { error?: string };
+            errorMsg = err.error ?? `Erro ${uploadRes.status}`;
+          } catch (e) {
+            errorMsg = `Erro ${uploadRes.status}: ${uploadRes.statusText}`;
+          }
+          showAlertModal('error', 'Erro no upload', errorMsg);
           return;
         }
         const { url } = await uploadRes.json() as { url: string };
@@ -169,10 +190,18 @@ export default function InserirParoquia() {
           localStorage.removeItem('token');
           localStorage.removeItem('role');
           router.replace('/login');
+          setSubmitting(false);
           return;
         }
-        const errorText = await response.text();
-        alert(`Erro ao enviar paróquia: ${response.status} ${errorText}`);
+        let errorMsg = `Erro ${response.status}`;
+        try {
+          const errorData = await response.json() as { error?: string };
+          errorMsg = errorData.error ?? errorMsg;
+        } catch (e) {
+          const errorText = await response.text();
+          errorMsg = errorText || errorMsg;
+        }
+        showAlertModal('error', 'Erro ao enviar paróquia', errorMsg);
         return;
       }
       await response.json();
@@ -182,8 +211,10 @@ export default function InserirParoquia() {
       setShowModal(true);
       setShowToast(true);
     } catch (error) {
-      alert('Erro ao enviar paróquia');
-      console.error(error);
+      console.error('Submit error:', error);
+      showAlertModal('error', 'Erro ao enviar', (error instanceof Error ? error.message : 'Ocorreu um erro inesperado'));
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -191,6 +222,7 @@ export default function InserirParoquia() {
     <div className="backoffice-page">
       <h2>Inserir Paróquia</h2>
       <SuccessModal show={showModal} onClose={() => setShowModal(false)} title="Obrigado pela colaboração!" message="Sua paróquia foi enviada com sucesso." />
+      <AlertModal show={showAlert} type={alertType} title={alertTitle} message={alertMessage} onClose={() => setShowAlert(false)} />
       <Toast show={showToast} type="success" message="Paróquia enviada com sucesso!" onClose={() => setShowToast(false)} />
       <form className="backoffice-form" onSubmit={handleSubmit}>
         <section className="bo-section">
@@ -273,8 +305,9 @@ export default function InserirParoquia() {
           <label>Instagram<input type="url" name="instagram" value={form.instagram} onChange={handleChange} /></label>
           <label>WhatsApp<input type="text" name="whatsapp" value={form.whatsapp} onChange={handleChange} /></label>
         </section>
-        <button type="submit" disabled={uploadingImagem}>
-          {uploadingImagem ? 'A fazer upload...' : 'Salvar'}
+        <button type="submit" disabled={uploadingImagem || submitting}>
+          {(uploadingImagem || submitting) && <span className="bo-spinner" aria-hidden="true" />}
+          {uploadingImagem ? 'A fazer upload...' : submitting ? 'A enviar paróquia...' : 'Salvar'}
         </button>
       </form>
     </div>

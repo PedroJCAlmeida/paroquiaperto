@@ -124,6 +124,10 @@
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
   transition: transform 0.2s, box-shadow 0.2s;
   margin-top: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .backoffice-form button[type="submit"]:hover {
@@ -133,6 +137,28 @@
 
 .backoffice-form button[type="submit"]:active {
   transform: translateY(0);
+}
+
+.backoffice-form button[type="submit"]:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.bo-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: bo-spin 0.8s linear infinite;
+}
+
+@keyframes bo-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsividade */

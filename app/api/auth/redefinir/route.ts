@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/prisma';
+import { validatePassword } from '@/lib/validation';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
@@ -10,8 +11,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ error: 'Token e nova palavra-passe são obrigatórios.' }, { status: 400 });
     }
 
-    if (password.length < 6) {
-      return NextResponse.json({ error: 'A palavra-passe deve ter pelo menos 6 caracteres.' }, { status: 400 });
+    const validation = validatePassword(password);
+    if (!validation.isValid) {
+      return NextResponse.json(
+        { error: `Palavra-passe fraca. ${validation.errors.join(', ')}` },
+        { status: 400 }
+      );
     }
 
     const resetToken = await prisma.passwordResetToken.findUnique({ where: { token } });

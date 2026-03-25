@@ -19,6 +19,7 @@ export default function InserirEvento() {
   const router = useRouter();
   const [showToast, setShowToast] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [paroquias, setParoquias] = useState<Paroquia[]>([]);
   const initialForm: EventoForm = { paroquiaId: '', titulo: '', data: '', hora: '', descricao: '', imagem: '' };
   const [form, setForm] = useState<EventoForm>(initialForm);
@@ -35,6 +36,7 @@ export default function InserirEvento() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSubmitting(true);
     try {
       const token = localStorage.getItem('token');
       const response = await fetch('/api/eventos', {
@@ -47,10 +49,12 @@ export default function InserirEvento() {
           localStorage.removeItem('token');
           localStorage.removeItem('role');
           router.replace('/login');
+          setSubmitting(false);
           return;
         }
         const errorText = await response.text();
         alert(`Erro ao enviar evento: ${response.status} ${errorText}`);
+        setSubmitting(false);
         return;
       }
       await response.json();
@@ -60,6 +64,8 @@ export default function InserirEvento() {
     } catch (error) {
       alert('Erro ao enviar evento');
       console.error(error);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -103,7 +109,10 @@ export default function InserirEvento() {
           Link da Imagem (opcional)
           <input type="url" name="imagem" value={form.imagem} onChange={handleChange} />
         </label>
-        <button type="submit">Salvar Evento</button>
+        <button type="submit" disabled={submitting}>
+          {submitting && <span className="bo-spinner" aria-hidden="true" />}
+          {submitting ? 'A enviar evento...' : 'Salvar Evento'}
+        </button>
       </form>
     </div>
   );
