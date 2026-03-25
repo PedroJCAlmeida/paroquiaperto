@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Trash2, PlusCircle } from 'lucide-react';
 import Toast from '@/components/Toast';
+import '@/styles/Backoffice.css';
 import type { Horario } from '@/types';
 
 const DIAS = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
@@ -58,50 +59,51 @@ export default function ListarHorarios() {
   const sorted = [...horarios].sort((a, b) => DIAS.indexOf(a.diaSemana) - DIAS.indexOf(b.diaSemana));
 
   return (
-    <div style={{ padding: '2rem', maxWidth: 900, margin: '0 auto' }}>
+    <div className="bo-container">
       <Toast show={toast.show} type={toast.type} message={toast.message} onClose={() => setToast((t) => ({ ...t, show: false }))} />
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
-        <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1e293b', margin: 0 }}>Horários de Missa</h2>
-        <Link
-          href="/backoffice/horarios"
-          style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 18px', borderRadius: 10, background: '#243B55', color: '#fff', fontWeight: 700, textDecoration: 'none', fontSize: '0.95rem' }}
-        >
-          <PlusCircle size={16} /> Inserir
+      
+      <div className="bo-header">
+        <h2 className="bo-title">Horários de Missa</h2>
+        <Link href="/backoffice/horarios" className="bo-btn bo-btn-primary">
+          <PlusCircle size={18} /> Inserir
         </Link>
       </div>
 
       {loading ? (
-        <p style={{ color: '#64748b' }}>A carregar...</p>
+        <p className="loading-message">A carregar...</p>
       ) : sorted.length === 0 ? (
-        <p style={{ color: '#64748b' }}>Nenhum horário encontrado.</p>
+        <p className="empty-message">Nenhum horário encontrado.</p>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+        <div className="bo-list">
           {sorted.map((h) => (
-            <div
-              key={h.id}
-              style={{ background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px rgba(0,0,0,0.08)', padding: '1rem 1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}
-            >
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontWeight: 700, fontSize: '1rem', color: '#1e293b' }}>
+            <div key={h.id} className="bo-list-item">
+              <div className="bo-list-content">
+                <div className="bo-list-title">
                   {h.diaSemana} — {h.hora}
-                  <span style={{ marginLeft: 8, padding: '2px 10px', borderRadius: 99, background: '#E8EDF3', color: '#243B55', fontSize: '0.82rem', fontWeight: 700 }}>{h.tipo}</span>
+                  <span style={{ marginLeft: 10, padding: '2px 10px', borderRadius: 99, background: '#f1f5f9', color: '#475569', fontSize: '0.75rem', fontWeight: 700, verticalAlign: 'middle' }}>
+                    {h.tipo}
+                  </span>
                 </div>
                 {h.paroquia && (
-                  <div style={{ color: '#64748b', fontSize: '0.9rem', marginTop: 2 }}>{h.paroquia.nome}</div>
+                  <div className="bo-list-desc">{h.paroquia.nome}</div>
                 )}
               </div>
-              <button
-                onClick={() => handleDelete(h.id)}
-                title="Remover"
-                style={{ padding: '7px 12px', borderRadius: 8, background: '#fff1f2', color: '#e11d48', border: '1px solid #fecdd3', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0 }}
-              >
-                <Trash2 size={15} /> Remover
-              </button>
+              <div className="bo-list-actions">
+                <button onClick={() => handleDelete(h.id)} className="bo-btn bo-btn-light" style={{ color: '#e11d48' }}>
+                  <Trash2 size={16} /> <span className="hide-mobile">Remover</span>
+                </button>
+              </div>
             </div>
           ))}
         </div>
       )}
+      <style jsx>{`
+        @media (max-width: 480px) {
+          .hide-mobile {
+            display: none;
+          }
+        }
+      `}</style>
     </div>
   );
 }
-

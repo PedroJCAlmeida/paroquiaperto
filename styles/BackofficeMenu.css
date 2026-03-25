@@ -1,55 +1,159 @@
 /* BackofficeMenu.css */
 .backoffice-menu {
-  width: 220px;
-  /* min-height: 100vh; */
-  background-color: #2c3e50;
-  padding: 1.5rem 1rem;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
-  color: white;
   position: fixed;
-  top: 0;
+  top: 64px; /* Navbar height */
   left: 0;
-  z-index: 900;
+  height: calc(100vh - 64px);
+  background-color: #ffffff;
+  border-right: 1px solid #e2e8f0;
+  transition: width 0.3s ease, transform 0.3s ease;
+  z-index: 1000;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  top: 65px;
-  height: calc(100vh - 65px);
-  overflow-y: auto; 
+  overflow-x: hidden;
 }
 
-.backoffice-menu h3 {
-  margin: 0;
-  font-size: 1.3rem;
-  color: #ecf0f1;
-  text-align: center;
+.backoffice-menu.expanded {
+  width: 240px;
 }
 
-.backoffice-menu ul {
+.backoffice-menu.collapsed {
+  width: 70px;
+}
+
+/* Mobile styles */
+@media (max-width: 700px) {
+  .backoffice-menu.mobile {
+    width: 280px;
+    transform: translateX(-100%);
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .backoffice-menu.mobile.expanded {
+    transform: translateX(0);
+  }
+
+  .backoffice-menu.mobile.collapsed {
+    width: 280px; /* On mobile, even if collapsed state is triggered, we show full width if it's open */
+    transform: translateX(-100%);
+  }
+}
+
+.backoffice-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: 999;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.bo-mobile-open-btn {
+  position: fixed;
+  top: 72px;
+  left: 12px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  z-index: 998;
+  color: #243B55;
+  transition: transform 0.2s ease;
+}
+
+.bo-mobile-open-btn:active {
+  transform: scale(0.9);
+}
+
+.menu-toggle-btn {
+  background: none;
+  border: none;
+  padding: 12px;
+  margin: 8px;
+  cursor: pointer;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+  align-self: flex-end;
+}
+
+.menu-toggle-btn:hover {
+  background-color: #f1f5f9;
+  color: #243B55;
+}
+
+.menu-list {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 4px;
 }
 
-.backoffice-menu li {
-  width: 100%;
+.menu-item {
+  padding: 0 8px;
 }
 
-.backoffice-menu a {
+.menu-link {
+  display: flex;
+  align-items: center;
+  padding: 12px;
   text-decoration: none;
-  color: #bdc3c7;
-  font-weight: 500;
-  display: block;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  transition: background-color 0.3s, color 0.3s;
+  color: #475569;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
-.backoffice-menu a:hover,
-.backoffice-menu a.active {
-  background-color: #34495e;
-  color: #ecf0f1;
+.menu-link:hover {
+  background-color: #f1f5f9;
+  color: #243B55;
+}
+
+.menu-icon {
+  min-width: 24px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.backoffice-menu.collapsed .menu-icon {
+  margin-right: 0;
+}
+
+.backoffice-menu.collapsed .menu-link {
+  justify-content: center;
+}
+
+.menu-text {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.menu-section-label {
+  padding: 16px 20px 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.backoffice-menu.collapsed .menu-section-label {
+  padding: 16px 0 8px;
+  text-align: center;
 }

@@ -20,7 +20,7 @@
 }
 
 .login-logo {
-    height: 60px; /* Ajuste o tamanho conforme preferir */
+    height: 120px; /* Aumentado de 60px para 120px para melhor visibilidade no computador */
     width: auto;
     max-width: 100%; /* Garante que o logo não ultrapasse o container em telas pequenas */
 }
@@ -155,7 +155,7 @@
     }
 
     .login-logo {
-        height: 48px !important;
+        height: 80px !important;
     }
     .login-button {
         font-size: 1rem !important;
@@ -173,7 +173,7 @@
         gap: 12px !important;
     }
     .login-logo {
-        height: 38px !important;
+        height: 60px !important;
     }
 }
 

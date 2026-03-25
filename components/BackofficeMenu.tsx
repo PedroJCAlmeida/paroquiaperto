@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { LayoutDashboard, Home, Calendar, CalendarDays, List, PlusCircle, Shield } from 'lucide-react';
+import { LayoutDashboard, Calendar, CalendarDays, List, PlusCircle, ChevronLeft, Menu, X } from 'lucide-react';
 import '@/styles/BackofficeMenu.css';
 
 export default function BackofficeMenu() {
@@ -9,10 +9,15 @@ export default function BackofficeMenu() {
   const [isMobile, setIsMobile] = useState(false);
   const [userRole, setUserRole] = useState<string | null>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 700);
-      if (window.innerWidth > 700) setExpanded(true);
+      const mobile = window.innerWidth <= 700;
+      setIsMobile(mobile);
+      if (!mobile) {
+        setExpanded(true);
+      } else {
+        setExpanded(false);
+      }
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
@@ -27,128 +32,76 @@ export default function BackofficeMenu() {
     if (isMobile) setExpanded(false);
   };
 
-  const menuWidth = expanded ? (isMobile ? '80vw' : '220px') : (isMobile ? '0' : '48px');
-  const navbarHeight = 65;
-
-  const mobileOpenButtonStyle: React.CSSProperties = {
-    position: 'fixed',
-    top: navbarHeight + 8,
-    left: 12,
-    background: '#fff',
-    border: '1px solid #ddd',
-    borderRadius: '50%',
-    width: 44,
-    height: 44,
-    fontSize: '2rem',
-    cursor: 'pointer',
-    zIndex: 1001,
-    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-  };
-
-  const linkStyle: React.CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    color: '#222',
-    textDecoration: 'none',
-    fontWeight: 'bold',
-    fontSize: isMobile ? '1.3rem' : '1rem',
-    padding: isMobile ? '1rem 2rem' : '0.5rem 0',
-    width: '100%',
-  };
-
-  const sectionLabelStyle: React.CSSProperties = {
-    width: '100%',
-    paddingLeft: isMobile ? '2rem' : '0.5rem',
-    fontSize: '0.75rem',
-    color: '#6b7280',
-    fontWeight: 700,
-    letterSpacing: 1,
-    textTransform: 'uppercase',
-    marginTop: isMobile ? '1rem' : '0.5rem',
+  const toggleMenu = () => {
+    setExpanded(!expanded);
   };
 
   return (
     <>
       {isMobile && expanded && (
-        <div
-          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.35)', zIndex: 999 }}
-          onClick={() => setExpanded(false)}
-          aria-hidden="true"
-        />
+        <div className="backoffice-menu-overlay" onClick={() => setExpanded(false)} aria-hidden="true" />
       )}
+      
       {isMobile && !expanded && (
-        <button
-          className="bo-mobile-open-btn"
-          style={mobileOpenButtonStyle}
-          onClick={() => setExpanded(true)}
-          aria-label="Abrir menu"
-        >☰</button>
-      )}
-      <nav
-        className={`backoffice-menu${expanded ? ' expanded' : ' collapsed'}${isMobile ? ' mobile' : ''}`}
-        style={{ width: menuWidth, maxWidth: isMobile ? '320px' : '220px', minWidth: isMobile ? '0' : '48px', transition: 'width 0.3s', overflow: 'hidden', minHeight: isMobile ? `calc(100vh - ${navbarHeight}px)` : '100vh', background: '#f5f5f5', borderRight: '1px solid #ddd', position: isMobile ? 'fixed' : 'relative', top: isMobile ? navbarHeight : 0, left: 0, zIndex: isMobile ? 1000 : 1 }}
-      >
-        <button
-          style={{ position: 'absolute', top: 10, right: expanded ? 10 : 'auto', left: expanded ? 'auto' : 10, background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', zIndex: 2, color: '#333' }}
-          onClick={() => setExpanded((e) => !e)}
-          aria-label={expanded ? 'Recolher menu' : 'Expandir menu'}
-        >
-          {expanded ? (isMobile ? '✕' : '←') : '☰'}
+        <button className="bo-mobile-open-btn" onClick={toggleMenu} aria-label="Abrir menu">
+          <Menu size={24} />
         </button>
-        <ul style={{ listStyle: 'none', padding: expanded ? (isMobile ? '2rem 0 0 0' : '0') : '0', marginTop: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: isMobile ? '2rem' : '1.5rem' }}>
-          {/* Dashboard */}
-          <li>
-            <Link href="/backoffice" style={linkStyle} onClick={handleNavClick}>
-              <LayoutDashboard size={isMobile ? 28 : 22} style={{ marginRight: expanded ? '12px' : '0' }} />
-              {expanded && <span>Dashboard</span>}
+      )}
+
+      <nav className={`backoffice-menu ${expanded ? 'expanded' : 'collapsed'} ${isMobile ? 'mobile' : ''}`}>
+        <button className="menu-toggle-btn" onClick={toggleMenu} aria-label={expanded ? 'Recolher menu' : 'Expandir menu'}>
+          {isMobile ? (expanded ? <X size={24} /> : <Menu size={24} />) : (expanded ? <ChevronLeft size={20} /> : <Menu size={20} />)}
+        </button>
+
+        <ul className="menu-list">
+          <li className="menu-item">
+            <Link href="/backoffice" className="menu-link" onClick={handleNavClick}>
+              <LayoutDashboard size={22} className="menu-icon" />
+              {expanded && <span className="menu-text">Dashboard</span>}
             </Link>
           </li>
 
-          {/* Paróquias section */}
-          {expanded && <li style={sectionLabelStyle}>Paróquias</li>}
-          <li>
-            <Link href="/backoffice/paroquias" style={linkStyle} onClick={handleNavClick}>
-              <PlusCircle size={isMobile ? 28 : 22} style={{ marginRight: expanded ? '12px' : '0' }} />
-              {expanded && <span>Inserir Paróquia</span>}
+          <li className="menu-section-label">{expanded ? 'Paróquias' : 'P'}</li>
+          <li className="menu-item">
+            <Link href="/backoffice/paroquias" className="menu-link" onClick={handleNavClick}>
+              <PlusCircle size={22} className="menu-icon" />
+              {expanded && <span className="menu-text">Inserir Paróquia</span>}
             </Link>
           </li>
-          <li>
-            <Link href="/backoffice/paroquias/listar" style={linkStyle} onClick={handleNavClick}>
-              <List size={isMobile ? 28 : 22} style={{ marginRight: expanded ? '12px' : '0' }} />
-              {expanded && <span>Listar Paróquias</span>}
-            </Link>
-          </li>
-
-          {/* Horários section */}
-          {expanded && <li style={sectionLabelStyle}>Horários</li>}
-          <li>
-            <Link href="/backoffice/horarios" style={linkStyle} onClick={handleNavClick}>
-              <PlusCircle size={isMobile ? 28 : 22} style={{ marginRight: expanded ? '12px' : '0' }} />
-              {expanded && <span>Inserir Horário</span>}
-            </Link>
-          </li>
-          <li>
-            <Link href="/backoffice/horarios/listar" style={linkStyle} onClick={handleNavClick}>
-              <Calendar size={isMobile ? 28 : 22} style={{ marginRight: expanded ? '12px' : '0' }} />
-              {expanded && <span>Listar Horários</span>}
+          <li className="menu-item">
+            <Link href="/backoffice/paroquias/listar" className="menu-link" onClick={handleNavClick}>
+              <List size={22} className="menu-icon" />
+              {expanded && <span className="menu-text">Listar Paróquias</span>}
             </Link>
           </li>
 
-          {/* Eventos section */}
-          {expanded && <li style={sectionLabelStyle}>Eventos</li>}
-          <li>
-            <Link href="/backoffice/eventos" style={linkStyle} onClick={handleNavClick}>
-              <PlusCircle size={isMobile ? 28 : 22} style={{ marginRight: expanded ? '12px' : '0' }} />
-              {expanded && <span>Inserir Evento</span>}
+          <li className="menu-section-label">{expanded ? 'Horários' : 'H'}</li>
+          <li className="menu-item">
+            <Link href="/backoffice/horarios" className="menu-link" onClick={handleNavClick}>
+              <PlusCircle size={22} className="menu-icon" />
+              {expanded && <span className="menu-text">Inserir Horário</span>}
             </Link>
           </li>
           <li>
-            <Link href="/backoffice/eventos/listar" style={linkStyle} onClick={handleNavClick}>
-              <CalendarDays size={isMobile ? 28 : 22} style={{ marginRight: expanded ? '12px' : '0' }} />
-              {expanded && <span>Listar Eventos</span>}
+            <Link href="/backoffice/horarios/listar" className="menu-link" onClick={handleNavClick}>
+              <Calendar size={22} className="menu-icon" />
+              {expanded && <span className="menu-text">Listar Horários</span>}
             </Link>
           </li>
 
+          <li className="menu-section-label">{expanded ? 'Eventos' : 'E'}</li>
+          <li className="menu-item">
+            <Link href="/backoffice/eventos" className="menu-link" onClick={handleNavClick}>
+              <PlusCircle size={22} className="menu-icon" />
+              {expanded && <span className="menu-text">Inserir Evento</span>}
+            </Link>
+          </li>
+          <li className="menu-item">
+            <Link href="/backoffice/eventos/listar" className="menu-link" onClick={handleNavClick}>
+              <CalendarDays size={22} className="menu-icon" />
+              {expanded && <span className="menu-text">Listar Eventos</span>}
+            </Link>
+          </li>
         </ul>
       </nav>
     </>

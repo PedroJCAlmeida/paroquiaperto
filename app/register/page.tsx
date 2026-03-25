@@ -65,74 +65,66 @@ function RegistarUtilizadorForm() {
           width: '100%',
           margin: '0 auto',
           background: '#fff',
-          borderRadius: '20px',
-          boxShadow: '0 2px 24px rgba(0,0,0,0.10)',
-          padding: '40px 28px',
+          borderRadius: '24px',
+          boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)',
+          padding: '48px 32px',
           textAlign: 'center',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '16px',
+          gap: '20px',
+          border: '1px solid #e2e8f0',
         }}>
           <div style={{
-            width: 72,
-            height: 72,
+            width: 80,
+            height: 80,
             borderRadius: '50%',
-            background: '#f0fdf4',
-            border: '2px solid #86efac',
+            background: '#ecfdf5',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            marginBottom: 4,
+            marginBottom: 8,
           }}>
-            <Mail size={36} style={{ color: '#16a34a' }} />
+            <Mail size={40} style={{ color: '#059669' }} />
           </div>
-          <h2 style={{ color: '#243B55', fontSize: '1.5rem', fontWeight: 800, margin: 0 }}>
-            Registo efetuado com sucesso!
+          <h2 style={{ color: '#1e293b', fontSize: '1.75rem', fontWeight: 800, margin: 0, letterSpacing: '-0.02em' }}>
+            Registo concluído!
           </h2>
-          <p style={{ color: '#475569', margin: 0, lineHeight: 1.6 }}>
+          <p style={{ color: '#475569', margin: 0, lineHeight: 1.6, fontSize: '1rem' }}>
             Enviámos um e-mail de verificação para:
           </p>
           <p style={{
-            background: '#f1f5f9',
-            borderRadius: '8px',
-            padding: '10px 18px',
-            color: '#243B55',
+            background: '#f8fafc',
+            borderRadius: '12px',
+            padding: '12px 20px',
+            color: '#1e3a8a',
             fontWeight: 700,
-            fontSize: '1rem',
+            fontSize: '1.1rem',
             margin: 0,
             wordBreak: 'break-all',
+            border: '1px solid #e2e8f0',
           }}>
             {registeredEmail}
           </p>
-          <p style={{ color: '#475569', margin: 0, lineHeight: 1.6 }}>
-            Por favor, clique no link no e-mail para <strong>ativar a sua conta</strong> antes de iniciar sessão.
+          <p style={{ color: '#64748b', margin: 0, lineHeight: 1.6 }}>
+            Por favor, clique no link no e-mail para <strong>ativar a sua conta</strong> antes de entrar.
           </p>
           <p style={{
-            color: '#64748b',
+            color: '#475569',
             fontSize: '0.875rem',
-            margin: 0,
-            background: '#fefce8',
+            margin: '8px 0',
+            background: '#fffbeb',
             border: '1px solid #fde68a',
-            borderRadius: '8px',
-            padding: '10px 14px',
+            borderRadius: '12px',
+            padding: '12px 16px',
             lineHeight: 1.5,
           }}>
-            💡 Não encontra o e-mail? Verifique a pasta de <strong>spam</strong> ou <strong>correio indesejado</strong>.
+            💡 Não encontra o e-mail? Verifique a pasta de <strong>spam</strong> ou <strong>promoções</strong>.
           </p>
           <Link
             href="/login"
-            style={{
-              marginTop: 8,
-              display: 'inline-block',
-              background: 'linear-gradient(135deg,#243B55 0%,#3E5C76 100%)',
-              color: '#fff',
-              fontWeight: 600,
-              fontSize: '1.05rem',
-              borderRadius: '10px',
-              padding: '12px 32px',
-              textDecoration: 'none',
-            }}
+            className="login-button"
+            style={{ textDecoration: 'none', textAlign: 'center' }}
           >
             Ir para o login
           </Link>
