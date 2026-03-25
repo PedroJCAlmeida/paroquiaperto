@@ -47,15 +47,21 @@
 }
 
 .landing-logo-icon {
-  width: 32px;
-  height: 32px;
-  background: linear-gradient(135deg, #1E40AF 0%, #D4AF37 100%);
-  color: white;
-  border-radius: 50%;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(30, 64, 175, 0.08) 0%, rgba(212, 175, 55, 0.14) 100%);
+  border: 1px solid rgba(30, 64, 175, 0.08);
+}
+
+.landing-logo-image {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
 }
 
 .landing-nav {

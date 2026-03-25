@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { MapPin, Church, Calendar, Users, Heart, ChevronDown, ChevronUp } from 'lucide-react';
@@ -36,7 +37,9 @@ export default function Landing() {
       <header className="landing-header">
         <div className="landing-container">
           <Link href="/" className="landing-logo">
-            <span className="landing-logo-icon">+</span>
+            <span className="landing-logo-icon" aria-hidden="true">
+              <Image src="/logo.png" alt="" width={40} height={40} className="landing-logo-image" priority />
+            </span>
             Paróquia Perto
           </Link>
           <nav className="landing-nav">
