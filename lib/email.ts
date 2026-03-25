@@ -1,28 +1,19 @@
-import fs from 'fs';
-import path from 'path';
-
-let cachedLogoDataUri: string | null = null;
-
-function getEmailLogoDataUri(): string {
-  if (cachedLogoDataUri !== null) return cachedLogoDataUri;
-  try {
-    const logoPath = path.join(process.cwd(), 'public', 'logo_paroquia.png');
-    const logoData = fs.readFileSync(logoPath);
-    cachedLogoDataUri = `data:image/png;base64,${logoData.toString('base64')}`;
-    return cachedLogoDataUri;
-  } catch (err) {
-    console.error('Erro ao carregar logo do email:', err);
-    return '';
-  }
-}
+const EMAIL_LOGO_URL = 'https://www.paroquiaperto.com/logo_paroquia.png';
+const SITE_BASE_URL = 'https://www.paroquiaperto.com';
 
 const socialLinksFooter = `
   <div style="text-align: center; padding: 24px 20px;">
     <p style="color: #5E5244; font-size: 0.85rem; margin: 0 0 16px 0;">Siga-nos nas redes sociais:</p>
     <div>
-      <a href="https://facebook.com/paroquiaperto" target="_blank" style="display: inline-block; margin: 0 6px; background-color: #1F2F46; color: #ffffff; text-decoration: none; padding: 8px 14px; border-radius: 4px; font-size: 0.8rem; font-family: Arial, sans-serif;">Facebook</a>
-      <a href="https://instagram.com/paroquiaperto" target="_blank" style="display: inline-block; margin: 0 6px; background-color: #1F2F46; color: #ffffff; text-decoration: none; padding: 8px 14px; border-radius: 4px; font-size: 0.8rem; font-family: Arial, sans-serif;">Instagram</a>
-      <a href="https://wa.me/351911837861" target="_blank" style="display: inline-block; margin: 0 6px; background-color: #1F2F46; color: #ffffff; text-decoration: none; padding: 8px 14px; border-radius: 4px; font-size: 0.8rem; font-family: Arial, sans-serif;">WhatsApp</a>
+      <a href="https://facebook.com/paroquiaperto" target="_blank" style="display: inline-block; margin: 0 8px; text-decoration: none;">
+        <img src="${SITE_BASE_URL}/social-facebook.svg" alt="Facebook" width="44" height="44" style="display: block; border: none;" />
+      </a>
+      <a href="https://instagram.com/paroquiaperto" target="_blank" style="display: inline-block; margin: 0 8px; text-decoration: none;">
+        <img src="${SITE_BASE_URL}/social-instagram.svg" alt="Instagram" width="44" height="44" style="display: block; border: none;" />
+      </a>
+      <a href="https://wa.me/351911837861" target="_blank" style="display: inline-block; margin: 0 8px; text-decoration: none;">
+        <img src="${SITE_BASE_URL}/social-whatsapp.svg" alt="WhatsApp" width="44" height="44" style="display: block; border: none;" />
+      </a>
     </div>
     <p style="color: #7F6F5B; font-size: 0.8rem; margin: 16px 0 0 0;">© Paróquia Perto</p>
   </div>
@@ -36,8 +27,6 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string): Prom
     console.error('Erro: BREVO_API_KEY ou BREVO_SENDER_EMAIL não configurados.');
     throw new Error('Configuração de e-mail incompleta.');
   }
-
-  const logoDataUri = getEmailLogoDataUri();
 
   const response = await fetch('https://api.brevo.com/v3/smtp/email', {
     method: 'POST',
@@ -53,7 +42,7 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string): Prom
       htmlContent: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #FAF8F4; border: 1px solid #E3DBCF; border-radius: 12px; overflow: hidden;">
           <div style="background-color: #1F2F46; text-align: center; padding: 28px 20px;">
-            <img src="${logoDataUri}" alt="Paróquia Perto" style="max-width: 120px; height: auto;" />
+            <img src="${EMAIL_LOGO_URL}" alt="Paróquia Perto" style="max-width: 120px; height: auto;" />
           </div>
           <div style="padding: 32px 36px;">
             <h2 style="color: #1F2F46; margin-top: 0;">Recuperação de Palavra-Passe</h2>
@@ -95,8 +84,6 @@ export async function sendAccountVerificationEmail(to: string, verificationUrl: 
     throw new Error('Configuração de e-mail incompleta.');
   }
 
-  const logoDataUri = getEmailLogoDataUri();
-
   const response = await fetch('https://api.brevo.com/v3/smtp/email', {
     method: 'POST',
     headers: {
@@ -111,7 +98,7 @@ export async function sendAccountVerificationEmail(to: string, verificationUrl: 
       htmlContent: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #FAF8F4; border: 1px solid #E3DBCF; border-radius: 12px; overflow: hidden;">
           <div style="background-color: #1F2F46; text-align: center; padding: 28px 20px;">
-            <img src="${logoDataUri}" alt="Paróquia Perto" style="max-width: 120px; height: auto;" />
+            <img src="${EMAIL_LOGO_URL}" alt="Paróquia Perto" style="max-width: 120px; height: auto;" />
           </div>
           <div style="padding: 32px 36px;">
             <h2 style="color: #1F2F46; margin-top: 0;">Confirmação de Conta</h2>
