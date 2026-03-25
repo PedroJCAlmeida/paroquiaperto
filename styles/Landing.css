@@ -70,14 +70,14 @@
   align-items: center;
 }
 
-.landing-nav a {
+.landing-nav a:not(:is(.landing-btn-primary, .landing-btn-secondary, .landing-btn-tertiary)) {
   color: var(--color-gray-600);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s;
 }
 
-.landing-nav a:hover {
+.landing-nav a:not(:is(.landing-btn-primary, .landing-btn-secondary, .landing-btn-tertiary)):hover {
   color: var(--color-blue);
 }
 
