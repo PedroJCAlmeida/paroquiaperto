@@ -28,7 +28,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       data: { token, userId: user.id, expiresAt },
     });
 
-    const baseUrl = process.env.APP_URL ?? 'http://localhost:3000';
+    const configuredUrl = process.env.APP_URL;
+    if (!configuredUrl) {
+      console.warn('APP_URL is not set. Falling back to request origin for password reset link. Set APP_URL in production.');
+    }
+    const baseUrl = configuredUrl ?? new URL(request.url).origin;
     const resetUrl = `${baseUrl}/recuperar-palavra-passe/redefinir?token=${token}`;
 
     await sendPasswordResetEmail(email, resetUrl);

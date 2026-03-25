@@ -31,7 +31,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       data: { token, userId: user.id, expiresAt },
     });
 
-    const baseUrl = process.env.APP_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
+    const configuredUrl = process.env.APP_URL ?? process.env.NEXT_PUBLIC_APP_URL;
+    if (!configuredUrl) {
+      console.warn('APP_URL is not set. Falling back to request origin for verification link. Set APP_URL in production.');
+    }
+    const baseUrl = configuredUrl ?? new URL(request.url).origin;
     const verificationUrl = `${baseUrl}/api/auth/confirmar?token=${token}`;
 
     await sendAccountVerificationEmail(email, verificationUrl);
