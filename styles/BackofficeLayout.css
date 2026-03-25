@@ -47,19 +47,16 @@
 }
 
 @media (max-width: 900px) {
-  .backoffice-container {
-    flex-direction: column;
+  .backoffice-content {
+    padding: 1rem;
   }
-  .backoffice-menu {
-    width: 100% !important;
-    min-height: auto !important;
-    border-right: none;
-    border-bottom: 1px solid #ddd;
-    position: static;
-  }
+}
+
+@media (max-width: 700px) {
   .backoffice-content {
     margin-left: 0;
     padding: 1rem;
     min-height: auto;
+    width: 100%;
   }
 }
