@@ -81,74 +81,37 @@ const LoginForm = () => {
       {loading && <p className="loading-message">A iniciar sessão...</p>}
       {info && <p className="success-message">{info}</p>}
       {error && <p className="error-message">{error}</p>}
-      <form
-        onSubmit={handleSubmit}
-        className="login-form"
-        style={{
-          maxWidth: 400,
-          margin: '0 auto',
-          background: '#fff',
-          borderRadius: '16px',
-          boxShadow: '0 2px 16px rgba(0,0,0,0.08)',
-          padding: '32px 18px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '18px',
-        }}
-      >
-        <label style={{ fontWeight: 600, color: '#243B55', fontSize: '1.08rem' }}>
-          E-mail
+      <form onSubmit={handleSubmit} className="login-form">
+        <div className="form-field">
+          <label className="form-label" htmlFor="email">E-mail</label>
           <input
+            id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            style={{
-              width: '100%',
-              padding: '10px',
-              borderRadius: '8px',
-              border: '1px solid #cbd5e1',
-              marginTop: 4,
-              fontSize: '1rem',
-            }}
+            className="form-input"
+            placeholder="seu@email.com"
           />
-        </label>
-        <label style={{ fontWeight: 600, color: '#243B55', fontSize: '1.08rem' }}>
-          Senha
+        </div>
+        <div className="form-field">
+          <label className="form-label" htmlFor="password">Palavra-passe</label>
           <input
+            id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            style={{
-              width: '100%',
-              padding: '10px',
-              borderRadius: '8px',
-              border: '1px solid #cbd5e1',
-              marginTop: 4,
-              fontSize: '1rem',
-            }}
+            className="form-input"
+            placeholder="A sua palavra-passe"
           />
-        </label>
+        </div>
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Link href="/recuperar-palavra-passe" style={{ fontSize: '0.9rem', color: '#243B55' }}>
             Esqueci a palavra-passe
           </Link>
         </div>
-        <button
-          type="submit"
-          disabled={loading}
-          style={{
-            background: 'linear-gradient(135deg,#243B55 0%,#3E5C76 100%)',
-            color: '#fff',
-            fontWeight: 600,
-            fontSize: '1.08rem',
-            border: 'none',
-            borderRadius: '10px',
-            padding: '12px 0',
-            cursor: 'pointer',
-          }}
-        >
+        <button type="submit" disabled={loading} className="login-button">
           {loading ? 'A Entrar...' : 'Entrar'}
         </button>
       </form>
