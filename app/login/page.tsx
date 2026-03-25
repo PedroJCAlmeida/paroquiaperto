@@ -84,6 +84,7 @@ const LoginForm = () => {
 
       {/* Painel direito: formulário */}
       <div className="login-form-panel">
+        <img src="/logo_paroquia.png" alt="Paróquia Perto" className="login-mobile-logo" />
         <h2>Bem-vindo de volta</h2>
         {loading && <p className="loading-message">A iniciar sessão...</p>}
         {info && <p className="success-message">{info}</p>}
