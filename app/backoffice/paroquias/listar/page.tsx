@@ -122,7 +122,7 @@ export default function ListarParoquias() {
         <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1e293b', margin: 0 }}>Paróquias</h2>
         <Link
           href="/backoffice/paroquias"
-          style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 18px', borderRadius: 10, background: '#2563eb', color: '#fff', fontWeight: 700, textDecoration: 'none', fontSize: '0.95rem' }}
+          style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 18px', borderRadius: 10, background: '#243B55', color: '#fff', fontWeight: 700, textDecoration: 'none', fontSize: '0.95rem' }}
         >
           <PlusCircle size={16} /> Inserir
         </Link>
@@ -176,7 +176,7 @@ export default function ListarParoquias() {
                 <div style={{ display: 'flex', gap: '0.5rem' }}>
                   <button
                     onClick={() => handleEditSubmit(p.id)}
-                    style={{ padding: '8px 18px', borderRadius: 8, background: '#2563eb', color: '#fff', fontWeight: 700, border: 'none', cursor: 'pointer' }}
+                    style={{ padding: '8px 18px', borderRadius: 8, background: '#243B55', color: '#fff', fontWeight: 700, border: 'none', cursor: 'pointer' }}
                   >
                     Guardar
                   </button>
@@ -208,7 +208,7 @@ export default function ListarParoquias() {
                   <button
                     onClick={() => startEdit(p)}
                     title="Editar"
-                    style={{ padding: '7px 12px', borderRadius: 8, background: '#f0f9ff', color: '#2563eb', border: '1px solid #bae6fd', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4 }}
+                    style={{ padding: '7px 12px', borderRadius: 8, background: '#f0f9ff', color: '#243B55', border: '1px solid #bae6fd', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4 }}
                   >
                     <Pencil size={15} /> Editar
                   </button>
@@ -228,3 +228,4 @@ export default function ListarParoquias() {
     </div>
   );
 }
+

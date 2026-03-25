@@ -36,7 +36,7 @@
 
 .backoffice-form label {
   font-weight: 600 !important;
-  color: #2563eb !important;
+  color: #243B55 !important;
   font-size: 1.12rem !important;
   margin-bottom: 8px !important;
   display: flex !important;
@@ -85,7 +85,7 @@
 
 .backoffice-form h3 {
   text-align: center !important;
-  color: #2563eb !important;
+  color: #243B55 !important;
   font-weight: 900 !important;
   font-size: 1.25rem !important;
   margin-bottom: 16px !important;
@@ -202,3 +202,4 @@
     margin-top: 10px !important;
   }
 }
+

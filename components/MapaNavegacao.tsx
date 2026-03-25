@@ -45,8 +45,8 @@ export default function MapaNavegacao({ paroquia }: MapaNavegacaoProps) {
   return (
     <div style={{ marginBottom: '32px' }}>
       <div style={{ marginBottom: '20px' }}>
-        <h3 style={{ fontSize: '1.2rem', fontWeight: '900', color: '#1E40AF', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <MapPin size={24} style={{ color: '#D4AF37' }} />
+        <h3 style={{ fontSize: '1.2rem', fontWeight: '900', color: '#243B55', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <MapPin size={24} style={{ color: '#A67C52' }} />
           Localização
         </h3>
 
@@ -203,7 +203,7 @@ export default function MapaNavegacao({ paroquia }: MapaNavegacaoProps) {
               borderRadius: '10px',
               padding: '12px 16px',
               fontSize: '0.9rem',
-              color: '#1E40AF'
+              color: '#243B55'
             }}>
               <strong>📍 Coordenadas:</strong> {lat.toFixed(4)}, {lng.toFixed(4)}
               <br />
@@ -231,3 +231,4 @@ export default function MapaNavegacao({ paroquia }: MapaNavegacaoProps) {
     </div>
   );
 }
+

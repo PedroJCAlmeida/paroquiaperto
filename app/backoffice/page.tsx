@@ -36,16 +36,16 @@ export default function BackofficeDashboard() {
     {
       label: 'Paróquias',
       count: stats.paroquias,
-      icon: <Church size={32} color="#2563eb" />,
-      color: '#2563eb',
+      icon: <Church size={32} color="#243B55" />,
+      color: '#243B55',
       listHref: '/backoffice/paroquias/listar',
       addHref: '/backoffice/paroquias',
     },
     {
       label: 'Horários',
       count: stats.horarios,
-      icon: <Calendar size={32} color="#1E40AF" />,
-      color: '#1E40AF',
+      icon: <Calendar size={32} color="#243B55" />,
+      color: '#243B55',
       listHref: '/backoffice/horarios/listar',
       addHref: '/backoffice/horarios',
     },
@@ -142,3 +142,4 @@ export default function BackofficeDashboard() {
     </div>
   );
 }
+

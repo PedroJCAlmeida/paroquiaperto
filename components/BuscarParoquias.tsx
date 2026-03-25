@@ -83,7 +83,7 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
     >
       <div style={{ maxWidth: 980, width: '100%', margin: '0 auto', paddingTop: 56, paddingLeft: 16, paddingRight: 16 }}>
         {!embedded && (
-          <h2 style={{ textAlign: 'center', fontSize: '2.3rem', fontWeight: 900, color: '#2563eb', letterSpacing: '1.5px', marginBottom: 32, textShadow: '0 2px 16px #e0e7ff' }}>
+          <h2 style={{ textAlign: 'center', fontSize: '2.3rem', fontWeight: 900, color: '#243B55', letterSpacing: '1.5px', marginBottom: 32, textShadow: '0 2px 16px #e0e7ff' }}>
             Buscar Paróquias
           </h2>
         )}
@@ -107,7 +107,7 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
             marginRight: 'auto',
           }}
         >
-          <label style={{ fontWeight: 800, color: '#2563eb', fontSize: isMobile ? '1.08rem' : '1.18rem', minWidth: isMobile ? 120 : 220, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
+          <label style={{ fontWeight: 800, color: '#243B55', fontSize: isMobile ? '1.08rem' : '1.18rem', minWidth: isMobile ? 120 : 220, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
             <span style={{ marginBottom: 2 }}>Buscar Paróquia</span>
             <input
               type="text"
@@ -117,23 +117,23 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
               style={{ width: '100%', padding: isMobile ? '10px' : '14px', borderRadius: '14px', border: '2px solid #a5b4fc', marginTop: 2, fontSize: isMobile ? '1rem' : '1.12rem', background: '#f8fafc', outline: 'none' }}
             />
           </label>
-          <label style={{ fontWeight: 700, color: '#1E40AF', fontSize: isMobile ? '1rem' : '1.12rem', minWidth: isMobile ? 120 : 180, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
+          <label style={{ fontWeight: 700, color: '#243B55', fontSize: isMobile ? '1rem' : '1.12rem', minWidth: isMobile ? 120 : 180, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
             <span>Distrito</span>
             <select value={distrito} onChange={(e) => setDistrito(e.target.value)} style={{ width: '100%', padding: isMobile ? '10px' : '14px', borderRadius: '14px', border: '2px solid #a5b4fc', marginTop: 2, fontSize: isMobile ? '1rem' : '1.12rem', background: '#f8fafc' }}>
               <option value="">Selecione o distrito</option>
               {distritos.map((d) => <option key={d.id} value={d.id}>{d.nome}</option>)}
             </select>
           </label>
-          <label style={{ fontWeight: 700, color: '#1E40AF', fontSize: isMobile ? '1rem' : '1.12rem', minWidth: isMobile ? 120 : 180, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
+          <label style={{ fontWeight: 700, color: '#243B55', fontSize: isMobile ? '1rem' : '1.12rem', minWidth: isMobile ? 120 : 180, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
             <span>Conselho</span>
             <select value={conselho} onChange={(e) => setConselho(e.target.value)} disabled={!distrito} style={{ width: '100%', padding: isMobile ? '10px' : '14px', borderRadius: '14px', border: '2px solid #a5b4fc', marginTop: 2, fontSize: isMobile ? '1rem' : '1.12rem', background: !distrito ? '#f3f3f3' : '#f8fafc' }}>
               <option value="">Selecione o conselho</option>
               {conselhos.map((c) => <option key={c.id} value={c.id}>{c.nome}</option>)}
             </select>
           </label>
-          <label style={{ fontWeight: 800, color: '#fbbf24', fontSize: isMobile ? '1rem' : '1.18rem', minWidth: isMobile ? 120 : 180, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
+          <label style={{ fontWeight: 800, color: '#A67C52', fontSize: isMobile ? '1rem' : '1.18rem', minWidth: isMobile ? 120 : 180, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
             <span>Raio de busca</span>
-            <select value={raio} onChange={(e) => setRaio(Number(e.target.value))} disabled={!!distrito || !!conselho} style={{ width: '100%', padding: isMobile ? '12px' : '16px', borderRadius: '16px', border: '2px solid #fbbf24', marginTop: 4, fontSize: isMobile ? '1rem' : '1.18rem', background: distrito || conselho ? '#f3f3f3' : '#f8fafc', color: '#1E40AF', fontWeight: 800 }}>
+            <select value={raio} onChange={(e) => setRaio(Number(e.target.value))} disabled={!!distrito || !!conselho} style={{ width: '100%', padding: isMobile ? '12px' : '16px', borderRadius: '16px', border: '2px solid #A67C52', marginTop: 4, fontSize: isMobile ? '1rem' : '1.18rem', background: distrito || conselho ? '#f3f3f3' : '#f8fafc', color: '#243B55', fontWeight: 800 }}>
               {[5, 10, 20, 50, 100].map((v) => <option key={v} value={v}>{v} km</option>)}
             </select>
           </label>
@@ -141,7 +141,7 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
             <button
               type="button"
               disabled={!!distrito || !!conselho}
-              style={{ padding: '16px 32px', fontSize: '1.15rem', borderRadius: '14px', background: distrito || conselho ? '#cbd5e1' : 'linear-gradient(135deg,#1E40AF 0%,#3B82F6 100%)', color: distrito || conselho ? '#334155' : '#fff', border: 'none', cursor: distrito || conselho ? 'not-allowed' : 'pointer', fontWeight: 800 }}
+              style={{ padding: '16px 32px', fontSize: '1.15rem', borderRadius: '14px', background: distrito || conselho ? '#cbd5e1' : 'linear-gradient(135deg,#243B55 0%,#3E5C76 100%)', color: distrito || conselho ? '#334155' : '#fff', border: 'none', cursor: distrito || conselho ? 'not-allowed' : 'pointer', fontWeight: 800 }}
               onClick={() => {
                 if (navigator.geolocation) {
                   navigator.geolocation.getCurrentPosition(
@@ -158,7 +158,7 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
             {lat && lng && (
               <button
                 type="button"
-                style={{ padding: '14px 24px', fontSize: '1.12rem', borderRadius: '14px', background: 'linear-gradient(90deg,#e11d48 0%,#fbbf24 100%)', color: '#fff', border: 'none', cursor: 'pointer', fontWeight: 800 }}
+                style={{ padding: '14px 24px', fontSize: '1.12rem', borderRadius: '14px', background: 'linear-gradient(90deg,#e11d48 0%,#A67C52 100%)', color: '#fff', border: 'none', cursor: 'pointer', fontWeight: 800 }}
                 onClick={() => { setLat(null); setLng(null); }}
               >
                 Limpar filtro
@@ -169,21 +169,21 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
 
         <div style={{ marginTop: 48 }}>
           {buscaTrim && (
-            <p style={{ textAlign: 'center', fontSize: '1.18rem', color: paroquias.length > 0 ? '#2563eb' : '#e11d48', fontWeight: 700, marginBottom: 22 }}>
+            <p style={{ textAlign: 'center', fontSize: '1.18rem', color: paroquias.length > 0 ? '#243B55' : '#e11d48', fontWeight: 700, marginBottom: 22 }}>
               {paroquias.length > 0 ? `Encontradas ${paroquias.length} paróquias.` : 'Nenhuma paróquia encontrada.'}
             </p>
           )}
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(340px, 1fr))', gap: isMobile ? '18px' : '32px' }}>
             {buscaTrim &&
               paroquias.map((p) => (
-                <div key={p.id} style={{ background: 'linear-gradient(120deg,#fff 80%,#fde68a 100%)', borderRadius: '22px', boxShadow: '0 6px 32px rgba(60,60,120,0.15)', padding: '28px 22px', display: 'flex', gap: '18px', alignItems: 'flex-start', minHeight: 180, border: '2px solid #fbbf24' }}>
+                <div key={p.id} style={{ background: 'linear-gradient(120deg,#fff 80%,#fde68a 100%)', borderRadius: '22px', boxShadow: '0 6px 32px rgba(60,60,120,0.15)', padding: '28px 22px', display: 'flex', gap: '18px', alignItems: 'flex-start', minHeight: 180, border: '2px solid #A67C52' }}>
                   {p.imagem && <img src={p.imagem} alt={p.nome} style={{ width: 100, height: 100, objectFit: 'cover', borderRadius: '16px', marginRight: 16 }} />}
                   <div style={{ flex: 1 }}>
-                    <h3 style={{ fontSize: '1.35rem', fontWeight: 900, color: '#2563eb', marginBottom: 8 }}>{p.nome}</h3>
-                    <p style={{ fontSize: '1.08rem', color: '#1E40AF', fontWeight: 700, marginBottom: 4 }}><strong>Endereço:</strong> {p.endereco}</p>
+                    <h3 style={{ fontSize: '1.35rem', fontWeight: 900, color: '#243B55', marginBottom: 8 }}>{p.nome}</h3>
+                    <p style={{ fontSize: '1.08rem', color: '#243B55', fontWeight: 700, marginBottom: 4 }}><strong>Endereço:</strong> {p.endereco}</p>
                     <p style={{ fontSize: '1.02rem', color: '#334155', marginBottom: 8 }}>{p.descricao}</p>
-                    <strong style={{ color: '#fbbf24', fontSize: '1.08rem' }}>Horários:</strong>
-                    <ul style={{ listStyle: 'disc', marginLeft: 18, marginTop: 2, color: '#2563eb', fontSize: '1.01rem' }}>
+                    <strong style={{ color: '#A67C52', fontSize: '1.08rem' }}>Horários:</strong>
+                    <ul style={{ listStyle: 'disc', marginLeft: 18, marginTop: 2, color: '#243B55', fontSize: '1.01rem' }}>
                       {Array.isArray(p.horarios) &&
                         p.horarios.map((h, idx) => (
                           <li key={idx}>
@@ -202,3 +202,4 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
 }
 
 export default BuscarParoquias;
+

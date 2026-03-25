@@ -27,7 +27,7 @@
 }
 
 .theme-toggle-btn:hover {
-  color: #007bff;
+  color: #1F2F46;
 }
 
 .dark .theme-toggle-btn:hover {
@@ -507,3 +507,4 @@
 .dark .site-footer-bottom a:hover {
   color: #64748b;
 }
+

@@ -56,7 +56,7 @@ export default function RecuperarPalavraPasse() {
           <p style={{ color: '#64748b', fontSize: '0.95rem', margin: 0 }}>
             Introduza o seu e-mail e enviaremos um link para redefinir a sua palavra-passe.
           </p>
-          <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem' }}>
+          <label style={{ fontWeight: 600, color: '#243B55', fontSize: '1.08rem' }}>
             E-mail
             <input
               type="email"
@@ -77,7 +77,7 @@ export default function RecuperarPalavraPasse() {
             type="submit"
             disabled={loading}
             style={{
-              background: 'linear-gradient(135deg,#1E40AF 0%,#3B82F6 100%)',
+              background: 'linear-gradient(135deg,#243B55 0%,#3E5C76 100%)',
               color: '#fff',
               fontWeight: 600,
               fontSize: '1.08rem',
@@ -97,3 +97,4 @@ export default function RecuperarPalavraPasse() {
     </div>
   );
 }
+

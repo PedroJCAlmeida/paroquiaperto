@@ -51,7 +51,7 @@ export default function SuccessModal({
             marginTop: '1rem',
             padding: '0.5rem 1.5rem',
             borderRadius: '8px',
-            background: '#1E40AF',
+            background: '#243B55',
             color: '#fff',
             border: 'none',
             fontWeight: 'bold',
@@ -65,3 +65,4 @@ export default function SuccessModal({
     </div>
   );
 }
+

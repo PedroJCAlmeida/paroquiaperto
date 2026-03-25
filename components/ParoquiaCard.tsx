@@ -39,7 +39,7 @@ export default function ParoquiaCard({ dados }: { dados: ParoquiaCardDados }) {
       ${email ? `<p><strong>Email:</strong> <a href="mailto:${email}" style="color:#545454">${email}</a></p>` : ''}
       ${site ? `<p><strong>Site:</strong> <a href="${site}" target="_blank" style="color:#545454">${site}</a></p>` : ''}
       <div style="margin:18px 0 0 0;display:flex;justify-content:center;">
-        <a href="/paroquias/${safeDados.id}" style="padding:10px 24px;background:linear-gradient(135deg,#1E40AF,#3B82F6);color:#fff;border-radius:8px;text-decoration:none;font-weight:bold;">Ver página</a>
+        <a href="/paroquias/${safeDados.id}" style="padding:10px 24px;background:linear-gradient(135deg,#243B55,#3E5C76);color:#fff;border-radius:8px;text-decoration:none;font-weight:bold;">Ver página</a>
       </div>
     `;
 
@@ -78,3 +78,4 @@ export default function ParoquiaCard({ dados }: { dados: ParoquiaCardDados }) {
     </div>
   );
 }
+

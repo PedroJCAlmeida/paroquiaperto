@@ -80,7 +80,7 @@ function Usuario() {
       <Navbar />
       <div style={{ paddingTop: '64px' }}>
         <div className="backoffice-page">
-          <h2 style={{ textAlign: 'center', color: '#2563eb', fontWeight: 900, fontSize: '2rem', marginBottom: 18 }}>
+          <h2 style={{ textAlign: 'center', color: '#243B55', fontWeight: 900, fontSize: '2rem', marginBottom: 18 }}>
             Área do Utilizador
           </h2>
           {loading ? (
@@ -88,7 +88,7 @@ function Usuario() {
           ) : (
             <form className="backoffice-form" style={{ maxWidth: 400, margin: '0 auto' }} onSubmit={handleSave}>
               {error && <div style={{ color: '#e11d48', fontWeight: 700, marginBottom: 8 }}>{error}</div>}
-              {success && <div style={{ color: '#2563eb', fontWeight: 700, marginBottom: 8 }}>{success}</div>}
+              {success && <div style={{ color: '#243B55', fontWeight: 700, marginBottom: 8 }}>{success}</div>}
               <label>
                 Nome
                 <input type="text" name="nome" value={form.nome} onChange={handleChange} disabled={!editMode || saving} />
@@ -140,3 +140,4 @@ function Usuario() {
 }
 
 export default Usuario;
+

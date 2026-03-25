@@ -139,7 +139,7 @@ const Paroquias = () => {
               alignItems: 'center',
               gap: '8px',
               padding: '10px 16px',
-              background: 'linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%)',
+              background: 'linear-gradient(135deg, #243B55 0%, #3E5C76 100%)',
               color: 'white',
               border: 'none',
               borderRadius: '8px',
@@ -248,3 +248,4 @@ const Paroquias = () => {
 };
 
 export default Paroquias;
+

@@ -69,7 +69,7 @@ export default function InserirEvento() {
       <SuccessModal show={showModal} onClose={() => setShowModal(false)} title="Obrigado pela colaboração!" message="Evento enviado com sucesso." />
       <Toast show={showToast} type="success" message="Evento enviado com sucesso!" onClose={() => setShowToast(false)} />
       <form className="backoffice-form" onSubmit={handleSubmit} style={{ maxWidth: 400, margin: '0 auto', background: '#fff', borderRadius: '16px', boxShadow: '0 2px 16px rgba(0,0,0,0.08)', padding: '32px 18px', display: 'flex', flexDirection: 'column', gap: '18px' }}>
-        <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem' }}>
+        <label style={{ fontWeight: 600, color: '#243B55', fontSize: '1.08rem' }}>
           Paróquia
           <select name="paroquiaId" value={form.paroquiaId} onChange={handleChange} required style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem', background: '#f8fafc' }}>
             <option value="">Selecione uma paróquia</option>
@@ -77,32 +77,33 @@ export default function InserirEvento() {
           </select>
           {paroquias.length === 0 && (
             <span style={{ display: 'block', marginTop: 6, color: '#ef4444', fontSize: '0.88rem' }}>
-              Nenhuma paróquia disponível. <a href="/backoffice/paroquias" style={{ color: '#2563eb', textDecoration: 'underline' }}>Insira uma paróquia</a> primeiro.
+              Nenhuma paróquia disponível. <a href="/backoffice/paroquias" style={{ color: '#243B55', textDecoration: 'underline' }}>Insira uma paróquia</a> primeiro.
             </span>
           )}
         </label>
-        <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem' }}>
+        <label style={{ fontWeight: 600, color: '#243B55', fontSize: '1.08rem' }}>
           Título do Evento
           <input type="text" name="titulo" value={form.titulo} onChange={handleChange} required style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
         </label>
-        <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem' }}>
+        <label style={{ fontWeight: 600, color: '#243B55', fontSize: '1.08rem' }}>
           Data
           <input type="date" name="data" value={form.data} onChange={handleChange} required style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
         </label>
-        <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem' }}>
+        <label style={{ fontWeight: 600, color: '#243B55', fontSize: '1.08rem' }}>
           Hora
           <input type="time" name="hora" value={form.hora} onChange={handleChange} required style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
         </label>
-        <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem' }}>
+        <label style={{ fontWeight: 600, color: '#243B55', fontSize: '1.08rem' }}>
           Descrição
           <textarea name="descricao" value={form.descricao} onChange={handleChange} rows={4} placeholder="Detalhes sobre o evento..." style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem', minHeight: 60 }} />
         </label>
-        <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem' }}>
+        <label style={{ fontWeight: 600, color: '#243B55', fontSize: '1.08rem' }}>
           Link da Imagem (opcional)
           <input type="url" name="imagem" value={form.imagem} onChange={handleChange} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
         </label>
-        <button type="submit" style={{ background: 'linear-gradient(135deg,#1E40AF 0%,#3B82F6 100%)', color: '#fff', fontWeight: 600, fontSize: '1.08rem', border: 'none', borderRadius: '10px', padding: '12px 0', cursor: 'pointer' }}>Salvar Evento</button>
+        <button type="submit" style={{ background: 'linear-gradient(135deg,#243B55 0%,#3E5C76 100%)', color: '#fff', fontWeight: 600, fontSize: '1.08rem', border: 'none', borderRadius: '10px', padding: '12px 0', cursor: 'pointer' }}>Salvar Evento</button>
       </form>
     </div>
   );
 }
+

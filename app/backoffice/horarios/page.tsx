@@ -67,7 +67,7 @@ export default function InserirHorario() {
       <SuccessModal show={showModal} onClose={() => setShowModal(false)} title="Obrigado pela colaboração!" message="Horário enviado com sucesso." />
       <Toast show={showToast} type="success" message="Horário enviado com sucesso!" onClose={() => setShowToast(false)} />
       <form className="backoffice-form" onSubmit={handleSubmit} style={{ maxWidth: 400, margin: '0 auto', background: '#fff', borderRadius: '16px', boxShadow: '0 2px 16px rgba(0,0,0,0.08)', padding: '32px 18px', display: 'flex', flexDirection: 'column', gap: '18px' }}>
-        <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem' }}>
+        <label style={{ fontWeight: 600, color: '#243B55', fontSize: '1.08rem' }}>
           Paróquia
           <select name="paroquiaId" value={form.paroquiaId} onChange={handleChange} required style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem', background: '#f8fafc' }}>
             <option value="">Selecione uma paróquia</option>
@@ -75,29 +75,30 @@ export default function InserirHorario() {
           </select>
           {paroquias.length === 0 && (
             <span style={{ display: 'block', marginTop: 6, color: '#ef4444', fontSize: '0.88rem' }}>
-              Nenhuma paróquia disponível. <a href="/backoffice/paroquias" style={{ color: '#2563eb', textDecoration: 'underline' }}>Insira uma paróquia</a> primeiro.
+              Nenhuma paróquia disponível. <a href="/backoffice/paroquias" style={{ color: '#243B55', textDecoration: 'underline' }}>Insira uma paróquia</a> primeiro.
             </span>
           )}
         </label>
-        <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem' }}>
+        <label style={{ fontWeight: 600, color: '#243B55', fontSize: '1.08rem' }}>
           Dia da Semana
           <select name="diaSemana" value={form.diaSemana} onChange={handleChange} required style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem', background: '#f8fafc' }}>
             <option value="">Selecione um dia</option>
             {['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'].map((d) => <option key={d} value={d}>{d}</option>)}
           </select>
         </label>
-        <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem' }}>
+        <label style={{ fontWeight: 600, color: '#243B55', fontSize: '1.08rem' }}>
           Hora
           <input type="time" name="hora" value={form.hora} onChange={handleChange} required style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
         </label>
-        <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem' }}>
+        <label style={{ fontWeight: 600, color: '#243B55', fontSize: '1.08rem' }}>
           Tipo
           <select name="tipo" value={form.tipo} onChange={handleChange} required style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem', background: '#f8fafc' }}>
             {['Missa','Confissão','Adoração','Outros'].map((t) => <option key={t} value={t}>{t}</option>)}
           </select>
         </label>
-        <button type="submit" style={{ background: 'linear-gradient(135deg,#1E40AF 0%,#3B82F6 100%)', color: '#fff', fontWeight: 600, fontSize: '1.08rem', border: 'none', borderRadius: '10px', padding: '12px 0', cursor: 'pointer' }}>Salvar</button>
+        <button type="submit" style={{ background: 'linear-gradient(135deg,#243B55 0%,#3E5C76 100%)', color: '#fff', fontWeight: 600, fontSize: '1.08rem', border: 'none', borderRadius: '10px', padding: '12px 0', cursor: 'pointer' }}>Salvar</button>
       </form>
     </div>
   );
 }
+

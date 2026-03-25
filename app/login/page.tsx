@@ -96,7 +96,7 @@ const LoginForm = () => {
           gap: '18px',
         }}
       >
-        <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem' }}>
+        <label style={{ fontWeight: 600, color: '#243B55', fontSize: '1.08rem' }}>
           E-mail
           <input
             type="email"
@@ -113,7 +113,7 @@ const LoginForm = () => {
             }}
           />
         </label>
-        <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem' }}>
+        <label style={{ fontWeight: 600, color: '#243B55', fontSize: '1.08rem' }}>
           Senha
           <input
             type="password"
@@ -131,7 +131,7 @@ const LoginForm = () => {
           />
         </label>
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Link href="/recuperar-palavra-passe" style={{ fontSize: '0.9rem', color: '#2563eb' }}>
+          <Link href="/recuperar-palavra-passe" style={{ fontSize: '0.9rem', color: '#243B55' }}>
             Esqueci a palavra-passe
           </Link>
         </div>
@@ -139,7 +139,7 @@ const LoginForm = () => {
           type="submit"
           disabled={loading}
           style={{
-            background: 'linear-gradient(135deg,#1E40AF 0%,#3B82F6 100%)',
+            background: 'linear-gradient(135deg,#243B55 0%,#3E5C76 100%)',
             color: '#fff',
             fontWeight: 600,
             fontSize: '1.08rem',
@@ -166,3 +166,4 @@ const Login = () => (
 );
 
 export default Login;
+

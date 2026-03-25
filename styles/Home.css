@@ -124,7 +124,7 @@
 .icon-participe { color: #7c3aed; }
 .icon-contribua { color: #ef4444; }
 
-.home-highlight-card:hover .home-highlight-icon.icon-encontre { color: #2563eb; }
+.home-highlight-card:hover .home-highlight-icon.icon-encontre { color: #243B55; }
 .home-highlight-card:hover .home-highlight-icon.icon-participe { color: #8b5cf6; }
 .home-highlight-card:hover .home-highlight-icon.icon-contribua { color: #f05959; }
 
@@ -191,3 +191,4 @@
     max-width: 98vw;
   }
 }
+

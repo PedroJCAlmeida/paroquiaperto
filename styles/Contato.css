@@ -51,11 +51,11 @@
 .contato-form input:focus,
 .contato-form textarea:focus {
   outline: none;
-  border-color: #2563eb;
+  border-color: #243B55;
 }
 
 .contato-submit {
-  background-color: #2563eb;
+  background-color: #243B55;
   color: #fff;
   border: none;
   padding: 14px;
@@ -66,7 +66,7 @@
 }
 
 .contato-submit:hover {
-  background-color: #1e40af;
+  background-color: #243B55;
 }
 
 .contato-status {
@@ -102,7 +102,7 @@
 
 .rede-icon {
   flex-shrink: 0;
-  color: #2563eb;
+  color: #243B55;
 }
 
 .rede-info {
@@ -141,3 +141,4 @@
     font-size: 0.95rem;
   }
 }
+

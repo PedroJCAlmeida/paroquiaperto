@@ -64,7 +64,7 @@ export default function ListarHorarios() {
         <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1e293b', margin: 0 }}>Horários de Missa</h2>
         <Link
           href="/backoffice/horarios"
-          style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 18px', borderRadius: 10, background: '#1E40AF', color: '#fff', fontWeight: 700, textDecoration: 'none', fontSize: '0.95rem' }}
+          style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 18px', borderRadius: 10, background: '#243B55', color: '#fff', fontWeight: 700, textDecoration: 'none', fontSize: '0.95rem' }}
         >
           <PlusCircle size={16} /> Inserir
         </Link>
@@ -84,7 +84,7 @@ export default function ListarHorarios() {
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontWeight: 700, fontSize: '1rem', color: '#1e293b' }}>
                   {h.diaSemana} — {h.hora}
-                  <span style={{ marginLeft: 8, padding: '2px 10px', borderRadius: 99, background: '#DBEAFE', color: '#1E40AF', fontSize: '0.82rem', fontWeight: 700 }}>{h.tipo}</span>
+                  <span style={{ marginLeft: 8, padding: '2px 10px', borderRadius: 99, background: '#E8EDF3', color: '#243B55', fontSize: '0.82rem', fontWeight: 700 }}>{h.tipo}</span>
                 </div>
                 {h.paroquia && (
                   <div style={{ color: '#64748b', fontSize: '0.9rem', marginTop: 2 }}>{h.paroquia.nome}</div>
@@ -104,3 +104,4 @@ export default function ListarHorarios() {
     </div>
   );
 }
+

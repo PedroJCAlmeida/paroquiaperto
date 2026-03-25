@@ -69,13 +69,13 @@ function RegistarUtilizadorForm() {
       
       {message && (
         <div style={{ 
-          background: 'linear-gradient(135deg, #DBEAFE 0%, #FCE7F3 100%)',
+          background: 'linear-gradient(135deg, #E8EDF3 0%, #FCE7F3 100%)',
           border: '1px solid #BFDBFE',
           borderRadius: '12px',
           padding: '16px 20px',
           marginBottom: '20px',
           textAlign: 'center',
-          color: '#1E40AF',
+          color: '#243B55',
           fontWeight: '600',
           fontSize: '0.95rem'
         }}>
@@ -99,8 +99,8 @@ function RegistarUtilizadorForm() {
           textAlign: 'center',
           fontSize: '0.8rem'
         }}>
-          <MapPin size={20} style={{ margin: '0 auto 8px', color: '#1E40AF' }} />
-          <strong style={{ color: '#1E40AF', display: 'block', marginBottom: '4px' }}>Registar Paróquia</strong>
+          <MapPin size={20} style={{ margin: '0 auto 8px', color: '#243B55' }} />
+          <strong style={{ color: '#243B55', display: 'block', marginBottom: '4px' }}>Registar Paróquia</strong>
           <span style={{ color: '#64748B', fontSize: '0.75rem' }}>Adicione sua paróquia à rede</span>
         </div>
         <div style={{
@@ -110,8 +110,8 @@ function RegistarUtilizadorForm() {
           padding: '12px',
           textAlign: 'center'
         }}>
-          <Calendar size={20} style={{ margin: '0 auto 8px', color: '#1E40AF' }} />
-          <strong style={{ color: '#1E40AF', display: 'block', marginBottom: '4px', fontSize: '0.8rem' }}>Criar Eventos</strong>
+          <Calendar size={20} style={{ margin: '0 auto 8px', color: '#243B55' }} />
+          <strong style={{ color: '#243B55', display: 'block', marginBottom: '4px', fontSize: '0.8rem' }}>Criar Eventos</strong>
           <span style={{ color: '#64748B', fontSize: '0.75rem' }}>Publique eventos da comunidade</span>
         </div>
         <div style={{
@@ -121,8 +121,8 @@ function RegistarUtilizadorForm() {
           padding: '12px',
           textAlign: 'center'
         }}>
-          <Bell size={20} style={{ margin: '0 auto 8px', color: '#1E40AF' }} />
-          <strong style={{ color: '#1E40AF', display: 'block', marginBottom: '4px', fontSize: '0.8rem' }}>Notificações</strong>
+          <Bell size={20} style={{ margin: '0 auto 8px', color: '#243B55' }} />
+          <strong style={{ color: '#243B55', display: 'block', marginBottom: '4px', fontSize: '0.8rem' }}>Notificações</strong>
           <span style={{ color: '#64748B', fontSize: '0.75rem' }}>Receba atualizações importantes</span>
         </div>
         <div style={{
@@ -132,8 +132,8 @@ function RegistarUtilizadorForm() {
           padding: '12px',
           textAlign: 'center'
         }}>
-          <Share2 size={20} style={{ margin: '0 auto 8px', color: '#1E40AF' }} />
-          <strong style={{ color: '#1E40AF', display: 'block', marginBottom: '4px', fontSize: '0.8rem' }}>Contribuir</strong>
+          <Share2 size={20} style={{ margin: '0 auto 8px', color: '#243B55' }} />
+          <strong style={{ color: '#243B55', display: 'block', marginBottom: '4px', fontSize: '0.8rem' }}>Contribuir</strong>
           <span style={{ color: '#64748B', fontSize: '0.75rem' }}>Ajude a comunidade local</span>
         </div>
       </div>
@@ -156,7 +156,7 @@ function RegistarUtilizadorForm() {
           gap: '18px',
         }}
       >
-        <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem' }}>
+        <label style={{ fontWeight: 600, color: '#243B55', fontSize: '1.08rem' }}>
           Nome
           <input
             type="text"
@@ -166,7 +166,7 @@ function RegistarUtilizadorForm() {
             style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }}
           />
         </label>
-        <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem' }}>
+        <label style={{ fontWeight: 600, color: '#243B55', fontSize: '1.08rem' }}>
           E-mail
           <input
             type="email"
@@ -176,7 +176,7 @@ function RegistarUtilizadorForm() {
             style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }}
           />
         </label>
-        <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem' }}>
+        <label style={{ fontWeight: 600, color: '#243B55', fontSize: '1.08rem' }}>
           Senha
           <input
             type="password"
@@ -186,7 +186,7 @@ function RegistarUtilizadorForm() {
             style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }}
           />
         </label>
-        <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.08rem' }}>
+        <label style={{ fontWeight: 600, color: '#243B55', fontSize: '1.08rem' }}>
           Confirmar Senha
           <input
             type="password"
@@ -200,7 +200,7 @@ function RegistarUtilizadorForm() {
           type="submit"
           disabled={loading}
           style={{
-            background: 'linear-gradient(135deg,#1E40AF 0%,#3B82F6 100%)',
+            background: 'linear-gradient(135deg,#243B55 0%,#3E5C76 100%)',
             color: '#fff',
             fontWeight: 600,
             fontSize: '1.08rem',
@@ -227,3 +227,4 @@ export default function RegistarUtilizador() {
     </Suspense>
   );
 }
+

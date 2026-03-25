@@ -10,7 +10,7 @@
 .buscar-title {
 	font-size: 1.5rem;
 	font-weight: 800;
-	color: #2563eb;
+	color: #243B55;
 	margin-bottom: 24px;
 	text-align: center;
 }
@@ -43,7 +43,7 @@
 }
 .buscar-btn {
 	padding: 12px 24px;
-	background: linear-gradient(90deg,#2563eb,#7c3aed);
+	background: linear-gradient(90deg,#243B55,#7c3aed);
 	color: #fff;
 	font-weight: 800;
 	border: none;
@@ -54,7 +54,7 @@
 	transition: background 0.2s;
 }
 .buscar-btn:hover {
-	background: linear-gradient(90deg,#7c3aed,#2563eb);
+	background: linear-gradient(90deg,#7c3aed,#243B55);
 }
 @media (max-width: 900px) {
 	.buscar-container {
@@ -87,3 +87,4 @@
 		gap: 10px;
 	}
 }
+
