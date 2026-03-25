@@ -1,8 +1,7 @@
 'use client';
 import React, { Suspense, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { MapPin, Calendar, Bell, Share2 } from 'lucide-react';
+import { MapPin, Calendar, Bell, Share2, Mail } from 'lucide-react';
 import axios, { AxiosError } from 'axios';
 import '@/styles/Login.css';
 
@@ -12,22 +11,18 @@ interface RegisterResponse {
 }
 
 function RegistarUtilizadorForm() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
-  const message = searchParams.get('message');
+  const [registeredEmail, setRegisteredEmail] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    setSuccess(null);
 
     if (password !== confirmPassword) {
       setError('As palavras-passe não coincidem.');
@@ -43,8 +38,7 @@ function RegistarUtilizadorForm() {
     try {
       const response = await axios.post<RegisterResponse>('/api/auth/register', { name, email, password });
       if (response.status === 200 && response.data.requiresEmailVerification) {
-        setSuccess(response.data.message);
-        setTimeout(() => router.push('/login'), 2000);
+        setRegisteredEmail(email);
       } else {
         setError('Erro ao registar utilizador.');
       }
@@ -60,28 +54,99 @@ function RegistarUtilizadorForm() {
     }
   };
 
+  if (registeredEmail) {
+    return (
+      <div className="login-container">
+        <div className="login-logo-wrapper">
+          <img src="/logo_paroquia.png" alt="Paróquia Perto" className="login-logo" />
+        </div>
+        <div style={{
+          maxWidth: 440,
+          width: '100%',
+          margin: '0 auto',
+          background: '#fff',
+          borderRadius: '20px',
+          boxShadow: '0 2px 24px rgba(0,0,0,0.10)',
+          padding: '40px 28px',
+          textAlign: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '16px',
+        }}>
+          <div style={{
+            width: 72,
+            height: 72,
+            borderRadius: '50%',
+            background: '#f0fdf4',
+            border: '2px solid #86efac',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: 4,
+          }}>
+            <Mail size={36} style={{ color: '#16a34a' }} />
+          </div>
+          <h2 style={{ color: '#243B55', fontSize: '1.5rem', fontWeight: 800, margin: 0 }}>
+            Registo efetuado com sucesso!
+          </h2>
+          <p style={{ color: '#475569', margin: 0, lineHeight: 1.6 }}>
+            Enviámos um e-mail de verificação para:
+          </p>
+          <p style={{
+            background: '#f1f5f9',
+            borderRadius: '8px',
+            padding: '10px 18px',
+            color: '#243B55',
+            fontWeight: 700,
+            fontSize: '1rem',
+            margin: 0,
+            wordBreak: 'break-all',
+          }}>
+            {registeredEmail}
+          </p>
+          <p style={{ color: '#475569', margin: 0, lineHeight: 1.6 }}>
+            Por favor, clique no link no e-mail para <strong>ativar a sua conta</strong> antes de iniciar sessão.
+          </p>
+          <p style={{
+            color: '#64748b',
+            fontSize: '0.875rem',
+            margin: 0,
+            background: '#fefce8',
+            border: '1px solid #fde68a',
+            borderRadius: '8px',
+            padding: '10px 14px',
+            lineHeight: 1.5,
+          }}>
+            💡 Não encontra o e-mail? Verifique a pasta de <strong>spam</strong> ou <strong>correio indesejado</strong>.
+          </p>
+          <Link
+            href="/login"
+            style={{
+              marginTop: 8,
+              display: 'inline-block',
+              background: 'linear-gradient(135deg,#243B55 0%,#3E5C76 100%)',
+              color: '#fff',
+              fontWeight: 600,
+              fontSize: '1.05rem',
+              borderRadius: '10px',
+              padding: '12px 32px',
+              textDecoration: 'none',
+            }}
+          >
+            Ir para o login
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="login-container">
       <div className="login-logo-wrapper">
         <img src="/logo_paroquia.png" alt="Paróquia Perto" className="login-logo" />
       </div>
       <h2>Registar no Paróquia Perto</h2>
-      
-      {message && (
-        <div style={{ 
-          background: 'linear-gradient(135deg, #E8EDF3 0%, #FCE7F3 100%)',
-          border: '1px solid #BFDBFE',
-          borderRadius: '12px',
-          padding: '16px 20px',
-          marginBottom: '20px',
-          textAlign: 'center',
-          color: '#243B55',
-          fontWeight: '600',
-          fontSize: '0.95rem'
-        }}>
-          {message}
-        </div>
-      )}
 
       <div style={{
         display: 'grid',
@@ -140,7 +205,6 @@ function RegistarUtilizadorForm() {
 
       {loading && <p className="loading-message">A registar...</p>}
       {error && <p className="error-message">{error}</p>}
-      {success && <p className="success-message">{success}</p>}
       <form
         className="register-form"
         onSubmit={handleSubmit}
@@ -227,4 +291,5 @@ export default function RegistarUtilizador() {
     </Suspense>
   );
 }
+
 
