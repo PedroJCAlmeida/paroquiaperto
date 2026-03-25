@@ -123,9 +123,9 @@
 }
 
 .form-input:focus {
-    border-color: var(--color-blue);
+    border-color: #fbbf24;
     background: #ffffff;
-    box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.08);
+    box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.1);
 }
 
 .form-input::placeholder {
@@ -133,24 +133,26 @@
 }
 
 .login-button {
-    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
     color: #ffffff;
     padding: 16px;
     border: none;
     border-radius: 14px;
     font-size: 1rem;
-    font-weight: 700;
+    font-weight: 800;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 10px 15px -3px rgba(30, 64, 175, 0.2);
+    box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.25);
     width: 100%;
     margin-top: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .login-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 20px 25px -5px rgba(30, 64, 175, 0.25);
-    filter: brightness(1.1);
+    box-shadow: 0 20px 25px -5px rgba(245, 158, 11, 0.3);
+    filter: brightness(1.05);
 }
 
 .login-button:active {
