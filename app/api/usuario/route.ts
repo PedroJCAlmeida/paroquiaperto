@@ -14,7 +14,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     const user = await prisma.user.findUnique({
       where: { id: parseInt(payload.sub) },
-      select: { id: true, name: true, email: true, authProvider: true },
+      select: { id: true, name: true, email: true, authProvider: true, image: true },
     });
     if (!user) {
       return NextResponse.json({ error: 'Utilizador não encontrado.' }, { status: 404 });
@@ -34,11 +34,11 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ error: 'Não autorizado.' }, { status: 401 });
     }
 
-    const { name, email } = (await request.json()) as { name?: string; email?: string };
+    const { name, email, image } = (await request.json()) as { name?: string; email?: string; image?: string };
     const user = await prisma.user.update({
       where: { id: parseInt(payload.sub) },
-      data: { ...(name && { name }), ...(email && { email }) },
-      select: { id: true, name: true, email: true, authProvider: true },
+      data: { ...(name && { name }), ...(email && { email }), ...(image !== undefined && { image }) },
+      select: { id: true, name: true, email: true, authProvider: true, image: true },
     });
     return NextResponse.json(user);
   } catch (error) {

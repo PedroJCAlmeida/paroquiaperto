@@ -57,6 +57,7 @@ export interface UserProfile {
   email: string;
   authProvider?: string;
   role?: string;
+  image?: string | null;
 }
 export interface JwtPayload {
   sub: string;
@@ -73,4 +74,5 @@ export interface UserProfile {
   email: string;
   authProvider?: string;
   role?: string;
+  image?: string | null;
 }

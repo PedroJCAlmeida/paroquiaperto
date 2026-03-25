@@ -37,6 +37,9 @@ export default function InserirParoquia() {
   const [showModal, setShowModal] = useState(false);
   const [distritos, setDistritos] = useState<Distrito[]>([]);
   const [conselhos, setConselhos] = useState<Conselho[]>([]);
+  const [imagemFile, setImagemFile] = useState<File | null>(null);
+  const [imagemPreview, setImagemPreview] = useState<string>('');
+  const [uploadingImagem, setUploadingImagem] = useState(false);
   const initialForm: ParoquiaForm = {
     nome: '', rua: '', numero: '', codigoPostal: '', cidade: '',
     distritoId: '', conselhoId: '', lat: '', lng: '', telefone: '',
@@ -72,6 +75,22 @@ export default function InserirParoquia() {
     }));
   };
 
+  const handleImagemChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] ?? null;
+    setImagemFile(file);
+    setImagemPreview((prev) => {
+      if (prev) URL.revokeObjectURL(prev);
+      return file ? URL.createObjectURL(file) : '';
+    });
+  };
+
+  React.useEffect(() => {
+    return () => {
+      if (imagemPreview) URL.revokeObjectURL(imagemPreview);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const buscarLocalizacao = async () => {
     if (!form.rua || !form.numero || !form.codigoPostal || !form.cidade) {
       alert('Preencha todos os campos de endereço para buscar localização.');
@@ -101,6 +120,28 @@ export default function InserirParoquia() {
     }
     try {
       const token = localStorage.getItem('token');
+
+      let imagemUrl = form.imagem;
+      if (imagemFile) {
+        setUploadingImagem(true);
+        const uploadData = new FormData();
+        uploadData.append('file', imagemFile);
+        uploadData.append('folder', 'paroquiaperto/paroquias');
+        const uploadRes = await fetch('/api/upload', {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}` },
+          body: uploadData,
+        });
+        setUploadingImagem(false);
+        if (!uploadRes.ok) {
+          const err = await uploadRes.json() as { error?: string };
+          alert(`Erro ao fazer upload da imagem: ${err.error ?? uploadRes.status}`);
+          return;
+        }
+        const { url } = await uploadRes.json() as { url: string };
+        imagemUrl = url;
+      }
+
       const enderecoCompleto = `${form.rua}, ${form.numero}, ${form.codigoPostal} ${form.cidade}`;
       const payload = {
         nome: form.nome,
@@ -111,7 +152,7 @@ export default function InserirParoquia() {
         email: form.email,
         descricao: form.descricao,
         site: form.site,
-        imagem: form.imagem,
+        imagem: imagemUrl,
         facebook: form.facebook,
         instagram: form.instagram,
         whatsapp: form.whatsapp,
@@ -136,6 +177,8 @@ export default function InserirParoquia() {
       }
       await response.json();
       setForm(initialForm);
+      setImagemFile(null);
+      setImagemPreview((prev) => { if (prev) URL.revokeObjectURL(prev); return ''; });
       setShowModal(true);
       setShowToast(true);
     } catch (error) {
@@ -210,12 +253,29 @@ export default function InserirParoquia() {
           <label>Telefone<input type="text" name="telefone" value={form.telefone} onChange={handleChange} /></label>
           <label>E-mail<input type="email" name="email" value={form.email} onChange={handleChange} /></label>
           <label>Site<input type="url" name="site" value={form.site} onChange={handleChange} /></label>
-          <label>Link da Imagem<input type="url" name="imagem" value={form.imagem} onChange={handleChange} /></label>
+          <label>
+            Imagem
+            <input
+              type="file"
+              accept="image/jpeg,image/png,image/webp,image/gif"
+              onChange={handleImagemChange}
+            />
+            {imagemPreview && (
+              <img
+                src={imagemPreview}
+                alt="Pré-visualização"
+                style={{ marginTop: 8, maxWidth: '100%', maxHeight: 180, borderRadius: 8, objectFit: 'cover' }}
+              />
+            )}
+            {uploadingImagem && <p style={{ color: '#64748b', fontSize: '0.9rem', marginTop: 4 }}>A fazer upload...</p>}
+          </label>
           <label>Facebook<input type="url" name="facebook" value={form.facebook} onChange={handleChange} /></label>
           <label>Instagram<input type="url" name="instagram" value={form.instagram} onChange={handleChange} /></label>
           <label>WhatsApp<input type="text" name="whatsapp" value={form.whatsapp} onChange={handleChange} /></label>
         </section>
-        <button type="submit">Salvar</button>
+        <button type="submit" disabled={uploadingImagem}>
+          {uploadingImagem ? 'A fazer upload...' : 'Salvar'}
+        </button>
       </form>
     </div>
   );
