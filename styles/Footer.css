@@ -45,6 +45,30 @@
   line-height: 1.6;
 }
 
+/* Social media links */
+.site-footer-social {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.site-footer-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.site-footer-social-link:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
 /* Links columns */
 .site-footer-col h4 {
   font-size: 0.8rem;

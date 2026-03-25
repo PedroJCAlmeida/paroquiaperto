@@ -1,0 +1,40 @@
+/* ── Catholic Color Palette ── */
+:root {
+  /* Primary Colors - Traditional Catholic */
+  --color-gold: #D4AF37;
+  --color-gold-light: #E8C547;
+  --color-gold-dark: #B8860B;
+  
+  /* Secondary Colors */
+  --color-purple-dark: #5B3A70;
+  --color-purple: #7c3aed;
+  --color-purple-light: #9F7AEA;
+  
+  /* Accent Colors */
+  --color-green-dark: #1B4D3E;
+  --color-green: #2D6A4F;
+  --color-red-deep: #A42537;
+  
+  /* Neutrals */
+  --color-white: #FFFFFF;
+  --color-cream: #F8F5F0;
+  --color-gray-light: #E8E4DF;
+  --color-gray: #9CA3AF;
+  --color-gray-dark: #4B5563;
+  --color-black: #1F2937;
+  
+  /* Utilities */
+  --color-border: #E5E7EB;
+  --color-shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* Apply to both light and dark modes */
+body {
+  background-color: var(--color-cream);
+  color: var(--color-gray-dark);
+}
+
+body.dark {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+}
