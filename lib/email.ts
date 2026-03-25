@@ -7,6 +7,8 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string): Prom
     throw new Error('Configuração de e-mail incompleta.');
   }
 
+  const baseUrl = process.env.APP_URL ?? 'http://localhost:3000';
+
   const response = await fetch('https://api.brevo.com/v3/smtp/email', {
     method: 'POST',
     headers: {
@@ -21,7 +23,7 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string): Prom
       htmlContent: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
           <div style="text-align: center; margin-bottom: 24px;">
-            <img src="https://paroquiaperto.pt/logo.png" alt="Paróquia Perto" style="max-width: 150px; height: auto;" />
+            <img src="${baseUrl}/logo_paroquia.png" alt="Paróquia Perto" style="max-width: 150px; height: auto;" />
           </div>
           <h2 style="color: #2563eb;">Recuperação de Palavra-Passe</h2>
           <p>Recebemos um pedido para redefinir a sua palavra-passe no <strong>Paróquia Perto</strong>.</p>
@@ -44,7 +46,7 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string): Prom
             <div style="display: flex; justify-content: center; gap: 16px; margin: 12px 0;">
               <a href="https://facebook.com/paroquiaperto" style="color: #1877f2; text-decoration: none; font-size: 14px;">Facebook</a>
               <a href="https://instagram.com/paroquiaperto" style="color: #e4405f; text-decoration: none; font-size: 14px;">Instagram</a>
-              <a href="https://youtube.com/@paroquiaperto" style="color: #ff0000; text-decoration: none; font-size: 14px;">YouTube</a>
+              <a href="https://wa.me/351911837861" style="color: #25d366; text-decoration: none; font-size: 14px;">WhatsApp</a>
             </div>
           </div>
           <p style="color: #94a3b8; font-size: 0.8rem; text-align: center;">Paróquia Perto</p>
@@ -69,6 +71,8 @@ export async function sendAccountVerificationEmail(to: string, verificationUrl: 
     throw new Error('Configuração de e-mail incompleta.');
   }
 
+  const baseUrl = process.env.APP_URL ?? 'http://localhost:3000';
+
   const response = await fetch('https://api.brevo.com/v3/smtp/email', {
     method: 'POST',
     headers: {
@@ -83,7 +87,7 @@ export async function sendAccountVerificationEmail(to: string, verificationUrl: 
       htmlContent: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
           <div style="text-align: center; margin-bottom: 24px;">
-            <img src="https://paroquiaperto.pt/logo.png" alt="Paróquia Perto" style="max-width: 150px; height: auto;" />
+            <img src="${baseUrl}/logo_paroquia.png" alt="Paróquia Perto" style="max-width: 150px; height: auto;" />
           </div>
           <h2 style="color: #2563eb;">Confirmação de Conta</h2>
           <p>Obrigado por se registar no <strong>Paróquia Perto</strong>.</p>
@@ -106,7 +110,7 @@ export async function sendAccountVerificationEmail(to: string, verificationUrl: 
             <div style="display: flex; justify-content: center; gap: 16px; margin: 12px 0;">
               <a href="https://facebook.com/paroquiaperto" style="color: #1877f2; text-decoration: none; font-size: 14px;">Facebook</a>
               <a href="https://instagram.com/paroquiaperto" style="color: #e4405f; text-decoration: none; font-size: 14px;">Instagram</a>
-              <a href="https://youtube.com/@paroquiaperto" style="color: #ff0000; text-decoration: none; font-size: 14px;">YouTube</a>
+              <a href="https://wa.me/351911837861" style="color: #25d366; text-decoration: none; font-size: 14px;">WhatsApp</a>
             </div>
           </div>
           <p style="color: #94a3b8; font-size: 0.8rem; text-align: center;">Paróquia Perto</p>
