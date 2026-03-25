@@ -1,3 +1,5 @@
+@import '@/styles/colors.css';
+
 /* src/styles/Login.css */
 
 .login-container {
@@ -8,7 +10,7 @@
     min-height: calc(100vh - 65px);
     padding: 20px;
     box-sizing: border-box;
-    background-color: #f8f9fa;
+    background: linear-gradient(180deg, var(--color-white) 0%, var(--color-gray-50) 100%);
 }
 
 /* --- Novo estilo para o logo na página de login --- */
@@ -20,7 +22,7 @@
 }
 
 .login-logo {
-    height: 60px; /* Ajuste o tamanho conforme preferir */
+    height: 72px; /* Ajuste o tamanho conforme preferir */
     width: auto;
     max-width: 100%; /* Garante que o logo não ultrapasse o container em telas pequenas */
 }
@@ -31,8 +33,9 @@
 .login-form {
     background: #fff;
     padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 18px;
+    border: 1px solid var(--color-gray-200);
+    box-shadow: 0 16px 40px rgba(30, 64, 175, 0.08);
     width: 100%;
     max-width: 400px;
     display: flex;
@@ -48,29 +51,29 @@
 .form-group label {
     margin-bottom: 8px;
     font-weight: 600;
-    color: #555;
+    color: var(--color-blue);
 }
 
 .form-group input {
     padding: 12px 15px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--color-gray-300);
     border-radius: 5px;
     font-size: 1rem;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-group input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    border-color: var(--color-blue);
+    box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.14);
     outline: none;
 }
 
 .login-button {
-    background-color: #007bff;
+    background-color: var(--color-blue);
     color: white;
     padding: 12px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
@@ -79,7 +82,7 @@
 }
 
 .login-button:hover {
-    background-color: #0056b3;
+    background-color: var(--color-blue-light);
 }
 
 .login-button:disabled {
@@ -89,15 +92,15 @@
 }
 
 .loading-message {
-    color: #007bff;
+    color: var(--color-blue);
     font-size: 1rem;
     margin-bottom: 15px;
 }
 
 .error-message {
     color: #dc3545;
-    background-color: #f8d7da;
-    border: 1px solid #f5c6cb;
+    background-color: #fff1f2;
+    border: 1px solid #fecdd3;
     padding: 10px 15px;
     border-radius: 5px;
     margin-bottom: 20px;
@@ -108,19 +111,19 @@
 .login-container p {
     margin-top: 15px;
     font-size: 0.95rem;
-    color: #555;
+    color: var(--color-gray-600);
     text-align: center;
 }
 
 .login-container p a {
-    color: #007bff;
+    color: var(--color-blue);
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s ease;
 }
 
 .login-container p a:hover {
-    color: #0056b3;
+    color: var(--color-blue-light);
     text-decoration: underline;
 }
 
@@ -177,9 +180,9 @@
 
 /* Adicione esta classe para mensagens de sucesso */
 .success-message {
-    color: #155724;
-    background-color: #d4edda;
-    border: 1px solid #c3e6cb;
+    color: #166534;
+    background-color: #f0fdf4;
+    border: 1px solid #bbf7d0;
     padding: 10px 15px;
     border-radius: 5px;
     margin-bottom: 20px;

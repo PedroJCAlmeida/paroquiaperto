@@ -44,8 +44,8 @@ export default function BackofficeDashboard() {
     {
       label: 'Horários',
       count: stats.horarios,
-      icon: <Calendar size={32} color="#7c3aed" />,
-      color: '#7c3aed',
+      icon: <Calendar size={32} color="#1E40AF" />,
+      color: '#1E40AF',
       listHref: '/backoffice/horarios/listar',
       addHref: '/backoffice/horarios',
     },

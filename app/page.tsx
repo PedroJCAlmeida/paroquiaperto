@@ -38,7 +38,7 @@ export default function Landing() {
         <div className="landing-container">
           <Link href="/" className="landing-logo">
             <span className="landing-logo-icon" aria-hidden="true">
-              <Image src="/logo.png" alt="" width={40} height={40} className="landing-logo-image" priority />
+              <Image src="/logo_paroquia.png" alt="" width={40} height={40} className="landing-logo-image" priority />
             </span>
             Paróquia Perto
           </Link>

@@ -51,7 +51,7 @@ function RedefinirForm() {
   return (
     <div className="login-container">
       <div className="login-logo-wrapper">
-        <img src="/logo.png" alt="Paróquia Perto" className="login-logo" />
+        <img src="/logo_paroquia.png" alt="Paróquia Perto" className="login-logo" />
       </div>
       <h2>Redefinir Palavra-Passe</h2>
       {loading && <p className="loading-message">A guardar nova palavra-passe...</p>}
@@ -113,7 +113,7 @@ function RedefinirForm() {
             type="submit"
             disabled={loading}
             style={{
-              background: 'linear-gradient(90deg,#2563eb 60%,#7c3aed 100%)',
+              background: 'linear-gradient(135deg,#1E40AF 0%,#3B82F6 100%)',
               color: '#fff',
               fontWeight: 600,
               fontSize: '1.08rem',

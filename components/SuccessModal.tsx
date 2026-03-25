@@ -40,7 +40,7 @@ export default function SuccessModal({
         }}
       >
         <img
-          src="/logo.png"
+          src="/logo_paroquia.png"
           alt="Logo Paróquia Perto"
           style={{ width: '18vw', maxWidth: '160px', minWidth: '70px', marginBottom: '1rem' }}
         />
@@ -51,7 +51,7 @@ export default function SuccessModal({
             marginTop: '1rem',
             padding: '0.5rem 1.5rem',
             borderRadius: '8px',
-            background: '#007bff',
+            background: '#1E40AF',
             color: '#fff',
             border: 'none',
             fontWeight: 'bold',

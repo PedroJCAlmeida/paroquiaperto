@@ -5,7 +5,7 @@ import '@/styles/LoadingScreen.css';
 const LoadingScreen = () => {
   return (
     <div className="loading-screen">
-      <img src="/logo.png" alt="Paróquia Perto" className="loading-logo" />
+      <img src="/logo_paroquia.png" alt="Paróquia Perto" className="loading-logo" />
     </div>
   );
 };

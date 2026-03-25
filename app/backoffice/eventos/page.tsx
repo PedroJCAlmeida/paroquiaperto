@@ -101,7 +101,7 @@ export default function InserirEvento() {
           Link da Imagem (opcional)
           <input type="url" name="imagem" value={form.imagem} onChange={handleChange} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', marginTop: 4, fontSize: '1rem' }} />
         </label>
-        <button type="submit" style={{ background: 'linear-gradient(90deg,#2563eb 60%,#7c3aed 100%)', color: '#fff', fontWeight: 600, fontSize: '1.08rem', border: 'none', borderRadius: '10px', padding: '12px 0', cursor: 'pointer' }}>Salvar Evento</button>
+        <button type="submit" style={{ background: 'linear-gradient(135deg,#1E40AF 0%,#3B82F6 100%)', color: '#fff', fontWeight: 600, fontSize: '1.08rem', border: 'none', borderRadius: '10px', padding: '12px 0', cursor: 'pointer' }}>Salvar Evento</button>
       </form>
     </div>
   );

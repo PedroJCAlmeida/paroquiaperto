@@ -1,20 +1,21 @@
+@import '@/styles/colors.css';
+
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 999;
-  background: #fff;
-  /*border-bottom: 1px solid #ddd;
-  /* padding: 10px 20px; */
+  background: rgba(255, 255, 255, 0.96);
   display: flex;
   justify-content: center;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid var(--color-gray-200);
+  box-shadow: 0 2px 10px var(--color-shadow);
+  backdrop-filter: blur(12px);
 }
 
-
 body {
-  padding-top: 65px;
+  padding-top: 72px;
   margin: 0;
 }
 
@@ -25,24 +26,43 @@ body {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 10px 25px;
-
+  padding: 12px 25px;
 }
 
 .navbar-logo {
   display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
 }
 
- .navbar-logo img {
-  height: 8vw;
-  min-height: 36px;
-  max-height: 80px;
-  width: auto;
+.navbar-logo-mark {
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(30, 64, 175, 0.08) 0%, rgba(212, 175, 55, 0.14) 100%);
+  border: 1px solid rgba(30, 64, 175, 0.08);
+}
+
+.navbar-logo img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
   transition: transform 0.2s ease-in-out;
 }
 
-.navbar-logo img:hover {
+.navbar-logo:hover img {
   transform: scale(1.05);
+}
+
+.navbar-logo-text {
+  color: var(--color-blue);
+  font-weight: 900;
+  font-size: 1.3rem;
+  letter-spacing: -0.02em;
 }
 
 .navbar-nav {
@@ -52,11 +72,12 @@ body {
   margin: 0;
   padding: 0;
   transition: all 0.3s ease-out;
+  align-items: center;
 }
 
 .navbar-link {
   text-decoration: none;
-  color: #333;
+  color: var(--color-gray-700);
   font-weight: 500;
   font-size: 1rem;
   padding: 5px 0;
@@ -65,7 +86,7 @@ body {
 }
 
 .navbar-link:hover {
-  color: #007bff;
+  color: var(--color-blue);
 }
 
 .navbar-link::after {
@@ -75,7 +96,7 @@ body {
   height: 2px;
   bottom: -5px;
   left: 0;
-  background-color: #007bff;
+  background-color: var(--color-gold);
   transition: width 0.3s ease-out;
 }
 
@@ -103,145 +124,106 @@ body {
   display: block;
   width: 100%;
   height: 3px;
-  background: #333;
+  background: var(--color-blue);
   border-radius: 2px;
   transition: all 0.3s ease-in-out;
 }
 
 .navbar-toggle.active .hamburger:nth-child(1) {
-    transform: translateY(9.5px) rotate(45deg);
+  transform: translateY(9.5px) rotate(45deg);
 }
 
 .navbar-toggle.active .hamburger:nth-child(2) {
-    opacity: 0;
+  opacity: 0;
 }
 
 .navbar-toggle.active .hamburger:nth-child(3) {
-    transform: translateY(-9.5px) rotate(-45deg); 
-}
-
-/* Responsivo */
-@media (max-width: 768px) {
-  .navbar-toggle {
-  margin-left: auto;
-  margin-right: 20px;
-}
-
-  .navbar-nav {
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    background: white;
-    flex-direction: column;
-    gap: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    display: none;
-  }
-
-  .navbar-nav.active {
-    display: flex;
-  }
-
-   .navbar-login-icon {
-    position: absolute;
-    right: 25px;
-    top: 15px;
-    margin-left: 0;
-  }
-}
-
-@media (max-width: 480px) {
-    .navbar-inner {
-        padding: 10px 15px; /* Menos padding lateral em telas muito pequenas */
-    }
-    .navbar-logo img {
-        height: 40px; /* Logo um pouco menor em telas super pequenas */
-    }
-    .navbar-link {
-        font-size: 1.15rem; /* Fonte um pouco menor nos links para telas muito pequenas */
-    }
+  transform: translateY(-9.5px) rotate(-45deg);
 }
 
 .navbar-login-icon {
-  color: #333;
+  color: var(--color-blue);
   cursor: pointer;
   transition: color 0.3s ease;
   margin-left: 20px;
   display: flex;
   align-items: center;
-  z-index: 1002; 
-  position: relative; 
+  z-index: 1002;
+  position: relative;
 }
 
 .navbar-login-icon:hover {
-  color: #007bff;
+  color: var(--color-blue-light);
 }
 
-
-/* Telas menores (ex: tablets e celulares) - Começa a partir de 992px para desktop médio */
 @media (max-width: 992px) {
-    .navbar-nav {
-        /* Oculta a navegação principal em telas menores */
-        display: none;
-    }
+  .navbar-nav {
+    display: none;
+  }
 
-    .navbar-toggle {
-        /* Mostra o botão do menu hambúrguer */
-        display: flex;
-    }
+  .navbar-toggle {
+    display: flex;
+  }
 
-    .navbar-login-icon {
-        /* Remove a margem para telas menores, deixa o flexbox cuidar do espaçamento */
-        margin-left: 0;
-    }
+  .navbar-login-icon {
+    margin-left: 0;
+  }
 
-    .navbar-nav.active {
-        display: flex; /* Mostra o menu quando ativo */
-        position: absolute; /* Posicionamento absoluto para menu em mobile */
-        top: 65px; /* Ajuste para ficar abaixo da navbar */
-        left: 0; /* Começa da esquerda */
-        right: 0; /* Estende para a direita */
-        background: white;
-        flex-direction: column;
-        align-items: center; /* Centraliza os links verticalmente */
-        gap: 15px; /* Aumenta o espaço entre os links */
-        padding: 20px 0; /* Padding vertical */
-        border-top: 1px solid #eee; /* Linha divisória */
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05); /* Sombra mais suave */
-        width: 100%; /* Ocupa a largura total */
-    }
+  .navbar-nav.active {
+    display: flex;
+    position: absolute;
+    top: 72px;
+    left: 0;
+    right: 0;
+    background: white;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 20px 0;
+    border-top: 1px solid var(--color-gray-200);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+    width: 100%;
+  }
 
-    .navbar-link {
-        font-size: 1.1rem; /* Aumenta a fonte para melhor toque */
-        width: fit-content; /* Faz com que o sublinhado se ajuste ao texto */
-    }
+  .navbar-link {
+    font-size: 1.1rem;
+    width: fit-content;
+  }
 }
 
-/* Telas muito pequenas (ex: celulares pequenos) */
 @media (max-width: 576px) {
-    .navbar-inner {
-        padding: 10px 15px; /* Menos padding lateral */
-    }
+  .navbar-inner {
+    padding: 10px 15px;
+  }
 
-    .navbar-logo img {
-        height: 40px; /* Logo um pouco menor */
-    }
+  .navbar-logo-mark {
+    width: 42px;
+    height: 42px;
+  }
 
-    .navbar-toggle {
-        width: 25px; /* Botão hambúrguer um pouco menor */
-        height: 18px;
-    }
+  .navbar-logo img {
+    width: 32px;
+    height: 32px;
+  }
 
-    .hamburger {
-        height: 2px;
-    }
+  .navbar-logo-text {
+    font-size: 1rem;
+  }
 
-    .navbar-toggle.active .hamburger:nth-child(1) {
-        transform: translateY(8px) rotate(45deg);
-    }
+  .navbar-toggle {
+    width: 25px;
+    height: 18px;
+  }
 
-    .navbar-toggle.active .hamburger:nth-child(3) {
-        transform: translateY(-8px) rotate(-45deg);
-    }
+  .hamburger {
+    height: 2px;
+  }
+
+  .navbar-toggle.active .hamburger:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .navbar-toggle.active .hamburger:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
 }

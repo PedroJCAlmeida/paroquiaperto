@@ -96,7 +96,7 @@ export default function InserirHorario() {
             {['Missa','Confissão','Adoração','Outros'].map((t) => <option key={t} value={t}>{t}</option>)}
           </select>
         </label>
-        <button type="submit" style={{ background: 'linear-gradient(90deg,#2563eb 60%,#7c3aed 100%)', color: '#fff', fontWeight: 600, fontSize: '1.08rem', border: 'none', borderRadius: '10px', padding: '12px 0', cursor: 'pointer' }}>Salvar</button>
+        <button type="submit" style={{ background: 'linear-gradient(135deg,#1E40AF 0%,#3B82F6 100%)', color: '#fff', fontWeight: 600, fontSize: '1.08rem', border: 'none', borderRadius: '10px', padding: '12px 0', cursor: 'pointer' }}>Salvar</button>
       </form>
     </div>
   );

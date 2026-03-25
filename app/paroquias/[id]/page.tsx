@@ -115,7 +115,7 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
         <div className="paroquia-detalhe-card">
           <button
             onClick={() => window.history.back()}
-            style={{ outline: 'none', border: 'none', marginBottom: '22px', padding: '12px 28px', fontWeight: 900, fontSize: '1.08rem', borderRadius: '12px', background: 'linear-gradient(90deg,#2563eb 0%,#7c3aed 100%)', color: '#fff', cursor: 'pointer' }}
+            style={{ outline: 'none', border: 'none', marginBottom: '22px', padding: '12px 28px', fontWeight: 900, fontSize: '1.08rem', borderRadius: '12px', background: 'linear-gradient(135deg,#1E40AF 0%,#3B82F6 100%)', color: '#fff', cursor: 'pointer' }}
           >
             ← Voltar para lista
           </button>
@@ -124,7 +124,7 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
             {paroquia?.imagem ? (
               <img src={paroquia.imagem} alt={paroquia.nome} style={{ maxWidth: '100%', borderRadius: '18px', maxHeight: '260px', border: '2px solid #fbbf24' }} />
             ) : (
-              <img src="/logo.png" alt="Imagem padrão" style={{ width: '130px', height: '130px', objectFit: 'contain', borderRadius: '18px', background: '#e0e7ef', border: '2px solid #fbbf24' }} />
+              <img src="/logo_paroquia.png" alt="Imagem padrão" style={{ width: '130px', height: '130px', objectFit: 'contain', borderRadius: '18px', background: '#e0e7ef', border: '2px solid #fbbf24' }} />
             )}
           </div>
           <div className="paroquia-detalhe-grid">
@@ -132,7 +132,7 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
               <p>
                 <strong style={{ color: '#2563eb' }}>Endereço:</strong>{' '}
                 {paroquia?.endereco ? (
-                  <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(paroquia.endereco)}`} target="_blank" rel="noopener noreferrer" style={{ color: '#7c3aed', fontWeight: 700 }}>
+                  <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(paroquia.endereco)}`} target="_blank" rel="noopener noreferrer" style={{ color: '#1E40AF', fontWeight: 700 }}>
                     {paroquia.endereco}
                   </a>
                 ) : (
@@ -151,7 +151,7 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
               <p style={{ marginTop: 8 }}>
                 <strong style={{ color: '#2563eb' }}>Email:</strong>{' '}
                 {paroquia?.email ? (
-                  <a href={`mailto:${paroquia.email}`} style={{ color: '#7c3aed', fontWeight: 700 }}>{paroquia.email}</a>
+                  <a href={`mailto:${paroquia.email}`} style={{ color: '#1E40AF', fontWeight: 700 }}>{paroquia.email}</a>
                 ) : (
                   <span style={{ color: '#bbb' }}>Não informado</span>
                 )}
@@ -178,7 +178,7 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
                 <strong style={{ color: '#2563eb' }}>Redes sociais:</strong>
                 <div style={{ display: 'flex', gap: '16px', marginTop: '6px' }}>
                   {paroquia?.instagram ? (
-                    <a href={paroquia.instagram} target="_blank" rel="noopener noreferrer" style={{ color: '#7c3aed', fontWeight: 700 }}>Instagram</a>
+                    <a href={paroquia.instagram} target="_blank" rel="noopener noreferrer" style={{ color: '#1E40AF', fontWeight: 700 }}>Instagram</a>
                   ) : (
                     <span style={{ color: '#bbb' }}>Instagram</span>
                   )}
@@ -230,7 +230,7 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
                 {horarios.map((h) => (
                   <li key={h.id} style={{ background: '#f8fafc', borderRadius: '10px', marginBottom: '10px', padding: '12px 20px', border: '1.5px solid #e0e7ff' }}>
                     <strong style={{ color: '#2563eb' }}>{h.diaSemana}</strong> - {h.hora}{' '}
-                    <span style={{ color: '#7c3aed', fontWeight: 'bold' }}>{h.tipo}</span>
+                    <span style={{ color: '#1E40AF', fontWeight: 'bold' }}>{h.tipo}</span>
                   </li>
                 ))}
               </ul>
@@ -241,7 +241,7 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
 
           <div style={{ marginBottom: '22px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <strong style={{ color: '#7c3aed', fontSize: '1.18rem', fontWeight: 900 }}>Eventos</strong>
+              <strong style={{ color: '#1E40AF', fontSize: '1.18rem', fontWeight: 900 }}>Eventos</strong>
               <button 
                 onClick={handleCriarEvento}
                 style={{
@@ -275,15 +275,15 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
             {eventos.length > 0 ? (
               <ul style={{ listStyle: 'none', padding: 0, marginTop: 8 }}>
                 {eventos.map((e) => (
-                  <li key={e.id} style={{ background: '#f9f5ff', borderRadius: '10px', marginBottom: '14px', padding: '14px 22px', border: '1.5px solid #e0e7ff' }}>
+                  <li key={e.id} style={{ background: '#f8fafc', borderRadius: '10px', marginBottom: '14px', padding: '14px 22px', border: '1.5px solid #e0e7ff' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
                       {e.imagem ? (
                         <img src={e.imagem} alt={e.titulo} style={{ width: '54px', height: '54px', objectFit: 'cover', borderRadius: '10px', border: '2px solid #fbbf24' }} />
                       ) : (
-                        <img src="/logo.png" alt="Imagem padrão" style={{ width: '54px', height: '54px', objectFit: 'contain', borderRadius: '10px', background: '#e0e7ef', border: '2px solid #fbbf24' }} />
+                        <img src="/logo_paroquia.png" alt="Imagem padrão" style={{ width: '54px', height: '54px', objectFit: 'contain', borderRadius: '10px', background: '#e0e7ef', border: '2px solid #fbbf24' }} />
                       )}
                       <div>
-                        <strong style={{ fontSize: '1.13rem', color: '#7c3aed', fontWeight: 900 }}>{e.titulo || 'Evento'}</strong>
+                        <strong style={{ fontSize: '1.13rem', color: '#1E40AF', fontWeight: 900 }}>{e.titulo || 'Evento'}</strong>
                         <div style={{ color: '#2563eb', fontWeight: 700 }}>{e.data ? `${e.data} às ${e.hora}` : 'Data não informada'}</div>
                         {e.descricao ? (
                           <div style={{ marginTop: '4px', color: '#334155' }}>{e.descricao}</div>

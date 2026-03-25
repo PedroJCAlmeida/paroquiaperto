@@ -1,3 +1,5 @@
+@import '@/styles/colors.css';
+
 /* Responsividade Paróquias */
 @media (max-width: 900px) {
   .paroquias-page {
@@ -45,7 +47,7 @@
 .paroquias-title {
   font-size: 1.75rem;
   text-align: center;
-  color: #1f2937;
+  color: var(--color-blue);
   margin-bottom: 24px;
 }
 
@@ -78,23 +80,23 @@
 }
 
 .paroquias-select--distrito {
-  border: 1.5px solid #a5b4fc;
-  background: #f8fafc;
-  color: #2563eb;
+  border: 1px solid var(--color-gray-300);
+  background: var(--color-white);
+  color: var(--color-blue);
   font-weight: 600;
 }
 
 .paroquias-select--conselho {
-  border: 1.5px solid #a5b4fc;
-  background: #f8fafc;
-  color: #7c3aed;
+  border: 1px solid var(--color-gray-300);
+  background: var(--color-white);
+  color: var(--color-blue);
   font-weight: 600;
 }
 
 .paroquias-select--km {
-  border: 2px solid #fbbf24;
-  background: #fffbe8;
-  color: #7c3aed;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  background: #fffaf0;
+  color: var(--color-blue);
   font-weight: 700;
 }
 

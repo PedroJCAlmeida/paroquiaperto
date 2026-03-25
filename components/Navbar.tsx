@@ -48,7 +48,10 @@ const Navbar = () => {
     <header className="navbar" ref={navRef}>
       <div className="navbar-inner">
         <Link href="/" className="navbar-logo" onClick={() => setIsOpen(false)}>
-          <Image src="/logo.png" alt="Paróquia Perto" width={120} height={40} priority />
+          <span className="navbar-logo-mark" aria-hidden="true">
+            <Image src="/logo_paroquia.png" alt="" width={44} height={44} priority />
+          </span>
+          <span className="navbar-logo-text">Paróquia Perto</span>
         </Link>
         <button
           className={isOpen ? 'active navbar-toggle' : 'navbar-toggle'}
