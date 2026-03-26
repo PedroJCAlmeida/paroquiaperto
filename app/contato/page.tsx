@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import '@/styles/Contacto.css';
+import '@/styles/Contato.css';
 import { Mail, Facebook, Instagram } from 'lucide-react';
 
 interface ContactForm {
