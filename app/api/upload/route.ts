@@ -81,8 +81,21 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     return NextResponse.json({ url: result.secure_url }, { status: 201 });
   } catch (error) {
+    let message = 'Erro ao fazer upload da imagem.';
+    if (error && typeof error === 'object') {
+      if ('message' in error && typeof error.message === 'string') {
+        message = error.message;
+      } else if ('error' in error && typeof error.error === 'string') {
+        message = error.error;
+      } else if (error instanceof Error) {
+        message = error.message;
+      } else {
+        try {
+          message = JSON.stringify(error);
+        } catch {}
+      }
+    }
     console.error('Cloudinary upload error:', error);
-    const message = error instanceof Error ? error.message : 'Erro ao fazer upload da imagem.';
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
