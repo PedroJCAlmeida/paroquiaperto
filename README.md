@@ -83,6 +83,9 @@ npm run dev  # Runs on http://localhost:3000
    | `SMTP_USER` | ✅ Sim | Utilizador SMTP (normalmente o endereço de e-mail) |
    | `SMTP_PASS` | ✅ Sim | Palavra-passe SMTP (ou App Password se usar Gmail) |
    | `SMTP_FROM` | ✅ Sim | Endereço de e-mail remetente (ex: `no-reply@paroquiaperto.pt`) |
+   | `CLOUDINARY_CLOUD_NAME` | ✅ Sim (para upload de imagens) | Nome da cloud no Cloudinary |
+   | `CLOUDINARY_API_KEY` | ✅ Sim (para upload de imagens) | API Key da conta Cloudinary |
+   | `CLOUDINARY_API_SECRET` | ✅ Sim (para upload de imagens) | API Secret da conta Cloudinary |
    | `ADMIN_EMAIL` | ⚪ Opcional | E-mail do utilizador admin inicial (padrão: `admin@paroquiaperto.pt`) |
    | `ADMIN_PASSWORD` | ⚪ Opcional | Palavra-passe do admin inicial (padrão: `Admin123!`) |
    | `ADMIN_NAME` | ⚪ Opcional | Nome do admin inicial (padrão: `Administrador`) |

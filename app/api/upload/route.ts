@@ -1,11 +1,28 @@
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyJWT, getTokenFromRequest } from '@/lib/auth';
 import cloudinary from '@/lib/cloudinary';
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
-const MAX_SIZE_BYTES = 5 * 1024 * 1024; // 5 MB
+const MAX_SIZE_BYTES = 4 * 1024 * 1024; // 4 MB
+
+function inferMimeTypeFromName(fileName: string): string | null {
+  const name = fileName.toLowerCase();
+  if (name.endsWith('.jpg') || name.endsWith('.jpeg')) return 'image/jpeg';
+  if (name.endsWith('.png')) return 'image/png';
+  if (name.endsWith('.webp')) return 'image/webp';
+  if (name.endsWith('.gif')) return 'image/gif';
+  return null;
+}
+
+function getCloudinaryConfigError(): string | null {
+  if (!process.env.CLOUDINARY_CLOUD_NAME) return 'CLOUDINARY_CLOUD_NAME em falta.';
+  if (!process.env.CLOUDINARY_API_KEY) return 'CLOUDINARY_API_KEY em falta.';
+  if (!process.env.CLOUDINARY_API_SECRET) return 'CLOUDINARY_API_SECRET em falta.';
+  return null;
+}
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
@@ -18,33 +35,54 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const formData = await request.formData();
     const file = formData.get('file');
 
-    if (!file || !(file instanceof File)) {
+    if (!file || typeof file !== 'object' || !('arrayBuffer' in file)) {
       return NextResponse.json({ error: 'Nenhum ficheiro enviado.' }, { status: 400 });
     }
 
-    if (!ALLOWED_TYPES.includes(file.type)) {
+    const inputFile = file as File;
+    const mimeType = inputFile.type || inferMimeTypeFromName(inputFile.name) || '';
+
+    if (!ALLOWED_TYPES.includes(mimeType)) {
       return NextResponse.json({ error: 'Tipo de ficheiro não permitido. Use JPEG, PNG, WebP ou GIF.' }, { status: 400 });
     }
 
-    if (file.size > MAX_SIZE_BYTES) {
-      return NextResponse.json({ error: 'O ficheiro é demasiado grande. Máximo 5 MB.' }, { status: 400 });
+    if (inputFile.size > MAX_SIZE_BYTES) {
+      return NextResponse.json({ error: 'O ficheiro é demasiado grande. Máximo 4 MB.' }, { status: 400 });
     }
 
     const folder = (formData.get('folder') as string) || 'paroquiaperto';
+    const cloudinaryConfigError = getCloudinaryConfigError();
+    if (cloudinaryConfigError) {
+      return NextResponse.json({ error: `Configuração de upload incompleta: ${cloudinaryConfigError}` }, { status: 500 });
+    }
 
-    const arrayBuffer = await file.arrayBuffer();
+    const arrayBuffer = await inputFile.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
-    const base64 = buffer.toString('base64');
-    const dataUri = `data:${file.type};base64,${base64}`;
-
-    const result = await cloudinary.uploader.upload(dataUri, {
-      folder,
-      resource_type: 'image',
+    const result = await new Promise<{ secure_url: string }>((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          folder,
+          resource_type: 'image',
+        },
+        (error, uploadResult) => {
+          if (error) {
+            reject(error);
+            return;
+          }
+          if (!uploadResult?.secure_url) {
+            reject(new Error('Cloudinary não retornou URL segura.'));
+            return;
+          }
+          resolve({ secure_url: uploadResult.secure_url });
+        },
+      );
+      uploadStream.end(buffer);
     });
 
     return NextResponse.json({ url: result.secure_url }, { status: 201 });
   } catch (error) {
     console.error('Cloudinary upload error:', error);
-    return NextResponse.json({ error: 'Erro ao fazer upload da imagem.' }, { status: 500 });
+    const message = error instanceof Error ? error.message : 'Erro ao fazer upload da imagem.';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
