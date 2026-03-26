@@ -17,9 +17,65 @@ const bodyFont = Source_Sans_3({
   variable: '--font-body',
 });
 
+const appUrl = process.env.APP_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? 'https://paroquiaperto.vercel.app';
+
 export const metadata: Metadata = {
-  title: 'Paróquia Perto',
-  description: 'Encontre a paróquia mais próxima de você',
+  metadataBase: new URL(appUrl),
+  title: {
+    default: 'Paróquia Perto',
+    template: '%s | Paróquia Perto',
+  },
+  description: 'Encontre paróquias próximas, horários de missas e eventos da sua comunidade em Portugal.',
+  keywords: [
+    'paróquia perto',
+    'paroquias portugal',
+    'horários de missa',
+    'eventos paroquiais',
+    'igreja católica',
+    'comunidade católica',
+  ],
+  alternates: {
+    canonical: '/',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
+  icons: {
+    icon: [{ url: '/icon.png', type: 'image/png' }],
+    apple: [{ url: '/apple-icon.png', type: 'image/png' }],
+    shortcut: ['/icon.png'],
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'pt_PT',
+    url: appUrl,
+    siteName: 'Paróquia Perto',
+    title: 'Paróquia Perto',
+    description: 'Descubra paróquias, horários de missa e eventos perto de si.',
+    images: [
+      {
+        url: '/logo_paroquia.png',
+        width: 512,
+        height: 512,
+        alt: 'Paróquia Perto',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Paróquia Perto',
+    description: 'Descubra paróquias, horários de missa e eventos perto de si.',
+    images: ['/logo_paroquia.png'],
+  },
+  category: 'religion',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
