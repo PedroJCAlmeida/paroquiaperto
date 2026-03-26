@@ -382,6 +382,7 @@
     text-decoration: underline;
 }
 
+<<<<<<< HEAD
 /* ── Password Validation Feedback ── */
 .password-validation-feedback {
     margin: 0.5rem 0 0 0;
@@ -424,6 +425,8 @@
     color: #ef4444;
 }
 
+=======
+>>>>>>> 1b53dd1fb515b39b429e410e17678a15be4a29a9
 /* ── Recovery Forms ── */
 .recovery-instruction {
     color: var(--color-gray-500);
@@ -432,6 +435,13 @@
     line-height: 1.4;
 }
 
+<<<<<<< HEAD
+=======
+.recovery-form {
+    /* Reuses default .login-form styles */
+}
+
+>>>>>>> 1b53dd1fb515b39b429e410e17678a15be4a29a9
 /* ── Responsividade ── */
 @media (max-width: 768px) {
     .login-brand-panel {

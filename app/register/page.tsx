@@ -155,6 +155,7 @@ function RegistarUtilizadorForm() {
               onChange={(e) => setPassword(e.target.value)}
               required
               className="form-input"
+<<<<<<< HEAD
               placeholder="Mínimo 8 caracteres, 1 maiúscula, 1 número"
             />
             {password && (
@@ -172,6 +173,10 @@ function RegistarUtilizadorForm() {
                 )}
               </div>
             )}
+=======
+              placeholder="Minimo 6 caracteres"
+            />
+>>>>>>> 1b53dd1fb515b39b429e410e17678a15be4a29a9
           </div>
           <div className="form-field">
             <label className="form-label" htmlFor="reg-confirm-password">Confirmar palavra-passe</label>
