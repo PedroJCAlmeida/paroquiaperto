@@ -76,7 +76,6 @@ function RedefinirForm() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-<<<<<<< HEAD
                 className="form-input"
                 placeholder="Mínimo 8 caracteres, 1 maiúscula, 1 número"
               />
@@ -95,12 +94,6 @@ function RedefinirForm() {
                   )}
                 </div>
               )}
-=======
-                minLength={6}
-                className="form-input"
-                placeholder="Minimo 6 caracteres"
-              />
->>>>>>> 1b53dd1fb515b39b429e410e17678a15be4a29a9
             </div>
             <div className="form-field">
               <label className="form-label" htmlFor="confirm-password">Confirmar Palavra-Passe</label>
