@@ -32,9 +32,6 @@ interface NominatimResult {
   lon: string;
 }
 
-const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
-const MAX_IMAGE_SIZE_BYTES = 4 * 1024 * 1024;
-
 export default function InserirParoquia() {
   const router = useRouter();
   const [showToast, setShowToast] = useState(false);
@@ -86,29 +83,6 @@ export default function InserirParoquia() {
 
   const handleImagemChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
-
-    if (file && !ALLOWED_IMAGE_TYPES.includes(file.type)) {
-      showAlertModal('error', 'Formato inválido', 'A imagem deve ser JPEG, PNG, WebP ou GIF.');
-      e.target.value = '';
-      setImagemFile(null);
-      setImagemPreview((prev) => {
-        if (prev) URL.revokeObjectURL(prev);
-        return '';
-      });
-      return;
-    }
-
-    if (file && file.size > MAX_IMAGE_SIZE_BYTES) {
-      showAlertModal('error', 'Imagem demasiado grande', 'A imagem deve ter no máximo 4 MB.');
-      e.target.value = '';
-      setImagemFile(null);
-      setImagemPreview((prev) => {
-        if (prev) URL.revokeObjectURL(prev);
-        return '';
-      });
-      return;
-    }
-
     setImagemFile(file);
     setImagemPreview((prev) => {
       if (prev) URL.revokeObjectURL(prev);
@@ -161,11 +135,6 @@ export default function InserirParoquia() {
     setSubmitting(true);
     try {
       const token = localStorage.getItem('token');
-      if (!token) {
-        showAlertModal('error', 'Sessão expirada', 'Inicie sessão novamente para enviar a paróquia.');
-        router.replace('/login');
-        return;
-      }
 
       let imagemUrl = form.imagem;
       if (imagemFile) {
