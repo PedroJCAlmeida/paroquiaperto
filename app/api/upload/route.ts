@@ -58,28 +58,22 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     const arrayBuffer = await inputFile.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
-    const result = await new Promise<{ secure_url: string }>((resolve, reject) => {
-      const uploadStream = cloudinary.uploader.upload_stream(
-        {
-          folder,
-          resource_type: 'image',
-        },
-        (error, uploadResult) => {
-          if (error) {
-            reject(error);
-            return;
-          }
-          if (!uploadResult?.secure_url) {
-            reject(new Error('Cloudinary não retornou URL segura.'));
-            return;
-          }
-          resolve({ secure_url: uploadResult.secure_url });
-        },
-      );
-      uploadStream.end(buffer);
+    const base64Image = `data:${mimeType};base64,${buffer.toString('base64')}`;
+    
+    console.log(`[UPLOAD] Iniciando via Base64: pasta=${folder}, tipo=${mimeType}`);
+
+    const uploadResult = await cloudinary.uploader.upload(base64Image, {
+      folder: folder,
+      resource_type: 'auto',
     });
 
-    return NextResponse.json({ url: result.secure_url }, { status: 201 });
+    if (!uploadResult?.secure_url) {
+      console.error('[UPLOAD] Erro: Cloudinary não retornou URL.', uploadResult);
+      throw new Error('Cloudinary não retornou URL segura.');
+    }
+
+    console.log('[UPLOAD] Sucesso:', uploadResult.secure_url);
+    return NextResponse.json({ url: uploadResult.secure_url }, { status: 201 });
   } catch (error) {
     let message = 'Erro ao fazer upload da imagem.';
     if (error && typeof error === 'object') {

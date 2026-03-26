@@ -68,10 +68,21 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     const data = (await request.json()) as Record<string, unknown>;
+    console.log('[PAROQUIA] Dados recebidos:', data);
+
+    // Converte IDs apenas se forem valores válidos e maiores que zero
+    const parseId = (id: any) => {
+      const n = parseInt(String(id), 10);
+      return !isNaN(n) && n > 0 ? n : null;
+    };
+
+    const distritoId = parseId(data.distritoId);
+    const conselhoId = parseId(data.conselhoId);
+
     const paroquia = await prisma.paroquia.create({
       data: {
-        nome: data.nome as string,
-        endereco: data.endereco as string,
+        nome: String(data.nome),
+        endereco: String(data.endereco),
         lat: String(data.lat),
         lng: String(data.lng),
         telefone: (data.telefone as string) || null,
@@ -82,14 +93,17 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         instagram: (data.instagram as string) || null,
         whatsapp: (data.whatsapp as string) || null,
         descricao: (data.descricao as string) || null,
-        ...(data.distritoId ? { distrito: { connect: { id: parseInt(data.distritoId as string) } } } : {}),
-        ...(data.conselhoId ? { conselho: { connect: { id: parseInt(data.conselhoId as string) } } } : {}),
+        distritoId,
+        conselhoId,
       },
       include: { distrito: true, conselho: true },
     });
+    console.log('[PAROQUIA] Criada com sucesso ID:', paroquia.id);
     return NextResponse.json(paroquia, { status: 201 });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: 'Erro interno.' }, { status: 500 });
+    console.error('[PAROQUIA] Erro ao criar:', error);
+    const message = error instanceof Error ? error.message : 'Erro interno ao salvar paróquia.';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
+

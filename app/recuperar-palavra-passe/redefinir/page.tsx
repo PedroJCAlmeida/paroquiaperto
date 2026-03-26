@@ -77,7 +77,7 @@ function RedefinirForm() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 className="form-input"
-                placeholder="Mínimo 8 caracteres, 1 maiúscula, 1 número"
+                placeholder="Mín. 8 caracteres, 1 maiúscula, 1 número"
               />
               {password && (
                 <div className={`password-validation-feedback ${validatePassword(password).isValid ? 'valid' : 'invalid'}`}>
