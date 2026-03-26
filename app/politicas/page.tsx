@@ -47,7 +47,7 @@ export default function Politicas() {
             <li><strong>Dados de conta:</strong> nome, endereço de e-mail e palavra-passe (encriptada) quando cria uma conta.</li>
             <li><strong>Dados de localização:</strong> coordenadas geográficas, solicitadas apenas quando utiliza a funcionalidade &quot;Paróquia Perto&quot;, mediante o seu consentimento expresso.</li>
             <li><strong>Dados de navegação:</strong> endereço IP, tipo de browser, páginas visitadas e tempo de permanência (recolhidos de forma anónima para fins estatísticos).</li>
-            <li><strong>Comunicações:</strong> mensagens enviadas através do formulário de contato.</li>
+            <li><strong>Comunicações:</strong> mensagens enviadas através do formulário de contacto.</li>
           </ul>
         </section>
 

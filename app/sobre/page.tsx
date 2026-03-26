@@ -60,7 +60,7 @@ export default function Sobre() {
             Somos uma equipa de voluntários e entusiastas da tecnologia que partilham uma ligação à fé e à comunidade católica em Portugal. Desenvolvemos e mantemos esta plataforma de forma independente, com o objetivo de servir o bem comum.
           </p>
           <p>
-            Se deseja contribuir, reportar um erro, ou sugerir uma melhoria, entre em contacto connosco através da página de <a href="/contato">Contato</a>.
+            Se deseja contribuir, reportar um erro, ou sugerir uma melhoria, entre em contacto connosco através da página de <a href="/contacto">Contacto</a>.
           </p>
         </section>
 

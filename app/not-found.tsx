@@ -44,7 +44,7 @@ export default function NotFound() {
           <li aria-hidden="true" className="error-page-suggestions-sep">·</li>
           <li><Link href="/sobre">Sobre nós</Link></li>
           <li aria-hidden="true" className="error-page-suggestions-sep">·</li>
-          <li><Link href="/contato">Contato</Link></li>
+          <li><Link href="/contacto">Contacto</Link></li>
         </ul>
       </main>
       <Footer />

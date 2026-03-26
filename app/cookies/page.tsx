@@ -101,7 +101,7 @@ export default function Cookies() {
         <div className="static-contact-cta">
           <h3>Ainda tem dúvidas sobre cookies?</h3>
           <p>Contacte-nos e teremos todo o gosto em esclarecer.</p>
-          <a href="/contato">Contactar</a>
+          <a href="/contacto">Contactar</a>
         </div>
 
         <p className="static-updated">Última atualização: março de 2025</p>

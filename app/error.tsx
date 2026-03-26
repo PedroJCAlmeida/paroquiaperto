@@ -50,7 +50,7 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
           <li aria-hidden="true" className="error-page-suggestions-sep">·</li>
           <li><Link href="/buscar">Pesquisar</Link></li>
           <li aria-hidden="true" className="error-page-suggestions-sep">·</li>
-          <li><Link href="/contato">Contato</Link></li>
+          <li><Link href="/contacto">Contacto</Link></li>
         </ul>
       </main>
       <Footer />

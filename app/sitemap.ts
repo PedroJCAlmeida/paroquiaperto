@@ -8,7 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/buscar',
     '/paroquias',
     '/sobre',
-    '/contato',
+    '/contacto',
     '/politicas',
     '/rgpd',
     '/cookies',

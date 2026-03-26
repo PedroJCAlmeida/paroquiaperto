@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import '@/styles/Contato.css';
+import '@/styles/Contacto.css';
 import { Mail, Facebook, Instagram } from 'lucide-react';
 
 interface ContactForm {
@@ -71,11 +71,11 @@ const Contato = () => {
             {status && <p className="contato-status">{status}</p>}
           </form>
           <div className="contato-redes">
-            <a href="mailto:contato@paroquiaperto.com" className="rede-card">
+            <a href="mailto:contacto@paroquiaperto.com" className="rede-card">
               <Mail size={32} className="rede-icon" />
               <div className="rede-info">
                 <span className="rede-titulo">E‑mail</span>
-                <span className="rede-texto">contato@paroquiaperto.com</span>
+                <span className="rede-texto">contacto@paroquiaperto.com</span>
               </div>
             </a>
             <a
