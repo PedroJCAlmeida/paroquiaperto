@@ -6,6 +6,7 @@ import AlertModal from '@/components/AlertModal';
 import Toast from '@/components/Toast';
 import '@/styles/Backoffice.css';
 import type { Distrito, Conselho } from '@/types';
+import dynamic from 'next/dynamic';
 
 interface ParoquiaForm {
   nome: string;
@@ -54,6 +55,12 @@ export default function InserirParoquia() {
   };
   const [form, setForm] = useState<ParoquiaForm>(initialForm);
 
+  // Importação dinâmica do componente Mapa para evitar erros de SSR
+const Mapa = dynamic(() => import('@/components/Mapa'), { 
+  ssr: false,
+  loading: () => <div style={{ height: '300px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>A carregar mapa...</div>
+});
+  
   useEffect(() => {
     fetch('/api/distritos')
       .then((res) => res.json())
