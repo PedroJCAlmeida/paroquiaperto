@@ -1,92 +1,96 @@
+@import '@/styles/colors.css';
+
 .paroquia-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 16px;
-  background-color: #fff;
-  margin-bottom: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: 12px; /* Padronizado com os outros cards */
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 6px var(--color-shadow);
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
+  flex-direction: column; /* Organização vertical mais moderna */
+  transition: all 0.3s ease;
+  position: relative;
 }
 
-.paroquia-card-interno {
-  width: 100%;
-}
-
-.paroquia-card-conteudo {
-  flex-grow: 1;
+.paroquia-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-blue);
+  box-shadow: 0 12px 24px rgba(30, 64, 175, 0.1);
 }
 
 .paroquia-card h3 {
-  margin: 0;
-  font-size: 1.2rem;
+  margin: 0 0 12px 0;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--color-blue);
+  line-height: 1.2;
 }
 
 .paroquia-card p {
   display: flex;
   align-items: center;
-  margin: 4px 0;
-  color: #666;
+  margin: 6px 0;
+  color: var(--color-gray-600);
   font-size: 0.95rem;
 }
 
 .paroquia-card p svg {
-  margin-right: 6px;
+  margin-right: 8px;
+  color: var(--color-gold); /* Ícones em dourado para destaque */
 }
 
+/* Badge de distância ou destaque */
 .paroquia-card span {
-  font-weight: bold;
-  color: #2c7a7b;
+  font-weight: 700;
+  color: var(--color-blue);
+  background: var(--color-blue-lighter);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
 }
 
-.saberMaisAreaButton{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 0;
+/* Botão "Saber Mais" harmonizado com a landing */
+.saberMaisAreaButton {
+  margin-top: 20px;
   width: 100%;
-  
 }
 
-.saberMais{
-  display: flex;
-  justify-content: center;
-  
-}
-
-
-.saberMais-button, .saberMais-button:visited {
-  background-color: #273E54;
-  color: #ffffff;
+.saberMais-button, 
+.saberMais-button:visited {
+  background-color: var(--color-blue);
+  color: var(--color-white);
   border: none;
-  padding: 12px 24px;
-  border-radius: 9999px;
-  font-size: 1rem;
-  align-items: center;
+  padding: 10px 24px;
+  border-radius: 8px; /* Combinando com os botões principais */
+  font-size: 0.95rem;
+  font-weight: 600;
   cursor: pointer;
   text-decoration: none;
-  display: inline-flex;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  transition: background 0.2s;
+  gap: 8px;
+  transition: all 0.3s;
+  width: 100%;
 }
 
 .saberMais-button:hover {
-  background-color: #EEC651;
-  color: #273E54;
+  background-color: var(--color-gold);
+  color: var(--color-blue);
+  transform: scale(1.02);
+}
+
+/* Estilos para SweetAlert2 (Popups) padronizados */
+.swal2-confirm {
+  background-color: var(--color-blue) !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  padding: 12px 32px !important;
 }
 
 .swal2-html-container img {
-  width: 100%; 
-  max-width: 337px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
-
-.swal2-confirm{
-  width: 100%;
-  max-width: 337px;
-  background-color: #273E54;
-  border-radius: 20px;
-  color: #ffffff;
-  padding: 10px 30px;
-}
-
