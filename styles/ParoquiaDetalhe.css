@@ -139,12 +139,30 @@
     border-radius: 12px;
   }
 
-  .paroquia-detalhe-title {
-    font-size: 1.8rem;
+  .paroquia-detalhe-grid {
+    grid-template-columns: 1fr !important; /* Força uma coluna única */
+    gap: 24px;
   }
 
-  .paroquia-detalhe-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
+  .paroquia-detalhe-title {
+    font-size: 1.8rem; /* Título mais contido para não quebrar linhas estranhas */
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .evento-item-card {
+    padding: 12px;
+  }
+  
+  .evento-item-card > div {
+    flex-direction: column; /* Imagem em cima, texto em baixo */
+    align-items: flex-start !important;
+    gap: 12px;
+  }
+
+  .evento-img-wrapper {
+    width: 100%; /* Imagem larga no mobile */
+    height: 150px;
   }
 }
