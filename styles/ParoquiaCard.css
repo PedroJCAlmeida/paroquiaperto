@@ -53,32 +53,63 @@
 /* Botão "Saber Mais" harmonizado com a landing */
 .saberMaisAreaButton {
   margin-top: 20px;
+  display: grid;
+  /* O primeiro botão ocupa 1 parte, o segundo ocupa 2 partes */
+  grid-template-columns: 1fr 2fr; 
+  gap: 10px;
   width: 100%;
 }
 
+/* Base Comum para os Botões do Card */
 .saberMais-button, 
 .saberMais-button:visited {
-  background-color: var(--color-blue);
-  color: var(--color-white);
-  border: none;
-  padding: 10px 24px;
-  border-radius: 8px; /* Combinando com os botões principais */
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  transition: all 0.3s;
-  width: 100%;
+  padding: 12px 10px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  white-space: nowrap;
+  border: 2px solid transparent;
 }
 
-.saberMais-button:hover {
-  background-color: var(--color-gold);
-  color: var(--color-blue);
-  transform: scale(1.02);
+/* Botão SECUNDÁRIO (Ver Mais / Detalhes) */
+/* Usa este estilo para o botão que abre o popup/modal */
+.btn-secondary-card {
+  background-color: var(--color-gray-100) !important;
+  color: var(--color-blue) !important;
+  border: 2px solid var(--color-gray-200) !important;
+}
+
+.btn-secondary-card:hover {
+  background-color: var(--color-white) !important;
+  border-color: var(--color-blue) !important;
+  transform: translateY(-2px);
+}
+
+/* Botão PRINCIPAL (Ver Página) */
+/* Usa este estilo para o botão que navega para a página da paróquia */
+.btn-primary-card {
+  background-color: var(--color-blue) !important;
+  color: var(--color-white) !important;
+}
+
+.btn-primary-card:hover {
+  background-color: var(--color-gold) !important;
+  color: var(--color-blue) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(184, 134, 11, 0.2);
+}
+
+/* Ajuste para Mobile */
+@media (max-width: 480px) {
+  .saberMaisAreaButton {
+    grid-template-columns: 1fr; /* No telemóvel, um por cima do outro */
+  }
 }
 
 /* Estilos para SweetAlert2 (Popups) padronizados */
