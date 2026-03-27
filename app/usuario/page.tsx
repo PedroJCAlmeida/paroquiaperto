@@ -1,7 +1,9 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import Toast from '@/components/Toast';
+import { FaCamera, FaTrash, FaUserCircle } from 'react-icons/fa';
 import '@/styles/Backoffice.css';
 import type { Paroquia, UserProfile } from '@/types';
 
@@ -19,20 +21,40 @@ function Usuario() {
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [shouldRemoveImage, setShouldRemoveImage] = useState(false);
+  
+  const [toast, setToast] = useState<{ show: boolean; type: 'success' | 'error'; message: string }>({
+    show: false,
+    type: 'success',
+    message: '',
+  });
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+    setToast({ show: true, type, message });
+  };
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     Promise.all([
-      fetch('/api/usuario', { headers: { Authorization: `Bearer ${token}` } }).then((res) =>
-        res.json(),
-      ),
-      fetch('/api/paroquias').then((res) => res.json()),
+      fetch('/api/usuario', { headers: { Authorization: `Bearer ${token}` } }).then(async (res) => {
+        if (!res.ok) throw new Error('Falha ao carregar perfil');
+        return res.json();
+      }),
+      fetch('/api/paroquias').then(async (res) => {
+        if (!res.ok) throw new Error('Falha ao carregar paróquias');
+        return res.json();
+      }),
     ])
       .then(([userData, paroquiasData]: [UserProfile, Paroquia[]]) => {
         setUser(userData);
@@ -41,8 +63,8 @@ function Usuario() {
         setParoquias(paroquiasData);
         setLoading(false);
       })
-      .catch(() => {
-        setError('Erro ao carregar dados.');
+      .catch((err) => {
+        showToast(err instanceof Error ? err.message : 'Erro ao carregar dados.', 'error');
         setLoading(false);
       });
   }, []);
@@ -52,8 +74,17 @@ function Usuario() {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
-    setImageFile(file);
     if (file) {
+      if (file.size > 4 * 1024 * 1024) {
+        showToast('Imagem muito grande (máximo 4MB)', 'error');
+        return;
+      }
+      if (!['image/jpeg', 'image/png', 'image/webp', 'image/gif'].includes(file.type)) {
+        showToast('Formato de imagem inválido', 'error');
+        return;
+      }
+      setImageFile(file);
+      setShouldRemoveImage(false);
       setImagePreview((prev) => {
         if (prev && prev.startsWith('blob:')) URL.revokeObjectURL(prev);
         return URL.createObjectURL(file);
@@ -61,23 +92,35 @@ function Usuario() {
     }
   };
 
+  const handleRemoveImage = () => {
+    setImageFile(null);
+    setImagePreview('');
+    setShouldRemoveImage(true);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  const triggerFileInput = () => {
+    if (editMode && !saving) {
+      fileInputRef.current?.click();
+    }
+  };
+
   React.useEffect(() => {
     return () => {
       if (imagePreview && imagePreview.startsWith('blob:')) URL.revokeObjectURL(imagePreview);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [imagePreview]);
 
   const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSaving(true);
-    setError('');
-    setSuccess('');
     const token = localStorage.getItem('token');
     try {
-      let imageUrl: string | undefined;
+      let imageUrl: string | null | undefined = undefined;
 
-      if (imageFile) {
+      if (shouldRemoveImage) {
+        imageUrl = null;
+      } else if (imageFile) {
         setUploadingImage(true);
         const uploadData = new FormData();
         uploadData.append('file', imageFile);
@@ -99,20 +142,30 @@ function Usuario() {
       const res = await fetch('/api/usuario', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ name: form.nome, email: form.email, ...(imageUrl !== undefined && { image: imageUrl }) }),
+        body: JSON.stringify({ 
+          name: form.nome, 
+          email: form.email, 
+          ...(imageUrl !== undefined && { image: imageUrl }) 
+        }),
       });
-      if (!res.ok) throw new Error('Erro ao salvar dados');
+      if (!res.ok) {
+        const err = await res.json() as { error?: string };
+        throw new Error(err.error ?? 'Erro ao salvar dados');
+      }
       const updated = (await res.json()) as UserProfile;
       setUser(updated);
       setForm({ nome: updated.name ?? '', email: updated.email ?? '', paroquiaPreferida: form.paroquiaPreferida });
       if (updated.image) {
-        setImagePreview((prev) => { if (prev && prev.startsWith('blob:')) URL.revokeObjectURL(prev); return updated.image!; });
+        setImagePreview(updated.image);
+      } else {
+        setImagePreview('');
       }
       setImageFile(null);
-      setSuccess('Dados salvos com sucesso!');
+      setShouldRemoveImage(false);
+      showToast('Dados salvos com sucesso!');
       setEditMode(false);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro ao salvar dados.');
+      showToast(err instanceof Error ? err.message : 'Erro ao salvar dados.', 'error');
     } finally {
       setSaving(false);
       setUploadingImage(false);
@@ -132,30 +185,88 @@ function Usuario() {
             Área do Utilizador
           </h2>
           {loading ? (
-            <p>Carregando...</p>
+            <div style={{ display: 'flex', justifyContent: 'center', padding: '2rem' }}>
+              <div className="bo-spinner" style={{ width: 40, height: 40, borderTopColor: '#243B55' }}></div>
+            </div>
           ) : (
-            <form className="backoffice-form" style={{ maxWidth: 400, margin: '0 auto' }} onSubmit={handleSave}>
-              {error && <div style={{ color: '#e11d48', fontWeight: 700, marginBottom: 8 }}>{error}</div>}
-              {success && <div style={{ color: '#243B55', fontWeight: 700, marginBottom: 8 }}>{success}</div>}
-              <label>
-                Foto de perfil
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 6 }}>
-                  {imagePreview && (
+            <form className="backoffice-form" style={{ maxWidth: 450, margin: '0 auto' }} onSubmit={handleSave}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 20 }}>
+                <div 
+                  onClick={triggerFileInput}
+                  style={{ 
+                    position: 'relative', 
+                    width: 100, 
+                    height: 100, 
+                    borderRadius: '50%', 
+                    cursor: editMode && !saving ? 'pointer' : 'default',
+                    overflow: 'hidden',
+                    border: '3px solid #cbd5e1',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: '#f8fafc'
+                  }}
+                >
+                  {imagePreview ? (
                     <img
                       src={imagePreview}
                       alt="Foto de perfil"
-                      style={{ width: 64, height: 64, borderRadius: '50%', objectFit: 'cover', border: '2px solid #cbd5e1' }}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
+                  ) : (
+                    <FaUserCircle size={100} color="#cbd5e1" />
                   )}
-                  <input
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp,image/gif"
-                    onChange={handleImageChange}
-                    disabled={!editMode || saving}
-                  />
+                  
+                  {editMode && !saving && (
+                    <div style={{ 
+                      position: 'absolute', 
+                      bottom: 0, 
+                      left: 0, 
+                      right: 0, 
+                      background: 'rgba(0,0,0,0.5)', 
+                      padding: '4px 0', 
+                      display: 'flex', 
+                      justifyContent: 'center',
+                      color: 'white'
+                    }}>
+                      <FaCamera size={14} />
+                    </div>
+                  )}
                 </div>
-                {uploadingImage && <p style={{ color: '#64748b', fontSize: '0.9rem', marginTop: 4 }}>A fazer upload...</p>}
-              </label>
+                
+                {editMode && (
+                  <div style={{ display: 'flex', gap: 10, marginTop: 10 }}>
+                    <button 
+                      type="button" 
+                      onClick={triggerFileInput}
+                      disabled={saving}
+                      style={{ fontSize: '0.8rem', padding: '4px 8px', borderRadius: 4, background: '#e2e8f0', border: 'none', cursor: 'pointer' }}
+                    >
+                      Alterar
+                    </button>
+                    {imagePreview && (
+                      <button 
+                        type="button" 
+                        onClick={handleRemoveImage}
+                        disabled={saving}
+                        style={{ fontSize: '0.8rem', padding: '4px 8px', borderRadius: 4, background: '#fee2e2', color: '#dc2626', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4 }}
+                      >
+                        <FaTrash size={10} /> Remover
+                      </button>
+                    )}
+                  </div>
+                )}
+                
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  accept="image/jpeg,image/png,image/webp,image/gif"
+                  onChange={handleImageChange}
+                  style={{ display: 'none' }}
+                />
+                {uploadingImage && <p style={{ color: '#64748b', fontSize: '0.8rem', marginTop: 8 }}>A carregar imagem...</p>}
+              </div>
+
               <label>
                 Nome
                 <input type="text" name="nome" value={form.nome} onChange={handleChange} disabled={!editMode || saving} />
@@ -188,23 +299,57 @@ function Usuario() {
                   ))}
                 </select>
               </label>
-              {editMode ? (
-                <button type="submit" disabled={saving || uploadingImage}>
-                  {saving || uploadingImage ? 'Salvando...' : 'Salvar'}
-                </button>
-              ) : (
-                <button type="button" onClick={() => setEditMode(true)}>
-                  Editar
-                </button>
-              )}
+              
+              <div style={{ display: 'flex', gap: 12, marginTop: 10 }}>
+                {editMode ? (
+                  <>
+                    <button 
+                      type="submit" 
+                      className="bo-btn bo-btn-primary" 
+                      style={{ flex: 1 }} 
+                      disabled={saving || uploadingImage}
+                    >
+                      {saving || uploadingImage ? 'A guardar...' : 'Guardar Alterações'}
+                    </button>
+                    <button 
+                      type="button" 
+                      className="bo-btn bo-btn-light" 
+                      onClick={() => {
+                        setEditMode(false);
+                        setForm({ nome: user.name ?? '', email: user.email ?? '', paroquiaPreferida: '' });
+                        setImagePreview(user.image ?? '');
+                        setImageFile(null);
+                        setShouldRemoveImage(false);
+                      }}
+                      disabled={saving || uploadingImage}
+                    >
+                      Cancelar
+                    </button>
+                  </>
+                ) : (
+                  <button 
+                    type="button" 
+                    className="bo-btn bo-btn-primary" 
+                    style={{ width: '100%' }}
+                    onClick={() => setEditMode(true)}
+                  >
+                    Editar Perfil
+                  </button>
+                )}
+              </div>
             </form>
           )}
         </div>
       </div>
+      <Toast 
+        show={toast.show} 
+        type={toast.type} 
+        message={toast.message} 
+        onClose={() => setToast({ ...toast, show: false })} 
+      />
       <Footer />
     </>
   );
 }
 
 export default Usuario;
-

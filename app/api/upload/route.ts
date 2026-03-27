@@ -19,6 +19,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     if (!file) return NextResponse.json({ error: 'Nenhum ficheiro enviado.' }, { status: 400 });
 
+    // Validação de tipo e tamanho
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      return NextResponse.json({ error: 'Tipo de ficheiro não suportado. Use JPEG, PNG, WEBP ou GIF.' }, { status: 400 });
+    }
+
+    if (file.size > MAX_SIZE_BYTES) {
+      return NextResponse.json({ error: 'Ficheiro demasiado grande. Máximo 4MB.' }, { status: 400 });
+    }
+
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
     
