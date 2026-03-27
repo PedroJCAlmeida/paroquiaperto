@@ -7,6 +7,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import '@/styles/ParoquiaDetalhe.css';
 import type { Paroquia, Horario, Evento } from '@/types';
+import { Facebook, Instagram, MessageCircle } from 'lucide-react';
 
 export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
@@ -154,13 +155,25 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
                 <p>{paroquia?.email || ""}</p>
               </div>
               <div className="info-group">
-                <label>Redes Sociais</label>
-                <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
-                  {paroquia?.facebook && <Link href={paroquia.facebook} target="_blank" className="landing-btn-primary" style={{ padding: '6px 12px', fontSize: '0.8rem' }}>Facebook</Link>}
-                  {paroquia?.instagram && <Link href={paroquia.instagram} target="_blank" className="landing-btn-primary" style={{ padding: '6px 12px', fontSize: '0.8rem' }}>Instagram</Link>}
-                </div>
-              </div>
-            </div>
+  <label>Redes Sociais</label>
+  <div className="social-icons-wrapper">
+    {dados.facebook && (
+      <a href={dados.facebook} target="_blank" rel="noopener noreferrer" className="social-icon-btn facebook" title="Facebook">
+        <Facebook size={20} />
+      </a>
+    )}
+    {dados.instagram && (
+      <a href={dados.instagram} target="_blank" rel="noopener noreferrer" className="social-icon-btn instagram" title="Instagram">
+        <Instagram size={20} />
+      </a>
+    )}
+    {dados.whatsapp && (
+      <a href={`https://wa.me/${dados.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="social-icon-btn whatsapp" title="WhatsApp">
+        <MessageCircle size={20} />
+      </a>
+    )}
+  </div>
+</div>
           </div>
 
           <div style={{ marginTop: '40px' }}>
