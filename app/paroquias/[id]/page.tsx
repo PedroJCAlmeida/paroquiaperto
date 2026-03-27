@@ -173,8 +173,7 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
       </a>
     )}
   </div>
-</div>
-          </div>
+</div>       
 
           <div style={{ marginTop: '40px' }}>
              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
