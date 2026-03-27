@@ -89,8 +89,8 @@
   }
   
   .paroquias-title {
-    font-size: 1.8rem;
-    margin-bottom: 24px;
+    font-size: 1.5rem !important;
+    margin: 0 !important;
   }
 
   .paroquias-mapa {
@@ -99,18 +99,32 @@
   }
 
  .paroquias-filters {
-    padding: 16px;
-    gap: 12px;
-    flex-direction: column;
-    align-items: stretch;
+    padding: 12px;           /* Reduz o padding interno do container */
+    gap: 8px;                /* Reduz o espaço entre os selects */
+    margin-bottom: 24px;
+    display: grid;           /* Mudamos para grid para melhor controlo */
+    grid-template-columns: 1fr 1fr; /* Colocamos 2 por linha para poupar espaço */
+  }
+
+  /* O seletor de KM (mais pequeno) pode ficar na segunda linha sozinho ou acompanhado */
+  .paroquias-select--km {
+    grid-column: span 2;     /* Ocupa a largura toda na linha de baixo */
   }
 
   .paroquias-select {
-    width: 100%;
-    max-width: none;
-    font-size: 16px; /* Essencial para evitar zoom forçado no Safari iOS */
+    padding: 8px 12px;       /* Reduz a altura interna dos campos */
+    height: 40px;            /* Altura fixa mais elegante */
+    font-size: 0.95rem;      /* Fonte ligeiramente menor para não quebrar */
+    background-position: right 0.5rem center; /* Ajusta a seta */
   }
-
+  /* Ajuste do Header (Título + Botão) que estava cortado */
+  .paroquias-header {
+    flex-direction: column;  /* Empilha título e botão */
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    text-align: center;
+  }
   .paroquias-lista {
     gap: 20px;
     grid-template-columns: 1fr; /* Força uma coluna única em ecrãs pequenos */
