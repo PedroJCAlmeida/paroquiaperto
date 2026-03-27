@@ -154,29 +154,30 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
                 <p>{paroquia?.telefone || "Não informado"}</p>
                 <p>{paroquia?.email || ""}</p>
               </div>
-              <div className="info-group">
-                <label>Redes Sociais</label>
-                <div className="social-icons-wrapper">
-                  {paroquia?.facebook && (
-                    <a href={paroquia.facebook} target="_blank" rel="noopener noreferrer" className="social-icon-btn facebook" title="Facebook">
-                      <Facebook size={20} />
-                    </a>
-                  )}
-                  {paroquia?.instagram && (
-                    <a href={paroquia.instagram} target="_blank" rel="noopener noreferrer" className="social-icon-btn instagram" title="Instagram">
-                      <Instagram size={20} />
-                    </a>
-                  )}
-                  {paroquia?.whatsapp && (
-                    <a href={`https://wa.me/${paroquia.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="social-icon-btn whatsapp" title="WhatsApp">
-                      <MessageCircle size={20} />
-                    </a>
-                  )}
-                  {!paroquia?.facebook && !paroquia?.instagram && !paroquia?.whatsapp && (
-                    <span className="empty">Não informado</span>
-                  )}
-                </div>
-              </div>
+              {/* Só renderiza o grupo de Redes Sociais se pelo menos uma existir */}
+{(paroquia?.facebook || paroquia?.instagram || paroquia?.whatsapp) && (
+  <div className="info-group">
+    <label>Redes Sociais</label>
+    <div className="social-icons-wrapper">
+      {paroquia?.facebook && (
+        <a href={paroquia.facebook} target="_blank" rel="noopener noreferrer" className="social-icon-btn facebook" title="Facebook">
+          <Facebook size={20} />
+        </a>
+      )}
+      {paroquia?.instagram && (
+        <a href={paroquia.instagram} target="_blank" rel="noopener noreferrer" className="social-icon-btn instagram" title="Instagram">
+          <Instagram size={20} />
+        </a>
+      )}
+      {paroquia?.whatsapp && (
+        <a href={`https://wa.me/${paroquia.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="social-icon-btn whatsapp" title="WhatsApp">
+          <MessageCircle size={20} />
+        </a>
+      )}
+    </div>
+  </div>
+)}
+              
             </div> {/* Fecho da coluna da direita */}
           </div> {/* Fecho da paroquia-detalhe-grid */}
           <div style={{ marginTop: '40px' }}>
