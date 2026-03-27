@@ -155,26 +155,30 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
                 <p>{paroquia?.email || ""}</p>
               </div>
               <div className="info-group">
-  <label>Redes Sociais</label>
-  <div className="social-icons-wrapper">
-    {dados.facebook && (
-      <a href={dados.facebook} target="_blank" rel="noopener noreferrer" className="social-icon-btn facebook" title="Facebook">
-        <Facebook size={20} />
-      </a>
-    )}
-    {dados.instagram && (
-      <a href={dados.instagram} target="_blank" rel="noopener noreferrer" className="social-icon-btn instagram" title="Instagram">
-        <Instagram size={20} />
-      </a>
-    )}
-    {dados.whatsapp && (
-      <a href={`https://wa.me/${dados.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="social-icon-btn whatsapp" title="WhatsApp">
-        <MessageCircle size={20} />
-      </a>
-    )}
-  </div>
-</div>       
-
+                <label>Redes Sociais</label>
+                <div className="social-icons-wrapper">
+                  {paroquia?.facebook && (
+                    <a href={paroquia.facebook} target="_blank" rel="noopener noreferrer" className="social-icon-btn facebook" title="Facebook">
+                      <Facebook size={20} />
+                    </a>
+                  )}
+                  {paroquia?.instagram && (
+                    <a href={paroquia.instagram} target="_blank" rel="noopener noreferrer" className="social-icon-btn instagram" title="Instagram">
+                      <Instagram size={20} />
+                    </a>
+                  )}
+                  {paroquia?.whatsapp && (
+                    <a href={`https://wa.me/${paroquia.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="social-icon-btn whatsapp" title="WhatsApp">
+                      <MessageCircle size={20} />
+                    </a>
+                  )}
+                  {!paroquia?.facebook && !paroquia?.instagram && !paroquia?.whatsapp && (
+                    <span className="empty">Não informado</span>
+                  )}
+                </div>
+              </div>
+            </div> {/* Fecho da coluna da direita */}
+          </div> {/* Fecho da paroquia-detalhe-grid */}
           <div style={{ marginTop: '40px' }}>
              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                 <h3 style={{ color: 'var(--color-blue)', fontWeight: 900, margin: 0 }}>Horários</h3>
