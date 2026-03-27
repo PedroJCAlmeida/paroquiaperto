@@ -62,7 +62,7 @@
   margin-bottom: 20px;
 }
 
-* Container das redes sociais no detalhe */
+/* Container das redes sociais no detalhe */
 .social-icons-wrapper {
   display: flex !important;      /* Força o alinhamento em linha */
   flex-direction: row !important; /* Garante que é horizontal */
