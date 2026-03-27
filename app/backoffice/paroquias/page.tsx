@@ -264,6 +264,25 @@ export default function InserirParoquia() {
           <div className="bo-actions">
             <button type="button" className="bo-btn-secondary" onClick={buscarLocalizacao}>Buscar localização</button>
           </div>
+          {/* Mapa interativo para ajuste fino */}
+        {form.lat && form.lng && (
+        <div style={{ marginTop: '16px', marginBottom: '16px', border: '1px solid #cbd5e1', borderRadius: '8px', overflow: 'hidden' }}>
+        <Mapa 
+        coords={{ latitude: parseFloat(form.lat), longitude: parseFloat(form.lng) }}
+        isEditable={true}
+        onMarkerDrag={(newLat, newLng) => {
+          setForm(prev => ({ 
+            ...prev, 
+            lat: newLat.toFixed(7), 
+            lng: newLng.toFixed(7) 
+          }));
+        }}
+      />
+      <p style={{ fontSize: '0.8rem', color: '#64748b', padding: '8px', textAlign: 'center', background: '#f8fafc' }}>
+        📍 Pode arrastar o marcador para ajustar a posição exata no mapa.
+      </p>
+    </div>
+  )}
           <div className="bo-latlng">
             <label>
               Latitude
