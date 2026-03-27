@@ -51,67 +51,65 @@
 }
 
 /* Botão "Saber Mais" harmonizado com a landing */
+/* Container que agrupa os botões */
 .saberMaisAreaButton {
-  margin-top: 20px;
-  display: grid;
-  /* O primeiro botão ocupa 1 parte, o segundo ocupa 2 partes */
-  grid-template-columns: 1fr 2fr; 
-  gap: 10px;
+  margin-top: 24px;
+  display: flex;
+  gap: 12px;
   width: 100%;
 }
 
-/* Base Comum para os Botões do Card */
-.saberMais-button, 
-.saberMais-button:visited {
+/* Base dos botões - Forçando o estilo de botão real */
+.saberMais-button {
+  flex: 1; /* Faz com que ambos tenham exatamente o mesmo tamanho */
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 10px;
+  padding: 12px 16px;
   border-radius: 8px;
   font-size: 0.9rem;
   font-weight: 700;
-  text-decoration: none;
+  text-decoration: none !important;
   transition: all 0.3s ease;
   cursor: pointer;
+  border: none;
   white-space: nowrap;
-  border: 2px solid transparent;
 }
 
-/* Botão SECUNDÁRIO (Ver Mais / Detalhes) */
-/* Usa este estilo para o botão que abre o popup/modal */
-.btn-secondary-card {
+/* Botão Secundário: Ver Mais (Estilo Ghost/Outline) */
+.btn-ver-mais {
   background-color: var(--color-gray-100) !important;
   color: var(--color-blue) !important;
-  border: 2px solid var(--color-gray-200) !important;
+  border: 1px solid var(--color-gray-200) !important;
 }
 
-.btn-secondary-card:hover {
+.btn-ver-mais:hover {
   background-color: var(--color-white) !important;
   border-color: var(--color-blue) !important;
+  color: var(--color-blue) !important;
   transform: translateY(-2px);
 }
 
-/* Botão PRINCIPAL (Ver Página) */
-/* Usa este estilo para o botão que navega para a página da paróquia */
-.btn-primary-card {
+/* Botão Principal: Ver Página (Estilo Sólido) */
+.btn-ver-pagina {
   background-color: var(--color-blue) !important;
-  color: var(--color-white) !important;
+  color: white !important;
+  box-shadow: 0 4px 10px rgba(30, 64, 175, 0.2);
 }
 
-.btn-primary-card:hover {
+.btn-ver-pagina:hover {
   background-color: var(--color-gold) !important;
   color: var(--color-blue) !important;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(184, 134, 11, 0.2);
+  box-shadow: 0 6px 15px rgba(184, 134, 11, 0.3);
 }
 
-/* Ajuste para Mobile */
-@media (max-width: 480px) {
+/* Ajuste para ecrãs muito pequenos */
+@media (max-width: 400px) {
   .saberMaisAreaButton {
-    grid-template-columns: 1fr; /* No telemóvel, um por cima do outro */
+    flex-direction: column;
   }
 }
-
 /* Estilos para SweetAlert2 (Popups) padronizados */
 .swal2-confirm {
   background-color: var(--color-blue) !important;
