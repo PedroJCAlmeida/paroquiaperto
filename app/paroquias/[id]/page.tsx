@@ -109,80 +109,78 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
   }
 
   return (
-  <>
-    <Navbar />
-    <div className="paroquia-detalhe-bg">
-      <div className="paroquia-detalhe-card">
-        
-        {/* Usando a classe de botão da Landing Page para o Voltar */}
-        <button onClick={() => window.history.back()} className="landing-btn-secondary" style={{ marginBottom: '24px' }}>
-          ← Voltar para lista
-        </button>
+    <>
+      <Navbar />
+      <div className="paroquia-detalhe-bg">
+        <div className="paroquia-detalhe-card">
+          <button onClick={() => window.history.back()} className="landing-btn-secondary" style={{ marginBottom: '24px' }}>
+            ← Voltar para lista
+          </button>
 
-        <h2 className="paroquia-detalhe-title" style={{ textAlign: 'center' }}>
-          {paroquia?.nome}
-        </h2>
+          <h2 className="paroquia-detalhe-title" style={{ textAlign: 'center' }}>
+            {paroquia?.nome}
+          </h2>
 
-        {/* Imagem Principal */}
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '32px' }}>
-          <img 
-            src={paroquia?.imagem || "/logo_paroquia.png"} 
-            alt={paroquia?.nome} 
-            style={{ maxWidth: '100%', borderRadius: '12px', maxHeight: '300px', border: '3px solid var(--color-gold)' }} 
-          />
-        </div>
-
-        {/* Aqui aplicamos a tua GRID do CSS */}
-        <div className="paroquia-detalhe-grid">
-          
-          {/* Coluna 1 */}
-          <div>
-            <div className="info-group">
-              <label>Endereço</label>
-              <p>
-                {paroquia?.endereco ? (
-                  <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(paroquia.endereco)}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-blue)', fontWeight: 700 }}>
-                    {paroquia.endereco}
-                  </a>
-                ) : "Não informado"}
-              </p>
-            </div>
-
-            <div className="info-group">
-              <label>Descrição</label>
-              <p>{paroquia?.descricao || "Sem descrição disponível."}</p>
-            </div>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '32px' }}>
+            <img 
+              src={paroquia?.imagem || "/logo_paroquia.png"} 
+              alt={paroquia?.nome || "Paróquia"} 
+              style={{ maxWidth: '100%', borderRadius: '12px', maxHeight: '300px', border: '3px solid var(--color-gold)' }} 
+            />
           </div>
 
-          {/* Coluna 2 */}
-          <div>
-            <div className="info-group">
-              <label>Contacto</label>
-              <p>{paroquia?.telefone || "Não informado"}</p>
+          <div className="paroquia-detalhe-grid">
+            <div>
+              <div className="info-group">
+                <label>Endereço</label>
+                <p>
+                  {paroquia?.endereco ? (
+                    <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(paroquia.endereco)}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-blue)', fontWeight: 700 }}>
+                      {paroquia.endereco}
+                    </a>
+                  ) : "Não informado"}
+                </p>
+              </div>
+              <div className="info-group">
+                <label>Descrição</label>
+                <p>{paroquia?.descricao || "Sem descrição disponível."}</p>
+              </div>
             </div>
 
-            <div className="info-group">
-              <label>Redes Sociais</label>
-              <div style={{ display: 'flex', gap: '15px', marginTop: '5px' }}>
-                {paroquia?.facebook && <a href={paroquia.facebook} className="landing-btn-primary" style={{ padding: '8px 12px', fontSize: '0.8rem' }}>Facebook</a>}
-                {paroquia?.instagram && <a href={paroquia.instagram} className="landing-btn-primary" style={{ padding: '8px 12px', fontSize: '0.8rem' }}>Instagram</a>}
+            <div>
+              <div className="info-group">
+                <label>Contacto</label>
+                <p>{paroquia?.telefone || "Não informado"}</p>
+                <p>{paroquia?.email || ""}</p>
+              </div>
+              <div className="info-group">
+                <label>Redes Sociais</label>
+                <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
+                  {paroquia?.facebook && <Link href={paroquia.facebook} target="_blank" className="landing-btn-primary" style={{ padding: '6px 12px', fontSize: '0.8rem' }}>Facebook</Link>}
+                  {paroquia?.instagram && <Link href={paroquia.instagram} target="_blank" className="landing-btn-primary" style={{ padding: '6px 12px', fontSize: '0.8rem' }}>Instagram</Link>}
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Secções de Horários e Eventos (Podes manter a lógica de lista) */}
-        <hr style={{ margin: '40px 0', border: '0', borderTop: '1px solid var(--color-gray-200)' }} />
-        
-        <div className="detalhe-section-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-           <h3 style={{ color: 'var(--color-blue)', fontWeight: 900 }}>Horários</h3>
-           <button onClick={handleCriarHorario} className="landing-btn-primary" style={{ padding: '8px 16px', fontSize: '0.85rem' }}>+ Horário</button>
+          <div style={{ marginTop: '40px' }}>
+             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                <h3 style={{ color: 'var(--color-blue)', fontWeight: 900, margin: 0 }}>Horários</h3>
+                <button onClick={handleCriarHorario} className="landing-btn-primary" style={{ padding: '8px 16px', fontSize: '0.85rem' }}>+ Horário</button>
+             </div>
+             {horarios.length > 0 ? (
+               <ul style={{ listStyle: 'none', padding: 0 }}>
+                 {horarios.map((h) => (
+                   <li key={h.id} style={{ background: '#f8fafc', padding: '12px', borderRadius: '8px', marginBottom: '8px', border: '1px solid #e2e8f0' }}>
+                     <strong>{h.diaSemana}</strong>: {h.hora} - <span style={{ color: 'var(--color-blue)' }}>{h.tipo}</span>
+                   </li>
+                 ))}
+               </ul>
+             ) : <p>Sem horários registados.</p>}
+          </div>
         </div>
-        
-        {/* Renderização dos horários aqui... */}
-
       </div>
-    </div>
-    <Footer />
-  </>
-);
+      <Footer />
+    </>
+  );
+}
