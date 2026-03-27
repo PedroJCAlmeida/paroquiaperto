@@ -107,7 +107,12 @@
 /* Ajuste para ecrãs muito pequenos */
 @media (max-width: 400px) {
   .saberMaisAreaButton {
-    flex-direction: column;
+    flex-direction: column !important; /* Botões empilhados */
+    gap: 8px;
+  }
+  
+  .saberMais-button {
+    width: 100% !important;
   }
 }
 /* Estilos para SweetAlert2 (Popups) padronizados */
