@@ -2,12 +2,11 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Plus } from 'lucide-react';
+import { Plus, Facebook, Instagram, MessageCircle } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import '@/styles/ParoquiaDetalhe.css';
 import type { Paroquia, Horario, Evento } from '@/types';
-import { Facebook, Instagram, MessageCircle } from 'lucide-react';
 
 export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
@@ -24,7 +23,6 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
     setToken(t);
   }, []);
 
-  // Unwrap params Promise (Next.js 15)
   React.useEffect(() => {
     params.then((p) => setId(p.id));
   }, [params]);
@@ -62,19 +60,13 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
   }, [id]);
 
   const handleCriarEvento = () => {
-    if (!token) {
-      router.push(`/register?redirect=/backoffice/eventos&message=Registe-se para criar um evento`);
-    } else {
-      router.push(`/backoffice/eventos`);
-    }
+    const path = `/backoffice/eventos`;
+    token ? router.push(path) : router.push(`/register?redirect=${path}`);
   };
 
   const handleCriarHorario = () => {
-    if (!token) {
-      router.push(`/register?redirect=/backoffice/horarios&message=Registe-se para registar um horário`);
-    } else {
-      router.push(`/backoffice/horarios`);
-    }
+    const path = `/backoffice/horarios`;
+    token ? router.push(path) : router.push(`/register?redirect=${path}`);
   };
 
   if (loading) {
@@ -84,9 +76,9 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
         <div style={{ paddingTop: '64px', minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <div style={{ textAlign: 'center' }}>
             <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style={{ animation: 'spin 1s linear infinite' }}>
-              <circle cx="24" cy="24" r="20" stroke="#2563eb" strokeWidth="6" strokeDasharray="31 31" />
+              <circle cx="24" cy="24" r="20" stroke="var(--color-blue)" strokeWidth="6" strokeDasharray="31 31" />
             </svg>
-            <div style={{ marginTop: '16px', color: '#2563eb', fontWeight: 'bold' }}>Carregando dados...</div>
+            <div style={{ marginTop: '16px', color: 'var(--color-blue)', fontWeight: 'bold' }}>Carregando dados...</div>
             <style>{`@keyframes spin { 100% { transform: rotate(360deg); } }`}</style>
           </div>
         </div>
@@ -101,7 +93,7 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
         <Navbar />
         <div style={{ paddingTop: '64px', minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <div style={{ textAlign: 'center' }}>
-            <div style={{ marginTop: '16px', color: '#ef4444', fontWeight: 'bold' }}>Erro: {error}</div>
+            <div style={{ color: '#ef4444', fontWeight: 'bold' }}>Erro: {error}</div>
           </div>
         </div>
         <Footer />
@@ -154,33 +146,34 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
                 <p>{paroquia?.telefone || "Não informado"}</p>
                 <p>{paroquia?.email || ""}</p>
               </div>
-              {/* Só renderiza o grupo de Redes Sociais se pelo menos uma existir */}
-{(paroquia?.facebook || paroquia?.instagram || paroquia?.whatsapp) && (
-  <div className="info-group">
-    <label>Redes Sociais</label>
-    <div className="social-icons-wrapper">
-      {paroquia?.facebook && (
-        <a href={paroquia.facebook} target="_blank" rel="noopener noreferrer" className="social-icon-btn facebook" title="Facebook">
-          <Facebook size={20} />
-        </a>
-      )}
-      {paroquia?.instagram && (
-        <a href={paroquia.instagram} target="_blank" rel="noopener noreferrer" className="social-icon-btn instagram" title="Instagram">
-          <Instagram size={20} />
-        </a>
-      )}
-      {paroquia?.whatsapp && (
-        <a href={`https://wa.me/${paroquia.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="social-icon-btn whatsapp" title="WhatsApp">
-          <MessageCircle size={20} />
-        </a>
-      )}
-    </div>
-  </div>
-)}
-              
-            </div> {/* Fecho da coluna da direita */}
-          </div> {/* Fecho da paroquia-detalhe-grid */}
-          <div style={{ marginTop: '40px' }}>
+
+              {(paroquia?.facebook || paroquia?.instagram || paroquia?.whatsapp) && (
+                <div className="info-group">
+                  <label>Redes Sociais</label>
+                  <div className="social-icons-wrapper">
+                    {paroquia?.facebook && (
+                      <a href={paroquia.facebook} target="_blank" rel="noopener noreferrer" className="social-icon-btn facebook" title="Facebook">
+                        <Facebook size={20} />
+                      </a>
+                    )}
+                    {paroquia?.instagram && (
+                      <a href={paroquia.instagram} target="_blank" rel="noopener noreferrer" className="social-icon-btn instagram" title="Instagram">
+                        <Instagram size={20} />
+                      </a>
+                    )}
+                    {paroquia?.whatsapp && (
+                      <a href={`https://wa.me/${paroquia.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="social-icon-btn whatsapp" title="WhatsApp">
+                        <MessageCircle size={20} />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Secção de Horários */}
+          <div style={{ marginTop: '40px', paddingTop: '30px', borderTop: '1px solid var(--color-gray-100)' }}>
              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                 <h3 style={{ color: 'var(--color-blue)', fontWeight: 900, margin: 0 }}>Horários</h3>
                 <button onClick={handleCriarHorario} className="landing-btn-primary" style={{ padding: '8px 16px', fontSize: '0.85rem' }}>+ Horário</button>
@@ -193,7 +186,41 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
                    </li>
                  ))}
                </ul>
-             ) : <p>Sem horários registados.</p>}
+             ) : <p style={{ color: 'var(--color-gray-400)' }}>Sem horários registados.</p>}
+          </div>
+
+          {/* Secção de Eventos */}
+          <div style={{ marginTop: '40px', paddingTop: '30px', borderTop: '1px solid var(--color-gray-100)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <h3 style={{ color: 'var(--color-blue)', fontWeight: 900, margin: 0 }}>Próximos Eventos</h3>
+              <button onClick={handleCriarEvento} className="landing-btn-primary" style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
+                <Plus size={16} /> Criar Evento
+              </button>
+            </div>
+
+            {eventos.length > 0 ? (
+              <div style={{ display: 'grid', gap: '16px' }}>
+                {eventos.map((e) => (
+                  <div key={e.id} className="evento-item-card">
+                    <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+                      <div className="evento-img-wrapper">
+                        <img src={e.imagem || "/logo_paroquia.png"} alt={e.titulo} />
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <h4 style={{ margin: '0 0 4px 0', color: 'var(--color-blue)', fontSize: '1.1rem', fontWeight: 800 }}>{e.titulo}</h4>
+                        <div style={{ display: 'flex', gap: '12px', fontSize: '0.9rem', color: 'var(--color-gold)', fontWeight: 600 }}>
+                          <span>📅 {e.data}</span>
+                          <span>⏰ {e.hora}</span>
+                        </div>
+                        {e.descricao && <p style={{ margin: '8px 0 0 0', fontSize: '0.95rem', color: 'var(--color-gray-600)' }}>{e.descricao}</p>}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p style={{ color: 'var(--color-gray-400)', textAlign: 'center' }}>Não existem eventos agendados.</p>
+            )}
           </div>
         </div>
       </div>
