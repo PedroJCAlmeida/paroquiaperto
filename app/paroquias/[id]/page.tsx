@@ -113,55 +113,74 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
     <Navbar />
     <div className="paroquia-detalhe-bg">
       <div className="paroquia-detalhe-card">
-        {/* Botão Voltar Otimizado */}
-        <button onClick={() => window.history.back()} className="landing-btn-secondary back-button">
+        
+        {/* Usando a classe de botão da Landing Page para o Voltar */}
+        <button onClick={() => window.history.back()} className="landing-btn-secondary" style={{ marginBottom: '24px' }}>
           ← Voltar para lista
         </button>
 
-        <h2 className="paroquia-detalhe-title">{paroquia?.nome}</h2>
+        <h2 className="paroquia-detalhe-title" style={{ textAlign: 'center' }}>
+          {paroquia?.nome}
+        </h2>
 
-        <div className="paroquia-detalhe-image-container">
+        {/* Imagem Principal */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '32px' }}>
           <img 
             src={paroquia?.imagem || "/logo_paroquia.png"} 
             alt={paroquia?.nome} 
-            className={paroquia?.imagem ? "paroquia-main-img" : "paroquia-placeholder-img"} 
+            style={{ maxWidth: '100%', borderRadius: '12px', maxHeight: '300px', border: '3px solid var(--color-gold)' }} 
           />
         </div>
 
+        {/* Aqui aplicamos a tua GRID do CSS */}
         <div className="paroquia-detalhe-grid">
-          <div className="info-column">
+          
+          {/* Coluna 1 */}
+          <div>
             <div className="info-group">
               <label>Endereço</label>
               <p>
                 {paroquia?.endereco ? (
-                  <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(paroquia.endereco)}`} target="_blank" rel="noopener noreferrer">
+                  <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(paroquia.endereco)}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-blue)', fontWeight: 700 }}>
                     {paroquia.endereco}
                   </a>
-                ) : <span className="empty">Não informado</span>}
+                ) : "Não informado"}
               </p>
             </div>
+
             <div className="info-group">
               <label>Descrição</label>
-              <p>{paroquia?.descricao || <span className="empty">Não informado</span>}</p>
+              <p>{paroquia?.descricao || "Sem descrição disponível."}</p>
             </div>
-            {/* ... Repetir estrutura para Telefone e Email ... */}
           </div>
 
-          <div className="info-column">
-             {/* ... Repetir estrutura para Site, Whatsapp e Redes Sociais ... */}
+          {/* Coluna 2 */}
+          <div>
+            <div className="info-group">
+              <label>Contacto</label>
+              <p>{paroquia?.telefone || "Não informado"}</p>
+            </div>
+
+            <div className="info-group">
+              <label>Redes Sociais</label>
+              <div style={{ display: 'flex', gap: '15px', marginTop: '5px' }}>
+                {paroquia?.facebook && <a href={paroquia.facebook} className="landing-btn-primary" style={{ padding: '8px 12px', fontSize: '0.8rem' }}>Facebook</a>}
+                {paroquia?.instagram && <a href={paroquia.instagram} className="landing-btn-primary" style={{ padding: '8px 12px', fontSize: '0.8rem' }}>Instagram</a>}
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Secção de Horários */}
-        <div className="detalhe-section">
-          <div className="section-header">
-            <h3>Horários</h3>
-            <button onClick={handleCriarHorario} className="landing-btn-primary btn-small">
-              <Plus size={16} /> Adicionar Horário
-            </button>
-          </div>
-          {/* Mapeamento de horários aqui com a classe .item-lista-detalhe */}
+        {/* Secções de Horários e Eventos (Podes manter a lógica de lista) */}
+        <hr style={{ margin: '40px 0', border: '0', borderTop: '1px solid var(--color-gray-200)' }} />
+        
+        <div className="detalhe-section-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+           <h3 style={{ color: 'var(--color-blue)', fontWeight: 900 }}>Horários</h3>
+           <button onClick={handleCriarHorario} className="landing-btn-primary" style={{ padding: '8px 16px', fontSize: '0.85rem' }}>+ Horário</button>
         </div>
+        
+        {/* Renderização dos horários aqui... */}
+
       </div>
     </div>
     <Footer />
