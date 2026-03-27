@@ -61,15 +61,19 @@ interface MapaProps {
   paroquias?: Paroquia[];
   coords?: Coords | null;
   onBoundsChange?: (bounds: LatLngBounds) => void;
+  onMarkerDrag?: (lat: number, lng: number) => void; 
+  isEditable?: boolean;
 }
 
-export default function Mapa({ paroquias = [], coords, onBoundsChange }: MapaProps) {
-  const center: [number, number] = [41.14961, -8.61099];
+export default function Mapa({ paroquias = [], coords, onBoundsChange,onMarkerDrag, isEditable = false }: MapaProps) {
+  const center: [number, number] = coords 
+    ? [coords.latitude, coords.longitude] 
+    : [41.14961, -8.61099];
 
   return (
     <MapContainer
       center={center}
-      zoom={13}
+      zoom={15}
       style={{ height: '300px', width: '100%', borderRadius: '8px' }}
       scrollWheelZoom
     >
@@ -80,8 +84,18 @@ export default function Mapa({ paroquias = [], coords, onBoundsChange }: MapaPro
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {coords && (
-        <Marker position={[coords.latitude, coords.longitude]}>
-          <Popup>Sua localização</Popup>
+        <Marker
+          position={[coords.latitude, coords.longitude]}
+          draggable={isEditable}
+          eventHandlers={{
+            dragend: (e) => {
+              const marker = e.target;
+              const position = marker.getLatLng();
+              if (onMarkerDrag) onMarkerDrag(position.lat, position.lng);
+            },
+          }}
+          >
+          <Popup>{isEditable ? "Arraste para ajustar o local exato" : "Sua localização"}</Popup>
         </Marker>
       )}
       {paroquias.map((p) => {
