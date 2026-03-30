@@ -17,13 +17,18 @@ export default function ListarParoquias() {
     message: '',
   });
   const [editingId, setEditingId] = useState<number | null>(null);
-  const [editForm, setEditForm] = useState<{ nome: string; endereco: string; telefone: string; email: string; descricao: string }>({
-    nome: '',
-    endereco: '',
-    telefone: '',
-    email: '',
-    descricao: '',
-  });
+  const [editForm, setEditForm] = useState({
+  nome: '',
+  endereco: '',
+  telefone: '',
+  email: '',
+  descricao: '',
+  site: '',
+  facebook: '',
+  instagram: '',
+  whatsapp: '',
+  imagem: ''
+});
 
   const fetchParoquias = () => {
     setLoading(true);
@@ -63,58 +68,86 @@ export default function ListarParoquias() {
   };
 
   const startEdit = (p: Paroquia) => {
-    setEditingId(p.id);
-    setEditForm({
-      nome: p.nome,
-      endereco: p.endereco,
-      telefone: p.telefone ?? '',
-      email: p.email ?? '',
-      descricao: p.descricao ?? '',
-    });
-  };
+  setEditingId(p.id);
+  setEditForm({
+    nome: p.nome,
+    endereco: p.endereco,
+    telefone: p.telefone ?? '',
+    email: p.email ?? '',
+    descricao: p.descricao ?? '',
+    site: p.site ?? '',
+    facebook: p.facebook ?? '',
+    instagram: p.instagram ?? '',
+    whatsapp: p.whatsapp ?? '',
+    imagem: p.imagem ?? ''
+  });
+};
+
 
   const handleEditChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setEditForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleEditSubmit = async (id: number) => {
-    try {
-      const token = localStorage.getItem('token');
-      const p = paroquias.find((x) => x.id === id);
-      const res = await fetch(`/api/paroquias/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({
-          nome: editForm.nome,
-          endereco: editForm.endereco,
-          lat: p?.lat,
-          lng: p?.lng,
-          telefone: editForm.telefone,
-          email: editForm.email,
-          descricao: editForm.descricao,
-          site: p?.site,
-          imagem: p?.imagem,
-          facebook: p?.facebook,
-          instagram: p?.instagram,
-          whatsapp: p?.whatsapp,
-        }),
-      });
-      if (!res.ok) {
-        if (res.status === 401) {
-          localStorage.removeItem('token');
-          localStorage.removeItem('role');
-          router.replace('/login');
-          return;
-        }
-        throw new Error('Erro ao editar');
-      }
-      setToast({ show: true, type: 'success', message: 'Paróquia atualizada com sucesso!' });
-      setEditingId(null);
-      fetchParoquias();
-    } catch {
-      setToast({ show: true, type: 'error', message: 'Erro ao atualizar paróquia.' });
+  try {
+    const token = localStorage.getItem('token');
+    
+    // 1. Verificação preventiva do token
+    if (!token) {
+      router.replace('/login');
+      return;
     }
-  };
+
+    // 2. Encontramos a paróquia original para campos que não estão no formulário
+    const original = paroquias.find((x) => x.id === id);
+
+    const res = await fetch(`/api/paroquias/${id}`, {
+      method: 'PUT',
+      headers: { 
+        'Content-Type': 'application/json', 
+        'Authorization': `Bearer ${token}` 
+      },
+      // 3. Unimos o que veio do formulário com o que já existia
+      body: JSON.stringify({
+        ...editForm, // Pega nome, endereco, telefone, email, descricao
+        lat: original?.lat,
+        lng: original?.lng,
+        site: original?.site,
+        imagem: original?.imagem,
+        facebook: original?.facebook,
+        instagram: original?.instagram,
+        whatsapp: original?.whatsapp,
+      }),
+    });
+
+    if (!res.ok) {
+      if (res.status === 401) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('role');
+        router.replace('/login');
+        return;
+      }
+      throw new Error('Erro ao editar');
+    }
+
+    // 4. Sucesso: Feedback e limpeza de estado
+    setToast({ 
+      show: true, 
+      type: 'success', 
+      message: 'Paróquia atualizada com sucesso!' 
+    });
+    
+    setEditingId(null);
+    fetchParoquias(); // Recarrega a lista para refletir as mudanças
+
+  } catch (error) {
+    setToast({ 
+      show: true, 
+      type: 'error', 
+      message: 'Erro ao atualizar paróquia.' 
+    });
+  }
+};
 
   return (
     <div className="bo-container">
