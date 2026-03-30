@@ -237,6 +237,8 @@ const Paroquias = () => {
               instagram: p.instagram,
               facebook: p.facebook,
               whatsapp: p.whatsapp,
+              lat: p.lat,
+              lng: p.lng,
             }}
           />
         ))}
