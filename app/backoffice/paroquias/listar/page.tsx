@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Pencil, Trash2, PlusCircle, Save, X, Search, ChevronLeft, ChevronRight, Target, Phone, Mail, Globe, Instagram, Facebook, MessageCircle, ImageIcon } from 'lucide-react';
+import { Pencil, Trash2, PlusCircle, Save, X, Search, ChevronLeft, ChevronRight, Target, ImageIcon } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Toast from '@/components/Toast';
 import AlertModal from '@/components/AlertModal';
@@ -44,8 +44,10 @@ export default function ListarParoquias() {
           fetch('/api/paroquias'),
           fetch('/api/distritos')
         ]);
-        setParoquias(await resP.json());
-        setDistritos(await resD.json());
+        const dataP = await resP.json();
+        const dataD = await resD.json();
+        setParoquias(Array.isArray(dataP) ? dataP : []);
+        setDistritos(Array.isArray(dataD) ? dataD : []);
       } catch (err) { console.error(err); }
       finally { setLoading(false); }
     };
@@ -58,6 +60,12 @@ export default function ListarParoquias() {
       .then((res) => res.json())
       .then((data) => setConselhos(Array.isArray(data) ? data : []));
   }, [editForm.distritoId]);
+
+  const handleImagemChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] ?? null;
+    setImagemFile(file);
+    if (file) setImagemPreview(URL.createObjectURL(file));
+  };
 
   const handleDelete = async (id: number, nome: string) => {
     if (!confirm(`Tem certeza que deseja remover a paróquia "${nome}"?`)) return;
@@ -88,10 +96,6 @@ export default function ListarParoquias() {
       telefone: p.telefone || '',
       email: p.email || '',
       descricao: p.descricao || '',
-      site: p.site || '',
-      facebook: p.facebook || '',
-      instagram: p.instagram || '',
-      whatsapp: p.whatsapp || '',
       lat: p.lat || '',
       lng: p.lng || '',
       imagem: p.imagem || ''
@@ -162,8 +166,8 @@ export default function ListarParoquias() {
         {loading ? <p className="loading-message">A carregar...</p> : paginated.map((p) => (
           editingId === p.id ? (
             <div key={p.id} className="backoffice-form" style={{ background: '#fff', padding: '2rem', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '1.5rem', width: '100%' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2rem' }}>
-                <h3>Editar Paróquia</h3>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+                <h3 style={{margin: 0}}>Editar Paróquia</h3>
                 <X size={24} onClick={() => setEditingId(null)} style={{ cursor: 'pointer' }} />
               </div>
               
@@ -195,7 +199,7 @@ export default function ListarParoquias() {
                 <div>
                   <h3>Mapa e Média</h3>
                   <div style={{ height: '300px', borderRadius: '8px', overflow: 'hidden', border: '1px solid #ddd', marginBottom: '1rem' }}>
-                    {editForm.lat && <Mapa coords={{ latitude: parseFloat(editForm.lat), longitude: parseFloat(editForm.lng) }} isEditable={true} onMarkerDrag={(lat, lng) => setEditForm((prev:any) => ({ ...prev, lat: lat.toFixed(7), lng: lng.toFixed(7) }))} />}
+                    {editForm.lat && <Mapa coords={{ latitude: parseFloat(editForm.lat), longitude: parseFloat(editForm.lng) }} isEditable={true} onMarkerDrag={(lat, lng) => setEditForm((prev: any) => ({ ...prev, lat: lat.toFixed(7), lng: lng.toFixed(7) }))} />}
                   </div>
                   <label style={{ cursor: 'pointer', display: 'block', padding: '10px', border: '1px dashed #ccc', textAlign: 'center' }}>
                     {imagemPreview ? 'Alterar Imagem' : 'Inserir Imagem'}
@@ -206,7 +210,9 @@ export default function ListarParoquias() {
               </div>
 
               <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem', justifyContent: 'flex-end' }}>
-                <button type="button" onClick={() => handleEditSubmit(p.id)} className="bo-btn bo-btn-primary" disabled={submitting}>Salvar</button>
+                <button type="button" onClick={() => handleEditSubmit(p.id)} className="bo-btn bo-btn-primary" disabled={submitting || uploadingImagem}>
+                   {submitting || uploadingImagem ? 'A salvar...' : 'Salvar'}
+                </button>
                 <button type="button" onClick={() => setEditingId(null)} className="bo-btn bo-btn-light">Cancelar</button>
               </div>
             </div>
@@ -228,7 +234,7 @@ export default function ListarParoquias() {
       {totalPages > 1 && (
         <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '2rem' }}>
           <button className="bo-btn bo-btn-light" onClick={() => setCurrentPage(c => Math.max(c-1, 1))} disabled={currentPage === 1}><ChevronLeft size={18}/></button>
-          <span style={{ alignSelf: 'center' }}>{currentPage} / {totalPages}</span>
+          <span style={{ alignSelf: 'center' }}>Página {currentPage} de {totalPages}</span>
           <button className="bo-btn bo-btn-light" onClick={() => setCurrentPage(c => Math.min(c+1, totalPages))} disabled={currentPage === totalPages}><ChevronRight size={18}/></button>
         </div>
       )}
