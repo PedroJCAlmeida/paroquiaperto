@@ -123,7 +123,7 @@ export default function ListarEventos() {
               onChange={e => { setSearchTerm(e.target.value); setCurrentPage(1); }} 
             />
           </div>
-          <Link href="/backoffice/eventos" className="bo-btn bo-btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#059669', padding: '12px 25px', borderRadius: '8px' }}>
+          <Link href="/backoffice/eventos" className="bo-btn bo-btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#243B55', padding: '12px 25px', borderRadius: '8px' }}>
             <PlusCircle size={20} /> Inserir
           </Link>
         </div>
