@@ -12,6 +12,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     const lat = searchParams.get('lat');
     const lng = searchParams.get('lng');
     const raio = searchParams.get('raio');
+    const distritoId = searchParams.get('distrito');
+    const conselhoId = searchParams.get('conselho');
 
     const paroquias = await prisma.paroquia.findMany({
       include: { distrito: true, conselho: true, horarios: true, eventos: true },
@@ -24,8 +26,28 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       filtered = filtered.filter(
         (p) =>
           p.nome.toLowerCase().includes(s) ||
-          (p.horarios && p.horarios.some((h) => h.tipo.toLowerCase().includes(s))),
+          (p.horarios &&
+            p.horarios.some(
+              (h) =>
+                h.tipo.toLowerCase().includes(s) ||
+                h.hora.toLowerCase().includes(s) ||
+                h.diaSemana.toLowerCase().includes(s),
+            )),
       );
+    }
+
+    if (distritoId) {
+      const dId = parseInt(distritoId, 10);
+      if (!isNaN(dId)) {
+        filtered = filtered.filter((p) => p.distritoId === dId);
+      }
+    }
+
+    if (conselhoId) {
+      const cId = parseInt(conselhoId, 10);
+      if (!isNaN(cId)) {
+        filtered = filtered.filter((p) => p.conselhoId === cId);
+      }
     }
 
     if (lat && lng && raio) {

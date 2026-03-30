@@ -2,13 +2,14 @@
 import React, { useState, useEffect } from 'react';
 import '@/styles/BuscarParoquias.css';
 import type { Paroquia, Distrito, Conselho } from '@/types';
-import router from 'next/router';
+import { useRouter } from 'next/navigation';
 
 interface BuscarParoquiasProps {
   embedded?: boolean;
 }
 
 function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
+  const router = useRouter();
   const [busca, setBusca] = useState('');
   const [paroquias, setParoquias] = useState<Paroquia[]>([]);
   const [raio, setRaio] = useState(10);
@@ -19,6 +20,7 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
   const [distritos, setDistritos] = useState<Distrito[]>([]);
   const [conselhos, setConselhos] = useState<Conselho[]>([]);
   const [isMobile, setIsMobile] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
 
   const buscaTrim = busca.trim().toLowerCase();
 
@@ -29,10 +31,6 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
     if (savedLat && savedLng) {
       setLat(Number(savedLat));
       setLng(Number(savedLng));
-      // Opcional: Limpar o localStorage após ler para não "forçar" 
-      // sempre a mesma localização se o utilizador quiser mudar
-      // localStorage.removeItem('lat');
-      // localStorage.removeItem('lng');
     }
   }, []);
 
@@ -66,10 +64,12 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
   useEffect(() => {
     // Se não houver texto, nem localização, nem distrito, não fazemos nada
     if (!buscaTrim && !lat && !distrito) {
-      // Opcional: Carregar "Destaques" ou deixar vazio
+      setParoquias([]);
+      setHasSearched(false);
       return;
     }
 
+    setHasSearched(true);
     let url = `/api/paroquias?`;
 
     // Adiciona parâmetros conforme existam
@@ -143,14 +143,14 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
             <span>Distrito</span>
             <select value={distrito} onChange={(e) => setDistrito(e.target.value)} style={{ width: '100%', padding: isMobile ? '10px' : '14px', borderRadius: '14px', border: '2px solid #a5b4fc', marginTop: 2, fontSize: isMobile ? '1rem' : '1.12rem', background: '#f8fafc' }}>
               <option value="">Selecione o distrito</option>
-              {distritos.map((d) => <option key={d.id} value={d.id}>{d.nome}</option>)}
+              {distritos.map((d) => <option key={d.id} value={String(d.id)}>{d.nome}</option>)}
             </select>
           </label>
           <label style={{ fontWeight: 700, color: '#243B55', fontSize: isMobile ? '1rem' : '1.12rem', minWidth: isMobile ? 120 : 180, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
             <span>Conselho</span>
             <select value={conselho} onChange={(e) => setConselho(e.target.value)} disabled={!distrito} style={{ width: '100%', padding: isMobile ? '10px' : '14px', borderRadius: '14px', border: '2px solid #a5b4fc', marginTop: 2, fontSize: isMobile ? '1rem' : '1.12rem', background: !distrito ? '#f3f3f3' : '#f8fafc' }}>
               <option value="">Selecione o conselho</option>
-              {conselhos.map((c) => <option key={c.id} value={c.id}>{c.nome}</option>)}
+              {conselhos.map((c) => <option key={c.id} value={String(c.id)}>{c.nome}</option>)}
             </select>
           </label>
           <label style={{ fontWeight: 800, color: '#A67C52', fontSize: isMobile ? '1rem' : '1.18rem', minWidth: isMobile ? 120 : 180, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
@@ -190,14 +190,13 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
         </form>
 
         <div style={{ marginTop: 48 }}>
-          {buscaTrim && (
+          {hasSearched && (
             <p style={{ textAlign: 'center', fontSize: '1.18rem', color: paroquias.length > 0 ? '#243B55' : '#e11d48', fontWeight: 700, marginBottom: 22 }}>
               {paroquias.length > 0 ? `Encontradas ${paroquias.length} paróquias.` : 'Nenhuma paróquia encontrada.'}
             </p>
           )}
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(340px, 1fr))', gap: isMobile ? '18px' : '32px' }}>
-            {buscaTrim &&
-              paroquias.map((p) => (
+            {paroquias.map((p) => (
                 <div key={p.id} style={{ background: 'linear-gradient(120deg,#fff 80%,#fde68a 100%)', borderRadius: '22px', boxShadow: '0 6px 32px rgba(60,60,120,0.15)', padding: '28px 22px', display: 'flex', gap: '18px', alignItems: 'flex-start', minHeight: 180, border: '2px solid #A67C52' }}>
                   {p.imagem && <img src={p.imagem} alt={p.nome} style={{ width: 100, height: 100, objectFit: 'cover', borderRadius: '16px', marginRight: 16 }} />}
                   <div style={{ flex: 1 }}>
@@ -240,4 +239,3 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
 }
 
 export default BuscarParoquias;
-
