@@ -1,6 +1,5 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import ReactConfetti from 'react-confetti'; // Opcional: para celebrar quando houver muitos dados!
 import Link from 'next/link';
 import { Church, Calendar, CalendarDays, PlusCircle, ArrowRight, Users } from 'lucide-react';
 import '@/styles/Backoffice.css';
@@ -39,7 +38,7 @@ export default function BackofficeDashboard() {
       label: 'Paróquias',
       count: stats.paroquias,
       icon: <Church size={24} />,
-      color: '#6366f1', // Indigo
+      color: '#6366f1',
       bg: '#eef2ff',
       listHref: '/backoffice/paroquias/listar',
       addHref: '/backoffice/paroquias/novo',
@@ -48,7 +47,7 @@ export default function BackofficeDashboard() {
       label: 'Horários',
       count: stats.horarios,
       icon: <Calendar size={24} />,
-      color: '#f59e0b', // Amber
+      color: '#f59e0b',
       bg: '#fffbeb',
       listHref: '/backoffice/horarios/listar',
       addHref: '/backoffice/horarios',
@@ -57,7 +56,7 @@ export default function BackofficeDashboard() {
       label: 'Eventos',
       count: stats.eventos,
       icon: <CalendarDays size={24} />,
-      color: '#10b981', // Emerald
+      color: '#10b981',
       bg: '#ecfdf5',
       listHref: '/backoffice/eventos/listar',
       addHref: '/backoffice/eventos',
@@ -92,7 +91,6 @@ export default function BackofficeDashboard() {
               padding: '1.5rem', 
               border: '1px solid #e2e8f0',
               boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.05)',
-              transition: 'transform 0.2s, box-shadow 0.2s',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between'
@@ -108,7 +106,7 @@ export default function BackofficeDashboard() {
                     Total de {card.label}
                   </span>
                   <h2 style={{ fontSize: '2.5rem', fontWeight: '700', color: '#1e293b', margin: 0 }}>
-                    {loading ? <span className="animate-pulse">...</span> : card.count}
+                    {loading ? '...' : card.count}
                   </h2>
                 </div>
               </div>
@@ -126,30 +124,14 @@ export default function BackofficeDashboard() {
         ))}
       </div>
 
-      {/* SECÇÃO EXTRA: Sugestão de Atalhos Rápidos */}
       <section style={{ marginTop: '4rem', padding: '2rem', background: '#f8fafc', borderRadius: '24px', border: '1px dashed #cbd5e1' }}>
         <h3 style={{ color: '#475569', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Users size={20} /> Atalhos Rápidos
         </h3>
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-          <Link href="/backoffice/configuracoes" style={{ color: '#6366f1', textDecoration: 'none', fontSize: '0.95rem', fontWeight: '500' }}>→ Configurações do Sistema</Link>
           <Link href="/" style={{ color: '#6366f1', textDecoration: 'none', fontSize: '0.95rem', fontWeight: '500' }}>→ Visualizar Site Público</Link>
         </div>
       </section>
-
-      <style jsx>{`
-        .bo-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-        }
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: .5; }
-        }
-        .animate-pulse {
-          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-      `}</style>
     </div>
   );
 }
