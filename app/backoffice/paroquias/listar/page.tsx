@@ -94,25 +94,32 @@ export default function ListarParoquias() {
     setShowDeleteConfirm(true);
   };
 
-  const handleConfirmDelete = async () => {
-    if (!paroquiaToDelete) return;
-    try {
-      const token = localStorage.getItem('token');
-      const res = await fetch(`/api/paroquias/${paroquiaToDelete.id}`, { 
-        method: 'DELETE', 
-        headers: { Authorization: `Bearer ${token}` } 
-      });
-      if (!res.ok) throw new Error();
-      
-      setToast({ show: true, type: 'success', message: 'Paróquia removida com sucesso!' });
-      fetchData(); // Agora a função está acessível!
-    } catch { 
-      setToast({ show: true, type: 'error', message: 'Erro ao remover paróquia.' }); 
-    } finally {
-      setShowDeleteConfirm(false);
-      setParoquiaToDelete(null);
+ const handleConfirmDelete = async () => {
+  if (!paroquiaToDelete) return;
+  try {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`/api/paroquias/${paroquiaToDelete.id}`, { 
+      method: 'DELETE', 
+      headers: { Authorization: `Bearer ${token}` } 
+    });
+    
+    const data = await res.json(); // Lemos o JSON para pegar a mensagem de erro
+
+    if (!res.ok) {
+      // Se a API enviou uma mensagem de erro específica, usamos ela
+      throw new Error(data.error || 'Erro ao remover paróquia.');
     }
-  };
+    
+    setToast({ show: true, type: 'success', message: 'Paróquia removida com sucesso!' });
+    fetchData();
+  } catch (error: any) {
+    // Aqui o Toast mostrará: "Não é possível remover... possui horários..."
+    setToast({ show: true, type: 'error', message: error.message });
+  } finally {
+    setShowDeleteConfirm(false);
+    setParoquiaToDelete(null);
+  }
+};
 
   const handleEditSubmit = async (id: number) => {
     setSubmitting(true);
