@@ -69,15 +69,38 @@ export async function DELETE(
   try {
     const token = getTokenFromRequest(request);
     const payload = token ? await verifyJWT(token) : null;
+    
     if (!payload) {
       return NextResponse.json({ error: 'Não autorizado.' }, { status: 401 });
     }
 
     const { id } = await params;
-    await prisma.paroquia.delete({ where: { id: parseInt(id) } });
+    const paroquiaId = parseInt(id);
+
+    // Opcional: Apagar dependências manualmente se não tiver Cascade no DB
+    // await prisma.horario.deleteMany({ where: { paroquiaId } });
+    // await prisma.evento.deleteMany({ where: { paroquiaId } });
+
+    await prisma.paroquia.delete({ 
+      where: { id: paroquiaId } 
+    });
+
     return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: 'Erro interno.' }, { status: 500 });
+  } catch (error: any) {
+    console.error('Delete Error:', error);
+
+    // P2025 é o código do Prisma para "Registro não encontrado"
+    if (error.code === 'P2025') {
+      return NextResponse.json({ error: 'Paróquia não encontrada.' }, { status: 404 });
+    }
+
+    // P2003 é o código para erro de Chave Estrangeira (registros dependentes)
+    if (error.code === 'P2003') {
+      return NextResponse.json({ 
+        error: 'Não é possível remover: existem horários ou eventos vinculados a esta paróquia.' 
+      }, { status: 400 });
+    }
+
+    return NextResponse.json({ error: 'Erro interno ao remover.' }, { status: 500 });
   }
 }
