@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Pencil, Trash2, PlusCircle, Save, X, Search, ChevronLeft, ChevronRight, Target, ImageIcon } from 'lucide-react';
+import { Pencil, Trash2, PlusCircle, Save, X, Search, ChevronLeft, ChevronRight, Target, Phone, Mail, Globe, Instagram, Facebook, MessageCircle, ImageIcon } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Toast from '@/components/Toast';
 import AlertModal from '@/components/AlertModal';
@@ -12,7 +12,7 @@ import type { Paroquia, Distrito, Conselho } from '@/types';
 
 const Mapa = dynamic(() => import('@/components/Mapa'), { 
   ssr: false,
-  loading: () => <div style={{ height: '300px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '8px' }}>A carregar mapa...</div>
+  loading: () => <div style={{ height: '350px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '12px' }}>A carregar mapa...</div>
 });
 
 export default function ListarParoquias() {
@@ -32,22 +32,15 @@ export default function ListarParoquias() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [editForm, setEditForm] = useState<any>({});
-  
-  const [imagemFile, setImagemFile] = useState<File | null>(null);
   const [imagemPreview, setImagemPreview] = useState<string>('');
-  const [uploadingImagem, setUploadingImagem] = useState(false);
+  const [imagemFile, setImagemFile] = useState<File | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [resP, resD] = await Promise.all([
-          fetch('/api/paroquias'),
-          fetch('/api/distritos')
-        ]);
-        const dataP = await resP.json();
-        const dataD = await resD.json();
-        setParoquias(Array.isArray(dataP) ? dataP : []);
-        setDistritos(Array.isArray(dataD) ? dataD : []);
+        const [resP, resD] = await Promise.all([fetch('/api/paroquias'), fetch('/api/distritos')]);
+        setParoquias(await resP.json());
+        setDistritos(await resD.json());
       } catch (err) { console.error(err); }
       finally { setLoading(false); }
     };
@@ -56,30 +49,8 @@ export default function ListarParoquias() {
 
   useEffect(() => {
     if (!editForm.distritoId) { setConselhos([]); return; }
-    fetch(`/api/conselhos?distritoId=${editForm.distritoId}`)
-      .then((res) => res.json())
-      .then((data) => setConselhos(Array.isArray(data) ? data : []));
+    fetch(`/api/conselhos?distritoId=${editForm.distritoId}`).then(res => res.json()).then(setConselhos);
   }, [editForm.distritoId]);
-
-  const handleImagemChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] ?? null;
-    setImagemFile(file);
-    if (file) setImagemPreview(URL.createObjectURL(file));
-  };
-
-  const handleDelete = async (id: number, nome: string) => {
-    if (!confirm(`Tem certeza que deseja remover a paróquia "${nome}"?`)) return;
-    try {
-      const token = localStorage.getItem('token');
-      const res = await fetch(`/api/paroquias/${id}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (!res.ok) throw new Error();
-      setToast({ show: true, type: 'success', message: 'Paróquia removida!' });
-      setParoquias(prev => prev.filter(p => p.id !== id));
-    } catch { setToast({ show: true, type: 'error', message: 'Erro ao remover.' }); }
-  };
 
   const startEdit = (p: Paroquia) => {
     const partes = p.endereco?.split(', ') || [];
@@ -96,34 +67,48 @@ export default function ListarParoquias() {
       telefone: p.telefone || '',
       email: p.email || '',
       descricao: p.descricao || '',
+      site: p.site || '',
+      facebook: p.facebook || '',
+      instagram: p.instagram || '',
+      whatsapp: p.whatsapp || '',
       lat: p.lat || '',
       lng: p.lng || '',
       imagem: p.imagem || ''
     });
   };
 
+  const handleDelete = async (id: number, nome: string) => {
+    if (!confirm(`Remover paróquia "${nome}"?`)) return;
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`/api/paroquias/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) throw new Error();
+      setToast({ show: true, type: 'success', message: 'Paróquia removida!' });
+      setParoquias(prev => prev.filter(p => p.id !== id));
+    } catch { setToast({ show: true, type: 'error', message: 'Erro ao remover.' }); }
+  };
+
   const handleEditSubmit = async (id: number) => {
     setSubmitting(true);
     try {
       const token = localStorage.getItem('token');
-      let finalImagemUrl = editForm.imagem;
+      let finalUrl = editForm.imagem;
 
       if (imagemFile) {
-        setUploadingImagem(true);
-        const uploadData = new FormData();
-        uploadData.append('file', imagemFile);
-        uploadData.append('folder', 'paroquiaperto/paroquias');
-        const uploadRes = await fetch('/api/upload', { method: 'POST', headers: { Authorization: `Bearer ${token}` }, body: uploadData });
-        const { url } = await uploadRes.json();
-        finalImagemUrl = url;
+        const formData = new FormData();
+        formData.append('file', imagemFile);
+        formData.append('folder', 'paroquiaperto/paroquias');
+        const uploadRes = await fetch('/api/upload', { method: 'POST', headers: { Authorization: `Bearer ${token}` }, body: formData });
+        const data = await uploadRes.json();
+        finalUrl = data.url;
       }
 
       const payload = {
         ...editForm,
-        imagem: finalImagemUrl,
+        imagem: finalUrl,
         endereco: `${editForm.rua}, ${editForm.numero}, ${editForm.codigoPostal} ${editForm.cidade}`,
-        distritoId: editForm.distritoId ? parseInt(editForm.distritoId, 10) : null,
-        conselhoId: editForm.conselhoId ? parseInt(editForm.conselhoId, 10) : null
+        distritoId: editForm.distritoId ? parseInt(editForm.distritoId) : null,
+        conselhoId: editForm.conselhoId ? parseInt(editForm.conselhoId) : null
       };
 
       const res = await fetch(`/api/paroquias/${id}`, {
@@ -137,7 +122,7 @@ export default function ListarParoquias() {
       setEditingId(null);
       setParoquias(prev => prev.map(item => item.id === id ? { ...item, ...payload, id } : item));
     } catch { setToast({ show: true, type: 'error', message: 'Erro ao salvar.' }); }
-    finally { setSubmitting(false); setUploadingImagem(false); }
+    finally { setSubmitting(false); }
   };
 
   const filtered = useMemo(() => paroquias.filter(p => p.nome.toLowerCase().includes(searchTerm.toLowerCase())), [paroquias, searchTerm]);
@@ -145,41 +130,47 @@ export default function ListarParoquias() {
   const paginated = filtered.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
-    <div className="bo-container">
+    <div className="bo-container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
       <Toast {...toast} onClose={() => setToast(t => ({ ...t, show: false }))} />
       <AlertModal {...alert} onClose={() => setAlert(a => ({ ...a, show: false }))} />
 
-      <div className="bo-header">
-        <h2 className="bo-title">Gestão de Paróquias</h2>
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          <div style={{ position: 'relative' }}>
-            <Search size={18} style={{ position: 'absolute', left: '10px', top: '12px', color: '#94a3b8' }} />
-            <input className="form-input" style={{ paddingLeft: '35px', width: '250px' }} placeholder="Pesquisar..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+      <div className="bo-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
+        <h2 className="bo-title" style={{ fontSize: '2rem', color: '#243B55' }}>Gestão de Paróquias</h2>
+        <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+          <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+            <Search size={20} style={{ position: 'absolute', left: '12px', color: '#94a3b8' }} />
+            <input type="text" placeholder="Pesquisar..." style={{ padding: '10px 15px 10px 40px', borderRadius: '8px', border: '1px solid #e2e8f0', width: '250px' }} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
           </div>
-          <Link href="/backoffice/paroquias/novo" className="bo-btn bo-btn-primary">
-            <PlusCircle size={18} /> Inserir
+          <Link href="/backoffice/paroquias/novo" className="bo-btn bo-btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#243B55', padding: '12px 25px', borderRadius: '8px' }}>
+            <PlusCircle size={20} /> Inserir
           </Link>
         </div>
       </div>
 
-      <div className="bo-list">
-        {loading ? <p className="loading-message">A carregar...</p> : paginated.map((p) => (
+      <div className="bo-list" style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+        {loading ? <p>A carregar...</p> : paginated.map((p) => (
           editingId === p.id ? (
-            <div key={p.id} className="backoffice-form" style={{ background: '#fff', padding: '2rem', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '1.5rem', width: '100%' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
-                <h3 style={{margin: 0}}>Editar Paróquia</h3>
-                <X size={24} onClick={() => setEditingId(null)} style={{ cursor: 'pointer' }} />
+            <div key={p.id} className="backoffice-form" style={{ background: '#fff', padding: '3rem', borderRadius: '16px', border: '1px solid #e2e8f0', width: '100%', boxShadow: '0 10px 30px rgba(0,0,0,0.08)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2rem', borderBottom: '1px solid #f1f5f9', paddingBottom: '1rem' }}>
+                <h3 style={{ fontSize: '1.6rem', color: '#243B55' }}>Editar Paróquia</h3>
+                <X size={28} onClick={() => setEditingId(null)} style={{ cursor: 'pointer', color: '#94a3b8' }} />
               </div>
               
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem' }}>
+                {/* COLUNA ESQUERDA */}
                 <div>
-                  <section className="bo-section">
-                    <h3>Dados Básicos</h3>
-                    <label>Nome<input className="form-input" value={editForm.nome} onChange={e => setEditForm({...editForm, nome: e.target.value})} /></label>
-                    <label style={{marginTop: '1rem'}}>Descrição<textarea className="form-input" rows={4} value={editForm.descricao} onChange={e => setEditForm({...editForm, descricao: e.target.value})} /></label>
+                  <section className="bo-section" style={{ padding: 0, border: 'none' }}>
+                    <h4 style={{ marginBottom: '1rem', color: '#6366f1' }}>Dados Básicos</h4>
+                    <label style={{ fontSize: '0.9rem' }}>Nome da Paróquia
+                      <input className="form-input" value={editForm.nome} onChange={e => setEditForm({...editForm, nome: e.target.value})} />
+                    </label>
+                    <label style={{ marginTop: '1.5rem', display: 'block', fontSize: '0.9rem' }}>Descrição
+                      <textarea className="form-input" rows={4} value={editForm.descricao} onChange={e => setEditForm({...editForm, descricao: e.target.value})} />
+                    </label>
                   </section>
-                  <section className="bo-section" style={{marginTop: '1.5rem'}}>
-                    <h3 className="bo-h3-purple">Endereço</h3>
+
+                  <section className="bo-section" style={{ padding: 0, border: 'none', marginTop: '2.5rem' }}>
+                    <h4 className="bo-h3-purple" style={{ marginBottom: '1rem' }}>Morada e Localidade</h4>
                     <div className="bo-grid-2">
                       <input className="form-input" placeholder="Rua" value={editForm.rua} onChange={e => setEditForm({...editForm, rua: e.target.value})} />
                       <input className="form-input" placeholder="Nº" value={editForm.numero} onChange={e => setEditForm({...editForm, numero: e.target.value})} />
@@ -196,49 +187,66 @@ export default function ListarParoquias() {
                     </div>
                   </section>
                 </div>
+
+                {/* COLUNA DIREITA */}
                 <div>
-                  <h3>Mapa e Média</h3>
-                  <div style={{ height: '300px', borderRadius: '8px', overflow: 'hidden', border: '1px solid #ddd', marginBottom: '1rem' }}>
+                  <h4 style={{ marginBottom: '1rem', color: '#f59e0b' }}>Mapa e Imagem</h4>
+                  <div style={{ height: '350px', borderRadius: '12px', overflow: 'hidden', border: '1px solid #e2e8f0', marginBottom: '1.5rem' }}>
                     {editForm.lat && <Mapa coords={{ latitude: parseFloat(editForm.lat), longitude: parseFloat(editForm.lng) }} isEditable={true} onMarkerDrag={(lat, lng) => setEditForm((prev: any) => ({ ...prev, lat: lat.toFixed(7), lng: lng.toFixed(7) }))} />}
                   </div>
-                  <label style={{ cursor: 'pointer', display: 'block', padding: '10px', border: '1px dashed #ccc', textAlign: 'center' }}>
-                    {imagemPreview ? 'Alterar Imagem' : 'Inserir Imagem'}
-                    <input type="file" hidden accept="image/*" onChange={handleImagemChange} />
+                  <label style={{ cursor: 'pointer', display: 'block', padding: '15px', border: '2px dashed #e2e8f0', textAlign: 'center', borderRadius: '12px', background: '#f8fafc' }}>
+                    <ImageIcon size={20} style={{ marginRight: '10px' }} /> {imagemPreview ? 'Alterar Imagem' : 'Inserir Imagem'}
+                    <input type="file" hidden accept="image/*" onChange={e => { const file = e.target.files?.[0]; if (file) { setImagemFile(file); setImagemPreview(URL.createObjectURL(file)); } }} />
                   </label>
-                  {imagemPreview && <img src={imagemPreview} style={{ width: '100%', height: '120px', objectFit: 'cover', marginTop: '10px', borderRadius: '8px' }} />}
+                  {imagemPreview && <img src={imagemPreview} style={{ width: '100%', height: '150px', objectFit: 'cover', marginTop: '15px', borderRadius: '12px', border: '1px solid #e2e8f0' }} alt="Preview" />}
                 </div>
               </div>
 
-              <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem', justifyContent: 'flex-end' }}>
-                <button type="button" onClick={() => handleEditSubmit(p.id)} className="bo-btn bo-btn-primary" disabled={submitting || uploadingImagem}>
-                   {submitting || uploadingImagem ? 'A salvar...' : 'Salvar'}
+              {/* CONTACTOS */}
+              <section className="bo-section" style={{ padding: 0, border: 'none', marginTop: '3rem', borderTop: '1px solid #f1f5f9', paddingTop: '2rem' }}>
+                <h4 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '8px' }}><Phone size={18}/> Contactos e Redes Sociais</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }}>
+                  <label>Telefone<input className="form-input" value={editForm.telefone} onChange={e => setEditForm({...editForm, telefone: e.target.value})} /></label>
+                  <label>E-mail<input className="form-input" value={editForm.email} onChange={e => setEditForm({...editForm, email: e.target.value})} /></label>
+                  <label>WhatsApp<input className="form-input" value={editForm.whatsapp} onChange={e => setEditForm({...editForm, whatsapp: e.target.value})} /></label>
+                  <label>Facebook (URL)<input className="form-input" value={editForm.facebook} onChange={e => setEditForm({...editForm, facebook: e.target.value})} /></label>
+                  <label>Instagram (URL)<input className="form-input" value={editForm.instagram} onChange={e => setEditForm({...editForm, instagram: e.target.value})} /></label>
+                  <label>Site<input className="form-input" value={editForm.site} onChange={e => setEditForm({...editForm, site: e.target.value})} /></label>
+                </div>
+              </section>
+
+              <div style={{ display: 'flex', gap: '15px', marginTop: '3.5rem', justifyContent: 'flex-end' }}>
+                <button type="button" onClick={() => handleEditSubmit(p.id)} className="bo-btn bo-btn-primary" style={{ background: '#243B55', padding: '12px 40px' }} disabled={submitting}>
+                  <Save size={18} style={{marginRight: '8px'}} /> {submitting ? 'A salvar...' : 'Salvar Alterações'}
                 </button>
-                <button type="button" onClick={() => setEditingId(null)} className="bo-btn bo-btn-light">Cancelar</button>
+                <button type="button" onClick={() => setEditingId(null)} className="bo-btn bo-btn-light" style={{ background: '#f1f5f9', padding: '12px 40px' }}>Cancelar</button>
               </div>
             </div>
           ) : (
-            <div key={p.id} className="bo-list-item">
-              <div className="bo-list-content">
-                <div className="bo-list-title">{p.nome}</div>
-                <div className="bo-list-desc">{p.endereco}</div>
+            <div key={p.id} className="bo-list-item" style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '20px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <div style={{ fontWeight: '700', color: '#1e293b', fontSize: '1.2rem' }}>{p.nome}</div>
+                <div style={{ color: '#64748b', fontSize: '1rem', marginTop: '4px' }}>{p.endereco}</div>
               </div>
-              <div className="bo-list-actions">
-                <button onClick={() => startEdit(p)} className="bo-btn bo-btn-light"><Pencil size={16} /> <span className="hide-mobile">Editar</span></button>
-                <button onClick={() => handleDelete(p.id, p.nome)} className="bo-btn bo-btn-light" style={{ color: '#e11d48' }}><Trash2 size={16} /> <span className="hide-mobile">Remover</span></button>
+              <div style={{ display: 'flex', gap: '12px' }}>
+                <button onClick={() => startEdit(p)} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 22px', borderRadius: '10px', border: 'none', background: '#f1f5f9', color: '#475569', fontWeight: '600', cursor: 'pointer' }}>
+                  <Pencil size={18} /> Editar
+                </button>
+                <button onClick={() => handleDelete(p.id, p.nome)} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 22px', borderRadius: '10px', border: 'none', background: '#fff1f2', color: '#e11d48', fontWeight: '600', cursor: 'pointer' }}>
+                  <Trash2 size={18} /> Remover
+                </button>
               </div>
             </div>
           )
         ))}
       </div>
       
-      {totalPages > 1 && (
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '2rem' }}>
-          <button className="bo-btn bo-btn-light" onClick={() => setCurrentPage(c => Math.max(c-1, 1))} disabled={currentPage === 1}><ChevronLeft size={18}/></button>
-          <span style={{ alignSelf: 'center' }}>Página {currentPage} de {totalPages}</span>
-          <button className="bo-btn bo-btn-light" onClick={() => setCurrentPage(c => Math.min(c+1, totalPages))} disabled={currentPage === totalPages}><ChevronRight size={18}/></button>
-        </div>
-      )}
-      <style jsx>{` @media (max-width: 480px) { .hide-mobile { display: none; } } `}</style>
+      {/* Paginação */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '4rem', paddingBottom: '3rem' }}>
+        <button className="bo-btn bo-btn-light" onClick={() => setCurrentPage(c => Math.max(c-1, 1))} disabled={currentPage === 1} style={{ borderRadius: '50%', width: '45px', height: '45px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><ChevronLeft size={24}/></button>
+        <span style={{ alignSelf: 'center', fontWeight: '700', color: '#243B55', fontSize: '1.1rem' }}>{currentPage} / {totalPages}</span>
+        <button className="bo-btn bo-btn-light" onClick={() => setCurrentPage(c => Math.min(c+1, totalPages))} disabled={currentPage === totalPages} style={{ borderRadius: '50%', width: '45px', height: '45px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><ChevronRight size={24}/></button>
+      </div>
     </div>
   );
 }
