@@ -195,110 +195,116 @@ export default function ListarParoquias() {
     }
   };
 
-  return (
-    <main className="backoffice-content">
-      <Toast {...toast} onClose={() => setToast(t => ({ ...t, show: false }))} />
-      <AlertModal {...alert} onClose={() => setAlert(a => ({ ...a, show: false }))} />
+ return (
+  <main className="backoffice-content">
+    <Toast {...toast} onClose={() => setToast(t => ({ ...t, show: false }))} />
+    <AlertModal {...alert} onClose={() => setAlert(a => ({ ...a, show: false }))} />
 
-      <div className="bo-header">
-        <h2 className="bo-title">Gestão de Paróquias</h2>
-        <div className="bo-header-actions">
-          <div className="search-bar-container">
-            <Search size={18} className="search-icon" />
-            <input 
-              type="text" 
-              placeholder="Pesquisar..." 
-              className="form-input search-input" 
-              value={searchTerm} 
-              onChange={e => setSearchTerm(e.target.value)} 
-            />
-          </div>
-          <Link href="/backoffice/paroquias/novo" className="bo-btn bo-btn-primary">
-            <PlusCircle size={18} /> Novo
-          </Link>
+    <div className="bo-header">
+      <h2 className="bo-title">Gestão de Paróquias</h2>
+      <div className="bo-header-actions" style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+        <div className="search-bar-container" style={{ position: 'relative' }}>
+          <Search size={18} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+          <input 
+            type="text" 
+            placeholder="Pesquisar..." 
+            className="form-input" 
+            style={{ paddingLeft: '35px', margin: 0, height: '42px', width: '250px' }}
+            value={searchTerm}
+            onChange={e => setSearchTerm(e.target.value)}
+          />
         </div>
+        <Link href="/backoffice/paroquias/novo" className="bo-btn bo-btn-primary" style={{ height: '42px', display: 'flex', alignItems: 'center' }}>
+          <PlusCircle size={18} /> Novo
+        </Link>
       </div>
+    </div>
 
-      <div className="bo-list-container">
-        {loading ? (
-            <div className="loading-state">A carregar...</div>
-        ) : paginatedParoquias.map((p) => (
-          editingId === p.id ? (
-            <div key={p.id} className="bo-edit-card">
-              <div className="edit-card-header">
-                <h3><Pencil size={18} /> Editar Paróquia</h3>
-                <button onClick={() => setEditingId(null)} className="close-btn"><X size={20} /></button>
-              </div>
+    <div className="bo-list-container" style={{ marginTop: '2rem' }}>
+      {loading ? (
+        <div className="loading-state">A carregar...</div>
+      ) : paginatedParoquias.map((p) => (
+        editingId === p.id ? (
+          /* FORMULÁRIO DE EDIÇÃO - REESTRUTURADO PARA IGUALAR AO INSERIR */
+          <div key={p.id} className="backoffice-page" style={{ background: '#fff', padding: '2rem', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '2rem', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', borderBottom: '1px solid #f1f5f9', paddingBottom: '1rem' }}>
+              <h3 style={{ margin: 0, color: '#1e293b', display: 'flex', alignItems: 'center', gap: '8px' }}><Pencil size={20} /> Editar Paróquia</h3>
+              <button onClick={() => setEditingId(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8' }}><X size={24} /></button>
+            </div>
+
+            <form className="backoffice-form" onSubmit={(e) => { e.preventDefault(); handleEditSubmit(p.id); }}>
               
-              <div className="edit-card-body">
-                {/* 1. Dados Básicos */}
-                <section className="bo-form-section">
-                  <h4><FileText size={16} /> Identificação</h4>
-                  <input name="nome" value={editForm.nome} onChange={e => setEditForm({...editForm, nome: e.target.value})} className="form-input" placeholder="Nome" />
-                  <textarea name="descricao" value={editForm.descricao} onChange={e => setEditForm({...editForm, descricao: e.target.value})} className="form-input" rows={3} placeholder="Descrição" />
-                </section>
+              {/* Seção Dados Básicos */}
+              <section className="bo-section" style={{ marginBottom: '2rem' }}>
+                <h3 style={{ fontSize: '1.1rem', marginBottom: '1rem', color: '#334155' }}>Dados Básicos</h3>
+                <label style={{ display: 'block', marginBottom: '1rem' }}>
+                  Nome da Paróquia
+                  <input type="text" name="nome" value={editForm.nome} onChange={handleEditChange} required className="form-input" style={{ width: '100%', marginTop: '5px' }} />
+                </label>
+                <label style={{ display: 'block' }}>
+                  Descrição
+                  <textarea name="descricao" value={editForm.descricao} onChange={handleEditChange} className="form-input" style={{ width: '100%', marginTop: '5px' }} rows={3} />
+                </label>
+              </section>
 
-                {/* 2. Endereço (Onde recriamos o formulário de inserir) */}
-                <section className="bo-form-section section-purple">
-                  <h4><Map size={16} /> Endereço Completo</h4>
-                  <div className="bo-grid-2">
-                    <input name="rua" value={editForm.rua} onChange={e => setEditForm({...editForm, rua: e.target.value})} placeholder="Rua" className="form-input" />
-                    <input name="numero" value={editForm.numero} onChange={e => setEditForm({...editForm, numero: e.target.value})} placeholder="Nº" className="form-input" />
-                    <input name="codigoPostal" value={editForm.codigoPostal} onChange={e => setEditForm({...editForm, codigoPostal: e.target.value})} placeholder="CP (0000-000)" className="form-input" />
-                    <input name="cidade" value={editForm.cidade} onChange={e => setEditForm({...editForm, cidade: e.target.value})} placeholder="Cidade" className="form-input" />
-                  </div>
-                  <div className="bo-grid-2">
-                    <select name="distritoId" value={editForm.distritoId} onChange={e => setEditForm({...editForm, distritoId: e.target.value})} className="form-input">
-                        <option value="">Distrito</option>
-                        {distritos.map(d => <option key={d.id} value={d.id}>{d.nome}</option>)}
-                    </select>
-                    <select name="conselhoId" value={editForm.conselhoId} onChange={e => setEditForm({...editForm, conselhoId: e.target.value})} disabled={!editForm.distritoId} className="form-input">
-                        <option value="">Conselho</option>
-                        {conselhos.map(c => <option key={c.id} value={c.id}>{c.nome}</option>)}
-                    </select>
-                  </div>
-                  <button type="button" className="bo-btn-secondary" onClick={() => {/* função buscarLocalizacao */}} style={{marginTop: '10px'}}><Target size={14}/> Buscar GPS</button>
-                </section>
-
-                {/* 3. Contactos */}
-                <section className="bo-form-section section-green">
-                   <h4><Phone size={16} /> Contactos</h4>
-                   <div className="bo-grid-2">
-                    <input name="telefone" value={editForm.telefone} onChange={e => setEditForm({...editForm, telefone: e.target.value})} placeholder="Telefone" className="form-input" />
-                    <input name="email" value={editForm.email} onChange={e => setEditForm({...editForm, email: e.target.value})} placeholder="Email" className="form-input" />
-                   </div>
-                </section>
-              </div>
-
-              <div className="edit-card-footer">
-                <button onClick={() => handleEditSubmit(p.id)} className="bo-btn bo-btn-primary"><Save size={16}/> Salvar</button>
-                <button onClick={() => setEditingId(null)} className="bo-btn bo-btn-light">Cancelar</button>
-              </div>
-            </div>
-          ) : (
-            <div key={p.id} className="bo-list-item">
-              <div className="item-main-content">
-                <div className="item-details">
-                  <div className="item-title">{p.nome}</div>
-                  <div className="item-meta">{p.endereco}</div>
+              {/* Seção Endereço - GRID IGUAL AO INSERIR */}
+              <section className="bo-section" style={{ marginBottom: '2rem' }}>
+                <h3 className="bo-h3-purple" style={{ fontSize: '1.1rem', marginBottom: '1rem' }}>Endereço</h3>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <label>Rua<input type="text" name="rua" value={editForm.rua} onChange={handleEditChange} required className="form-input" style={{ width: '100%' }} /></label>
+                  <label>Número<input type="text" name="numero" value={editForm.numero} onChange={handleEditChange} required className="form-input" style={{ width: '100%' }} /></label>
+                  <label>Código Postal<input type="text" name="codigoPostal" value={editForm.codigoPostal} onChange={handleEditChange} required className="form-input" style={{ width: '100%' }} /></label>
+                  <label>Cidade/Localidade<input type="text" name="cidade" value={editForm.cidade} onChange={handleEditChange} required className="form-input" style={{ width: '100%' }} /></label>
                 </div>
-              </div>
-              <div className="bo-list-actions">
-                <button onClick={() => startEdit(p)} className="action-btn btn-edit"><Pencil size={14} /> Editar</button>
-                <button onClick={() => {/* handle delete */}} className="action-btn btn-delete"><Trash2 size={14} /> Remover</button>
-              </div>
-            </div>
-          )
-        ))}
-      </div>
+              </section>
 
-      {totalPages > 1 && (
-        <div className="bo-pagination">
-          <button onClick={() => setCurrentPage(p => p - 1)} disabled={currentPage === 1} className="pagi-btn"><ChevronLeft size={18}/></button>
-          <span className="pagi-info">Página {currentPage} de {totalPages}</span>
-          <button onClick={() => setCurrentPage(p => p + 1)} disabled={currentPage === totalPages} className="pagi-btn"><ChevronRight size={18}/></button>
-        </div>
-      )}
-    </main>
-  );
-}
+              {/* Seção Contactos */}
+              <section className="bo-section" style={{ marginBottom: '2rem' }}>
+                <h3 style={{ fontSize: '1.1rem', marginBottom: '1rem' }}>Contactos & Redes Sociais</h3>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <label>Telefone<input type="text" name="telefone" value={editForm.telefone} onChange={handleEditChange} className="form-input" style={{ width: '100%' }} /></label>
+                  <label>E-mail<input type="email" name="email" value={editForm.email} onChange={handleEditChange} className="form-input" style={{ width: '100%' }} /></label>
+                </div>
+              </section>
+
+              {/* Ações do Formulário */}
+              <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem', borderTop: '1px solid #f1f5f9', paddingTop: '1.5rem' }}>
+                <button type="submit" disabled={submitting} className="bo-btn bo-btn-primary" style={{ padding: '0.75rem 2rem' }}>
+                  {submitting ? 'A salvar...' : 'Salvar'}
+                </button>
+                <button type="button" onClick={() => setEditingId(null)} className="bo-btn bo-btn-light" style={{ padding: '0.75rem 2rem' }}>
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          </div>
+        ) : (
+          /* ITEM DA LISTA - VISUAL LIMPO DA PRIMEIRA IMAGEM */
+          <div key={p.id} className="bo-list-item" style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '1.25rem', marginBottom: '0.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div>
+              <div style={{ fontWeight: '600', fontSize: '1.1rem', color: '#1e293b' }}>{p.nome}</div>
+              <div style={{ color: '#64748b', fontSize: '0.9rem', marginTop: '4px' }}>{p.endereco}</div>
+            </div>
+            <div style={{ display: 'flex', gap: '0.5rem' }}>
+              <button onClick={() => startEdit(p)} className="action-btn" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', background: 'none', border: 'none', cursor: 'pointer', color: '#475569', fontSize: '0.8rem' }}>
+                <Pencil size={18} /> Editar
+              </button>
+              <button onClick={() => handleDelete(p.id, p.nome)} className="action-btn" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', background: 'none', border: 'none', cursor: 'pointer', color: '#e11d48', fontSize: '0.8rem' }}>
+                <Trash2 size={18} /> Remover
+              </button>
+            </div>
+          </div>
+        )
+      ))}
+    </div>
+
+    {/* Paginação */}
+    {totalPages > 1 && (
+      <div className="bo-pagination" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem', marginTop: '2rem' }}>
+        <button onClick={() => setCurrentPage(p => p - 1)} disabled={currentPage === 1} className="pagi-btn"><ChevronLeft size={20}/></button>
+        <span style={{ color: '#475569' }}>Página <strong>{currentPage}</strong> de {totalPages}</span>
+        <button onClick={() => setCurrentPage(p => p + 1)} disabled={currentPage === totalPages} className="pagi-btn"><ChevronRight size={20}/></button>
+      </div>
+    )}
+  </main>
+);
