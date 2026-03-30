@@ -2,7 +2,11 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Pencil, Trash2, PlusCircle, Save, X, MapPin, Search, ChevronLeft, ChevronRight, Globe, Phone, Mail, FileText, MapTagged, ImageIcon, Target } from 'lucide-react';
+import { 
+  Pencil, Trash2, PlusCircle, Save, X, MapPin, 
+  Search, ChevronLeft, ChevronRight, Globe, 
+  Phone, Mail, FileText, Map, ImageIcon, Target 
+} from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Toast from '@/components/Toast';
 import AlertModal from '@/components/AlertModal';
@@ -121,6 +125,28 @@ export default function ListarParoquias() {
     });
   };
 
+  const handleDelete = async (id: number, nome: string) => {
+  if (!confirm(`Tem certeza que deseja remover a paróquia "${nome}"?`)) return;
+  
+  try {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`/api/paroquias/${id}`, {
+      method: 'DELETE',
+      headers: { 
+        'Authorization': `Bearer ${token}` 
+      },
+    });
+
+    if (!res.ok) throw new Error('Erro ao remover');
+
+    setToast({ show: true, type: 'success', message: 'Paróquia removida com sucesso!' });
+    // Atualiza a lista local filtrando a removida
+    setParoquias(prev => prev.filter(p => p.id !== id));
+  } catch (error) {
+    setToast({ show: true, type: 'error', message: 'Não foi possível remover a paróquia.' });
+  }
+};
+  
   const handleEditSubmit = async (id: number) => {
     setSubmitting(true);
     try {
@@ -214,7 +240,7 @@ export default function ListarParoquias() {
 
                 {/* 2. Endereço (Onde recriamos o formulário de inserir) */}
                 <section className="bo-form-section section-purple">
-                  <h4><MapTagged size={16} /> Endereço Completo</h4>
+                  <h4><Map size={16} /> Endereço Completo</h4>
                   <div className="bo-grid-2">
                     <input name="rua" value={editForm.rua} onChange={e => setEditForm({...editForm, rua: e.target.value})} placeholder="Rua" className="form-input" />
                     <input name="numero" value={editForm.numero} onChange={e => setEditForm({...editForm, numero: e.target.value})} placeholder="Nº" className="form-input" />
