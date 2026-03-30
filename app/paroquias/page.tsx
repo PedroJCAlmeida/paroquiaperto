@@ -1,253 +1,143 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { Plus } from 'lucide-react';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import ParoquiaCard from '@/components/ParoquiaCard';
-import '@/styles/Paroquias.css';
-import type { Paroquia, Distrito, Conselho } from '@/types';
+import React from 'react';
+import '@/styles/ParoquiaCard.css';
+import { MapPin, MapPinned, Info, ExternalLink } from 'lucide-react';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import type { Horario } from '@/types';
 
-const Mapa = dynamic(() => import('@/components/Mapa'), { ssr: false });
-
-interface Coords {
-  latitude: number;
-  longitude: number;
+export interface ParoquiaCardDados {
+  id: number;
+  nome: string;
+  endereco: string;
+  distancia?: string;
+  descricao?: string | null;
+  horarios?: Horario[];
+  email?: string | null;
+  site?: string | null;
+  imagem?: string | null;
+  instagram?: string | null;
+  facebook?: string | null;
+  whatsapp?: string | null;
+  lat?: string;
+  lng?: string;
 }
 
-function calcularDistancia(lat1: number, lon1: number, lat2: number, lon2: number): number {
-  const toRad = (x: number) => (x * Math.PI) / 180;
-  const R = 6371;
-  const dLat = toRad(lat2 - lat1);
-  const dLon = toRad(lon2 - lon1);
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
-}
+export default function ParoquiaCard({ dados }: { dados: ParoquiaCardDados }) {
+  const MySwal = withReactContent(Swal);
+  const safeDados = {
+    ...dados,
+    horarios: Array.isArray(dados.horarios) ? dados.horarios : [],
+  };
 
-const Paroquias = () => {
-  const router = useRouter();
-  const [distritos, setDistritos] = useState<Distrito[]>([]);
-  const [conselhos, setConselhos] = useState<Conselho[]>([]);
-  const [lista, setLista] = useState<Paroquia[]>([]);
-  const [coords, setCoords] = useState<Coords | null>(null);
-  const [distrito, setDistrito] = useState('');
-  const [conselho, setConselho] = useState('');
-  const [km, setKm] = useState('10');
-  const [token, setToken] = useState<string | null>(null);
+  const abrirNoMaps = (e?: React.MouseEvent | React.PointerEvent) => {
+    if (e) e.stopPropagation();
+    const query = (safeDados.lat && safeDados.lng) 
+      ? `${safeDados.lat},${safeDados.lng}` 
+      : encodeURIComponent(safeDados.endereco);
+    window.open(`https://www.google.com/maps/dir/?api=1&destination=${query}`, '_blank');
+  };
 
-  useEffect(() => {
-    const t = localStorage.getItem('token');
-    setToken(t);
-  }, []);
+  const handleClick = () => {
+    const { nome, imagem, endereco, distancia, descricao, email, site } = safeDados;
 
-  useEffect(() => {
-    fetch('/api/distritos')
-      .then((res) => res.json())
-      .then((data: Distrito[]) => setDistritos(Array.isArray(data) ? data : []))
-      .catch(() => setDistritos([]));
-  }, []);
+    const html = `
+      <div style="text-align: left; font-family: sans-serif;">
+        ${imagem ? `<img src="${imagem}" alt="${nome}" style="width:100%; height:200px; object-fit:cover; border-radius:12px; margin-bottom:15px; border: 1px solid #eee;" />` : ''}
+        <p style="margin-bottom: 8px;"><strong>📍 Endereço:</strong> ${endereco}</p>
+        ${distancia && distancia !== '-' ? `<p style="margin-bottom: 8px;"><strong>📏 Distância:</strong> ${distancia} km</p>` : ''}
+        ${descricao ? `<p style="margin-bottom: 8px; color: #666;">${descricao}</p>` : ''}
+        ${email ? `<p style="margin-bottom: 8px;"><strong>📧 Email:</strong> ${email}</p>` : ''}
+        
+        <div style="margin-top:25px; display:flex; flex-direction:column; gap:10px;">
+          <a href="/paroquias/${safeDados.id}" 
+             style="display:flex; align-items:center; justify-content:center; gap:8px; padding:14px; background:linear-gradient(135deg,#243B55,#3E5C76); color:#fff; border-radius:10px; text-decoration:none; font-weight:bold;">
+             Ver Página Completa
+          </a>
+          <button onclick="window.open('https://www.google.com/maps/dir/?api=1&destination=${safeDados.lat && safeDados.lng ? `${safeDados.lat},${safeDados.lng}` : encodeURIComponent(endereco)}', '_blank')" 
+                  style="display:flex; align-items:center; justify-content:center; gap:8px; padding:14px; background:#f1f5f9; color:#243B55; border:1px solid #e2e8f0; border-radius:10px; font-weight:bold; cursor:pointer;">
+             📍 Como Chegar (GPS)
+          </button>
+        </div>
+      </div>
+    `;
 
-  useEffect(() => {
-    if (!distrito) {
-      setConselhos([]);
-      setConselho('');
-      return;
-    }
-    fetch(`/api/conselhos?distritoId=${distrito}`)
-      .then((res) => res.json())
-      .then((data: Conselho[]) => setConselhos(Array.isArray(data) ? data : []))
-      .catch(() => setConselhos([]));
-    setConselho('');
-  }, [distrito]);
-
-  useEffect(() => {
-    const fetchParoquias = async (latitude?: number, longitude?: number) => {
-      try {
-        const res = await fetch('/api/paroquias');
-        const data = (await res.json()) as Paroquia[];
-        let paroquias = data;
-        if (latitude !== undefined && longitude !== undefined) {
-          paroquias = paroquias
-            .map((p) => ({
-              ...p,
-              distancia: calcularDistancia(latitude, longitude, parseFloat(p.lat), parseFloat(p.lng)),
-            }))
-            .sort((a, b) => (a.distancia ?? 0) - (b.distancia ?? 0));
-        }
-        setLista(paroquias);
-      } catch {
-        setLista([]);
-      }
-    };
-
-    if (!navigator.geolocation) {
-      fetchParoquias();
-      return;
-    }
-    navigator.geolocation.getCurrentPosition(
-      ({ coords: { latitude, longitude } }) => {
-        setCoords({ latitude, longitude });
-        fetchParoquias(latitude, longitude);
-      },
-      () => fetchParoquias(),
-    );
-  }, []);
-
-  const listaFiltrada = (): Paroquia[] => {
-    return lista.filter((p) => {
-      if (distrito || conselho) {
-        if (distrito && (!p.distrito || String(p.distrito.id) !== String(distrito))) return false;
-        if (conselho && (!p.conselho || String(p.conselho.id) !== String(conselho))) return false;
-        return true;
-      }
-      if (km && coords && p.lat && p.lng) {
-        const dist = calcularDistancia(
-          coords.latitude,
-          coords.longitude,
-          parseFloat(p.lat),
-          parseFloat(p.lng),
-        );
-        if (dist > Number(km)) return false;
-      }
-      return true;
+    MySwal.fire({
+      title: `<span style="color: #243B55; font-weight: 900;">${nome}</span>`,
+      html,
+      showConfirmButton: false,
+      showCloseButton: true,
+      width: '450px'
     });
   };
 
-  const handleRegistarParoquia = () => {
-    if (!token) {
-      router.push('/register?redirect=/backoffice/paroquias&message=Registe-se para registar uma paroquia');
-    } else {
-      router.push('/backoffice/paroquias');
-    }
-  };
-
   return (
-    <>
-      <div className="paroquias-page">
-        <Navbar />
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px', borderBottom: '1px solid #e5e7eb' }}>
-          <h2 className="paroquias-title" style={{ margin: 0 }}>Paróquias Próximas</h2>
-          <button 
-            onClick={handleRegistarParoquia}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '10px 16px',
-              background: 'linear-gradient(135deg, #243B55 0%, #3E5C76 100%)',
-              color: 'white',
-              border: 'none',
-              borderRadius: '8px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              fontSize: '0.95rem',
-              boxShadow: '0 2px 8px rgba(30, 64, 175, 0.2)',
-              transition: 'all 0.3s'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = '0 4px 12px rgba(30, 64, 175, 0.3)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 2px 8px rgba(30, 64, 175, 0.2)';
-            }}
-          >
-            <Plus size={18} />
-            Registar Paróquia
-          </button>
+    <div className="paroquia-card">
+      <div className="paroquia-card-interno">
+        <h3>{safeDados.nome}</h3>
+        <p><MapPin size={16} /> {safeDados.endereco}</p>
+        
+        {safeDados.distancia && safeDados.distancia !== '-' && (
+          <span className="paroquia-distancia">{safeDados.distancia} km</span>
+        )}
+
+        <div style={{ marginTop: '12px' }}>
+          <p><span className="paroquia-horario-label">Horários: </span></p>
+          {safeDados.horarios.slice(0, 2).map((horario, index) => (
+            <p key={index} className="paroquia-horario">
+              {typeof horario === 'object'
+                ? `${horario.diaSemana} ${horario.hora} - ${horario.tipo}`
+                : String(horario)}
+            </p>
+          ))}
+          {safeDados.horarios.length > 2 && <p className="paroquia-horario" style={{opacity: 0.5, fontSize: '0.8rem'}}>Clique em "Ver mais" para lista completa</p>}
         </div>
-      <div className="paroquias-filters">
-        <select
-          value={distrito}
-          onChange={(e) => {
-            setDistrito(e.target.value);
-            if (e.target.value) {
-              setKm('');
-              setConselho('');
-            }
-          }}
-          className="paroquias-select paroquias-select--distrito"
-        >
-          <option value="">Distrito</option>
-          {distritos.map((d) => (
-            <option key={d.id} value={d.id}>
-              {d.nome}
-            </option>
-          ))}
-        </select>
-        <select
-          value={conselho}
-          onChange={(e) => {
-            setConselho(e.target.value);
-            if (e.target.value) setKm('');
-          }}
-          className={`paroquias-select paroquias-select--conselho${!distrito ? ' paroquias-select--disabled' : ''}`}
-          disabled={!distrito}
-        >
-          <option value="">Conselho</option>
-          {conselhos.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.nome}
-            </option>
-          ))}
-        </select>
-        <select
-          value={km}
-          onChange={(e) => {
-            setKm(e.target.value);
-            if (e.target.value) {
-              setDistrito('');
-              setConselho('');
-            }
-          }}
-          className={`paroquias-select paroquias-select--km${distrito || conselho ? ' paroquias-select--disabled' : ''}`}
-          disabled={!!distrito || !!conselho}
-        >
-          <option value="">Raio (km)</option>
-          <option value={5}>5 km</option>
-          <option value={10}>10 km</option>
-          <option value={20}>20 km</option>
-          <option value={50}>50 km</option>
-          <option value={100}>100 km</option>
-        </select>
       </div>
-      <div className="paroquias-mapa">
-        <Mapa paroquias={listaFiltrada()} coords={coords} />
-      </div>
-      <div className="paroquias-lista">
-        {listaFiltrada().map((p) => (
-          <ParoquiaCard
-            key={p.id}
-            dados={{
-              id: p.id,
-              distancia: p.distancia !== undefined ? p.distancia.toFixed(1) : '-',
-              nome: p.nome,
-              endereco: p.endereco,
-              descricao: p.descricao,
-              horarios: p.horarios,
-              email: p.email,
-              site: p.site,
-              imagem: p.imagem,
-              instagram: p.instagram,
-              facebook: p.facebook,
-              whatsapp: p.whatsapp,
-              lat: p.lat,
-              lng: p.lng,
-            }}
-          />
-        ))}
+
+      {/* ÁREA DE BOTÕES PADRONIZADA */}
+      <div className="saberMaisAreaButton" style={{ 
+        display: 'grid', 
+        gridTemplateColumns: '1fr 1fr', 
+        gap: '8px', 
+        marginTop: '15px' 
+      }}>
+        {/* BOTÃO 1: VER MAIS (Abre Modal) */}
+        <button 
+          className="saberMais-button" 
+          onPointerDown={handleClick}
+          style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
+        >
+          <Info size={16} /> Ver mais
+        </button>
+        
+        {/* BOTÃO 2: VER PÁGINA (Link Direto) */}
+        <a 
+          href={`/paroquias/${safeDados.id}`} 
+          className="saberMais-button"
+          style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
+        >
+          <ExternalLink size={16} /> Página
+        </a>
+
+        {/* BOTÃO 3: ROTA (Ocupa a largura total na segunda linha do grid interno) */}
+        <button 
+          onClick={abrirNoMaps} 
+          className="saberMais-button" 
+          style={{ 
+            gridColumn: '1 / -1',
+            background: '#f1f5f9', 
+            color: '#243B55', 
+            border: '1px solid #e2e8f0',
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px'
+          }}
+        >
+          <MapPinned size={18} /> Como Chegar
+        </button>
       </div>
     </div>
-    <Footer />
-  </>
   );
-};
-
-export default Paroquias;
-
+}
