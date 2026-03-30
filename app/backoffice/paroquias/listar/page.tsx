@@ -35,7 +35,8 @@ export default function ListarParoquias() {
   const [imagemPreview, setImagemPreview] = useState<string>('');
   const [imagemFile, setImagemFile] = useState<File | null>(null);
 
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  // Estados para o Modal de Eliminação customizado (para evitar erro de tipo no AlertModal)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [paroquiaToDelete, setParoquiaToDelete] = useState<{ id: number, nome: string } | null>(null);
 
   useEffect(() => {
@@ -81,42 +82,27 @@ export default function ListarParoquias() {
   };
 
   const handleDeleteClick = (id: number, nome: string) => {
-  setParoquiaToDelete({ id, nome });
-  setShowDeleteModal(true);
-};
-  
-const confirmDelete = async () => {
-  if (!paroquiaToDelete) return;
-  
-  try {
-    const token = localStorage.getItem('token');
-    const res = await fetch(`/api/paroquias/${paroquiaToDelete.id}`, { 
-      method: 'DELETE', 
-      headers: { Authorization: `Bearer ${token}` } 
-    });
-    
-    if (!res.ok) throw new Error();
-    
-    setToast({ show: true, type: 'success', message: 'Paróquia removida com sucesso!' });
-    setParoquias(prev => prev.filter(p => p.id !== paroquiaToDelete.id));
-  } catch {
-    setToast({ show: true, type: 'error', message: 'Erro ao remover paróquia.' });
-  } finally {
-    setShowDeleteModal(false);
-    setParoquiaToDelete(null);
-  }
-};
-  
-  
-  const handleDelete = async (id: number, nome: string) => {
-    if (!confirm(`Remover paróquia "${nome}"?`)) return;
+    setParoquiaToDelete({ id, nome });
+    setShowDeleteConfirm(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!paroquiaToDelete) return;
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`/api/paroquias/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+      const res = await fetch(`/api/paroquias/${paroquiaToDelete.id}`, { 
+        method: 'DELETE', 
+        headers: { Authorization: `Bearer ${token}` } 
+      });
       if (!res.ok) throw new Error();
-      setToast({ show: true, type: 'success', message: 'Paróquia removida!' });
-      setParoquias(prev => prev.filter(p => p.id !== id));
-    } catch { setToast({ show: true, type: 'error', message: 'Erro ao remover.' }); }
+      setToast({ show: true, type: 'success', message: 'Paróquia removida com sucesso!' });
+      setParoquias(prev => prev.filter(p => p.id !== paroquiaToDelete.id));
+    } catch { 
+      setToast({ show: true, type: 'error', message: 'Erro ao remover paróquia.' }); 
+    } finally {
+      setShowDeleteConfirm(false);
+      setParoquiaToDelete(null);
+    }
   };
 
   const handleEditSubmit = async (id: number) => {
@@ -163,14 +149,22 @@ const confirmDelete = async () => {
   return (
     <div className="bo-container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
       <Toast {...toast} onClose={() => setToast(t => ({ ...t, show: false }))} />
-      <AlertModal 
-      show={showDeleteModal} 
-      type="warning" 
-      title="Confirmar Remoção" 
-      message={`Tem certeza que deseja remover permanentemente a paróquia "${paroquiaToDelete?.nome}"?`} 
-      onClose={() => setShowDeleteModal(false)}
-      onConfirm={confirmDelete} // Certifique-se que seu AlertModal aceita onConfirm para mostrar o botão de ação
-    />
+      <AlertModal {...alert} onClose={() => setAlert(a => ({ ...a, show: false }))} />
+
+      {/* Modal de Confirmação de Eliminação Customizado para evitar erro de build */}
+      {showDeleteConfirm && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999 }}>
+          <div style={{ background: 'white', padding: '2rem', borderRadius: '16px', maxWidth: '400px', width: '90%', textAlign: 'center', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
+            <div style={{ color: '#e11d48', marginBottom: '1rem' }}><Trash2 size={48} style={{ margin: '0 auto' }} /></div>
+            <h3 style={{ margin: '0 0 1rem' }}>Confirmar Remoção</h3>
+            <p style={{ color: '#64748b', marginBottom: '2rem' }}>Tem certeza que deseja remover permanentemente a paróquia <strong>{paroquiaToDelete?.nome}</strong>?</p>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <button onClick={handleConfirmDelete} style={{ flex: 1, padding: '12px', borderRadius: '8px', border: 'none', background: '#e11d48', color: 'white', fontWeight: '600', cursor: 'pointer' }}>Remover</button>
+              <button onClick={() => setShowDeleteConfirm(false)} style={{ flex: 1, padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0', background: 'white', color: '#64748b', fontWeight: '600', cursor: 'pointer' }}>Cancelar</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="bo-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
         <h2 className="bo-title" style={{ fontSize: '2rem', color: '#243B55' }}>Gestão de Paróquias</h2>
@@ -240,7 +234,6 @@ const confirmDelete = async () => {
                 </div>
               </div>
 
-              {/* CONTACTOS */}
               <section className="bo-section" style={{ padding: 0, border: 'none', marginTop: '3rem', borderTop: '1px solid #f1f5f9', paddingTop: '2rem' }}>
                 <h4 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '8px' }}><Phone size={18}/> Contactos e Redes Sociais</h4>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }}>
@@ -279,7 +272,6 @@ const confirmDelete = async () => {
         ))}
       </div>
       
-      {/* Paginação */}
       <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '4rem', paddingBottom: '3rem' }}>
         <button className="bo-btn bo-btn-light" onClick={() => setCurrentPage(c => Math.max(c-1, 1))} disabled={currentPage === 1} style={{ borderRadius: '50%', width: '45px', height: '45px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><ChevronLeft size={24}/></button>
         <span style={{ alignSelf: 'center', fontWeight: '700', color: '#243B55', fontSize: '1.1rem' }}>{currentPage} / {totalPages}</span>
