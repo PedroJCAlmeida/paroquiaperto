@@ -120,8 +120,9 @@ export default function ListarParoquias() {
     return paroquias.filter(p => p.nome.toLowerCase().includes(searchTerm.toLowerCase()));
   }, [paroquias, searchTerm]);
 
+  const totalPages = Math.ceil(filteredParoquias.length / itemsPerPage);
   const paginated = filteredParoquias.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-
+  
   return (
     <div className="backoffice-page">
       <Toast {...toast} onClose={() => setToast(t => ({ ...t, show: false }))} />
