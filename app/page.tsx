@@ -71,7 +71,7 @@ export default function Landing() {
             <div className="landing-hero-ctas">
               <button
                 className="landing-btn-primary landing-btn-large"
-                onClick={() => router.push('/descobrir')}
+                onClick={() => router.push('/buscar')}
               >
                 Começar Agora
               </button>
@@ -219,7 +219,7 @@ export default function Landing() {
             </button>
             <button
               className="landing-btn-secondary landing-btn-large"
-              onClick={() => router.push('/descobrir')}
+              onClick={() => router.push('/buscar')}
             >
               Explorar Sem Conta
             </button>

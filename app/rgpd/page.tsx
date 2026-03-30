@@ -93,7 +93,7 @@ export default function Rgpd() {
           <ul>
             <li><strong>Dados de conta:</strong> enquanto a conta se mantiver ativa, e até 90 dias após o seu pedido de eliminação.</li>
             <li><strong>Dados de localização:</strong> não são armazenados permanentemente; são utilizados apenas durante a sessão de navegação.</li>
-            <li><strong>Mensagens de contato:</strong> conservadas por até 2 anos para fins de resposta e arquivo.</li>
+            <li><strong>Mensagens de contacto:</strong> conservadas por até 2 anos para fins de resposta e arquivo.</li>
             <li><strong>Dados de navegação:</strong> anonimizados e conservados por até 12 meses para fins estatísticos.</li>
           </ul>
         </section>

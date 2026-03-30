@@ -3,7 +3,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Paroquias from './pages/Paroquias';
-import Contato from './pages/Contato';
+import Contacto from './pages/Contacto';
 import Buscar from './pages/Buscar';
 import './assets/logo.png';
 import './styles/Navbar.css';
@@ -39,7 +39,7 @@ function App() {
           <Routes location={location}>
             <Route path="/" element={<Home />} />
             <Route path="/paroquias" element={<Paroquias />} />
-            <Route path="/contato" element={<Contato />} />
+            <Route path="/contacto" element={<Contacto />} />
             <Route path="/Buscar" element={<Buscar />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registar />} /> 

@@ -71,7 +71,7 @@ export default function Sobre() {
         <div className="static-contact-cta">
           <h3>Quer saber mais ou colaborar?</h3>
           <p>Estamos sempre abertos a sugestões, parcerias e colaborações paroquiais.</p>
-          <a href="/contato">Fale Connosco</a>
+          <a href="/contacto">Fale Connosco</a>
         </div>
 
         <p className="static-updated">Última atualização: março de 2025</p>

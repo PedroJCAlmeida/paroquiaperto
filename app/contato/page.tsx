@@ -11,7 +11,7 @@ interface ContactForm {
   mensagem: string;
 }
 
-const Contato = () => {
+const Contacto = () => {
   const [form, setForm] = useState<ContactForm>({ nome: '', email: '', mensagem: '' });
   const [status, setStatus] = useState<string | null>(null);
 
@@ -110,4 +110,4 @@ const Contato = () => {
   );
 };
 
-export default Contato;
+export default Contacto;

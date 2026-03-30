@@ -45,7 +45,7 @@ export default function Footer() {
             <li><Link href="/">Início</Link></li>
             <li><Link href="/paroquias">Paróquias</Link></li>
             <li><Link href="/buscar">Buscar</Link></li>
-            <li><Link href="/contato">Contato</Link></li>
+            <li><Link href="/contacto">Contacto</Link></li>
             <li><Link href="/sobre">Sobre nós</Link></li>
           </ul>
         </div>

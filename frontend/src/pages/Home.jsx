@@ -38,7 +38,7 @@ const Home = () => {
           <nav className="home-nav">
             <a className="home-nav-link" href="/">Início</a>
             <a className="home-nav-link" href="/paroquias">Paróquias</a>
-            <a className="home-nav-link" href="/contato">Contato</a>
+            <a className="home-nav-link" href="/contacto">Contacto</a>
           </nav>
         </div>
       </header>

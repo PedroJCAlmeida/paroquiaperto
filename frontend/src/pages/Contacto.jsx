@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../styles/Contato.css';
 import { Mail, Facebook, Instagram } from 'lucide-react';
 
-const Contato = () => {
+const Contacto = () => {
   const [form, setForm] = useState({ nome: '', email: '', mensagem: '' });
   const [status, setStatus] = useState(null);
 
@@ -98,4 +98,4 @@ const Contato = () => {
   );
 };
 
-export default Contato;
+export default Contacto;

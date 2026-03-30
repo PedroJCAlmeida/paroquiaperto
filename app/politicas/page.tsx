@@ -112,7 +112,7 @@ export default function Politicas() {
         <div className="static-contact-cta">
           <h3>Tem dúvidas sobre a sua privacidade?</h3>
           <p>A nossa equipa está disponível para esclarecer qualquer questão.</p>
-          <a href="/contato">Contactar</a>
+          <a href="/contacto">Contactar</a>
         </div>
 
         <p className="static-updated">Última atualização: março de 2025</p>

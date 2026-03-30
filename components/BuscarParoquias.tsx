@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import '@/styles/BuscarParoquias.css';
 import type { Paroquia, Distrito, Conselho } from '@/types';
+import router from 'next/router';
 
 interface BuscarParoquiasProps {
   embedded?: boolean;
@@ -20,6 +21,20 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
   const [isMobile, setIsMobile] = useState(false);
 
   const buscaTrim = busca.trim().toLowerCase();
+
+  useEffect(() => {
+    const savedLat = localStorage.getItem('lat');
+    const savedLng = localStorage.getItem('lng');
+
+    if (savedLat && savedLng) {
+      setLat(Number(savedLat));
+      setLng(Number(savedLng));
+      // Opcional: Limpar o localStorage após ler para não "forçar" 
+      // sempre a mesma localização se o utilizador quiser mudar
+      // localStorage.removeItem('lat');
+      // localStorage.removeItem('lng');
+    }
+  }, []);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 600);
@@ -49,21 +64,28 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
   }, [distrito]);
 
   useEffect(() => {
-    if (!buscaTrim) {
-      setParoquias([]);
+    // Se não houver texto, nem localização, nem distrito, não fazemos nada
+    if (!buscaTrim && !lat && !distrito) {
+      // Opcional: Carregar "Destaques" ou deixar vazio
       return;
     }
-    let url = `/api/paroquias?search=${encodeURIComponent(buscaTrim)}`;
-    if (distrito || conselho) {
-      if (distrito) url += `&distrito=${encodeURIComponent(distrito)}`;
-      if (conselho) url += `&conselho=${encodeURIComponent(conselho)}`;
-    } else {
-      url += `&raio=${raio}`;
-      if (lat && lng) url += `&lat=${lat}&lng=${lng}`;
+
+    let url = `/api/paroquias?`;
+
+    // Adiciona parâmetros conforme existam
+    const params = new URLSearchParams();
+    if (buscaTrim) params.append('search', buscaTrim);
+    if (distrito) params.append('distrito', distrito);
+    if (conselho) params.append('conselho', conselho);
+    if (lat && lng && !distrito) {
+      params.append('lat', lat.toString());
+      params.append('lng', lng.toString());
+      params.append('raio', raio.toString());
     }
-    fetch(url)
-      .then((res) => (res.ok ? res.json() : []))
-      .then((data: Paroquia[]) => setParoquias(Array.isArray(data) ? data : []))
+
+    fetch(`${url}${params.toString()}`)
+      .then((res) => res.json())
+      .then((data) => setParoquias(Array.isArray(data) ? data : []))
       .catch(() => setParoquias([]));
   }, [buscaTrim, raio, lat, lng, distrito, conselho]);
 
@@ -179,8 +201,24 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
                 <div key={p.id} style={{ background: 'linear-gradient(120deg,#fff 80%,#fde68a 100%)', borderRadius: '22px', boxShadow: '0 6px 32px rgba(60,60,120,0.15)', padding: '28px 22px', display: 'flex', gap: '18px', alignItems: 'flex-start', minHeight: 180, border: '2px solid #A67C52' }}>
                   {p.imagem && <img src={p.imagem} alt={p.nome} style={{ width: 100, height: 100, objectFit: 'cover', borderRadius: '16px', marginRight: 16 }} />}
                   <div style={{ flex: 1 }}>
-                    <h3 style={{ fontSize: '1.35rem', fontWeight: 900, color: '#243B55', marginBottom: 8 }}>{p.nome}</h3>
-                    <p style={{ fontSize: '1.08rem', color: '#243B55', fontWeight: 700, marginBottom: 4 }}><strong>Endereço:</strong> {p.endereco}</p>
+                    <h3
+                      style={{
+                        fontSize: '1.35rem',
+                        fontWeight: 900,
+                        color: '#243B55',
+                        marginBottom: 8,
+                        cursor: 'pointer', // Indica que é clicável
+                        textDecoration: 'underline transparent' // Estética
+                      }}
+                      onClick={() => router.push(`/paroquias/${p.id}`)}
+                      onMouseEnter={(e) => e.currentTarget.style.color = '#3E5C76'}
+                      onMouseLeave={(e) => e.currentTarget.style.color = '#243B55'}
+                    >
+                      {p.nome}
+                    </h3>
+                    <p style={{ fontSize: '1.08rem', color: '#243B55', fontWeight: 700, marginBottom: 4 }}>
+                      <strong>Endereço:</strong> {p.endereco}
+                    </p>
                     <p style={{ fontSize: '1.02rem', color: '#334155', marginBottom: 8 }}>{p.descricao}</p>
                     <strong style={{ color: '#A67C52', fontSize: '1.08rem' }}>Horários:</strong>
                     <ul style={{ listStyle: 'disc', marginLeft: 18, marginTop: 2, color: '#243B55', fontSize: '1.01rem' }}>

@@ -66,7 +66,7 @@ const Navbar = () => {
           <Link href="/" className="navbar-link" onClick={() => setIsOpen(false)}>Início</Link>
           <Link href="/paroquias" className="navbar-link" onClick={() => setIsOpen(false)}>Paróquias</Link>
           <Link href="/buscar" className="navbar-link" onClick={() => setIsOpen(false)}>Buscar</Link>
-          <Link href="/contato" className="navbar-link" onClick={() => setIsOpen(false)}>Contato</Link>
+          <Link href="/contacto" className="navbar-link" onClick={() => setIsOpen(false)}>Contacto</Link>
           {isLoggedIn && (
             <div
               className="navbar-link navbar-backoffice-dropdown"

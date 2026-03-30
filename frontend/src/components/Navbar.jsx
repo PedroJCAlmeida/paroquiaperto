@@ -43,7 +43,7 @@ const Navbar = () => {
           <Link to="/" className="navbar-link" onClick={() => setIsOpen(false)}>Início</Link>
           <Link to="/paroquias" className="navbar-link" onClick={() => setIsOpen(false)}>Paróquias</Link>
           <Link to="/buscar" className="navbar-link" onClick={() => setIsOpen(false)}>Buscar</Link>
-          <Link to="/contato" className="navbar-link" onClick={() => setIsOpen(false)}>Contato</Link>
+          <Link to="/contacto" className="navbar-link" onClick={() => setIsOpen(false)}>Contacto</Link>
           {isLoggedIn && (
             <div
               className="navbar-link navbar-backoffice-dropdown"

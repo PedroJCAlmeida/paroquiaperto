@@ -194,9 +194,9 @@ export default function InserirParoquia() {
           </section>
 
           <section className="bo-section">
-            <h3>Contatos & Redes Sociais</h3>
+            <h3>Contactos & Redes Sociais</h3>
             <label>
-              Telefone de Contato
+              Telefone de Contacto
               <input type="text" name="telefone" value={form.telefone} onChange={handleChange} />
             </label>
             <label>
