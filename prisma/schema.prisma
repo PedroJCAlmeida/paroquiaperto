@@ -67,7 +67,7 @@ model Horario {
   diaSemana  String
   hora       String
   tipo       String
-  paroquia   Paroquia @relation(fields: [paroquiaId], references: [id])
+  paroquia   Paroquia @relation(fields: [paroquiaId], references: [id], onDelete: Cascade)
   paroquiaId Int
   @@map("horarios")
 }
@@ -79,7 +79,7 @@ model Evento {
   hora       String
   descricao  String?
   imagem     String?
-  paroquia   Paroquia @relation(fields: [paroquiaId], references: [id])
+  paroquia   Paroquia @relation(fields: [paroquiaId], references: [id], onDelete: Cascade)
   paroquiaId Int
   @@map("eventos")
 }
