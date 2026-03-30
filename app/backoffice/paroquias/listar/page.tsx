@@ -9,33 +9,27 @@ import AlertModal from '@/components/AlertModal';
 import '@/styles/Backoffice.css';
 import type { Paroquia, Distrito, Conselho } from '@/types';
 
-// Importação dinâmica do Mapa
 const Mapa = dynamic(() => import('@/components/Mapa'), { 
   ssr: false,
-  loading: () => <div className="map-loading">A carregar mapa...</div>
+  loading: () => <div style={{ height: '300px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>A carregar mapa...</div>
 });
 
 export default function ListarParoquias() {
   const router = useRouter();
   const [paroquias, setParoquias] = useState<Paroquia[]>([]);
   const [loading, setLoading] = useState(true);
+  const [distritos, setDistritos] = useState<Distrito[]>([]);
+  const [conselhos, setConselhos] = useState<Conselho[]>([]);
   
-  // Estados para Modais e Toasts
   const [toast, setToast] = useState({ show: false, type: 'success' as 'success' | 'error', message: '' });
   const [alert, setAlert] = useState({ show: false, type: 'error' as 'error' | 'warning' | 'info', title: '', message: '' });
 
-  // Estados de dados auxiliares (igual ao Inserir)
-  const [distritos, setDistritos] = useState<Distrito[]>([]);
-  const [conselhos, setConselhos] = useState<Conselho[]>([]);
-
-  // Estado de Edição
   const [editingId, setEditingId] = useState<number | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [uploadingImagem, setUploadingImagem] = useState(false);
   const [imagemFile, setImagemFile] = useState<File | null>(null);
   const [imagemPreview, setImagemPreview] = useState<string>('');
 
-  // O formulário agora tem os campos quebrados (rua, numero, etc) como o Inserir
   const [editForm, setEditForm] = useState({
     nome: '', rua: '', numero: '', codigoPostal: '', cidade: '',
     distritoId: '', conselhoId: '', lat: '', lng: '', telefone: '',
@@ -43,36 +37,34 @@ export default function ListarParoquias() {
     instagram: '', whatsapp: '',
   });
 
-  // --- EFEITOS E BUSCAS ---
   const fetchParoquias = () => {
     setLoading(true);
-    fetch('/api/paroquias').then(r => r.json()).then(data => setParoquias(data)).finally(() => setLoading(false));
+    fetch('/api/paroquias').then(r => r.json()).then(data => setParoquias(Array.isArray(data) ? data : [])).finally(() => setLoading(false));
   };
 
   useEffect(() => {
     fetchParoquias();
-    fetch('/api/distritos').then(res => res.json()).then(setDistritos);
+    fetch('/api/distritos').then(res => res.json()).then(setDistritos).catch(() => setDistritos([]));
   }, []);
 
   useEffect(() => {
     if (!editForm.distritoId) { setConselhos([]); return; }
-    fetch(`/api/conselhos?distritoId=${editForm.distritoId}`).then(res => res.json()).then(setConselhos);
+    fetch(`/api/conselhos?distritoId=${editForm.distritoId}`).then(res => res.json()).then(setConselhos).catch(() => setConselhos([]));
   }, [editForm.distritoId]);
 
-  // --- LÓGICA DE EDIÇÃO ---
   const startEdit = (p: Paroquia) => {
-    // Tentar quebrar o endereço (ajuste conforme seu padrão de salvamento)
-    // Se o endereço foi salvo como "Rua, Numero, CP Cidade", tentamos separar:
+    // Tenta quebrar o endereço para preencher os campos individuais
     const partes = p.endereco?.split(', ') || [];
+    const cpCidade = partes[2]?.split(' ') || [];
     
     setEditingId(p.id);
     setImagemPreview(p.imagem || '');
     setEditForm({
-      nome: p.nome,
+      nome: p.nome || '',
       rua: partes[0] || '',
       numero: partes[1] || '',
-      codigoPostal: partes[2]?.split(' ')[0] || '',
-      cidade: partes[2]?.split(' ').slice(1).join(' ') || '',
+      codigoPostal: cpCidade[0] || '',
+      cidade: cpCidade.slice(1).join(' ') || '',
       distritoId: p.distritoId?.toString() || '',
       conselhoId: p.conselhoId?.toString() || '',
       lat: p.lat?.toString() || '',
@@ -124,9 +116,18 @@ export default function ListarParoquias() {
       }
 
       const payload = {
-        ...editForm,
+        nome: editForm.nome,
         endereco: `${editForm.rua}, ${editForm.numero}, ${editForm.codigoPostal} ${editForm.cidade}`,
+        lat: editForm.lat,
+        lng: editForm.lng,
+        telefone: editForm.telefone,
+        email: editForm.email,
+        descricao: editForm.descricao,
+        site: editForm.site,
         imagem: imagemUrl,
+        facebook: editForm.facebook,
+        instagram: editForm.instagram,
+        whatsapp: editForm.whatsapp,
         distritoId: editForm.distritoId ? parseInt(editForm.distritoId) : null,
         conselhoId: editForm.conselhoId ? parseInt(editForm.conselhoId) : null,
       };
@@ -149,8 +150,18 @@ export default function ListarParoquias() {
 
   return (
     <div className="bo-container">
-      <Toast show={toast.show} type={toast.type} message={toast.message} onClose={() => setToast(t => ({ ...t, show: false }))} />
-      <AlertModal show={alert.show} {...alert} onClose={() => setAlert(a => ({ ...a, show: false }))} />
+      {/* Toast e AlertModal corrigidos para evitar erro de duplicidade no build */}
+      <Toast 
+        show={toast.show} 
+        type={toast.type} 
+        message={toast.message} 
+        onClose={() => setToast(t => ({ ...t, show: false }))} 
+      />
+      
+      <AlertModal 
+        {...alert} 
+        onClose={() => setAlert(a => ({ ...a, show: false }))} 
+      />
 
       <div className="bo-header">
         <h2 className="bo-title">Paróquias</h2>
@@ -162,11 +173,13 @@ export default function ListarParoquias() {
       <div className="bo-list">
         {paroquias.map((p) => (
           editingId === p.id ? (
-            <div key={p.id} className="bo-card edit-mode-active">
+            <div key={p.id} className="bo-card edit-mode-active" style={{ padding: '20px', border: '2px solid #6366f1' }}>
               <section className="bo-section">
                 <h3>Dados Básicos</h3>
-                <input name="nome" value={editForm.nome} onChange={handleEditChange} placeholder="Nome" className="form-input" />
-                <textarea name="descricao" value={editForm.descricao} onChange={handleEditChange} placeholder="Descrição" className="form-input" />
+                <label>Nome da Paróquia</label>
+                <input name="nome" value={editForm.nome} onChange={handleEditChange} className="form-input" required />
+                <label>Descrição</label>
+                <textarea name="descricao" value={editForm.descricao} onChange={handleEditChange} className="form-input" rows={3} />
               </section>
 
               <section className="bo-section">
@@ -176,12 +189,14 @@ export default function ListarParoquias() {
                   <input name="numero" value={editForm.numero} onChange={handleEditChange} placeholder="Nº" className="form-input" />
                   <input name="codigoPostal" value={editForm.codigoPostal} onChange={handleEditChange} placeholder="1234-567" className="form-input" />
                   <input name="cidade" value={editForm.cidade} onChange={handleEditChange} placeholder="Cidade" className="form-input" />
+                  
                   <select name="distritoId" value={editForm.distritoId} onChange={handleEditChange} className="form-input">
-                    <option value="">Distrito</option>
+                    <option value="">Selecione um distrito</option>
                     {distritos.map(d => <option key={d.id} value={d.id}>{d.nome}</option>)}
                   </select>
+                  
                   <select name="conselhoId" value={editForm.conselhoId} onChange={handleEditChange} disabled={!editForm.distritoId} className="form-input">
-                    <option value="">Conselho</option>
+                    <option value="">Selecione um conselho</option>
                     {conselhos.map(c => <option key={c.id} value={c.id}>{c.nome}</option>)}
                   </select>
                 </div>
@@ -189,11 +204,11 @@ export default function ListarParoquias() {
 
               <section className="bo-section">
                 <h3 className="bo-h3-amber">Localização</h3>
-                <button type="button" className="bo-btn-secondary" onClick={buscarLocalizacao}>
-                  <MapPin size={16} /> Atualizar Coordenadas
+                <button type="button" className="bo-btn-secondary" onClick={buscarLocalizacao} style={{ marginBottom: '10px' }}>
+                  <MapPin size={16} /> Buscar Localização
                 </button>
-                {editForm.lat && (
-                  <div className="map-container-edit">
+                {editForm.lat && editForm.lng && (
+                  <div style={{ height: '300px', marginBottom: '10px' }}>
                     <Mapa 
                       coords={{ latitude: parseFloat(editForm.lat), longitude: parseFloat(editForm.lng) }}
                       isEditable={true}
@@ -201,25 +216,34 @@ export default function ListarParoquias() {
                     />
                   </div>
                 )}
+                <div className="bo-grid-2">
+                   <input value={editForm.lat} readOnly placeholder="Latitude" className="form-input" style={{ background: '#f1f5f9' }} />
+                   <input value={editForm.lng} readOnly placeholder="Longitude" className="form-input" style={{ background: '#f1f5f9' }} />
+                </div>
               </section>
 
               <section className="bo-section">
-                <h3>Contactos e Media</h3>
+                <h3>Contactos & Redes Sociais</h3>
                 <div className="bo-grid-2">
                   <input name="telefone" value={editForm.telefone} onChange={handleEditChange} placeholder="Telefone" className="form-input" />
                   <input name="email" value={editForm.email} onChange={handleEditChange} placeholder="E-mail" className="form-input" />
+                  <input name="site" value={editForm.site} onChange={handleEditChange} placeholder="Site" className="form-input" />
+                  <input name="whatsapp" value={editForm.whatsapp} onChange={handleEditChange} placeholder="WhatsApp" className="form-input" />
+                  <input name="facebook" value={editForm.facebook} onChange={handleEditChange} placeholder="Facebook" className="form-input" />
+                  <input name="instagram" value={editForm.instagram} onChange={handleEditChange} placeholder="Instagram" className="form-input" />
                 </div>
-                <input type="file" onChange={(e) => {
+                <label style={{ marginTop: '10px', display: 'block' }}>Imagem</label>
+                <input type="file" accept="image/*" onChange={(e) => {
                   const file = e.target.files?.[0] || null;
                   setImagemFile(file);
                   if (file) setImagemPreview(URL.createObjectURL(file));
                 }} />
-                {imagemPreview && <img src={imagemPreview} className="img-preview-small" alt="Preview" />}
+                {imagemPreview && <img src={imagemPreview} style={{ width: '100px', marginTop: '10px', borderRadius: '8px' }} alt="Preview" />}
               </section>
 
-              <div className="bo-card-actions">
+              <div className="bo-card-actions" style={{ marginTop: '20px' }}>
                 <button onClick={() => handleEditSubmit(p.id)} disabled={submitting} className="bo-btn bo-btn-primary">
-                  <Save size={16} /> {submitting ? 'A guardar...' : 'Guardar'}
+                  <Save size={16} /> {submitting ? 'A guardar...' : 'Salvar Alterações'}
                 </button>
                 <button onClick={() => setEditingId(null)} className="bo-btn bo-btn-light">
                   <X size={16} /> Cancelar
@@ -227,22 +251,30 @@ export default function ListarParoquias() {
               </div>
             </div>
           ) : (
-            // ... Bloco do item da lista (mesmo que você já tinha) ...
             <div key={p.id} className="bo-list-item">
-               <div className="bo-list-content">
-                  <div className="bo-list-title">{p.nome}</div>
-                  <div className="bo-list-desc">{p.endereco}</div>
-               </div>
-               <div className="bo-list-actions">
-                  <button onClick={() => startEdit(p)} className="bo-btn bo-btn-light">
-                    <Pencil size={15} /> Editar
-                  </button>
-                  {/* ... botão delete ... */}
-               </div>
+              <div className="bo-list-content">
+                <div className="bo-list-title">{p.nome}</div>
+                <div className="bo-list-desc">{p.endereco}</div>
+              </div>
+              <div className="bo-list-actions">
+                <button onClick={() => startEdit(p)} className="bo-btn bo-btn-light">
+                  <Pencil size={15} /> Editar
+                </button>
+                <button onClick={() => handleDelete(p.id, p.nome)} className="bo-btn bo-btn-light" style={{ color: '#e11d48' }}>
+                  <Trash2 size={15} /> Remover
+                </button>
+              </div>
             </div>
           )
         ))}
       </div>
     </div>
   );
+}
+
+// Funções auxiliares fictícias para o delete (complete com a sua lógica se necessário)
+async function handleDelete(id: number, nome: string) {
+    if (!confirm(`Remover ${nome}?`)) return;
+    await fetch(`/api/paroquias/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+    window.location.reload();
 }
