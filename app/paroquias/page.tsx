@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { Plus } from 'lucide-react';
@@ -9,7 +9,11 @@ import ParoquiaCard from '@/components/ParoquiaCard';
 import '@/styles/Paroquias.css';
 import type { Paroquia, Distrito, Conselho } from '@/types';
 
-const Mapa = dynamic(() => import('@/components/Mapa'), { ssr: false });
+// O Mapa precisa de ser carregado dinamicamente para não dar erro de "window is not defined"
+const Mapa = dynamic(() => import('@/components/Mapa'), { 
+  ssr: false,
+  loading: () => <div style={{ height: '400px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Carregando mapa...</div>
+});
 
 interface Coords {
   latitude: number;
@@ -28,7 +32,7 @@ function calcularDistancia(lat1: number, lon1: number, lat2: number, lon2: numbe
   return R * c;
 }
 
-// O componente da PÁGINA não deve receber props como 'dados'
+// ESTA FUNÇÃO NÃO PODE RECEBER "DADOS" NAS PROPS, POR ISSO DAVA ERRO NO VERCEL
 export default function ParoquiasPage() {
   const router = useRouter();
   const [distritos, setDistritos] = useState<Distrito[]>([]);
@@ -45,7 +49,8 @@ export default function ParoquiasPage() {
     
     fetch('/api/distritos')
       .then((res) => res.json())
-      .then((data) => setDistritos(Array.isArray(data) ? data : []));
+      .then((data: Distrito[]) => setDistritos(Array.isArray(data) ? data : []))
+      .catch(() => setDistritos([]));
   }, []);
 
   useEffect(() => {
@@ -56,22 +61,24 @@ export default function ParoquiasPage() {
     }
     fetch(`/api/conselhos?distritoId=${distrito}`)
       .then((res) => res.json())
-      .then((data) => setConselhos(Array.isArray(data) ? data : []));
+      .then((data: Conselho[]) => setConselhos(Array.isArray(data) ? data : []))
+      .catch(() => setConselhos([]));
+    setConselho('');
   }, [distrito]);
 
   useEffect(() => {
     const fetchParoquias = async (latitude?: number, longitude?: number) => {
       try {
         const res = await fetch('/api/paroquias');
-        const data = await res.json();
+        const data = (await res.json()) as Paroquia[];
         let paroquias = data;
         if (latitude !== undefined && longitude !== undefined) {
           paroquias = paroquias
-            .map((p: any) => ({
+            .map((p) => ({
               ...p,
               distancia: calcularDistancia(latitude, longitude, parseFloat(p.lat), parseFloat(p.lng)),
             }))
-            .sort((a: any, b: any) => (a.distancia ?? 0) - (b.distancia ?? 0));
+            .sort((a, b) => (a.distancia ?? 0) - (b.distancia ?? 0));
         }
         setLista(paroquias);
       } catch {
@@ -79,66 +86,143 @@ export default function ParoquiasPage() {
       }
     };
 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        ({ coords: { latitude, longitude } }) => {
-          setCoords({ latitude, longitude });
-          fetchParoquias(latitude, longitude);
-        },
-        () => fetchParoquias()
-      );
-    } else {
+    if (!navigator.geolocation) {
       fetchParoquias();
+      return;
     }
+    navigator.geolocation.getCurrentPosition(
+      ({ coords: { latitude, longitude } }) => {
+        setCoords({ latitude, longitude });
+        fetchParoquias(latitude, longitude);
+      },
+      () => fetchParoquias(),
+    );
   }, []);
 
-  const listaFiltrada = useMemo(() => {
+  const listaFiltrada = (): Paroquia[] => {
     return lista.filter((p) => {
       if (distrito || conselho) {
-        if (distrito && String(p.distritoId) !== String(distrito)) return false;
-        if (conselho && String(p.conselhoId) !== String(conselho)) return false;
+        if (distrito && (!p.distrito || String(p.distrito.id) !== String(distrito))) return false;
+        if (conselho && (!p.conselho || String(p.conselho.id) !== String(conselho))) return false;
         return true;
       }
       if (km && coords && p.lat && p.lng) {
-        const dist = calcularDistancia(coords.latitude, coords.longitude, parseFloat(p.lat), parseFloat(p.lng));
-        return dist <= Number(km);
+        const dist = calcularDistancia(
+          coords.latitude,
+          coords.longitude,
+          parseFloat(p.lat),
+          parseFloat(p.lng),
+        );
+        if (dist > Number(km)) return false;
       }
       return true;
     });
-  }, [lista, distrito, conselho, km, coords]);
+  };
+
+  const handleRegistarParoquia = () => {
+    if (!token) {
+      router.push('/register?redirect=/backoffice/paroquias&message=Registe-se para registar uma paroquia');
+    } else {
+      router.push('/backoffice/paroquias');
+    }
+  };
 
   return (
     <>
-      <Navbar />
       <div className="paroquias-page">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px' }}>
-          <h2 className="paroquias-title">Paróquias Próximas</h2>
+        <Navbar />
+        
+        {/* HEADER COM BOTÃO GRADIENTE */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px', borderBottom: '1px solid #e5e7eb' }}>
+          <h2 className="paroquias-title" style={{ margin: 0 }}>Paróquias Próximas</h2>
           <button 
-            onClick={() => router.push(token ? '/backoffice/paroquias' : '/register')}
-            className="bo-btn bo-btn-primary"
+            onClick={handleRegistarParoquia}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '10px 16px',
+              background: 'linear-gradient(135deg, #243B55 0%, #3E5C76 100%)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              fontSize: '0.95rem',
+              boxShadow: '0 2px 8px rgba(30, 64, 175, 0.2)',
+              transition: 'all 0.3s'
+            }}
           >
-            <Plus size={18} /> Registar Paróquia
+            <Plus size={18} />
+            Registar Paróquia
           </button>
         </div>
 
+        {/* FILTROS ORIGINAIS */}
         <div className="paroquias-filters">
-          <select value={distrito} onChange={(e) => setDistrito(e.target.value)} className="paroquias-select">
+          <select
+            value={distrito}
+            onChange={(e) => {
+              setDistrito(e.target.value);
+              if (e.target.value) {
+                setKm('');
+                setConselho('');
+              }
+            }}
+            className="paroquias-select paroquias-select--distrito"
+          >
             <option value="">Distrito</option>
-            {distritos.map((d) => <option key={d.id} value={d.id}>{d.nome}</option>)}
+            {distritos.map((d) => (
+              <option key={d.id} value={d.id}>{d.nome}</option>
+            ))}
           </select>
-          {/* ... outros selects de filtro ... */}
+
+          <select
+            value={conselho}
+            onChange={(e) => {
+              setConselho(e.target.value);
+              if (e.target.value) setKm('');
+            }}
+            className={`paroquias-select paroquias-select--conselho${!distrito ? ' paroquias-select--disabled' : ''}`}
+            disabled={!distrito}
+          >
+            <option value="">Conselho</option>
+            {conselhos.map((c) => (
+              <option key={c.id} value={c.id}>{c.nome}</option>
+            ))}
+          </select>
+
+          <select
+            value={km}
+            onChange={(e) => {
+              setKm(e.target.value);
+              if (e.target.value) {
+                setDistrito('');
+                setConselho('');
+              }
+            }}
+            className={`paroquias-select paroquias-select--km${distrito || conselho ? ' paroquias-select--disabled' : ''}`}
+            disabled={!!distrito || !!conselho}
+          >
+            <option value="">Raio (km)</option>
+            <option value={5}>5 km</option>
+            <option value={10}>10 km</option>
+            <option value={20}>20 km</option>
+            <option value={50}>50 km</option>
+            <option value={100}>100 km</option>
+          </select>
         </div>
 
         <div className="paroquias-mapa">
-          <Mapa paroquias={listaFiltrada} coords={coords} />
+          <Mapa paroquias={listaFiltrada()} coords={coords} />
         </div>
 
         <div className="paroquias-lista">
-          {listaFiltrada.map((p) => (
+          {listaFiltrada().map((p) => (
             <ParoquiaCard
               key={p.id}
               dados={{
-                ...p,
+                ...p, // Passa todos os dados (incluindo id, lat, lng)
                 distancia: p.distancia !== undefined ? p.distancia.toFixed(1) : '-',
               }}
             />
