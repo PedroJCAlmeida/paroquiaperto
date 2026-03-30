@@ -1,143 +1,151 @@
 'use client';
-import React from 'react';
-import '@/styles/ParoquiaCard.css';
-import { MapPin, MapPinned, Info, ExternalLink } from 'lucide-react';
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
-import type { Horario } from '@/types';
+import React, { useEffect, useState, useMemo } from 'react';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
+import { Plus } from 'lucide-react';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import ParoquiaCard from '@/components/ParoquiaCard';
+import '@/styles/Paroquias.css';
+import type { Paroquia, Distrito, Conselho } from '@/types';
 
-export interface ParoquiaCardDados {
-  id: number;
-  nome: string;
-  endereco: string;
-  distancia?: string;
-  descricao?: string | null;
-  horarios?: Horario[];
-  email?: string | null;
-  site?: string | null;
-  imagem?: string | null;
-  instagram?: string | null;
-  facebook?: string | null;
-  whatsapp?: string | null;
-  lat?: string;
-  lng?: string;
+const Mapa = dynamic(() => import('@/components/Mapa'), { ssr: false });
+
+interface Coords {
+  latitude: number;
+  longitude: number;
 }
 
-export default function ParoquiaCard({ dados }: { dados: ParoquiaCardDados }) {
-  const MySwal = withReactContent(Swal);
-  const safeDados = {
-    ...dados,
-    horarios: Array.isArray(dados.horarios) ? dados.horarios : [],
-  };
+function calcularDistancia(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const toRad = (x: number) => (x * Math.PI) / 180;
+  const R = 6371;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
 
-  const abrirNoMaps = (e?: React.MouseEvent | React.PointerEvent) => {
-    if (e) e.stopPropagation();
-    const query = (safeDados.lat && safeDados.lng) 
-      ? `${safeDados.lat},${safeDados.lng}` 
-      : encodeURIComponent(safeDados.endereco);
-    window.open(`https://www.google.com/maps/dir/?api=1&destination=${query}`, '_blank');
-  };
+// O componente da PÁGINA não deve receber props como 'dados'
+export default function ParoquiasPage() {
+  const router = useRouter();
+  const [distritos, setDistritos] = useState<Distrito[]>([]);
+  const [conselhos, setConselhos] = useState<Conselho[]>([]);
+  const [lista, setLista] = useState<Paroquia[]>([]);
+  const [coords, setCoords] = useState<Coords | null>(null);
+  const [distrito, setDistrito] = useState('');
+  const [conselho, setConselho] = useState('');
+  const [km, setKm] = useState('10');
+  const [token, setToken] = useState<string | null>(null);
 
-  const handleClick = () => {
-    const { nome, imagem, endereco, distancia, descricao, email, site } = safeDados;
+  useEffect(() => {
+    setToken(localStorage.getItem('token'));
+    
+    fetch('/api/distritos')
+      .then((res) => res.json())
+      .then((data) => setDistritos(Array.isArray(data) ? data : []));
+  }, []);
 
-    const html = `
-      <div style="text-align: left; font-family: sans-serif;">
-        ${imagem ? `<img src="${imagem}" alt="${nome}" style="width:100%; height:200px; object-fit:cover; border-radius:12px; margin-bottom:15px; border: 1px solid #eee;" />` : ''}
-        <p style="margin-bottom: 8px;"><strong>📍 Endereço:</strong> ${endereco}</p>
-        ${distancia && distancia !== '-' ? `<p style="margin-bottom: 8px;"><strong>📏 Distância:</strong> ${distancia} km</p>` : ''}
-        ${descricao ? `<p style="margin-bottom: 8px; color: #666;">${descricao}</p>` : ''}
-        ${email ? `<p style="margin-bottom: 8px;"><strong>📧 Email:</strong> ${email}</p>` : ''}
-        
-        <div style="margin-top:25px; display:flex; flex-direction:column; gap:10px;">
-          <a href="/paroquias/${safeDados.id}" 
-             style="display:flex; align-items:center; justify-content:center; gap:8px; padding:14px; background:linear-gradient(135deg,#243B55,#3E5C76); color:#fff; border-radius:10px; text-decoration:none; font-weight:bold;">
-             Ver Página Completa
-          </a>
-          <button onclick="window.open('https://www.google.com/maps/dir/?api=1&destination=${safeDados.lat && safeDados.lng ? `${safeDados.lat},${safeDados.lng}` : encodeURIComponent(endereco)}', '_blank')" 
-                  style="display:flex; align-items:center; justify-content:center; gap:8px; padding:14px; background:#f1f5f9; color:#243B55; border:1px solid #e2e8f0; border-radius:10px; font-weight:bold; cursor:pointer;">
-             📍 Como Chegar (GPS)
-          </button>
-        </div>
-      </div>
-    `;
+  useEffect(() => {
+    if (!distrito) {
+      setConselhos([]);
+      setConselho('');
+      return;
+    }
+    fetch(`/api/conselhos?distritoId=${distrito}`)
+      .then((res) => res.json())
+      .then((data) => setConselhos(Array.isArray(data) ? data : []));
+  }, [distrito]);
 
-    MySwal.fire({
-      title: `<span style="color: #243B55; font-weight: 900;">${nome}</span>`,
-      html,
-      showConfirmButton: false,
-      showCloseButton: true,
-      width: '450px'
+  useEffect(() => {
+    const fetchParoquias = async (latitude?: number, longitude?: number) => {
+      try {
+        const res = await fetch('/api/paroquias');
+        const data = await res.json();
+        let paroquias = data;
+        if (latitude !== undefined && longitude !== undefined) {
+          paroquias = paroquias
+            .map((p: any) => ({
+              ...p,
+              distancia: calcularDistancia(latitude, longitude, parseFloat(p.lat), parseFloat(p.lng)),
+            }))
+            .sort((a: any, b: any) => (a.distancia ?? 0) - (b.distancia ?? 0));
+        }
+        setLista(paroquias);
+      } catch {
+        setLista([]);
+      }
+    };
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        ({ coords: { latitude, longitude } }) => {
+          setCoords({ latitude, longitude });
+          fetchParoquias(latitude, longitude);
+        },
+        () => fetchParoquias()
+      );
+    } else {
+      fetchParoquias();
+    }
+  }, []);
+
+  const listaFiltrada = useMemo(() => {
+    return lista.filter((p) => {
+      if (distrito || conselho) {
+        if (distrito && String(p.distritoId) !== String(distrito)) return false;
+        if (conselho && String(p.conselhoId) !== String(conselho)) return false;
+        return true;
+      }
+      if (km && coords && p.lat && p.lng) {
+        const dist = calcularDistancia(coords.latitude, coords.longitude, parseFloat(p.lat), parseFloat(p.lng));
+        return dist <= Number(km);
+      }
+      return true;
     });
-  };
+  }, [lista, distrito, conselho, km, coords]);
 
   return (
-    <div className="paroquia-card">
-      <div className="paroquia-card-interno">
-        <h3>{safeDados.nome}</h3>
-        <p><MapPin size={16} /> {safeDados.endereco}</p>
-        
-        {safeDados.distancia && safeDados.distancia !== '-' && (
-          <span className="paroquia-distancia">{safeDados.distancia} km</span>
-        )}
+    <>
+      <Navbar />
+      <div className="paroquias-page">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px' }}>
+          <h2 className="paroquias-title">Paróquias Próximas</h2>
+          <button 
+            onClick={() => router.push(token ? '/backoffice/paroquias' : '/register')}
+            className="bo-btn bo-btn-primary"
+          >
+            <Plus size={18} /> Registar Paróquia
+          </button>
+        </div>
 
-        <div style={{ marginTop: '12px' }}>
-          <p><span className="paroquia-horario-label">Horários: </span></p>
-          {safeDados.horarios.slice(0, 2).map((horario, index) => (
-            <p key={index} className="paroquia-horario">
-              {typeof horario === 'object'
-                ? `${horario.diaSemana} ${horario.hora} - ${horario.tipo}`
-                : String(horario)}
-            </p>
+        <div className="paroquias-filters">
+          <select value={distrito} onChange={(e) => setDistrito(e.target.value)} className="paroquias-select">
+            <option value="">Distrito</option>
+            {distritos.map((d) => <option key={d.id} value={d.id}>{d.nome}</option>)}
+          </select>
+          {/* ... outros selects de filtro ... */}
+        </div>
+
+        <div className="paroquias-mapa">
+          <Mapa paroquias={listaFiltrada} coords={coords} />
+        </div>
+
+        <div className="paroquias-lista">
+          {listaFiltrada.map((p) => (
+            <ParoquiaCard
+              key={p.id}
+              dados={{
+                ...p,
+                distancia: p.distancia !== undefined ? p.distancia.toFixed(1) : '-',
+              }}
+            />
           ))}
-          {safeDados.horarios.length > 2 && <p className="paroquia-horario" style={{opacity: 0.5, fontSize: '0.8rem'}}>Clique em "Ver mais" para lista completa</p>}
         </div>
       </div>
-
-      {/* ÁREA DE BOTÕES PADRONIZADA */}
-      <div className="saberMaisAreaButton" style={{ 
-        display: 'grid', 
-        gridTemplateColumns: '1fr 1fr', 
-        gap: '8px', 
-        marginTop: '15px' 
-      }}>
-        {/* BOTÃO 1: VER MAIS (Abre Modal) */}
-        <button 
-          className="saberMais-button" 
-          onPointerDown={handleClick}
-          style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
-        >
-          <Info size={16} /> Ver mais
-        </button>
-        
-        {/* BOTÃO 2: VER PÁGINA (Link Direto) */}
-        <a 
-          href={`/paroquias/${safeDados.id}`} 
-          className="saberMais-button"
-          style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
-        >
-          <ExternalLink size={16} /> Página
-        </a>
-
-        {/* BOTÃO 3: ROTA (Ocupa a largura total na segunda linha do grid interno) */}
-        <button 
-          onClick={abrirNoMaps} 
-          className="saberMais-button" 
-          style={{ 
-            gridColumn: '1 / -1',
-            background: '#f1f5f9', 
-            color: '#243B55', 
-            border: '1px solid #e2e8f0',
-            width: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '8px'
-          }}
-        >
-          <MapPinned size={18} /> Como Chegar
-        </button>
-      </div>
-    </div>
+      <Footer />
+    </>
   );
 }
