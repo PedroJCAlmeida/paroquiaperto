@@ -2,7 +2,8 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Pencil, Trash2, PlusCircle, Save, X, Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Pencil, Trash2, PlusCircle, Save, X, Search, ChevronLeft, ChevronRight, Target } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import Toast from '@/components/Toast';
 import AlertModal from '@/components/AlertModal';
 
@@ -10,6 +11,12 @@ import '@/styles/BackofficeLayout.css';
 import '@/styles/Backoffice.css';
 
 import type { Paroquia, Distrito, Conselho } from '@/types';
+
+// Importação dinâmica fora do componente para performance
+const Mapa = dynamic(() => import('@/components/Mapa'), { 
+  ssr: false,
+  loading: () => <div style={{ height: '300px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '8px' }}>A carregar mapa...</div>
+});
 
 export default function ListarParoquias() {
   const router = useRouter();
@@ -29,11 +36,6 @@ export default function ListarParoquias() {
   const [submitting, setSubmitting] = useState(false);
   const [editForm, setEditForm] = useState<any>({});
 
-  const Mapa = dynamic(() => import('@/components/Mapa'), { 
-  ssr: false,
-  loading: () => <div style={{ height: '300px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>A carregar mapa...</div>
-});
-  // 1. Carregar Paróquias e Distritos
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -49,7 +51,6 @@ export default function ListarParoquias() {
     fetchData();
   }, []);
 
-  // 2. Carregar Conselhos quando o Distrito muda (Edição)
   useEffect(() => {
     if (!editForm.distritoId) {
       setConselhos([]);
@@ -60,22 +61,6 @@ export default function ListarParoquias() {
       .then((data) => setConselhos(Array.isArray(data) ? data : []))
       .catch(() => setConselhos([]));
   }, [editForm.distritoId]);
-
-  const handleDelete = async (id: number, nome: string) => {
-    if (!confirm(`Tem certeza que deseja remover a paróquia "${nome}"?`)) return;
-    try {
-      const token = localStorage.getItem('token');
-      const res = await fetch(`/api/paroquias/${id}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (!res.ok) throw new Error();
-      setToast({ show: true, type: 'success', message: 'Paróquia removida com sucesso!' });
-      setParoquias(prev => prev.filter(p => p.id !== id));
-    } catch {
-      setToast({ show: true, type: 'error', message: 'Erro ao remover a paróquia.' });
-    }
-  };
 
   const startEdit = (p: Paroquia) => {
     const partes = p.endereco?.split(', ') || [];
@@ -91,6 +76,8 @@ export default function ListarParoquias() {
       telefone: p.telefone || '',
       email: p.email || '',
       descricao: p.descricao || '',
+      lat: p.lat || '',
+      lng: p.lng || ''
     });
   };
 
@@ -128,7 +115,7 @@ export default function ListarParoquias() {
   const paginated = filteredParoquias.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
   
   return (
-    <div className="bo-container">
+    <div className="backoffice-page" style={{ maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
       <Toast {...toast} onClose={() => setToast(t => ({ ...t, show: false }))} />
       <AlertModal {...alert} onClose={() => setAlert(a => ({ ...a, show: false }))} />
 
@@ -137,7 +124,7 @@ export default function ListarParoquias() {
         <div style={{ display: 'flex', gap: '1rem' }}>
           <div style={{ position: 'relative' }}>
             <Search size={18} style={{ position: 'absolute', left: '10px', top: '12px', color: '#94a3b8' }} />
-            <input className="form-input" style={{ paddingLeft: '35px' }} placeholder="Pesquisar..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+            <input className="form-input" style={{ paddingLeft: '35px', width: '300px' }} placeholder="Pesquisar..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
           </div>
           <Link href="/backoffice/paroquias/novo" className="bo-btn bo-btn-primary">
             <PlusCircle size={18} /> Novo
@@ -148,65 +135,89 @@ export default function ListarParoquias() {
       <div className="bo-list">
         {paginated.map((p) => (
           editingId === p.id ? (
-            <div key={p.id} className="backoffice-form" style={{ background: '#fff', padding: '2rem', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '1.5rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                <h3 style={{ margin: 0 }}>Editar Paróquia</h3>
-                <X size={24} onClick={() => setEditingId(null)} style={{ cursor: 'pointer' }} />
+            /* FORMULÁRIO DE EDIÇÃO LARGURA TOTAL COM DUAS COLUNAS */
+            <div key={p.id} className="backoffice-form" style={{ background: '#fff', padding: '2.5rem', borderRadius: '16px', border: '1px solid #e2e8f0', marginBottom: '2rem', width: '100%' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2rem', borderBottom: '1px solid #f1f5f9', paddingBottom: '1rem' }}>
+                <h3 style={{ margin: 0, fontSize: '1.5rem' }}>Editar Paróquia: <span style={{ color: '#6366f1' }}>{p.nome}</span></h3>
+                <X size={28} onClick={() => setEditingId(null)} style={{ cursor: 'pointer', color: '#94a3b8' }} />
               </div>
               
-              <section className="bo-section">
-                <h3>Dados Básicos</h3>
-                <label>Nome da Paróquia
-                  <input type="text" className="form-input" value={editForm.nome} onChange={e => setEditForm({...editForm, nome: e.target.value})} />
-                </label>
-                <label>Descrição
-                  <textarea className="form-input" rows={3} value={editForm.descricao} onChange={e => setEditForm({...editForm, descricao: e.target.value})} />
-                </label>
-              </section>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem' }}>
+                {/* COLUNA ESQUERDA: FORMULÁRIO */}
+                <div>
+                  <section className="bo-section" style={{ padding: 0, border: 'none', background: 'none' }}>
+                    <h4 style={{ marginBottom: '1rem' }}>Dados Básicos</h4>
+                    <label>Nome da Paróquia
+                      <input type="text" className="form-input" value={editForm.nome} onChange={e => setEditForm({...editForm, nome: e.target.value})} />
+                    </label>
+                    <label style={{ marginTop: '1rem' }}>Descrição
+                      <textarea className="form-input" rows={4} value={editForm.descricao} onChange={e => setEditForm({...editForm, descricao: e.target.value})} />
+                    </label>
+                  </section>
 
-              <section className="bo-section">
-                <h3 className="bo-h3-purple">Endereço</h3>
-                <div className="bo-grid-2">
-                  <label>Rua<input type="text" className="form-input" value={editForm.rua} onChange={e => setEditForm({...editForm, rua: e.target.value})} /></label>
-                  <label>Número<input type="text" className="form-input" value={editForm.numero} onChange={e => setEditForm({...editForm, numero: e.target.value})} /></label>
-                  <label>Código Postal<input type="text" className="form-input" value={editForm.codigoPostal} onChange={e => setEditForm({...editForm, codigoPostal: e.target.value})} /></label>
-                  <label>Cidade<input type="text" className="form-input" value={editForm.cidade} onChange={e => setEditForm({...editForm, cidade: e.target.value})} /></label>
-                  
-                  <label>Distrito
-                    <select name="distritoId" value={editForm.distritoId} onChange={e => setEditForm({...editForm, distritoId: e.target.value, conselhoId: ''})} className="form-input">
-                      <option value="">Selecione um distrito</option>
-                      {distritos.map((d) => <option key={d.id} value={d.id}>{d.nome}</option>)}
-                    </select>
-                  </label>
-
-                  <label>Conselho
-                    <select name="conselhoId" value={editForm.conselhoId} onChange={e => setEditForm({...editForm, conselhoId: e.target.value})} disabled={!editForm.distritoId} className="form-input">
-                      <option value="">Selecione um conselho</option>
-                      {conselhos.map((c) => <option key={c.id} value={c.id}>{c.nome}</option>)}
-                    </select>
-                  </label>
+                  <section className="bo-section" style={{ padding: 0, border: 'none', background: 'none', marginTop: '2rem' }}>
+                    <h4 className="bo-h3-purple" style={{ marginBottom: '1rem' }}>Endereço</h4>
+                    <div className="bo-grid-2">
+                      <label>Rua<input type="text" className="form-input" value={editForm.rua} onChange={e => setEditForm({...editForm, rua: e.target.value})} /></label>
+                      <label>Número<input type="text" className="form-input" value={editForm.numero} onChange={e => setEditForm({...editForm, numero: e.target.value})} /></label>
+                      <label>Código Postal<input type="text" className="form-input" value={editForm.codigoPostal} onChange={e => setEditForm({...editForm, codigoPostal: e.target.value})} /></label>
+                      <label>Cidade<input type="text" className="form-input" value={editForm.cidade} onChange={e => setEditForm({...editForm, cidade: e.target.value})} /></label>
+                      
+                      <label>Distrito
+                        <select value={editForm.distritoId} onChange={e => setEditForm({...editForm, distritoId: e.target.value, conselhoId: ''})} className="form-input">
+                          <option value="">Distrito</option>
+                          {distritos.map((d) => <option key={d.id} value={d.id}>{d.nome}</option>)}
+                        </select>
+                      </label>
+                      <label>Conselho
+                        <select value={editForm.conselhoId} onChange={e => setEditForm({...editForm, conselhoId: e.target.value})} disabled={!editForm.distritoId} className="form-input">
+                          <option value="">Conselho</option>
+                          {conselhos.map((c) => <option key={c.id} value={c.id}>{c.nome}</option>)}
+                        </select>
+                      </label>
+                    </div>
+                  </section>
                 </div>
-              </section>
 
-              <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem' }}>
-                <button type="button" onClick={() => handleEditSubmit(p.id)} className="bo-btn bo-btn-primary" disabled={submitting}>
-                  {submitting ? 'A salvar...' : 'Salvar'}
+                {/* COLUNA DIREITA: MAPA */}
+                <div>
+                  <h4 style={{ marginBottom: '1rem' }}>Localização Geográfica</h4>
+                  <div style={{ height: '400px', borderRadius: '12px', overflow: 'hidden', border: '1px solid #e2e8f0' }}>
+                    {editForm.lat && editForm.lng && (
+                      <Mapa 
+                        coords={{ latitude: parseFloat(editForm.lat), longitude: parseFloat(editForm.lng) }}
+                        isEditable={true}
+                        onMarkerDrag={(lat, lng) => setEditForm((prev: any) => ({ ...prev, lat: lat.toFixed(7), lng: lng.toFixed(7) }))}
+                      />
+                    )}
+                  </div>
+                  <div className="bo-grid-2" style={{ marginTop: '1rem' }}>
+                    <label>Latitude <input type="text" className="form-input" value={editForm.lat} readOnly style={{ background: '#f8fafc' }} /></label>
+                    <label>Longitude <input type="text" className="form-input" value={editForm.lng} readOnly style={{ background: '#f8fafc' }} /></label>
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', gap: '1rem', marginTop: '3rem', borderTop: '1px solid #f1f5f9', paddingTop: '2rem' }}>
+                <button type="button" onClick={() => handleEditSubmit(p.id)} className="bo-btn bo-btn-primary" style={{ padding: '0.8rem 2.5rem' }} disabled={submitting}>
+                  <Save size={18} style={{ marginRight: '8px' }} /> {submitting ? 'A salvar...' : 'Salvar Alterações'}
                 </button>
-                <button type="button" onClick={() => setEditingId(null)} className="bo-btn bo-btn-light">Cancelar</button>
+                <button type="button" onClick={() => setEditingId(null)} className="bo-btn bo-btn-light" style={{ padding: '0.8rem 2.5rem' }}>Cancelar</button>
               </div>
             </div>
           ) : (
+            /* ITEM DA LISTA */
             <div key={p.id} className="bo-list-item" style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '1.25rem', marginBottom: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
-                <div style={{ fontWeight: '600', color: '#1e293b' }}>{p.nome}</div>
-                <div style={{ color: '#64748b', fontSize: '0.9rem' }}>{p.endereco}</div>
+                <div style={{ fontWeight: '600', color: '#1e293b', fontSize: '1.1rem' }}>{p.nome}</div>
+                <div style={{ color: '#64748b', fontSize: '0.9rem', marginTop: '4px' }}>{p.endereco}</div>
               </div>
-              <div style={{ display: 'flex', gap: '1rem' }}>
-                <button onClick={() => startEdit(p)} className="bo-btn bo-btn-light" style={{ padding: '8px 12px' }}>
-                  <Pencil size={15} /> <span>Editar</span>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <button onClick={() => startEdit(p)} className="bo-btn bo-btn-light" style={{ padding: '10px 15px' }}>
+                  <Pencil size={16} /> <span style={{ marginLeft: '6px' }}>Editar</span>
                 </button>
-                <button onClick={() => handleDelete(p.id, p.nome)} className="bo-btn bo-btn-light" style={{ color: '#e11d48', padding: '8px 12px' }}>
-                  <Trash2 size={15} /> <span>Remover</span>
+                <button onClick={() => handleDelete(p.id, p.nome)} className="bo-btn bo-btn-light" style={{ color: '#e11d48', padding: '10px 15px' }}>
+                  <Trash2 size={16} /> <span style={{ marginLeft: '6px' }}>Remover</span>
                 </button>
               </div>
             </div>
@@ -214,9 +225,9 @@ export default function ListarParoquias() {
         ))}
       </div>
       
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '2rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '3rem', paddingBottom: '2rem' }}>
         <button className="bo-btn bo-btn-light" onClick={() => setCurrentPage(c => Math.max(c-1, 1))} disabled={currentPage === 1}><ChevronLeft size={18}/></button>
-        <span style={{ alignSelf: 'center' }}>{currentPage} / {totalPages}</span>
+        <span style={{ alignSelf: 'center', fontWeight: '500' }}>Página {currentPage} de {totalPages}</span>
         <button className="bo-btn bo-btn-light" onClick={() => setCurrentPage(c => Math.min(c+1, totalPages))} disabled={currentPage === totalPages}><ChevronRight size={18}/></button>
       </div>
     </div>
