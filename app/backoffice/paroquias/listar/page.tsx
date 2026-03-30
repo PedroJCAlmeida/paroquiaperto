@@ -29,6 +29,10 @@ export default function ListarParoquias() {
   const [submitting, setSubmitting] = useState(false);
   const [editForm, setEditForm] = useState<any>({});
 
+  const Mapa = dynamic(() => import('@/components/Mapa'), { 
+  ssr: false,
+  loading: () => <div style={{ height: '300px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>A carregar mapa...</div>
+});
   // 1. Carregar Paróquias e Distritos
   useEffect(() => {
     const fetchData = async () => {
@@ -124,7 +128,7 @@ export default function ListarParoquias() {
   const paginated = filteredParoquias.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
   
   return (
-    <div className="backoffice-page">
+    <div className="bo-container">
       <Toast {...toast} onClose={() => setToast(t => ({ ...t, show: false }))} />
       <AlertModal {...alert} onClose={() => setAlert(a => ({ ...a, show: false }))} />
 
