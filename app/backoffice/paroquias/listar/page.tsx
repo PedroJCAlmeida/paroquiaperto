@@ -2,8 +2,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Pencil, Trash2, PlusCircle, Save, X, Search, ChevronLeft, ChevronRight, Target } from 'lucide-react';
-import dynamic from 'next/dynamic';
+import { Pencil, Trash2, PlusCircle, Save, X, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 import Toast from '@/components/Toast';
 import AlertModal from '@/components/AlertModal';
 
@@ -30,7 +29,7 @@ export default function ListarParoquias() {
   const [submitting, setSubmitting] = useState(false);
   const [editForm, setEditForm] = useState<any>({});
 
-  // 1. Carregar Dados Iniciais
+  // 1. Carregar Paróquias e Distritos
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -46,19 +45,27 @@ export default function ListarParoquias() {
     fetchData();
   }, []);
 
-  // 2. Lógica de Remoção (Delete)
+  // 2. Carregar Conselhos quando o Distrito muda (Edição)
+  useEffect(() => {
+    if (!editForm.distritoId) {
+      setConselhos([]);
+      return;
+    }
+    fetch(`/api/conselhos?distritoId=${editForm.distritoId}`)
+      .then((res) => res.json())
+      .then((data) => setConselhos(Array.isArray(data) ? data : []))
+      .catch(() => setConselhos([]));
+  }, [editForm.distritoId]);
+
   const handleDelete = async (id: number, nome: string) => {
     if (!confirm(`Tem certeza que deseja remover a paróquia "${nome}"?`)) return;
-    
     try {
       const token = localStorage.getItem('token');
       const res = await fetch(`/api/paroquias/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });
-
       if (!res.ok) throw new Error();
-
       setToast({ show: true, type: 'success', message: 'Paróquia removida com sucesso!' });
       setParoquias(prev => prev.filter(p => p.id !== id));
     } catch {
@@ -66,7 +73,6 @@ export default function ListarParoquias() {
     }
   };
 
-  // 3. Preparar Edição (Popular campos)
   const startEdit = (p: Paroquia) => {
     const partes = p.endereco?.split(', ') || [];
     setEditingId(p.id);
@@ -81,12 +87,9 @@ export default function ListarParoquias() {
       telefone: p.telefone || '',
       email: p.email || '',
       descricao: p.descricao || '',
-      lat: p.lat,
-      lng: p.lng
     });
   };
 
-  // 4. Submeter Edição (Put)
   const handleEditSubmit = async (id: number) => {
     setSubmitting(true);
     try {
@@ -94,8 +97,8 @@ export default function ListarParoquias() {
       const payload = {
         ...editForm,
         endereco: `${editForm.rua}, ${editForm.numero}, ${editForm.codigoPostal} ${editForm.cidade}`,
-        distritoId: parseInt(editForm.distritoId),
-        conselhoId: parseInt(editForm.conselhoId)
+        distritoId: editForm.distritoId ? parseInt(editForm.distritoId, 10) : null,
+        conselhoId: editForm.conselhoId ? parseInt(editForm.conselhoId, 10) : null
       };
 
       const res = await fetch(`/api/paroquias/${id}`, {
@@ -103,19 +106,16 @@ export default function ListarParoquias() {
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify(payload)
       });
-
       if (!res.ok) throw new Error();
 
       setToast({ show: true, type: 'success', message: 'Atualizado com sucesso!' });
       setEditingId(null);
-      // Atualiza a lista local
       setParoquias(prev => prev.map(item => item.id === id ? { ...item, ...payload, id } : item));
     } catch {
       setToast({ show: true, type: 'error', message: 'Erro ao salvar alterações.' });
     } finally { setSubmitting(false); }
   };
 
-  // Filtro e Paginação
   const filteredParoquias = useMemo(() => {
     return paroquias.filter(p => p.nome.toLowerCase().includes(searchTerm.toLowerCase()));
   }, [paroquias, searchTerm]);
@@ -144,7 +144,6 @@ export default function ListarParoquias() {
       <div className="bo-list">
         {paginated.map((p) => (
           editingId === p.id ? (
-            /* FORMULÁRIO DE EDIÇÃO IDENTICO AO INSERIR */
             <div key={p.id} className="backoffice-form" style={{ background: '#fff', padding: '2rem', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '1.5rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <h3 style={{ margin: 0 }}>Editar Paróquia</h3>
@@ -168,6 +167,20 @@ export default function ListarParoquias() {
                   <label>Número<input type="text" className="form-input" value={editForm.numero} onChange={e => setEditForm({...editForm, numero: e.target.value})} /></label>
                   <label>Código Postal<input type="text" className="form-input" value={editForm.codigoPostal} onChange={e => setEditForm({...editForm, codigoPostal: e.target.value})} /></label>
                   <label>Cidade<input type="text" className="form-input" value={editForm.cidade} onChange={e => setEditForm({...editForm, cidade: e.target.value})} /></label>
+                  
+                  <label>Distrito
+                    <select name="distritoId" value={editForm.distritoId} onChange={e => setEditForm({...editForm, distritoId: e.target.value, conselhoId: ''})} className="form-input">
+                      <option value="">Selecione um distrito</option>
+                      {distritos.map((d) => <option key={d.id} value={d.id}>{d.nome}</option>)}
+                    </select>
+                  </label>
+
+                  <label>Conselho
+                    <select name="conselhoId" value={editForm.conselhoId} onChange={e => setEditForm({...editForm, conselhoId: e.target.value})} disabled={!editForm.distritoId} className="form-input">
+                      <option value="">Selecione um conselho</option>
+                      {conselhos.map((c) => <option key={c.id} value={c.id}>{c.nome}</option>)}
+                    </select>
+                  </label>
                 </div>
               </section>
 
@@ -179,7 +192,6 @@ export default function ListarParoquias() {
               </div>
             </div>
           ) : (
-            /* ITEM DA LISTA */
             <div key={p.id} className="bo-list-item" style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '1.25rem', marginBottom: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
                 <div style={{ fontWeight: '600', color: '#1e293b' }}>{p.nome}</div>
@@ -187,17 +199,17 @@ export default function ListarParoquias() {
               </div>
               <div style={{ display: 'flex', gap: '1rem' }}>
                 <button onClick={() => startEdit(p)} className="bo-btn bo-btn-light" style={{ padding: '8px 12px' }}>
-                  <Pencil size={15} /> <span className="hide-mobile">Editar</span>
+                  <Pencil size={15} /> <span>Editar</span>
                 </button>
                 <button onClick={() => handleDelete(p.id, p.nome)} className="bo-btn bo-btn-light" style={{ color: '#e11d48', padding: '8px 12px' }}>
-                  <br><Trash2 size={15} /> <span className="hide-mobile">Remover</span><br> 
+                  <Trash2 size={15} /> <span>Remover</span>
                 </button>
+              </div>
             </div>
           )
         ))}
       </div>
       
-      {/* Paginação Simples */}
       <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '2rem' }}>
         <button className="bo-btn bo-btn-light" onClick={() => setCurrentPage(c => Math.max(c-1, 1))} disabled={currentPage === 1}><ChevronLeft size={18}/></button>
         <span style={{ alignSelf: 'center' }}>{currentPage} / {totalPages}</span>
