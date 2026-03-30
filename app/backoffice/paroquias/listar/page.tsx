@@ -186,12 +186,12 @@ export default function ListarParoquias() {
                 <div style={{ color: '#64748b', fontSize: '0.9rem' }}>{p.endereco}</div>
               </div>
               <div style={{ display: 'flex', gap: '1rem' }}>
-                <button onClick={() => startEdit(p)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#475569', textAlign: 'center' }}>
-                  <Pencil size={18} /> <div style={{ fontSize: '0.7rem' }}>Editar</div>
+                <button onClick={() => startEdit(p)} className="bo-btn bo-btn-light" style={{ padding: '8px 12px' }}>
+                  <br><Pencil size={15} /> <span className="hide-mobile">Editar</span><br>
                 </button>
-                <button onClick={() => handleDelete(p.id, p.nome)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#e11d48', textAlign: 'center' }}>
-                  <Trash2 size={18} /> <div style={{ fontSize: '0.7rem' }}>Remover</div>
-                </button>
+                <br><button onClick={() => handleDelete(p.id, p.nome)} className="bo-btn bo-btn-light" style={{ color: '#e11d48', padding: '8px 12px' }}>
+                  <br><Trash2 size={15} /> <span className="hide-mobile">Remover</span><br> 
+                </button><br> 
               </div>
             </div>
           )
