@@ -87,23 +87,42 @@ export default function ListarParoquias() {
   };
 
   const handleConfirmDelete = async () => {
-    if (!paroquiaToDelete) return;
-    try {
-      const token = localStorage.getItem('token');
-      const res = await fetch(`/api/paroquias/${paroquiaToDelete.id}`, { 
-        method: 'DELETE', 
-        headers: { Authorization: `Bearer ${token}` } 
-      });
-      if (!res.ok) throw new Error();
-      setToast({ show: true, type: 'success', message: 'Paróquia removida com sucesso!' });
-      setParoquias(prev => prev.filter(p => p.id !== paroquiaToDelete.id));
-    } catch { 
-      setToast({ show: true, type: 'error', message: 'Erro ao remover paróquia.' }); 
-    } finally {
-      setShowDeleteConfirm(false);
-      setParoquiaToDelete(null);
+  if (!paroquiaToDelete) return;
+
+  try {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`/api/paroquias/${paroquiaToDelete.id}`, { 
+      method: 'DELETE', 
+      headers: { Authorization: `Bearer ${token}` } 
+    });
+    
+    if (!res.ok) {
+        if (res.status === 401) {
+            localStorage.removeItem('token');
+            router.replace('/login');
+            return;
+        }
+        throw new Error('Erro ao remover');
     }
-  };
+    
+    // SUCESSO:
+    setToast({ show: true, type: 'success', message: 'Paróquia removida com sucesso!' });
+    
+    // ATUALIZAÇÃO DA LISTA: 
+    // Opção 1: Chamar a função de busca novamente (Igual ao exemplo de Eventos)
+    fetchData(); 
+    
+    // Opção 2: Filtrar o estado local (mais rápido visualmente)
+    // setParoquias(prev => prev.filter(p => p.id !== paroquiaToDelete.id));
+
+  } catch (error) {
+    setToast({ show: true, type: 'error', message: 'Erro ao remover paróquia.' });
+  } finally {
+    // FECHAR O MODAL E LIMPAR O ESTADO
+    setShowDeleteConfirm(false);
+    setParoquiaToDelete(null);
+  }
+};
 
   const handleEditSubmit = async (id: number) => {
     setSubmitting(true);
@@ -149,23 +168,36 @@ export default function ListarParoquias() {
   return (
     <div className="bo-container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
       <Toast {...toast} onClose={() => setToast(t => ({ ...t, show: false }))} />
+      
+      {/* 1. Usamos o AlertModal apenas para Avisos Simples (Erro/Sucesso) */}
       <AlertModal {...alert} onClose={() => setAlert(a => ({ ...a, show: false }))} />
 
-      {/* Modal de Confirmação de Eliminação Customizado para evitar erro de build */}
+      {/* 2. Modal de Confirmação de Eliminação Customizado (Garante o Build OK) */}
       {showDeleteConfirm && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999 }}>
-          <div style={{ background: 'white', padding: '2rem', borderRadius: '16px', maxWidth: '400px', width: '90%', textAlign: 'center', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
-            <div style={{ color: '#e11d48', marginBottom: '1rem' }}><Trash2 size={48} style={{ margin: '0 auto' }} /></div>
-            <h3 style={{ margin: '0 0 1rem' }}>Confirmar Remoção</h3>
-            <p style={{ color: '#64748b', marginBottom: '2rem' }}>Tem certeza que deseja remover permanentemente a paróquia <strong>{paroquiaToDelete?.nome}</strong>?</p>
+          <div style={{ background: 'white', padding: '2.5rem', borderRadius: '20px', maxWidth: '450px', width: '90%', textAlign: 'center', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}>
+            <div style={{ color: '#e11d48', marginBottom: '1.5rem' }}><Trash2 size={56} style={{ margin: '0 auto' }} /></div>
+            <h3 style={{ fontSize: '1.5rem', color: '#1e293b', marginBottom: '1rem' }}>Confirmar Remoção</h3>
+            <p style={{ color: '#64748b', fontSize: '1.1rem', lineHeight: '1.5', marginBottom: '2.5rem' }}>
+              Tem certeza que deseja remover permanentemente a paróquia <strong>{paroquiaToDelete?.nome}</strong>? Esta ação não pode ser desfeita.
+            </p>
             <div style={{ display: 'flex', gap: '1rem' }}>
-              <button onClick={handleConfirmDelete} style={{ flex: 1, padding: '12px', borderRadius: '8px', border: 'none', background: '#e11d48', color: 'white', fontWeight: '600', cursor: 'pointer' }}>Remover</button>
-              <button onClick={() => setShowDeleteConfirm(false)} style={{ flex: 1, padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0', background: 'white', color: '#64748b', fontWeight: '600', cursor: 'pointer' }}>Cancelar</button>
+              <button 
+                onClick={handleConfirmDelete} 
+                style={{ flex: 1, padding: '14px', borderRadius: '12px', border: 'none', background: '#e11d48', color: 'white', fontWeight: '700', fontSize: '1rem', cursor: 'pointer', transition: 'background 0.2s' }}
+              >
+                Sim, Remover
+              </button>
+              <button 
+                onClick={() => setShowDeleteConfirm(false)} 
+                style={{ flex: 1, padding: '14px', borderRadius: '12px', border: '1px solid #e2e8f0', background: 'white', color: '#64748b', fontWeight: '700', fontSize: '1rem', cursor: 'pointer' }}
+              >
+                Cancelar
+              </button>
             </div>
           </div>
         </div>
       )}
-
       <div className="bo-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
         <h2 className="bo-title" style={{ fontSize: '2rem', color: '#243B55' }}>Gestão de Paróquias</h2>
         <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
