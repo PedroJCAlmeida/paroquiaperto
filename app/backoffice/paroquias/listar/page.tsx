@@ -35,6 +35,9 @@ export default function ListarParoquias() {
   const [imagemPreview, setImagemPreview] = useState<string>('');
   const [imagemFile, setImagemFile] = useState<File | null>(null);
 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [paroquiaToDelete, setParoquiaToDelete] = useState<{ id: number, nome: string } | null>(null);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -77,6 +80,34 @@ export default function ListarParoquias() {
     });
   };
 
+  const handleDeleteClick = (id: number, nome: string) => {
+  setParoquiaToDelete({ id, nome });
+  setShowDeleteModal(true);
+};
+  
+const confirmDelete = async () => {
+  if (!paroquiaToDelete) return;
+  
+  try {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`/api/paroquias/${paroquiaToDelete.id}`, { 
+      method: 'DELETE', 
+      headers: { Authorization: `Bearer ${token}` } 
+    });
+    
+    if (!res.ok) throw new Error();
+    
+    setToast({ show: true, type: 'success', message: 'Paróquia removida com sucesso!' });
+    setParoquias(prev => prev.filter(p => p.id !== paroquiaToDelete.id));
+  } catch {
+    setToast({ show: true, type: 'error', message: 'Erro ao remover paróquia.' });
+  } finally {
+    setShowDeleteModal(false);
+    setParoquiaToDelete(null);
+  }
+};
+  
+  
   const handleDelete = async (id: number, nome: string) => {
     if (!confirm(`Remover paróquia "${nome}"?`)) return;
     try {
@@ -132,7 +163,14 @@ export default function ListarParoquias() {
   return (
     <div className="bo-container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
       <Toast {...toast} onClose={() => setToast(t => ({ ...t, show: false }))} />
-      <AlertModal {...alert} onClose={() => setAlert(a => ({ ...a, show: false }))} />
+      <AlertModal 
+      show={showDeleteModal} 
+      type="warning" 
+      title="Confirmar Remoção" 
+      message={`Tem certeza que deseja remover permanentemente a paróquia "${paroquiaToDelete?.nome}"?`} 
+      onClose={() => setShowDeleteModal(false)}
+      onConfirm={confirmDelete} // Certifique-se que seu AlertModal aceita onConfirm para mostrar o botão de ação
+    />
 
       <div className="bo-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
         <h2 className="bo-title" style={{ fontSize: '2rem', color: '#243B55' }}>Gestão de Paróquias</h2>
@@ -232,7 +270,7 @@ export default function ListarParoquias() {
                 <button onClick={() => startEdit(p)} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 22px', borderRadius: '10px', border: 'none', background: '#f1f5f9', color: '#475569', fontWeight: '600', cursor: 'pointer' }}>
                   <Pencil size={18} /> Editar
                 </button>
-                <button onClick={() => handleDelete(p.id, p.nome)} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 22px', borderRadius: '10px', border: 'none', background: '#fff1f2', color: '#e11d48', fontWeight: '600', cursor: 'pointer' }}>
+                <button onClick={() => handleDeleteClick(p.id, p.nome)} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 22px', borderRadius: '10px', border: 'none', background: '#fff1f2', color: '#e11d48', fontWeight: '600', cursor: 'pointer' }}>
                   <Trash2 size={18} /> Remover
                 </button>
               </div>
