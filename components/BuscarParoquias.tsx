@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import '@/styles/BuscarParoquias.css';
 import type { Paroquia, Distrito, Conselho } from '@/types';
 import { useRouter } from 'next/navigation';
-import { ChevronLeft, ChevronRight } from 'lucide-react'; // Instale lucide-react se não tiver
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface BuscarParoquiasProps {
   embedded?: boolean;
@@ -25,11 +25,10 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
 
   // --- Estados da Paginação ---
   const [paginaAtual, setPaginaAtual] = useState(1);
-  const paroquiasPorPagina = 12; 
+  const paroquiasPorPagina = 6; 
 
   const buscaTrim = busca.trim().toLowerCase();
 
-  // Resetar para a página 1 sempre que um filtro mudar
   useEffect(() => {
     setPaginaAtual(1);
   }, [buscaTrim, raio, lat, lng, distrito, conselho]);
@@ -94,7 +93,6 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
       .catch(() => setParoquias([]));
   }, [buscaTrim, raio, lat, lng, distrito, conselho]);
 
-  // --- Lógica de Paginação ---
   const indiceUltima = paginaAtual * paroquiasPorPagina;
   const indicePrimeira = indiceUltima - paroquiasPorPagina;
   const paroquiasExibidas = paroquias.slice(indicePrimeira, indiceUltima);
@@ -119,9 +117,74 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
           </h2>
         )}
         
-        {/* Formulário (Mantido igual ao seu) */}
-        <form style={{ /* Seus estilos atuais */ }}>
-            {/* ... Seus inputs e selects ... */}
+        {/* FORMULÁRIO COMPLETO RESTAURADO */}
+        <form
+          style={{
+            background: 'rgba(255,255,255,0.98)',
+            borderRadius: '26px',
+            boxShadow: '0 6px 36px rgba(60,60,120,0.15)',
+            padding: isMobile ? '24px 8px' : embedded ? '28px 24px' : '44px 38px',
+            display: 'flex',
+            flexDirection: isMobile ? 'column' : 'row',
+            gap: isMobile ? '18px' : '36px',
+            flexWrap: 'wrap',
+            alignItems: isMobile ? 'center' : 'flex-end',
+            justifyContent: 'center',
+            border: '2px solid #e0e7ff',
+            marginBottom: 32,
+            width: '100%',
+            maxWidth: isMobile ? 400 : embedded ? 840 : 760,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}
+        >
+          <label style={{ fontWeight: 800, color: '#243B55', fontSize: isMobile ? '1.08rem' : '1.18rem', minWidth: isMobile ? 120 : 220, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
+            <span style={{ marginBottom: 2 }}>Buscar Paróquia</span>
+            <input
+              type="text"
+              placeholder="Digite o nome ou horário"
+              value={busca}
+              onChange={(e) => setBusca(e.target.value)}
+              style={{ width: '100%', padding: isMobile ? '10px' : '14px', borderRadius: '14px', border: '2px solid #a5b4fc', marginTop: 2, fontSize: isMobile ? '1rem' : '1.12rem', background: '#f8fafc', outline: 'none' }}
+            />
+          </label>
+          <label style={{ fontWeight: 700, color: '#243B55', fontSize: isMobile ? '1rem' : '1.12rem', minWidth: isMobile ? 120 : 180, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
+            <span>Distrito</span>
+            <select value={distrito} onChange={(e) => setDistrito(e.target.value)} style={{ width: '100%', padding: isMobile ? '10px' : '14px', borderRadius: '14px', border: '2px solid #a5b4fc', marginTop: 2, fontSize: isMobile ? '1rem' : '1.12rem', background: '#f8fafc' }}>
+              <option value="">Selecione o distrito</option>
+              {distritos.map((d) => <option key={d.id} value={String(d.id)}>{d.nome}</option>)}
+            </select>
+          </label>
+          <label style={{ fontWeight: 700, color: '#243B55', fontSize: isMobile ? '1rem' : '1.12rem', minWidth: isMobile ? 120 : 180, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
+            <span>Conselho</span>
+            <select value={conselho} onChange={(e) => setConselho(e.target.value)} disabled={!distrito} style={{ width: '100%', padding: isMobile ? '10px' : '14px', borderRadius: '14px', border: '2px solid #a5b4fc', marginTop: 2, fontSize: isMobile ? '1rem' : '1.12rem', background: !distrito ? '#f3f3f3' : '#f8fafc' }}>
+              <option value="">Selecione o conselho</option>
+              {conselhos.map((c) => <option key={c.id} value={String(c.id)}>{c.nome}</option>)}
+            </select>
+          </label>
+          <label style={{ fontWeight: 800, color: '#A67C52', fontSize: isMobile ? '1rem' : '1.18rem', minWidth: isMobile ? 120 : 180, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
+            <span>Raio de busca</span>
+            <select value={raio} onChange={(e) => setRaio(Number(e.target.value))} disabled={!!distrito || !!conselho} style={{ width: '100%', padding: isMobile ? '12px' : '16px', borderRadius: '16px', border: '2px solid #A67C52', marginTop: 4, fontSize: isMobile ? '1rem' : '1.18rem', background: distrito || conselho ? '#f3f3f3' : '#f8fafc', color: '#243B55', fontWeight: 800 }}>
+              {[5, 10, 20, 50, 100].map((v) => <option key={v} value={v}>{v} km</option>)}
+            </select>
+          </label>
+          <div style={{ display: 'flex', flexDirection: 'row', gap: 18, alignItems: 'center', marginTop: 12 }}>
+            <button
+              type="button"
+              disabled={!!distrito || !!conselho}
+              style={{ padding: '16px 32px', fontSize: '1.15rem', borderRadius: '14px', background: distrito || conselho ? '#cbd5e1' : 'linear-gradient(135deg,#243B55 0%,#3E5C76 100%)', color: distrito || conselho ? '#334155' : '#fff', border: 'none', cursor: distrito || conselho ? 'not-allowed' : 'pointer', fontWeight: 800 }}
+              onClick={() => {
+                if (navigator.geolocation) {
+                  navigator.geolocation.getCurrentPosition(
+                    (pos) => { setLat(pos.coords.latitude); setLng(pos.coords.longitude); },
+                    () => alert('Não foi possível obter sua localização.'),
+                  );
+                }
+              }}
+            >
+              Usar minha localização
+            </button>
+          </div>
         </form>
 
         <div style={{ marginTop: 48 }}>
@@ -131,61 +194,11 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
             </p>
           )}
 
-          {/* Grid de Resultados (Usa agora paroquiasExibidas) */}
+          {/* GRID DE CARDS RESTAURADO COM DADOS */}
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(340px, 1fr))', gap: isMobile ? '18px' : '32px' }}>
             {paroquiasExibidas.map((p) => (
-               <div key={p.id} style={{ background: 'linear-gradient(120deg,#fff 80%,#fde68a 100%)', borderRadius: '22px', boxShadow: '0 6px 32px rgba(60,60,120,0.15)', padding: '28px 22px', display: 'flex', gap: '18px', alignItems: 'flex-start', minHeight: 180, border: '2px solid #A67C52' }}>
-                  {/* ... Conteúdo do seu card ... */}
-               </div>
-            ))}
-          </div>
-
-          {/* --- Componente de Paginação (Só aparece se totalPaginas > 1) --- */}
-          {totalPaginas > 1 && (
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 12, marginTop: 40 }}>
-              <button
-                disabled={paginaAtual === 1}
-                onClick={() => setPaginaAtual(prev => prev - 1)}
-                style={{ padding: '10px', borderRadius: '50%', border: '1px solid #A67C52', background: paginaAtual === 1 ? '#f3f3f3' : '#fff', cursor: paginaAtual === 1 ? 'not-allowed' : 'pointer', color: '#A67C52' }}
-              >
-                <ChevronLeft size={24} />
-              </button>
-              
-              <div style={{ display: 'flex', gap: 8 }}>
-                {[...Array(totalPaginas)].map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setPaginaAtual(i + 1)}
-                    style={{
-                      width: 40,
-                      height: 40,
-                      borderRadius: '10px',
-                      border: 'none',
-                      background: paginaAtual === i + 1 ? '#A67C52' : '#fff',
-                      color: paginaAtual === i + 1 ? '#fff' : '#243B55',
-                      fontWeight: 700,
-                      cursor: 'pointer',
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-                    }}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
-              </div>
-
-              <button
-                disabled={paginaAtual === totalPaginas}
-                onClick={() => setPaginaAtual(prev => prev + 1)}
-                style={{ padding: '10px', borderRadius: '50%', border: '1px solid #A67C52', background: paginaAtual === totalPaginas ? '#f3f3f3' : '#fff', cursor: paginaAtual === totalPaginas ? 'not-allowed' : 'pointer', color: '#A67C52' }}
-              >
-                <ChevronRight size={24} />
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default BuscarParoquias;
+                <div key={p.id} style={{ background: 'linear-gradient(120deg,#fff 80%,#fde68a 100%)', borderRadius: '22px', boxShadow: '0 6px 32px rgba(60,60,120,0.15)', padding: '28px 22px', display: 'flex', gap: '18px', alignItems: 'flex-start', minHeight: 180, border: '2px solid #A67C52' }}>
+                  {p.imagem && <img src={p.imagem} alt={p.nome} style={{ width: 100, height: 100, objectFit: 'cover', borderRadius: '16px', marginRight: 16 }} />}
+                  <div style={{ flex: 1 }}>
+                    <h3
+                      style={{ fontSize: '1.35rem', fontWeight: 900, color: '#243B55', marginBottom
