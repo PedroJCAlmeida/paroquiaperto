@@ -1,15 +1,14 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
-import { Plus } from 'lucide-react';
+import { Plus, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ParoquiaCard from '@/components/ParoquiaCard';
 import '@/styles/Paroquias.css';
 import type { Paroquia, Distrito, Conselho } from '@/types';
 
-// O Mapa precisa de ser carregado dinamicamente para não dar erro de "window is not defined"
 const Mapa = dynamic(() => import('@/components/Mapa'), { 
   ssr: false,
   loading: () => <div style={{ height: '400px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Carregando mapa...</div>
@@ -32,7 +31,6 @@ function calcularDistancia(lat1: number, lon1: number, lat2: number, lon2: numbe
   return R * c;
 }
 
-// ESTA FUNÇÃO NÃO PODE RECEBER "DADOS" NAS PROPS, POR ISSO DAVA ERRO NO VERCEL
 export default function ParoquiasPage() {
   const router = useRouter();
   const [distritos, setDistritos] = useState<Distrito[]>([]);
@@ -43,13 +41,18 @@ export default function ParoquiasPage() {
   const [conselho, setConselho] = useState('');
   const [km, setKm] = useState('10');
   const [token, setToken] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Paginação
+  const [paginaAtual, setPaginaAtual] = useState(1);
+  const itensPorPagina = 6;
 
   useEffect(() => {
     setToken(localStorage.getItem('token'));
     
     fetch('/api/distritos')
       .then((res) => res.json())
-      .then((data: Distrito[]) => setDistritos(Array.isArray(data) ? data : []))
+      .then((data) => setDistritos(Array.isArray(data) ? data : []))
       .catch(() => setDistritos([]));
   }, []);
 
@@ -61,7 +64,7 @@ export default function ParoquiasPage() {
     }
     fetch(`/api/conselhos?distritoId=${distrito}`)
       .then((res) => res.json())
-      .then((data: Conselho[]) => setConselhos(Array.isArray(data) ? data : []))
+      .then((data) => setConselhos(Array.isArray(data) ? data : []))
       .catch(() => setConselhos([]));
     setConselho('');
   }, [distrito]);
@@ -70,166 +73,149 @@ export default function ParoquiasPage() {
     const fetchParoquias = async (latitude?: number, longitude?: number) => {
       try {
         const res = await fetch('/api/paroquias');
-        const data = (await res.json()) as Paroquia[];
+        const data = await res.json();
         let paroquias = data;
         if (latitude !== undefined && longitude !== undefined) {
           paroquias = paroquias
-            .map((p) => ({
+            .map((p: any) => ({
               ...p,
               distancia: calcularDistancia(latitude, longitude, parseFloat(p.lat), parseFloat(p.lng)),
             }))
-            .sort((a, b) => (a.distancia ?? 0) - (b.distancia ?? 0));
+            .sort((a: any, b: any) => (a.distancia ?? 0) - (b.distancia ?? 0));
         }
         setLista(paroquias);
       } catch {
         setLista([]);
+      } finally {
+        setLoading(false);
       }
     };
 
-    if (!navigator.geolocation) {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        ({ coords: { latitude, longitude } }) => {
+          setCoords({ latitude, longitude });
+          fetchParoquias(latitude, longitude);
+        },
+        () => fetchParoquias()
+      );
+    } else {
       fetchParoquias();
-      return;
     }
-    navigator.geolocation.getCurrentPosition(
-      ({ coords: { latitude, longitude } }) => {
-        setCoords({ latitude, longitude });
-        fetchParoquias(latitude, longitude);
-      },
-      () => fetchParoquias(),
-    );
   }, []);
 
-  const listaFiltrada = (): Paroquia[] => {
+  // Filtro Memoizado para performance
+  const filtradas = useMemo(() => {
+    setPaginaAtual(1); // Volta para pag 1 ao filtrar
     return lista.filter((p) => {
       if (distrito || conselho) {
-        if (distrito && (!p.distrito || String(p.distrito.id) !== String(distrito))) return false;
-        if (conselho && (!p.conselho || String(p.conselho.id) !== String(conselho))) return false;
+        if (distrito && String(p.distritoId) !== String(distrito)) return false;
+        if (conselho && String(p.conselhoId) !== String(conselho)) return false;
         return true;
       }
       if (km && coords && p.lat && p.lng) {
-        const dist = calcularDistancia(
-          coords.latitude,
-          coords.longitude,
-          parseFloat(p.lat),
-          parseFloat(p.lng),
-        );
-        if (dist > Number(km)) return false;
+        const dist = calcularDistancia(coords.latitude, coords.longitude, parseFloat(p.lat), parseFloat(p.lng));
+        return dist <= Number(km);
       }
       return true;
     });
-  };
+  }, [lista, distrito, conselho, km, coords]);
+
+  // Lógica de Paginação
+  const totalPaginas = Math.ceil(filtradas.length / itensPorPagina);
+  const inicio = (paginaAtual - 1) * itensPorPagina;
+  const paroquiasExibidas = filtradas.slice(inicio, inicio + itensPorPagina);
 
   const handleRegistarParoquia = () => {
-    if (!token) {
-      router.push('/register?redirect=/backoffice/paroquias&message=Registe-se para registar uma paroquia');
-    } else {
-      router.push('/backoffice/paroquias');
-    }
+    const path = '/backoffice/paroquias';
+    token ? router.push(path) : router.push(`/register?redirect=${path}`);
   };
 
   return (
     <>
+      <Navbar />
       <div className="paroquias-page">
-        <Navbar />
         
-        {/* HEADER COM BOTÃO GRADIENTE */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px', borderBottom: '1px solid #e5e7eb' }}>
-          <h2 className="paroquias-title" style={{ margin: 0 }}>Paróquias Próximas</h2>
-          <button 
-            onClick={handleRegistarParoquia}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '10px 16px',
-              background: 'linear-gradient(135deg, #243B55 0%, #3E5C76 100%)',
-              color: 'white',
-              border: 'none',
-              borderRadius: '8px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              fontSize: '0.95rem',
-              boxShadow: '0 2px 8px rgba(30, 64, 175, 0.2)',
-              transition: 'all 0.3s'
-            }}
-          >
-            <Plus size={18} />
-            Registar Paróquia
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px', maxWidth: '1200px', margin: '0 auto' }}>
+          <h2 className="paroquias-title" style={{ margin: 0, fontWeight: 900, color: '#243B55' }}>Paróquias Próximas</h2>
+          <button onClick={handleRegistarParoquia} className="btn-registar-gradiente">
+            <Plus size={18} /> Registar Paróquia
           </button>
         </div>
 
-        {/* FILTROS ORIGINAIS */}
-        <div className="paroquias-filters">
-          <select
-            value={distrito}
-            onChange={(e) => {
-              setDistrito(e.target.value);
-              if (e.target.value) {
-                setKm('');
-                setConselho('');
-              }
-            }}
-            className="paroquias-select paroquias-select--distrito"
-          >
-            <option value="">Distrito</option>
-            {distritos.map((d) => (
-              <option key={d.id} value={d.id}>{d.nome}</option>
-            ))}
+        <div className="paroquias-filters" style={{ maxWidth: '1200px', margin: '0 auto 24px' }}>
+          <select value={distrito} onChange={(e) => setDistrito(e.target.value)} className="paroquias-select">
+            <option value="">Distrito (Todos)</option>
+            {distritos.map((d) => <option key={d.id} value={d.id}>{d.nome}</option>)}
           </select>
 
-          <select
-            value={conselho}
-            onChange={(e) => {
-              setConselho(e.target.value);
-              if (e.target.value) setKm('');
-            }}
-            className={`paroquias-select paroquias-select--conselho${!distrito ? ' paroquias-select--disabled' : ''}`}
-            disabled={!distrito}
-          >
-            <option value="">Conselho</option>
-            {conselhos.map((c) => (
-              <option key={c.id} value={c.id}>{c.nome}</option>
-            ))}
+          <select value={conselho} onChange={(e) => setConselho(e.target.value)} disabled={!distrito} className="paroquias-select">
+            <option value="">Conselho (Todos)</option>
+            {conselhos.map((c) => <option key={c.id} value={c.id}>{c.nome}</option>)}
           </select>
 
-          <select
-            value={km}
-            onChange={(e) => {
-              setKm(e.target.value);
-              if (e.target.value) {
-                setDistrito('');
-                setConselho('');
-              }
-            }}
-            className={`paroquias-select paroquias-select--km${distrito || conselho ? ' paroquias-select--disabled' : ''}`}
-            disabled={!!distrito || !!conselho}
-          >
+          <select value={km} onChange={(e) => setKm(e.target.value)} disabled={!!distrito} className="paroquias-select">
             <option value="">Raio (km)</option>
-            <option value={5}>5 km</option>
-            <option value={10}>10 km</option>
-            <option value={20}>20 km</option>
-            <option value={50}>50 km</option>
-            <option value={100}>100 km</option>
+            {[5, 10, 20, 50, 100].map(v => <option key={v} value={v}>{v} km</option>)}
           </select>
         </div>
 
-        <div className="paroquias-mapa">
-          <Mapa paroquias={listaFiltrada()} coords={coords} />
+        <div className="paroquias-mapa" style={{ maxWidth: '1200px', margin: '0 auto 40px', borderRadius: '16px', overflow: 'hidden', border: '1px solid #e2e8f0' }}>
+          <Mapa paroquias={filtradas} coords={coords} />
         </div>
 
-        <div className="paroquias-lista">
-          {listaFiltrada().map((p) => (
-            <ParoquiaCard
-              key={p.id}
-              dados={{
-                ...p, // Passa todos os dados (incluindo id, lat, lng)
-                distancia: p.distancia !== undefined ? p.distancia.toFixed(1) : '-',
-              }}
-            />
-          ))}
-        </div>
+        {loading ? (
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '40px' }}><Loader2 className="animate-spin" /></div>
+        ) : (
+          <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 16px' }}>
+             <div className="paroquias-grid-3col">
+                {paroquiasExibidas.map((p) => (
+                  <ParoquiaCard
+                    key={p.id}
+                    dados={{
+                      ...p,
+                      distancia: p.distancia !== undefined ? p.distancia.toFixed(1) : '-',
+                    }}
+                  />
+                ))}
+             </div>
+
+             {/* Controles de Paginação */}
+             {totalPaginas > 1 && (
+               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '15px', marginTop: '40px', paddingBottom: '60px' }}>
+                  <button disabled={paginaAtual === 1} onClick={() => setPaginaAtual(p => p - 1)} className="btn-paginacao">
+                    <ChevronLeft size={20} />
+                  </button>
+                  <span style={{ fontWeight: 'bold', color: '#243B55' }}>{paginaAtual} de {totalPaginas}</span>
+                  <button disabled={paginaAtual === totalPaginas} onClick={() => setPaginaAtual(p => p + 1)} className="btn-paginacao">
+                    <ChevronRight size={20} />
+                  </button>
+               </div>
+             )}
+          </div>
+        )}
       </div>
       <Footer />
+      
+      <style jsx>{`
+        .paroquias-grid-3col {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+          gap: 24px;
+        }
+        .btn-registar-gradiente {
+          display: flex; align-items: center; gap: 8px; padding: 10px 20px;
+          background: linear-gradient(135deg, #243B55 0%, #3E5C76 100%);
+          color: white; border: none; border-radius: 8px; font-weight: 600;
+          cursor: pointer; transition: all 0.3s;
+        }
+        .btn-registar-gradiente:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(30,64,175,0.2); }
+        .btn-paginacao {
+          background: white; border: 1px solid #e2e8f0; padding: 10px; border-radius: 50%;
+          cursor: pointer; display: flex; align-items: center; color: #243B55;
+        }
+        .btn-paginacao:disabled { opacity: 0.3; cursor: not-allowed; }
+      `}</style>
     </>
   );
 }
