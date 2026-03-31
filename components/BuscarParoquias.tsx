@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import '@/styles/BuscarParoquias.css';
 import type { Paroquia, Distrito, Conselho } from '@/types';
 import { useRouter } from 'next/navigation';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search, MapPin, Navigation } from 'lucide-react';
 
 interface BuscarParoquiasProps {
   embedded?: boolean;
@@ -23,7 +23,7 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
 
-  // --- Estados da Paginação ---
+  // --- Paginação ---
   const [paginaAtual, setPaginaAtual] = useState(1);
   const paroquiasPorPagina = 6; 
 
@@ -34,16 +34,7 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
   }, [buscaTrim, raio, lat, lng, distrito, conselho]);
 
   useEffect(() => {
-    const savedLat = localStorage.getItem('lat');
-    const savedLng = localStorage.getItem('lng');
-    if (savedLat && savedLng) {
-      setLat(Number(savedLat));
-      setLng(Number(savedLng));
-    }
-  }, []);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 600);
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
@@ -99,168 +90,137 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
   const totalPaginas = Math.ceil(paroquias.length / paroquiasPorPagina);
 
   return (
-    <div
-      style={{
-        minHeight: embedded ? undefined : '100vh',
-        background: embedded ? 'transparent' : 'linear-gradient(120deg, #f8fafc 0%, #e0e7ff 100%)',
-        paddingBottom: 60,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        overflowX: 'hidden',
-      }}
-    >
-      <div style={{ maxWidth: 980, width: '100%', margin: '0 auto', paddingTop: 56, paddingLeft: 16, paddingRight: 16 }}>
+    <div style={{
+      minHeight: embedded ? undefined : '100vh',
+      background: embedded ? 'transparent' : 'linear-gradient(120deg, #f8fafc 0%, #e0e7ff 100%)',
+      paddingBottom: 80,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      overflowX: 'hidden',
+    }}>
+      <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto', paddingTop: 56, paddingLeft: 16, paddingRight: 16 }}>
         {!embedded && (
-          <h2 style={{ textAlign: 'center', fontSize: '2.3rem', fontWeight: 900, color: '#243B55', letterSpacing: '1.5px', marginBottom: 32, textShadow: '0 2px 16px #e0e7ff' }}>
+          <h2 style={{ textAlign: 'center', fontSize: '2.5rem', fontWeight: 900, color: '#243B55', marginBottom: 40 }}>
             Buscar Paróquias
           </h2>
         )}
-        
-        {/* FORMULÁRIO COMPLETO RESTAURADO */}
-        <form
-          style={{
-            background: 'rgba(255,255,255,0.98)',
-            borderRadius: '26px',
-            boxShadow: '0 6px 36px rgba(60,60,120,0.15)',
-            padding: isMobile ? '24px 8px' : embedded ? '28px 24px' : '44px 38px',
-            display: 'flex',
-            flexDirection: isMobile ? 'column' : 'row',
-            gap: isMobile ? '18px' : '36px',
-            flexWrap: 'wrap',
-            alignItems: isMobile ? 'center' : 'flex-end',
-            justifyContent: 'center',
-            border: '2px solid #e0e7ff',
-            marginBottom: 32,
-            width: '100%',
-            maxWidth: isMobile ? 400 : embedded ? 840 : 760,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-          }}
-        >
-          <label style={{ fontWeight: 800, color: '#243B55', fontSize: isMobile ? '1.08rem' : '1.18rem', minWidth: isMobile ? 120 : 220, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
-            <span style={{ marginBottom: 2 }}>Buscar Paróquia</span>
-            <input
-              type="text"
-              placeholder="Digite o nome ou horário"
-              value={busca}
-              onChange={(e) => setBusca(e.target.value)}
-              style={{ width: '100%', padding: isMobile ? '10px' : '14px', borderRadius: '14px', border: '2px solid #a5b4fc', marginTop: 2, fontSize: isMobile ? '1rem' : '1.12rem', background: '#f8fafc', outline: 'none' }}
-            />
+
+        {/* --- FORMULÁRIO DE FILTROS --- */}
+        <form style={{
+          background: 'rgba(255,255,255,0.98)',
+          borderRadius: '26px',
+          boxShadow: '0 10px 40px rgba(0,0,0,0.08)',
+          padding: isMobile ? '24px' : '40px',
+          display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
+          gap: '20px',
+          flexWrap: 'wrap',
+          alignItems: 'flex-end',
+          justifyContent: 'center',
+          border: '1px solid #e2e8f0',
+          marginBottom: 48,
+        }}>
+          <label style={{ flex: 1, minWidth: isMobile ? '100%' : '250px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <span style={{ fontWeight: 700, color: '#243B55' }}>Nome ou Horário</span>
+            <div style={{ position: 'relative' }}>
+              <Search size={18} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+              <input
+                type="text"
+                placeholder="Ex: Cedofeita ou 11:00"
+                value={busca}
+                onChange={(e) => setBusca(e.target.value)}
+                style={{ width: '100%', padding: '14px 14px 14px 40px', borderRadius: '12px', border: '2px solid #e2e8f0', fontSize: '1rem', outline: 'none' }}
+              />
+            </div>
           </label>
-          <label style={{ fontWeight: 700, color: '#243B55', fontSize: isMobile ? '1rem' : '1.12rem', minWidth: isMobile ? 120 : 180, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
-            <span>Distrito</span>
-            <select value={distrito} onChange={(e) => setDistrito(e.target.value)} style={{ width: '100%', padding: isMobile ? '10px' : '14px', borderRadius: '14px', border: '2px solid #a5b4fc', marginTop: 2, fontSize: isMobile ? '1rem' : '1.12rem', background: '#f8fafc' }}>
-              <option value="">Selecione o distrito</option>
+
+          <label style={{ flex: 1, minWidth: isMobile ? '100%' : '180px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <span style={{ fontWeight: 700, color: '#243B55' }}>Distrito</span>
+            <select value={distrito} onChange={(e) => setDistrito(e.target.value)} style={{ width: '100%', padding: '14px', borderRadius: '12px', border: '2px solid #e2e8f0', fontSize: '1rem', background: '#fff' }}>
+              <option value="">Todos</option>
               {distritos.map((d) => <option key={d.id} value={String(d.id)}>{d.nome}</option>)}
             </select>
           </label>
-          <label style={{ fontWeight: 700, color: '#243B55', fontSize: isMobile ? '1rem' : '1.12rem', minWidth: isMobile ? 120 : 180, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
-            <span>Conselho</span>
-            <select value={conselho} onChange={(e) => setConselho(e.target.value)} disabled={!distrito} style={{ width: '100%', padding: isMobile ? '10px' : '14px', borderRadius: '14px', border: '2px solid #a5b4fc', marginTop: 2, fontSize: isMobile ? '1rem' : '1.12rem', background: !distrito ? '#f3f3f3' : '#f8fafc' }}>
-              <option value="">Selecione o conselho</option>
+
+          <label style={{ flex: 1, minWidth: isMobile ? '100%' : '180px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <span style={{ fontWeight: 700, color: '#243B55' }}>Conselho</span>
+            <select value={conselho} onChange={(e) => setConselho(e.target.value)} disabled={!distrito} style={{ width: '100%', padding: '14px', borderRadius: '12px', border: '2px solid #e2e8f0', fontSize: '1rem', background: !distrito ? '#f1f5f9' : '#fff' }}>
+              <option value="">Todos</option>
               {conselhos.map((c) => <option key={c.id} value={String(c.id)}>{c.nome}</option>)}
             </select>
           </label>
-          <label style={{ fontWeight: 800, color: '#A67C52', fontSize: isMobile ? '1rem' : '1.18rem', minWidth: isMobile ? 120 : 180, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
-            <span>Raio de busca</span>
-            <select value={raio} onChange={(e) => setRaio(Number(e.target.value))} disabled={!!distrito || !!conselho} style={{ width: '100%', padding: isMobile ? '12px' : '16px', borderRadius: '16px', border: '2px solid #A67C52', marginTop: 4, fontSize: isMobile ? '1rem' : '1.18rem', background: distrito || conselho ? '#f3f3f3' : '#f8fafc', color: '#243B55', fontWeight: 800 }}>
+
+          <label style={{ width: isMobile ? '100%' : '120px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <span style={{ fontWeight: 700, color: '#A67C52' }}>Raio</span>
+            <select value={raio} onChange={(e) => setRaio(Number(e.target.value))} disabled={!!distrito} style={{ width: '100%', padding: '14px', borderRadius: '12px', border: '2px solid #A67C52', fontSize: '1rem', fontWeight: 'bold' }}>
               {[5, 10, 20, 50, 100].map((v) => <option key={v} value={v}>{v} km</option>)}
             </select>
           </label>
-          <div style={{ display: 'flex', flexDirection: 'row', gap: 18, alignItems: 'center', marginTop: 12 }}>
-            <button
-              type="button"
-              disabled={!!distrito || !!conselho}
-              style={{ padding: '16px 32px', fontSize: '1.15rem', borderRadius: '14px', background: distrito || conselho ? '#cbd5e1' : 'linear-gradient(135deg,#243B55 0%,#3E5C76 100%)', color: distrito || conselho ? '#334155' : '#fff', border: 'none', cursor: distrito || conselho ? 'not-allowed' : 'pointer', fontWeight: 800 }}
-              onClick={() => {
-                if (navigator.geolocation) {
-                  navigator.geolocation.getCurrentPosition(
-                    (pos) => { setLat(pos.coords.latitude); setLng(pos.coords.longitude); },
-                    () => alert('Não foi possível obter sua localização.'),
-                  );
-                }
-              }}
-            >
-              Usar minha localização
-            </button>
-          </div>
+
+          <button
+            type="button"
+            onClick={() => {
+              if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((pos) => {
+                  setLat(pos.coords.latitude); setLng(pos.coords.longitude);
+                });
+              }
+            }}
+            style={{ padding: '14px 24px', background: 'linear-gradient(135deg,#243B55,#3E5C76)', color: '#fff', border: 'none', borderRadius: '12px', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}
+          >
+            <Navigation size={18} /> GPS
+          </button>
         </form>
 
-        <div style={{ marginTop: 48 }}>
+        {/* --- LISTAGEM --- */}
+        <div style={{ marginTop: 20 }}>
           {hasSearched && (
-            <p style={{ textAlign: 'center', fontSize: '1.18rem', color: paroquias.length > 0 ? '#243B55' : '#e11d48', fontWeight: 700, marginBottom: 22 }}>
-              {paroquias.length > 0 ? `Encontradas ${paroquias.length} paróquias.` : 'Nenhuma paróquia encontrada.'}
+            <p style={{ textAlign: 'center', fontSize: '1.2rem', color: '#243B55', fontWeight: 700, marginBottom: 30 }}>
+              {paroquias.length > 0 ? `Encontrámos ${paroquias.length} paróquias.` : 'Nenhuma paróquia encontrada.'}
             </p>
           )}
 
-          {/* GRID DE CARDS RESTAURADO COM DADOS */}
-          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(340px, 1fr))', gap: isMobile ? '18px' : '32px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '30px' }}>
             {paroquiasExibidas.map((p) => (
-                <div key={p.id} style={{ background: 'linear-gradient(120deg,#fff 80%,#fde68a 100%)', borderRadius: '22px', boxShadow: '0 6px 32px rgba(60,60,120,0.15)', padding: '28px 22px', display: 'flex', gap: '18px', alignItems: 'flex-start', minHeight: 180, border: '2px solid #A67C52' }}>
-                  {p.imagem && <img src={p.imagem} alt={p.nome} style={{ width: 100, height: 100, objectFit: 'cover', borderRadius: '16px', marginRight: 16 }} />}
-                  <div style={{ flex: 1 }}>
-                    <h3
-                      style={{ fontSize: '1.35rem', fontWeight: 900, color: '#243B55', marginBottom: 8, cursor: 'pointer' }}
-                      onClick={() => router.push(`/paroquias/${p.id}`)}
-                    >
-                      {p.nome}
-                    </h3>
-                    <p style={{ fontSize: '1.08rem', color: '#243B55', fontWeight: 700, marginBottom: 4 }}>
-                      <strong>Endereço:</strong> {p.endereco}
-                    </p>
-                    <p style={{ fontSize: '1.02rem', color: '#334155', marginBottom: 8 }}>{p.descricao}</p>
-                    <strong style={{ color: '#A67C52', fontSize: '1.08rem' }}>Horários:</strong>
-                    <ul style={{ listStyle: 'disc', marginLeft: 18, marginTop: 2, color: '#243B55', fontSize: '1.01rem' }}>
-                      {Array.isArray(p.horarios) &&
-                        p.horarios.map((h, idx) => (
-                          <li key={idx}>
-                            {typeof h === 'object' ? `${h.diaSemana} ${h.hora} - ${h.tipo}` : String(h)}
-                          </li>
-                        ))}
+              <div key={p.id} style={{ background: '#fff', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ position: 'relative', height: '180px' }}>
+                  <img src={p.imagem || "/logo_paroquia.png"} alt={p.nome} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  {p.distancia && <span style={{ position: 'absolute', top: 12, right: 12, background: 'rgba(255,255,255,0.9)', padding: '4px 12px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 800, color: '#A67C52' }}>{p.distancia}km</span>}
+                </div>
+                
+                <div style={{ padding: '24px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  <h3 onClick={() => router.push(`/paroquias/${p.id}`)} style={{ fontSize: '1.3rem', fontWeight: 900, color: '#243B55', marginBottom: 10, cursor: 'pointer' }}>{p.nome}</h3>
+                  <p style={{ fontSize: '0.9rem', color: '#64748b', display: 'flex', alignItems: 'flex-start', gap: 4, marginBottom: 15 }}>
+                    <MapPin size={14} style={{ marginTop: 3, flexShrink: 0 }} /> {p.endereco}
+                  </p>
+                  
+                  <div style={{ marginTop: 'auto' }}>
+                    <strong style={{ fontSize: '0.8rem', color: '#A67C52', textTransform: 'uppercase', letterSpacing: 1 }}>Horários:</strong>
+                    <ul style={{ listStyle: 'none', padding: 0, margin: '8px 0 0 0', fontSize: '0.9rem' }}>
+                      {p.horarios?.slice(0, 2).map((h: any, i: number) => (
+                        <li key={i} style={{ marginBottom: 4, color: '#334155' }}>• {h.diaSemana} - {h.hora}</li>
+                      ))}
                     </ul>
                   </div>
                 </div>
+              </div>
             ))}
           </div>
 
-          {/* PAGINAÇÃO */}
+          {/* --- PAGINAÇÃO --- */}
           {totalPaginas > 1 && (
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 12, marginTop: 40 }}>
-              <button
-                type="button"
-                disabled={paginaAtual === 1}
-                onClick={() => setPaginaAtual(prev => prev - 1)}
-                style={{ padding: '10px', borderRadius: '50%', border: '1px solid #A67C52', background: paginaAtual === 1 ? '#f3f3f3' : '#fff', cursor: paginaAtual === 1 ? 'not-allowed' : 'pointer', color: '#A67C52', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-              >
-                <ChevronLeft size={24} />
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 12, marginTop: 60 }}>
+              <button disabled={paginaAtual === 1} onClick={() => setPaginaAtual(prev => prev - 1)} style={{ padding: '10px', borderRadius: '50%', border: '1px solid #e2e8f0', background: '#fff', cursor: 'pointer' }}>
+                <ChevronLeft size={20} />
               </button>
-              
-              <div style={{ display: 'flex', gap: 8 }}>
-                {[...Array(totalPaginas)].map((_, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => setPaginaAtual(i + 1)}
-                    style={{
-                      width: 40, height: 40, borderRadius: '10px', border: 'none',
-                      background: paginaAtual === i + 1 ? '#A67C52' : '#fff',
-                      color: paginaAtual === i + 1 ? '#fff' : '#243B55',
-                      fontWeight: 700, cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-                    }}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
-              </div>
-
-              <button
-                type="button"
-                disabled={paginaAtual === totalPaginas}
-                onClick={() => setPaginaAtual(prev => prev + 1)}
-                style={{ padding: '10px', borderRadius: '50%', border: '1px solid #A67C52', background: paginaAtual === totalPaginas ? '#f3f3f3' : '#fff', cursor: paginaAtual === totalPaginas ? 'not-allowed' : 'pointer', color: '#A67C52', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-              >
-                <ChevronRight size={24} />
+              {[...Array(totalPaginas)].map((_, i) => (
+                <button key={i} onClick={() => setPaginaAtual(i + 1)} style={{ width: 40, height: 40, borderRadius: '12px', border: 'none', background: paginaAtual === i + 1 ? '#243B55' : '#fff', color: paginaAtual === i + 1 ? '#fff' : '#243B55', fontWeight: 700, cursor: 'pointer' }}>
+                  {i + 1}
+                </button>
+              ))}
+              <button disabled={paginaAtual === totalPaginas} onClick={() => setPaginaAtual(prev => prev + 1)} style={{ padding: '10px', borderRadius: '50%', border: '1px solid #e2e8f0', background: '#fff', cursor: 'pointer' }}>
+                <ChevronRight size={20} />
               </button>
             </div>
           )}
