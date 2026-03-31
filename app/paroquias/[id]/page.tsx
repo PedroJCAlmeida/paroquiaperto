@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { 
   Facebook, Instagram, MessageCircle, 
   Phone, MapPinned, Clock, Info, Calendar, 
-  ChevronLeft, Globe, Mail
+  ChevronLeft, Mail, Globe
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -21,19 +21,15 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
   const [isMobile, setIsMobile] = React.useState(false);
 
   React.useEffect(() => {
-    // Lógica para detetar mobile e evitar erro de 'window' no build
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    
     params.then((p) => setId(p.id));
-
     return () => window.removeEventListener('resize', checkMobile);
   }, [params]);
 
   React.useEffect(() => {
     if (!id) return;
-
     const fetchData = async () => {
       try {
         const [resP, resH, resE] = await Promise.all([
@@ -41,7 +37,6 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
           fetch('/api/horarios'),
           fetch('/api/eventos')
         ]);
-        
         const paroquiaData = await resP.json();
         const horariosData = await resH.json();
         const eventosData = await resE.json();
@@ -55,7 +50,6 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
         setLoading(false);
       }
     };
-
     fetchData();
   }, [id]);
 
@@ -64,7 +58,7 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
     const query = (paroquia.lat && paroquia.lng) 
       ? `${paroquia.lat},${paroquia.lng}` 
       : encodeURIComponent(paroquia.endereco);
-    window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
+    window.open(`https://www.google.com/maps/dir/?api=1&destination=${query}`, '_blank');
   };
 
   if (loading) return (
@@ -78,29 +72,30 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
       <Navbar />
       <main className="paroquia-detalhe-bg" style={{ paddingBottom: '80px' }}>
         
-        <div style={{ position: 'relative', width: '100%', height: isMobile ? '250px' : '350px', marginBottom: '-60px' }}>
+        {/* Banner Hero - Imagem sem distorção */}
+        <div style={{ position: 'relative', width: '100%', height: isMobile ? '220px' : '380px', overflow: 'hidden' }}>
           <img 
             src={paroquia?.imagem || "/logo_paroquia.png"} 
             alt={paroquia?.nome} 
-            className="paroquia-hero-img"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} 
           />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.7))' }}></div>
-          <button 
-            onClick={() => router.back()} 
-            className="back-button-overlay"
-          >
+          <button onClick={() => router.back()} className="back-button-overlay">
             <ChevronLeft size={18} /> Voltar
           </button>
         </div>
 
+        {/* Card de Conteúdo Principal */}
         <div className="paroquia-detalhe-card" style={{ 
           position: 'relative', 
           zIndex: 2, 
+          marginTop: '-60px', 
           padding: isMobile ? '24px' : '48px', 
           maxWidth: '1100px', 
           margin: '0 auto' 
         }}>
           
+          {/* Header do Detalhe */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '20px', marginBottom: '32px' }}>
             <div>
               <h1 className="paroquia-detalhe-title">{paroquia?.nome}</h1>
@@ -109,26 +104,20 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
               </p>
             </div>
             <button onClick={abrirDirecoes} className="cta-button-gradient">
-              Como Chegar
+              <MapPinned size={20} /> Como Chegar
             </button>
           </div>
 
           <div className="paroquia-detalhe-grid">
-            
+            {/* Lado Esquerdo: Descrição e Horários */}
             <div className="main-content-column">
               <section className="info-group">
-                <h3 className="section-title">
-                  <Info size={20} color="var(--color-gold)" /> Sobre a Paróquia
-                </h3>
-                <p className="description-text">
-                  {paroquia?.descricao || "Esta paróquia ainda não tem uma descrição detalhada."}
-                </p>
+                <h3 className="section-title"><Info size={20} color="var(--color-gold)" /> Sobre a Paróquia</h3>
+                <p className="description-text">{paroquia?.descricao || "Esta paróquia ainda não tem uma descrição detalhada disponível."}</p>
               </section>
 
               <section style={{ marginTop: '40px' }}>
-                <h3 className="section-title">
-                  <Clock size={20} color="var(--color-gold)" /> Horários
-                </h3>
+                <h3 className="section-title"><Clock size={20} color="var(--color-gold)" /> Horários de Missa</h3>
                 <div className="horarios-grid">
                   {horarios.length > 0 ? horarios.map((h) => (
                     <div key={h.id} className="horario-card">
@@ -136,60 +125,60 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
                       <div className="time-value">{h.hora}</div>
                       <div className="type-label">{h.tipo}</div>
                     </div>
-                  )) : <p>Nenhum horário registado.</p>}
+                  )) : <p style={{ color: 'var(--text-sub)' }}>Nenhum horário registado no momento.</p>}
                 </div>
               </section>
             </div>
 
+            {/* Lado Direito: Contactos e Redes Sociais */}
             <div className="sidebar-column">
               <div className="contacts-card">
                 <h4 className="sidebar-title">Contactos</h4>
-                
                 <div className="contacts-list">
                   {paroquia?.telefone && (
                     <a href={`tel:${paroquia.telefone}`} className="contact-link">
                       <div className="icon-box"><Phone size={18} /></div>
-                      {paroquia.telefone}
+                      <span>{paroquia.telefone}</span>
                     </a>
                   )}
                   {paroquia?.email && (
                     <a href={`mailto:${paroquia.email}`} className="contact-link">
                       <div className="icon-box"><Mail size={18} /></div>
-                      {paroquia.email}
+                      <span style={{ wordBreak: 'break-all' }}>{paroquia.email}</span>
                     </a>
                   )}
                 </div>
 
-                <div className="social-divider">
-                  <p className="social-label">Redes Sociais</p>
-                  <div className="social-icons-wrapper">
-                    {paroquia?.facebook && <a href={paroquia.facebook} target="_blank" className="social-icon-btn"><Facebook size={22} /></a>}
-                    {paroquia?.instagram && <a href={paroquia.instagram} target="_blank" className="social-icon-btn"><Instagram size={22} /></a>}
-                    {paroquia?.whatsapp && <a href={`https://wa.me/${paroquia.whatsapp.replace(/\D/g,'')}`} target="_blank" className="social-icon-btn"><MessageCircle size={22} /></a>}
+                <div className="social-divider" style={{ marginTop: '30px', paddingTop: '20px', borderTop: '1px solid var(--border-color)' }}>
+                  <p className="social-label" style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--text-sub)', textTransform: 'uppercase', marginBottom: '15px' }}>Redes Sociais</p>
+                  <div className="social-icons-row" style={{ display: 'flex', gap: '12px' }}>
+                    {paroquia?.facebook && <a href={paroquia.facebook} target="_blank" className="social-icon-btn"><Facebook size={20} /></a>}
+                    {paroquia?.instagram && <a href={paroquia.instagram} target="_blank" className="social-icon-btn"><Instagram size={20} /></a>}
+                    {paroquia?.whatsapp && <a href={`https://wa.me/${paroquia.whatsapp.replace(/\D/g,'')}`} target="_blank" className="social-icon-btn"><MessageCircle size={20} /></a>}
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
+          {/* Seção de Eventos (Opcional) */}
           {eventos.length > 0 && (
-            <section className="events-section">
-              <h3 className="section-title">
-                <Calendar size={20} color="var(--color-gold)" /> Próximos Eventos
-              </h3>
-              <div className="events-grid">
+            <section className="events-section" style={{ marginTop: '60px', borderTop: '1px solid var(--border-color)', paddingTop: '40px' }}>
+              <h3 className="section-title"><Calendar size={20} color="var(--color-gold)" /> Próximos Eventos</h3>
+              <div className="events-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '24px' }}>
                 {eventos.map((e) => (
-                  <div key={e.id} className="evento-item-card">
-                    <img src={e.imagem || "/logo_paroquia.png"} alt={e.titulo} className="event-img" />
-                    <div className="event-info">
-                      <h4>{e.titulo}</h4>
-                      <div className="event-meta">{e.data} · {e.hora}</div>
+                  <div key={e.id} className="evento-item-card" style={{ borderRadius: '20px', overflow: 'hidden', border: '1px solid var(--border-color)', background: 'var(--card-bg)' }}>
+                    <img src={e.imagem || "/logo_paroquia.png"} alt={e.titulo} style={{ width: '100%', height: '160px', objectFit: 'cover' }} />
+                    <div style={{ padding: '20px' }}>
+                      <h4 style={{ margin: '0 0 10px 0', color: 'var(--text-main)', fontSize: '1.1rem' }}>{e.titulo}</h4>
+                      <div style={{ fontSize: '0.85rem', color: 'var(--color-gold)', fontWeight: 800 }}>{e.data} · {e.hora}</div>
                     </div>
                   </div>
                 ))}
               </div>
             </section>
           )}
+
         </div>
       </main>
       <Footer />
