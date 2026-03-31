@@ -2,15 +2,14 @@
 import React, { useState, useEffect } from 'react';
 import '@/styles/BuscarParoquias.css';
 import type { Paroquia, Distrito, Conselho } from '@/types';
-import { useRouter } from 'next/navigation';
-import { ChevronLeft, ChevronRight, Search, MapPin, Navigation, LocateFixed } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search, LocateFixed } from 'lucide-react';
+import ParoquiaCard from '@/components/ParoquiaCard';
 
 interface BuscarParoquiasProps {
   embedded?: boolean;
 }
 
 function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
-  const router = useRouter();
   const [busca, setBusca] = useState('');
   const [paroquias, setParoquias] = useState<Paroquia[]>([]);
   const [raio, setRaio] = useState(10);
@@ -198,7 +197,7 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
           </button>
         </form>
 
-        {/* --- LISTAGEM --- */}
+        {/* --- LISTAGEM UTILIZANDO O COMPONENTE REUTILIZÁVEL --- */}
         <div style={{ marginTop: 20 }}>
           {hasSearched && (
             <p style={{ textAlign: 'center', fontSize: '1.2rem', color: '#243B55', fontWeight: 700, marginBottom: 30 }}>
@@ -206,75 +205,19 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
             </p>
           )}
 
-          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '30px' }}>
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', 
+            gap: '30px' 
+          }}>
             {paroquiasExibidas.map((p) => (
-              <div key={p.id} style={{ background: '#fff', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ position: 'relative', height: '180px' }}>
-                  <img src={p.imagem || "/logo_paroquia.png"} alt={p.nome} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  {p.distancia && <span style={{ position: 'absolute', top: 12, right: 12, background: 'rgba(255,255,255,0.9)', padding: '4px 12px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 800, color: '#A67C52' }}>{p.distancia}km</span>}
-                </div>
-                
-                <div style={{ padding: '24px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                  <h3 onClick={() => router.push(`/paroquias/${p.id}`)} style={{ fontSize: '1.3rem', fontWeight: 900, color: '#243B55', marginBottom: 10, cursor: 'pointer' }}>{p.nome}</h3>
-                  <p style={{ fontSize: '0.9rem', color: '#64748b', display: 'flex', alignItems: 'flex-start', gap: 4, marginBottom: 15 }}>
-                    <MapPin size={14} style={{ marginTop: 3, flexShrink: 0 }} /> {p.endereco}
-                  </p>
-                  
-                  <div style={{ marginTop: 'auto' }}>
-                    <strong style={{ fontSize: '0.8rem', color: '#A67C52', textTransform: 'uppercase', letterSpacing: 1 }}>Horários:</strong>
-                    <ul style={{ listStyle: 'none', padding: 0, margin: '8px 0 0 0', fontSize: '0.9rem' }}>
-                      {p.horarios?.slice(0, 2).map((h: any, i: number) => (
-                        <li key={i} style={{ marginBottom: 4, color: '#334155' }}>• {h.diaSemana} - {h.hora}</li>
-                      ))}
-                    </ul>
-
-                    {/* BOTÕES DE AÇÃO NO CARD */}
-                    <div style={{ marginTop: '16px', display: 'flex', gap: '10px' }}>
-                      <button
-                        onClick={() => {
-                          const url = `https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`;
-                          window.open(url, '_blank');
-                        }}
-                        style={{
-                          flex: 1,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          gap: '8px',
-                          padding: '10px',
-                          background: '#f1f5f9',
-                          color: '#475569',
-                          border: '1px solid #e2e8f0',
-                          borderRadius: '10px',
-                          fontSize: '0.85rem',
-                          fontWeight: 700,
-                          cursor: 'pointer'
-                        }}
-                      >
-                        <Navigation size={14} />
-                        Rota
-                      </button>
-
-                      <button
-                        onClick={() => router.push(`/paroquias/${p.id}`)}
-                        style={{
-                          flex: 1,
-                          padding: '10px',
-                          background: 'linear-gradient(135deg,#243B55,#3E5C76)',
-                          color: '#fff',
-                          border: 'none',
-                          borderRadius: '10px',
-                          fontSize: '0.85rem',
-                          fontWeight: 700,
-                          cursor: 'pointer'
-                        }}
-                      >
-                        Detalhes
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <ParoquiaCard 
+                key={p.id} 
+                dados={{
+                  ...p,
+                  distancia: p.distancia?.toString() || '-'
+                }} 
+              />
             ))}
           </div>
 
