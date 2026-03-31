@@ -4,6 +4,7 @@ import '@/styles/BuscarParoquias.css';
 import type { Paroquia, Distrito, Conselho } from '@/types';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, ChevronRight, Search, MapPin, Navigation } from 'lucide-react';
+import { LocateFixed } from 'lucide-react';
 
 interface BuscarParoquiasProps {
   embedded?: boolean;
@@ -22,6 +23,7 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
   const [conselhos, setConselhos] = useState<Conselho[]>([]);
   const [isMobile, setIsMobile] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
+  const [loadingGPS, setLoadingGPS] = useState(false);
 
   // --- Paginação ---
   const [paginaAtual, setPaginaAtual] = useState(1);
@@ -159,18 +161,34 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
           </label>
 
           <button
-            type="button"
-            onClick={() => {
-              if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((pos) => {
-                  setLat(pos.coords.latitude); setLng(pos.coords.longitude);
-                });
-              }
-            }}
-            style={{ padding: '14px 24px', background: 'linear-gradient(135deg,#243B55,#3E5C76)', color: '#fff', border: 'none', borderRadius: '12px', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}
-          >
-            <Navigation size={18} /> GPS
-          </button>
+  type="button"
+  disabled={loadingGPS} // Desativa enquanto carrega
+  onClick={() => {
+    if (navigator.geolocation) {
+      setLoadingGPS(true); // Ativa o loading
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          setLat(pos.coords.latitude); 
+          setLng(pos.coords.longitude);
+          setLoadingGPS(false); // Desativa ao conseguir
+        },
+        () => {
+          alert('Não foi possível obter a sua localização.');
+          setLoadingGPS(false); // Desativa em caso de erro
+        }
+      );
+    }
+  }}
+  style={{ 
+    // ... teus estilos ...
+    opacity: loadingGPS ? 0.7 : 1,
+    cursor: loadingGPS ? 'wait' : 'pointer',
+    transition: 'all 0.3s ease'
+  }}
+>
+  <LocateFixed size={18} className={loadingGPS ? 'animate-spin' : ''} />
+  {loadingGPS ? 'A localizar...' : 'Perto de mim'}
+</button>
         </form>
 
         {/* --- LISTAGEM --- */}
