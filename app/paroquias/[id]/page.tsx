@@ -2,8 +2,9 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { 
-  Plus, Facebook, Instagram, MessageCircle, 
-  Phone, MapPinned, Clock, Info, Calendar 
+  Facebook, Instagram, MessageCircle, 
+  Phone, MapPinned, Clock, Info, Calendar, 
+  ChevronLeft, Globe, Mail, Share2
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -17,10 +18,8 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
   const [horarios, setHorarios] = React.useState<Horario[]>([]);
   const [eventos, setEventos] = React.useState<Evento[]>([]);
   const [loading, setLoading] = React.useState(true);
-  const [token, setToken] = React.useState<string | null>(null);
 
   React.useEffect(() => {
-    setToken(localStorage.getItem('token'));
     params.then((p) => setId(p.id));
   }, [params]);
 
@@ -40,8 +39,9 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
         const eventosData = await resE.json();
 
         setParoquia(paroquiaData);
-        setHorarios(horariosData.filter((h: any) => h.paroquia?.id === Number(id)));
-        setEventos(eventosData.filter((e: any) => e.paroquia?.id === Number(id)));
+        // Filtragem segura
+        setHorarios(Array.isArray(horariosData) ? horariosData.filter((h: any) => h.paroquiaId === Number(id)) : []);
+        setEventos(Array.isArray(eventosData) ? eventosData.filter((e: any) => e.paroquiaId === Number(id)) : []);
       } catch (err) {
         console.error("Erro ao carregar dados", err);
       } finally {
@@ -60,118 +60,136 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
     window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
   };
 
-  if (loading) return <div className="loading-state">A carregar...</div>;
+  if (loading) return (
+    <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8fafc' }}>
+      <div className="animate-spin" style={{ width: 40, height: 40, border: '4px solid #e2e8f0', borderTopColor: '#243B55', borderRadius: '50%' }}></div>
+    </div>
+  );
 
   return (
     <>
       <Navbar />
-      <div className="paroquia-detalhe-bg">
-        <div className="paroquia-detalhe-card">
-          
-          <button onClick={() => window.history.back()} className="landing-btn-secondary" style={{ marginBottom: '24px' }}>
-            ← Voltar
+      <main className="paroquia-detalhe-bg" style={{ paddingBottom: '80px' }}>
+        
+        {/* Banner de Topo (Hero) */}
+        <div style={{ position: 'relative', width: '100%', height: '350px', marginBottom: '-60px' }}>
+          <img 
+            src={paroquia?.imagem || "/logo_paroquia.png"} 
+            alt={paroquia?.nome} 
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+          />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.7))' }}></div>
+          <button 
+            onClick={() => router.back()} 
+            style={{ position: 'absolute', top: '24px', left: '24px', background: '#fff', border: 'none', padding: '10px 18px', borderRadius: '12px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', boxShadow: '0 4px 12px rgba(0,0,0,0.2)' }}
+          >
+            <ChevronLeft size={18} /> Voltar
           </button>
+        </div>
 
-          <h2 className="paroquia-detalhe-title">{paroquia?.nome}</h2>
-
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '32px' }}>
-            <img 
-              src={paroquia?.imagem || "/logo_paroquia.png"} 
-              alt={paroquia?.nome} 
-              style={{ width: '100%', borderRadius: '12px', maxHeight: '400px', objectFit: 'cover' }} 
-            />
+        <div className="paroquia-detalhe-card" style={{ position: 'relative', zIndex: 2, background: '#fff', borderRadius: '32px', padding: isMobile ? '24px' : '48px', maxWidth: '1100px', margin: '0 auto', boxShadow: '0 20px 50px rgba(0,0,0,0.1)' }}>
+          
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '20px', marginBottom: '32px' }}>
+            <div>
+              <h1 style={{ fontSize: '2.5rem', fontWeight: 900, color: '#243B55', margin: 0 }}>{paroquia?.nome}</h1>
+              <p onClick={abrirDirecoes} style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#64748b', fontSize: '1.1rem', marginTop: '8px', cursor: 'pointer' }}>
+                <MapPinned size={18} /> {paroquia?.endereco}
+              </p>
+            </div>
+            <button onClick={abrirDirecoes} style={{ background: 'linear-gradient(135deg, #243B55, #3E5C76)', color: '#fff', border: 'none', padding: '14px 28px', borderRadius: '14px', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10 }}>
+              Como Chegar
+            </button>
           </div>
 
-          <div className="paroquia-detalhe-grid">
-            {/* Coluna 1: Info e Descrição */}
+          <div className="paroquia-detalhe-grid" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '40px' }}>
+            
+            {/* Coluna Principal */}
             <div>
-              <div className="info-group">
-                <label><Info size={14} style={{verticalAlign: 'middle', marginRight: '4px'}}/> Descrição</label>
-                <p>{paroquia?.descricao || "Sem descrição disponível."}</p>
-              </div>
-
-              <div className="info-group">
-                <label><MapPinned size={14} style={{verticalAlign: 'middle', marginRight: '4px'}}/> Endereço</label>
-                <p 
-                  onClick={abrirDirecoes} 
-                  style={{ cursor: 'pointer', color: 'var(--color-blue)', fontWeight: 'bold' }}
-                >
-                  {paroquia?.endereco}
+              <section className="info-group">
+                <h3 style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#243B55', fontSize: '1.4rem' }}>
+                  <Info size={20} color="#A67C52" /> Sobre a Paróquia
+                </h3>
+                <p style={{ lineHeight: '1.8', color: '#475569', fontSize: '1.05rem', background: '#f8fafc', padding: '24px', borderRadius: '16px', borderLeft: '5px solid #A67C52' }}>
+                  {paroquia?.descricao || "Esta paróquia ainda não tem uma descrição detalhada."}
                 </p>
-              </div>
+              </section>
+
+              {/* Horários Otimizados */}
+              <section style={{ marginTop: '40px' }}>
+                <h3 style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#243B55', fontSize: '1.4rem', marginBottom: '20px' }}>
+                  <Clock size={20} color="#A67C52" /> Horários de Missa e Serviços
+                </h3>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '16px' }}>
+                  {horarios.length > 0 ? horarios.map((h) => (
+                    <div key={h.id} style={{ background: '#fff', padding: '20px', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
+                      <span style={{ fontWeight: 800, color: '#A67C52', fontSize: '0.8rem', textTransform: 'uppercase' }}>{h.diaSemana}</span>
+                      <div style={{ fontSize: '1.4rem', fontWeight: 900, color: '#243B55', marginTop: '4px' }}>{h.hora}</div>
+                      <div style={{ color: '#64748b', fontSize: '0.9rem', fontWeight: 600 }}>{h.tipo}</div>
+                    </div>
+                  )) : <p>Nenhum horário registado.</p>}
+                </div>
+              </section>
             </div>
 
-            {/* Coluna 2: Contactos e Redes */}
+            {/* Coluna Lateral */}
             <div>
-              <div className="info-group">
-                <label><Phone size={14} style={{verticalAlign: 'middle', marginRight: '4px'}}/> Contacto</label>
-                <p>
-                  {paroquia?.telefone ? (
-                    <a href={`tel:${paroquia.telefone.replace(/\D/g, '')}`} style={{textDecoration: 'none', color: 'inherit'}}>
+              <div style={{ background: '#f8fafc', padding: '32px', borderRadius: '24px', border: '1px solid #e2e8f0' }}>
+                <h4 style={{ margin: '0 0 24px 0', color: '#243B55' }}>Contactos</h4>
+                
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                  {paroquia?.telefone && (
+                    <a href={`tel:${paroquia.telefone}`} style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none', color: '#475569', fontWeight: 600 }}>
+                      <div style={{ background: '#fff', p: 8, borderRadius: 10, border: '1px solid #e2e8f0' }}><Phone size={18} /></div>
                       {paroquia.telefone}
                     </a>
-                  ) : "Não informado"}
-                </p>
-              </div>
+                  )}
+                  {paroquia?.email && (
+                    <a href={`mailto:${paroquia.email}`} style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none', color: '#475569', fontWeight: 600 }}>
+                      <div style={{ background: '#fff', p: 8, borderRadius: 10, border: '1px solid #e2e8f0' }}><Mail size={18} /></div>
+                      {paroquia.email}
+                    </a>
+                  )}
+                  {paroquia?.site && (
+                    <a href={paroquia.site} target="_blank" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none', color: '#475569', fontWeight: 600 }}>
+                      <div style={{ background: '#fff', p: 8, borderRadius: 10, border: '1px solid #e2e8f0' }}><Globe size={18} /></div>
+                      Site Oficial
+                    </a>
+                  )}
+                </div>
 
-              <div className="info-group">
-                <label>Redes Sociais</label>
-                <div className="social-icons-wrapper">
-                  {paroquia?.facebook && (
-                    <a href={paroquia.facebook} target="_blank" className="social-icon-btn"><Facebook size={20} /></a>
-                  )}
-                  {paroquia?.instagram && (
-                    <a href={paroquia.instagram} target="_blank" className="social-icon-btn"><Instagram size={20} /></a>
-                  )}
-                  {paroquia?.whatsapp && (
-                    <a href={`https://wa.me/${paroquia.whatsapp.replace(/\D/g, '')}`} target="_blank" className="social-icon-btn"><MessageCircle size={20} /></a>
-                  )}
+                <div style={{ marginTop: '32px', paddingTop: '24px', borderTop: '1px solid #e2e8f0' }}>
+                  <p style={{ fontSize: '0.8rem', fontWeight: 800, color: '#94a3b8', textTransform: 'uppercase', marginBottom: '16px' }}>Redes Sociais</p>
+                  <div style={{ display: 'flex', gap: '12px' }}>
+                    {paroquia?.facebook && <a href={paroquia.facebook} target="_blank" className="social-icon-btn"><Facebook size={22} /></a>}
+                    {paroquia?.instagram && <a href={paroquia.instagram} target="_blank" className="social-icon-btn"><Instagram size={22} /></a>}
+                    {paroquia?.whatsapp && <a href={`https://wa.me/${paroquia.whatsapp.replace(/\D/g,'')}`} target="_blank" className="social-icon-btn"><MessageCircle size={22} /></a>}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Horários */}
-          <div style={{ marginTop: '40px', borderTop: '1px solid var(--color-gray-200)', paddingTop: '30px' }}>
-             <h3 style={{ color: 'var(--color-blue)', fontWeight: 900, marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Clock size={20} /> Horários
-             </h3>
-             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '12px' }}>
-                {horarios.map((h) => (
-                  <div key={h.id} style={{ background: 'var(--color-gray-50)', padding: '16px', borderRadius: '10px', border: '1px solid var(--color-gray-200)' }}>
-                    <div style={{ fontWeight: 'bold', color: 'var(--color-gray-800)' }}>{h.diaSemana}</div>
-                    <div style={{ color: 'var(--color-blue)', fontSize: '1.1rem' }}>{h.hora} <span style={{fontSize: '0.8rem', opacity: 0.7}}>{h.tipo}</span></div>
-                  </div>
-                ))}
-             </div>
-          </div>
-
-          {/* Eventos usando as classes do teu CSS */}
-          <div style={{ marginTop: '40px', borderTop: '1px solid var(--color-gray-200)', paddingTop: '30px' }}>
-             <h3 style={{ color: 'var(--color-blue)', fontWeight: 900, marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Calendar size={20} /> Próximos Eventos
-             </h3>
-             <div style={{ display: 'grid', gap: '16px' }}>
+          {/* Seção de Eventos */}
+          {eventos.length > 0 && (
+            <section style={{ marginTop: '60px', borderTop: '1px solid #e2e8f0', paddingTop: '40px' }}>
+              <h3 style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#243B55', fontSize: '1.4rem', marginBottom: '30px' }}>
+                <Calendar size={20} color="#A67C52" /> Próximos Eventos
+              </h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '24px' }}>
                 {eventos.map((e) => (
-                  <div key={e.id} className="evento-item-card">
-                    <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-                      <div className="evento-img-wrapper">
-                        <img src={e.imagem || "/logo_paroquia.png"} alt={e.titulo} />
-                      </div>
-                      <div style={{ flex: 1 }}>
-                        <h4 style={{ margin: 0, color: 'var(--color-blue)', fontWeight: 800 }}>{e.titulo}</h4>
-                        <div style={{ fontSize: '0.9rem', color: 'var(--color-gold)', fontWeight: 600 }}>
-                          {e.data} · {e.hora}
-                        </div>
-                      </div>
+                  <div key={e.id} className="evento-item-card" style={{ display: 'flex', flexDirection: 'column', gap: 0, overflow: 'hidden', border: '1px solid #e2e8f0' }}>
+                    <img src={e.imagem || "/logo_paroquia.png"} style={{ width: '100%', height: '160px', objectFit: 'cover' }} alt={e.titulo} />
+                    <div style={{ padding: '20px' }}>
+                      <h4 style={{ margin: '0 0 10px 0', color: '#243B55', fontSize: '1.1rem' }}>{e.titulo}</h4>
+                      <div style={{ fontSize: '0.9rem', color: '#A67C52', fontWeight: 800 }}>{e.data} · {e.hora}</div>
                     </div>
                   </div>
                 ))}
-             </div>
-          </div>
-
+              </div>
+            </section>
+          )}
         </div>
-      </div>
+      </main>
       <Footer />
     </>
   );
