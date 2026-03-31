@@ -3,8 +3,7 @@ import React, { useState, useEffect } from 'react';
 import '@/styles/BuscarParoquias.css';
 import type { Paroquia, Distrito, Conselho } from '@/types';
 import { useRouter } from 'next/navigation';
-import { ChevronLeft, ChevronRight, Search, MapPin, Navigation } from 'lucide-react';
-import { LocateFixed } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search, MapPin, Navigation, LocateFixed } from 'lucide-react';
 
 interface BuscarParoquiasProps {
   embedded?: boolean;
@@ -25,7 +24,6 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
   const [hasSearched, setHasSearched] = useState(false);
   const [loadingGPS, setLoadingGPS] = useState(false);
 
-  // --- Paginação ---
   const [paginaAtual, setPaginaAtual] = useState(1);
   const paroquiasPorPagina = 6; 
 
@@ -161,43 +159,43 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
           </label>
 
           <button
-  type="button"
-  disabled={loadingGPS}
-  onClick={() => {
-    if (navigator.geolocation) {
-      setLoadingGPS(true);
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          setLat(pos.coords.latitude); 
-          setLng(pos.coords.longitude);
-          setLoadingGPS(false);
-        },
-        () => {
-          alert('Não foi possível obter a sua localização.');
-          setLoadingGPS(false);
-        }
-      );
-    }
-  }}
-  style={{ 
-    padding: '14px 24px', 
-    background: 'linear-gradient(135deg,#243B55,#3E5C76)', 
-    color: '#fff', 
-    border: 'none', 
-    borderRadius: '12px', 
-    fontWeight: 800, 
-    display: 'flex', 
-    alignItems: 'center', 
-    gap: 8,
-    whiteSpace: 'nowrap',
-    opacity: loadingGPS ? 0.7 : 1,
-    cursor: loadingGPS ? 'wait' : 'pointer', // AGORA SÓ EXISTE ESTA LINHA DE CURSOR
-    transition: 'all 0.3s ease'
-  }}
->
-  <LocateFixed size={18} className={loadingGPS ? 'animate-spin' : ''} />
-  {loadingGPS ? 'A localizar...' : 'Perto de mim'}
-</button>
+            type="button"
+            disabled={loadingGPS}
+            onClick={() => {
+              if (navigator.geolocation) {
+                setLoadingGPS(true);
+                navigator.geolocation.getCurrentPosition(
+                  (pos) => {
+                    setLat(pos.coords.latitude); 
+                    setLng(pos.coords.longitude);
+                    setLoadingGPS(false);
+                  },
+                  () => {
+                    alert('Não foi possível obter a sua localização.');
+                    setLoadingGPS(false);
+                  }
+                );
+              }
+            }}
+            style={{ 
+              padding: '14px 24px', 
+              background: 'linear-gradient(135deg,#243B55,#3E5C76)', 
+              color: '#fff', 
+              border: 'none', 
+              borderRadius: '12px', 
+              fontWeight: 800, 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: 8,
+              whiteSpace: 'nowrap',
+              opacity: loadingGPS ? 0.7 : 1,
+              cursor: loadingGPS ? 'wait' : 'pointer',
+              transition: 'all 0.3s ease'
+            }}
+          >
+            <LocateFixed size={18} className={loadingGPS ? 'animate-spin' : ''} />
+            {loadingGPS ? 'A localizar...' : 'Perto de mim'}
+          </button>
         </form>
 
         {/* --- LISTAGEM --- */}
@@ -229,6 +227,51 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
                         <li key={i} style={{ marginBottom: 4, color: '#334155' }}>• {h.diaSemana} - {h.hora}</li>
                       ))}
                     </ul>
+
+                    {/* BOTÕES DE AÇÃO NO CARD */}
+                    <div style={{ marginTop: '16px', display: 'flex', gap: '10px' }}>
+                      <button
+                        onClick={() => {
+                          const url = `https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`;
+                          window.open(url, '_blank');
+                        }}
+                        style={{
+                          flex: 1,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '8px',
+                          padding: '10px',
+                          background: '#f1f5f9',
+                          color: '#475569',
+                          border: '1px solid #e2e8f0',
+                          borderRadius: '10px',
+                          fontSize: '0.85rem',
+                          fontWeight: 700,
+                          cursor: 'pointer'
+                        }}
+                      >
+                        <Navigation size={14} />
+                        Rota
+                      </button>
+
+                      <button
+                        onClick={() => router.push(`/paroquias/${p.id}`)}
+                        style={{
+                          flex: 1,
+                          padding: '10px',
+                          background: 'linear-gradient(135deg,#243B55,#3E5C76)',
+                          color: '#fff',
+                          border: 'none',
+                          borderRadius: '10px',
+                          fontSize: '0.85rem',
+                          fontWeight: 700,
+                          cursor: 'pointer'
+                        }}
+                      >
+                        Detalhes
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
