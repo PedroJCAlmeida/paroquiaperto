@@ -201,4 +201,73 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
                   {p.imagem && <img src={p.imagem} alt={p.nome} style={{ width: 100, height: 100, objectFit: 'cover', borderRadius: '16px', marginRight: 16 }} />}
                   <div style={{ flex: 1 }}>
                     <h3
-                      style={{ fontSize: '1.35rem', fontWeight: 900, color: '#243B55', marginBottom
+                      style={{ fontSize: '1.35rem', fontWeight: 900, color: '#243B55', marginBottom: 8, cursor: 'pointer' }}
+                      onClick={() => router.push(`/paroquias/${p.id}`)}
+                    >
+                      {p.nome}
+                    </h3>
+                    <p style={{ fontSize: '1.08rem', color: '#243B55', fontWeight: 700, marginBottom: 4 }}>
+                      <strong>Endereço:</strong> {p.endereco}
+                    </p>
+                    <p style={{ fontSize: '1.02rem', color: '#334155', marginBottom: 8 }}>{p.descricao}</p>
+                    <strong style={{ color: '#A67C52', fontSize: '1.08rem' }}>Horários:</strong>
+                    <ul style={{ listStyle: 'disc', marginLeft: 18, marginTop: 2, color: '#243B55', fontSize: '1.01rem' }}>
+                      {Array.isArray(p.horarios) &&
+                        p.horarios.map((h, idx) => (
+                          <li key={idx}>
+                            {typeof h === 'object' ? `${h.diaSemana} ${h.hora} - ${h.tipo}` : String(h)}
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                </div>
+            ))}
+          </div>
+
+          {/* PAGINAÇÃO */}
+          {totalPaginas > 1 && (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 12, marginTop: 40 }}>
+              <button
+                type="button"
+                disabled={paginaAtual === 1}
+                onClick={() => setPaginaAtual(prev => prev - 1)}
+                style={{ padding: '10px', borderRadius: '50%', border: '1px solid #A67C52', background: paginaAtual === 1 ? '#f3f3f3' : '#fff', cursor: paginaAtual === 1 ? 'not-allowed' : 'pointer', color: '#A67C52', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              >
+                <ChevronLeft size={24} />
+              </button>
+              
+              <div style={{ display: 'flex', gap: 8 }}>
+                {[...Array(totalPaginas)].map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setPaginaAtual(i + 1)}
+                    style={{
+                      width: 40, height: 40, borderRadius: '10px', border: 'none',
+                      background: paginaAtual === i + 1 ? '#A67C52' : '#fff',
+                      color: paginaAtual === i + 1 ? '#fff' : '#243B55',
+                      fontWeight: 700, cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+                    }}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                type="button"
+                disabled={paginaAtual === totalPaginas}
+                onClick={() => setPaginaAtual(prev => prev + 1)}
+                style={{ padding: '10px', borderRadius: '50%', border: '1px solid #A67C52', background: paginaAtual === totalPaginas ? '#f3f3f3' : '#fff', cursor: paginaAtual === totalPaginas ? 'not-allowed' : 'pointer', color: '#A67C52', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              >
+                <ChevronRight size={24} />
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default BuscarParoquias;
