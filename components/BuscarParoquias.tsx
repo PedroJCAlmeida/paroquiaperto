@@ -180,7 +180,17 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
     }
   }}
   style={{ 
-    // ... teus estilos ...
+    padding: '14px 24px', 
+    background: 'linear-gradient(135deg,#243B55,#3E5C76)', 
+    color: '#fff', 
+    border: 'none', 
+    borderRadius: '12px', 
+    fontWeight: 800, 
+    cursor: 'pointer', 
+    display: 'flex', 
+    alignItems: 'center', 
+    gap: 8,
+    whiteSpace: 'nowrap', // Evita que o texto quebre
     opacity: loadingGPS ? 0.7 : 1,
     cursor: loadingGPS ? 'wait' : 'pointer',
     transition: 'all 0.3s ease'
