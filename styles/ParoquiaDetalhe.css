@@ -1,11 +1,12 @@
+/* Variáveis de Cores para Modo Light e Dark */
 :root {
   --detalhe-bg: #f8fafc;
   --card-bg: #ffffff;
   --text-main: #243B55;
   --text-sub: #475569;
   --border-color: #e2e8f0;
-  --shadow: rgba(30, 64, 175, 0.08);
-  --input-bg: #f8fafc;
+  --shadow-color: rgba(30, 64, 175, 0.08);
+  --sidebar-bg: #f8fafc;
 }
 
 [data-theme='dark'] {
@@ -14,123 +15,247 @@
   --text-main: #f1f5f9;
   --text-sub: #94a3b8;
   --border-color: #334155;
-  --shadow: rgba(0, 0, 0, 0.4);
-  --input-bg: #1e293b;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --sidebar-bg: #1e293b;
 }
-
-/* ── Paróquia Detail Page ── */
 
 .paroquia-detalhe-bg {
   background-color: var(--detalhe-bg);
   min-height: 100vh;
-  transition: background-color 0.3s ease;
+  transition: background 0.3s ease;
 }
 
 .paroquia-detalhe-card {
   background: var(--card-bg);
   border-radius: 32px;
-  box-shadow: 0 20px 50px var(--shadow);
+  box-shadow: 0 20px 50px var(--shadow-color);
   border: 1px solid var(--border-color);
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-/* Hero Section Image */
 .paroquia-hero-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: filter 0.3s ease;
 }
 
 [data-theme='dark'] .paroquia-hero-img {
-  filter: brightness(0.7) contrast(1.1);
+  filter: brightness(0.7);
 }
 
 .paroquia-detalhe-title {
   color: var(--text-main);
-  transition: color 0.3s ease;
+  font-size: 2.5rem;
+  font-weight: 900;
+  margin: 0;
 }
 
-/* Labels e Textos */
-.info-group label {
-  color: var(--color-gold); /* Mantém a cor da marca no dark */
-  font-weight: 700;
+.address-link {
   display: flex;
   align-items: center;
   gap: 6px;
-}
-
-.info-group p {
   color: var(--text-sub);
+  font-size: 1.1rem;
+  margin-top: 8px;
+  cursor: pointer;
 }
 
-/* Social Icons */
-.social-icon-btn {
-  background-color: var(--input-bg);
+.address-link:hover {
+  color: var(--color-gold);
+}
+
+.cta-button-gradient {
+  background: linear-gradient(135deg, #243B55, #3E5C76);
+  color: #fff;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.2s;
+}
+
+.cta-button-gradient:hover {
+  transform: translateY(-2px);
+}
+
+.paroquia-detalhe-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-main);
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+}
+
+.description-text {
+  line-height: 1.8;
+  color: var(--text-sub);
+  font-size: 1.05rem;
+  background: var(--sidebar-bg);
+  padding: 24px;
+  border-radius: 16px;
+  border-left: 5px solid var(--color-gold);
+}
+
+.horarios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.horario-card {
+  background: var(--card-bg);
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 6px var(--shadow-color);
+}
+
+.day-label {
+  font-weight: 800;
+  color: var(--color-gold);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.time-value {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--text-main);
+}
+
+.type-label {
+  color: var(--text-sub);
+  font-size: 0.9rem;
+}
+
+.contacts-card {
+  background: var(--sidebar-bg);
+  padding: 32px;
+  border-radius: 24px;
+  border: 1px solid var(--border-color);
+}
+
+.sidebar-title {
+  margin: 0 0 24px 0;
+  color: var(--text-main);
+}
+
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text-sub);
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.icon-box {
+  background: var(--card-bg);
+  padding: 8px;
+  border-radius: 10px;
   border: 1px solid var(--border-color);
   color: var(--text-main);
 }
 
+.social-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  transition: all 0.3s ease;
+}
+
 .social-icon-btn:hover {
-  background-color: var(--color-blue);
-  color: #fff;
+  background-color: var(--text-main);
+  color: var(--card-bg);
   transform: translateY(-3px);
 }
 
-/* Eventos e Horários */
 .evento-item-card {
-  background: var(--input-bg);
+  background: var(--card-bg);
+  border-radius: 20px;
+  overflow: hidden;
   border: 1px solid var(--border-color);
+  transition: transform 0.3s;
 }
 
 .evento-item-card:hover {
-  border-color: var(--color-gold);
-  background: var(--card-bg);
+  transform: translateY(-5px);
 }
 
-/* ── Responsividade Refinada ── */
+.event-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
 
+.event-info {
+  padding: 20px;
+}
+
+.event-info h4 {
+  margin: 0 0 10px 0;
+  color: var(--text-main);
+}
+
+.event-meta {
+  font-size: 0.9rem;
+  color: var(--color-gold);
+  font-weight: 800;
+}
+
+.back-button-overlay {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  background: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  color: #243B55;
+}
+
+/* Mobile Adjustments */
 @media (max-width: 1024px) {
   .paroquia-detalhe-grid {
-    grid-template-columns: 1fr !important; /* Coluna única em tablets */
-    gap: 40px;
+    grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 768px) {
-  .paroquia-detalhe-card {
-    margin-top: -40px; /* Sobe mais o card para cobrir a imagem hero */
-    border-radius: 24px 24px 0 0;
-    padding: 24px !important;
-  }
-
   .paroquia-detalhe-title {
-    font-size: 2rem !important;
+    font-size: 1.8rem;
   }
   
-  /* Botão de Direções em largura total no mobile */
-  .paroquia-detalhe-card button {
+  .cta-button-gradient {
     width: 100%;
     justify-content: center;
   }
 }
 
-@media (max-width: 480px) {
-  .paroquia-detalhe-title {
-    font-size: 1.6rem !important;
-  }
-
-  .info-group p {
-    font-size: 1rem;
-  }
-
-  /* Grid de horários em 2 colunas mesmo em mobile pequeno */
-  .grid-horarios {
-    grid-template-columns: 1fr 1fr !important;
-  }
-}
-
-/* Animação para o Loader */
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
