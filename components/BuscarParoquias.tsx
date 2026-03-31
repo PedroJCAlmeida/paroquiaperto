@@ -162,19 +162,19 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
 
           <button
   type="button"
-  disabled={loadingGPS} // Desativa enquanto carrega
+  disabled={loadingGPS}
   onClick={() => {
     if (navigator.geolocation) {
-      setLoadingGPS(true); // Ativa o loading
+      setLoadingGPS(true);
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           setLat(pos.coords.latitude); 
           setLng(pos.coords.longitude);
-          setLoadingGPS(false); // Desativa ao conseguir
+          setLoadingGPS(false);
         },
         () => {
           alert('Não foi possível obter a sua localização.');
-          setLoadingGPS(false); // Desativa em caso de erro
+          setLoadingGPS(false);
         }
       );
     }
@@ -186,13 +186,12 @@ function BuscarParoquias({ embedded = false }: BuscarParoquiasProps) {
     border: 'none', 
     borderRadius: '12px', 
     fontWeight: 800, 
-    cursor: 'pointer', 
     display: 'flex', 
     alignItems: 'center', 
     gap: 8,
-    whiteSpace: 'nowrap', // Evita que o texto quebre
+    whiteSpace: 'nowrap',
     opacity: loadingGPS ? 0.7 : 1,
-    cursor: loadingGPS ? 'wait' : 'pointer',
+    cursor: loadingGPS ? 'wait' : 'pointer', // AGORA SÓ EXISTE ESTA LINHA DE CURSOR
     transition: 'all 0.3s ease'
   }}
 >
