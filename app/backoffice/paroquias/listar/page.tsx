@@ -265,7 +265,9 @@ export default function ListarParoquias() {
             <div key={p.id} className="bo-list-item" style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '20px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
                 <div style={{ fontWeight: '700', color: '#1e293b', fontSize: '1.2rem' }}>{p.nome}</div>
-                <div style={{ color: '#64748b', fontSize: '1rem', marginTop: '4px' }}>{p.endereco}</div>
+                <div style={{ color: '#64748b', fontSize: '1rem', marginTop: '4px' }}>
+                  {`${p.rua}${p.numeroPorta ? `, ${p.numeroPorta}` : ''} - ${p.codigoPostal} ${p.localidade}`}
+                </div>
               </div>
               <div style={{ display: 'flex', gap: '12px' }}>
                 <button onClick={() => startEdit(p)} className="bo-btn bo-btn-light" style={{ padding: '12px 22px', borderRadius: '10px', fontWeight: '600', cursor: 'pointer' }}><Pencil size={18} /> Editar</button>
