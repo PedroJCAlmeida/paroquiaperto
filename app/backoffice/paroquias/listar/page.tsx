@@ -138,7 +138,10 @@ export default function ListarParoquias() {
       const payload = {
         ...editForm,
         imagem: finalUrl,
-        endereco: `${editForm.rua}, ${editForm.numero}, ${editForm.codigoPostal} ${editForm.cidade}`,
+        rua: editForm.rua,
+        numeroPorta: editForm.numero,
+        codigoPostal: editForm.codigoPostal,
+        localidade: editForm.cidade,
         distritoId: editForm.distritoId ? parseInt(editForm.distritoId) : null,
         conselhoId: editForm.conselhoId ? parseInt(editForm.conselhoId) : null
       };
