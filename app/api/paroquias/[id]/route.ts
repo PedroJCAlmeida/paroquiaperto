@@ -41,7 +41,10 @@ export async function PUT(
       where: { id: parseInt(id) },
       data: {
         nome: data.nome as string,
-        endereco: data.endereco as string,
+        rua: data.rua as string,
+        numeroPorta: (data.numeroPorta as string) || null,
+        codigoPostal: data.codigoPostal as string,
+        localidade: data.localidade as string,
         lat: data.lat != null && data.lat !== '' ? String(data.lat) : undefined,
         lng: data.lng != null && data.lng !== '' ? String(data.lng) : undefined,
         telefone: (data.telefone as string) || null,
