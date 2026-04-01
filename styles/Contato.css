@@ -1,187 +1,191 @@
+@import '@/styles/colors.css';
+
+/* =============================================================
+   PÁGINA DE CONTACTO (ESTRUTURA)
+   ============================================================= */
 .contato-page {
-  max-width: 960px;
+  max-width: 1000px;
   margin: 0 auto 40px;
-  padding: 32px 16px 0;
-  color: var(--color-gray-700, #1f2937);
+  padding: 40px 20px;
+  color: var(--text-main, #1f2937);
+  transition: color 0.3s ease;
 }
 
 .contato-title {
   text-align: center;
-  font-size: 1.75rem;
-  margin-bottom: 32px;
+  font-size: 2.2rem;
+  margin-bottom: 40px;
   color: var(--color-blue, #1F2F46);
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
-/* Grid para form + redes */
+/* Grid: Formulário (Esquerda) + Redes (Direita) */
 .contato-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 32px;
+  align-items: start;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 850px) {
   .contato-grid {
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1.8fr 1fr;
   }
 }
 
-/* Formulário */
+/* =============================================================
+   FORMULÁRIO DE CONTACTO
+   ============================================================= */
 .contato-form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  background: #fff;
-  border: 1px solid var(--color-gray-200, #E3DBCF);
-  border-radius: 16px;
-  padding: 32px 28px;
-  box-shadow: 0 4px 24px rgba(31, 47, 70, 0.07);
+  gap: 20px;
+  background: var(--bg-card, #fff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 20px;
+  padding: 35px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .contato-form label {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-blue, #1F2F46);
 }
 
 .contato-form input,
 .contato-form textarea {
-  padding: 12px 14px;
-  border: 1.5px solid var(--color-gray-300, #CFC2B0);
-  border-radius: 10px;
+  padding: 14px;
+  border: 1.5px solid var(--border-color, #e2e8f0);
+  border-radius: 12px;
   font-size: 1rem;
   font-family: inherit;
-  background: var(--color-gray-50, #FAF8F4);
-  color: var(--color-gray-700, #433A30);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  background: var(--bg-primary, #f8fafc);
+  color: var(--text-main, #1f2937);
+  transition: all 0.2s ease;
   outline: none;
   box-sizing: border-box;
 }
 
-.contato-form input::placeholder,
-.contato-form textarea::placeholder {
-  color: var(--color-gray-400, #A7957E);
-}
-
-.contato-form input:hover:not(:focus),
-.contato-form textarea:hover:not(:focus) {
-  border-color: var(--color-gray-400, #A7957E);
-}
-
 .contato-form input:focus,
 .contato-form textarea:focus {
-  outline: none;
   border-color: var(--color-blue, #1F2F46);
-  box-shadow: 0 0 0 3px rgba(31, 47, 70, 0.10);
-  background: #fff;
+  box-shadow: 0 0 0 4px rgba(31, 47, 70, 0.1);
+  background: var(--bg-card, #fff);
 }
 
+/* Botão de Enviar Premium */
 .contato-submit {
   background: linear-gradient(135deg, var(--color-blue, #1F2F46) 0%, var(--color-blue-light, #334B68) 100%);
   color: #fff;
   border: none;
-  padding: 13px;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 700;
-  font-family: inherit;
+  padding: 15px;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  font-weight: 800;
   cursor: pointer;
-  transition: opacity 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 4px 14px rgba(31, 47, 70, 0.16);
-  letter-spacing: 0.01em;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 14px rgba(31, 47, 70, 0.2);
+  margin-top: 10px;
 }
 
 .contato-submit:hover {
-  background: linear-gradient(135deg, var(--color-blue-light, #334B68) 0%, var(--color-blue, #1F2F46) 100%);
-  box-shadow: 0 6px 18px rgba(31, 47, 70, 0.22);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(31, 47, 70, 0.3);
 }
 
-.contato-status {
-  margin-top: 4px;
-  color: #166534;
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-weight: 500;
-  text-align: center;
-  font-size: 0.95rem;
+.contato-submit:active {
+  transform: translateY(0);
 }
 
-/* Redes Sociais */
+/* =============================================================
+   CARTÕES DE REDES SOCIAIS (SIDEBAR)
+   ============================================================= */
 .contato-redes {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
 .rede-card {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 14px 18px;
-  background-color: #fff;
-  border: 1px solid var(--color-gray-200, #E3DBCF);
-  border-radius: 12px;
+  gap: 16px;
+  padding: 18px;
+  background-color: var(--bg-card, #fff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 16px;
   text-decoration: none;
   color: inherit;
-  transition: box-shadow 0.2s ease, transform 0.15s ease;
+  transition: all 0.2s ease;
 }
 
 .rede-card:hover {
-  box-shadow: 0 4px 16px rgba(31, 47, 70, 0.10);
-  transform: translateY(-1px);
+  border-color: var(--color-blue);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  transform: translateX(5px);
 }
 
 .rede-icon {
   flex-shrink: 0;
-  color: var(--color-blue, #1F2F46);
-}
-
-.rede-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  color: #7c3aed; /* Mantemos o roxo para as redes como destaque */
 }
 
 .rede-titulo {
-  font-weight: 700;
-  font-size: 0.95rem;
-  color: var(--color-blue, #1F2F46);
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--text-main, #1F2F46);
 }
 
 .rede-texto {
-  font-size: 0.875rem;
-  color: var(--color-gray-500, #7F6F5B);
+  font-size: 0.85rem;
+  color: var(--text-sub, #64748b);
 }
 
-/* Responsividade */
+/* =============================================================
+   DARK MODE OVERRIDES
+   ============================================================= */
+.dark .contato-title {
+  color: #f1f5f9;
+}
+
+.dark .contato-form label {
+  color: #93c5fd; /* Azul mais claro para labels no dark */
+}
+
+.dark .contato-form input,
+.dark .contato-form textarea {
+  background: #0f172a !important;
+  color: #f1f5f9 !important;
+}
+
+.dark .rede-icon {
+  color: #a78bfa; /* Roxo mais suave no dark */
+}
+
+/* =============================================================
+   RESPONSIVIDADE (MOBILE)
+   ============================================================= */
 @media (max-width: 600px) {
   .contato-page {
-    padding: 20px 12px 0;
+    padding: 20px 15px;
   }
 
   .contato-title {
-    font-size: 1.4rem;
-    margin-bottom: 24px;
+    font-size: 1.6rem;
   }
 
   .contato-form {
-    padding: 22px 16px;
+    padding: 25px 20px;
   }
 
-  .contato-form input,
-  .contato-form textarea {
-    font-size: 1rem;
-  }
-
-  .contato-submit {
-    padding: 13px;
-    font-size: 0.95rem;
+  .rede-card:hover {
+    transform: none; /* Remove o deslocamento lateral no mobile */
   }
 }
-
