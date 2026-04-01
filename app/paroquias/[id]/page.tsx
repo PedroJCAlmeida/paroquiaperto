@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { 
   Facebook, Instagram, MessageCircle, 
   Phone, MapPinned, Clock, Info, Calendar, 
-  ChevronLeft, Mail, Globe
+  ChevronLeft, Mail
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -53,14 +53,22 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
     fetchData();
   }, [id]);
 
+  // LÓGICA DE AGRUPAMENTO DE HORÁRIOS
+  const horariosAgrupados = React.useMemo(() => {
+    return horarios.reduce((acc: { [key: string]: Horario[] }, curr) => {
+      const dia = curr.diaSemana;
+      if (!acc[dia]) acc[dia] = [];
+      acc[dia].push(curr);
+      return acc;
+    }, {});
+  }, [horarios]);
+
   const abrirDirecoes = () => {
     if (!paroquia) return;
-   const moradaTexto = `${paroquia.rua}, ${paroquia.numeroPorta || ''} ${paroquia.codigoPostal} ${paroquia.localidade}`;
-    
+    const moradaTexto = `${paroquia.rua}, ${paroquia.numeroPorta || ''} ${paroquia.codigoPostal} ${paroquia.localidade}`;
     const query = (paroquia.lat && paroquia.lng) 
       ? `${paroquia.lat},${paroquia.lng}` 
       : encodeURIComponent(moradaTexto);
-      
     window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
   };
 
@@ -75,7 +83,6 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
       <Navbar />
       <main className="paroquia-detalhe-bg" style={{ paddingBottom: '80px' }}>
         
-        {/* Banner Hero - Imagem sem distorção */}
         <div style={{ position: 'relative', width: '100%', height: isMobile ? '220px' : '380px', overflow: 'hidden' }}>
           <img 
             src={paroquia?.imagem || "/logo_paroquia.png"} 
@@ -88,7 +95,6 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
           </button>
         </div>
 
-        {/* Card de Conteúdo Principal */}
         <div className="paroquia-detalhe-card" style={{ 
           position: 'relative', 
           zIndex: 2, 
@@ -98,11 +104,10 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
           margin: '0 auto' 
         }}>
           
-          {/* Header do Detalhe */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '20px', marginBottom: '32px' }}>
             <div>
               <h1 className="paroquia-detalhe-title">{paroquia?.nome}</h1>
-             <p onClick={abrirDirecoes} className="address-link">
+              <p onClick={abrirDirecoes} className="address-link">
                 <MapPinned size={18} /> 
                 {paroquia && (
                 `${paroquia?.rua}${paroquia?.numeroPorta ? `, ${paroquia.numeroPorta}` : ''} - ${paroquia?.codigoPostal} ${paroquia?.localidade}`
@@ -115,28 +120,66 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
           </div>
 
           <div className="paroquia-detalhe-grid">
-            {/* Lado Esquerdo: Descrição e Horários */}
             <div className="main-content-column">
               <section className="info-group">
                 <h3 className="section-title"><Info size={20} color="var(--color-gold)" /> Sobre a Paróquia</h3>
                 <p className="description-text">{paroquia?.descricao || "Esta paróquia ainda não tem uma descrição detalhada disponível."}</p>
               </section>
 
+              {/* SEÇÃO DE HORÁRIOS AGRUPADOS */}
               <section style={{ marginTop: '40px' }}>
                 <h3 className="section-title"><Clock size={20} color="var(--color-gold)" /> Horários de Missa</h3>
-                <div className="horarios-grid">
-                  {horarios.length > 0 ? horarios.map((h) => (
-                    <div key={h.id} className="horario-card">
-                      <span className="day-label">{h.diaSemana}</span>
-                      <div className="time-value">{h.hora}</div>
-                      <div className="type-label">{h.tipo}</div>
-                    </div>
-                  )) : <p style={{ color: 'var(--text-sub)' }}>Nenhum horário registado no momento.</p>}
+                <div className="horarios-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
+                  {Object.keys(horariosAgrupados).length > 0 ? (
+                    Object.entries(horariosAgrupados).map(([dia, lista]) => (
+                      <div key={dia} className="horario-card-agrupado" style={{
+                        background: 'var(--card-bg)',
+                        padding: '24px',
+                        borderRadius: '20px',
+                        border: '1px solid var(--border-color)',
+                        boxShadow: '0 4px 15px rgba(0,0,0,0.05)'
+                      }}>
+                        <span style={{ 
+                          fontSize: '0.75rem', 
+                          fontWeight: 800, 
+                          color: 'var(--color-gold)', 
+                          textTransform: 'uppercase',
+                          letterSpacing: '1px',
+                          display: 'block',
+                          marginBottom: '15px',
+                          borderBottom: '1px solid var(--border-color)',
+                          paddingBottom: '8px'
+                        }}>
+                          {dia}
+                        </span>
+                        
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                          {lista.map((h) => (
+                            <div key={h.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <div style={{ fontWeight: 700, color: 'var(--text-main)', fontSize: '1.1rem' }}>
+                                {h.hora}
+                              </div>
+                              <div style={{ 
+                                fontSize: '0.8rem', 
+                                color: 'var(--text-sub)', 
+                                background: 'rgba(166, 124, 82, 0.1)', 
+                                padding: '4px 10px', 
+                                borderRadius: '8px' 
+                              }}>
+                                {h.tipo}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p style={{ color: 'var(--text-sub)' }}>Nenhum horário registado no momento.</p>
+                  )}
                 </div>
               </section>
             </div>
 
-            {/* Lado Direito: Contactos e Redes Sociais */}
             <div className="sidebar-column">
               <div className="contacts-card">
                 <h4 className="sidebar-title">Contactos</h4>
@@ -154,37 +197,9 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
                     </a>
                   )}
                 </div>
-
-                <div className="social-divider" style={{ marginTop: '30px', paddingTop: '20px', borderTop: '1px solid var(--border-color)' }}>
-                  <p className="social-label" style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--text-sub)', textTransform: 'uppercase', marginBottom: '15px' }}>Redes Sociais</p>
-                  <div className="social-icons-row" style={{ display: 'flex', gap: '12px' }}>
-                    {paroquia?.facebook && <a href={paroquia.facebook} target="_blank" className="social-icon-btn"><Facebook size={20} /></a>}
-                    {paroquia?.instagram && <a href={paroquia.instagram} target="_blank" className="social-icon-btn"><Instagram size={20} /></a>}
-                    {paroquia?.whatsapp && <a href={`https://wa.me/${paroquia.whatsapp.replace(/\D/g,'')}`} target="_blank" className="social-icon-btn"><MessageCircle size={20} /></a>}
-                  </div>
-                </div>
               </div>
             </div>
           </div>
-
-          {/* Seção de Eventos (Opcional) */}
-          {eventos.length > 0 && (
-            <section className="events-section" style={{ marginTop: '60px', borderTop: '1px solid var(--border-color)', paddingTop: '40px' }}>
-              <h3 className="section-title"><Calendar size={20} color="var(--color-gold)" /> Próximos Eventos</h3>
-              <div className="events-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '24px' }}>
-                {eventos.map((e) => (
-                  <div key={e.id} className="evento-item-card" style={{ borderRadius: '20px', overflow: 'hidden', border: '1px solid var(--border-color)', background: 'var(--card-bg)' }}>
-                    <img src={e.imagem || "/logo_paroquia.png"} alt={e.titulo} style={{ width: '100%', height: '160px', objectFit: 'cover' }} />
-                    <div style={{ padding: '20px' }}>
-                      <h4 style={{ margin: '0 0 10px 0', color: 'var(--text-main)', fontSize: '1.1rem' }}>{e.titulo}</h4>
-                      <div style={{ fontSize: '0.85rem', color: 'var(--color-gold)', fontWeight: 800 }}>{e.data} · {e.hora}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
-
         </div>
       </main>
       <Footer />
