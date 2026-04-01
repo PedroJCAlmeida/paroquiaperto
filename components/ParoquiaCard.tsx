@@ -88,6 +88,8 @@ export default function ParoquiaCard({ dados }: { dados: ParoquiaCardDados }) {
     });
   };
 
+  const moradaExibir = `${safeDados.rua}${safeDados.numeroPorta ? `, ${safeDados.numeroPorta}` : ''} - ${safeDados.codigoPostal} ${safeDados.localidade}`;
+
   return (
     <div className="paroquia-card" style={{
       background: '#fff',
@@ -123,10 +125,10 @@ export default function ParoquiaCard({ dados }: { dados: ParoquiaCardDados }) {
           {safeDados.nome}
         </h3>
         
-        <p style={{ fontSize: '0.85rem', color: '#64748b', display: 'flex', alignItems: 'flex-start', gap: '4px', marginBottom: '15px' }}>
-          <MapPin size={14} style={{ marginTop: '2px', flexShrink: 0 }} /> {safeDados.endereco}
-        </p>
-
+       <p style={{ fontSize: '0.85rem', color: '#64748b', display: 'flex', alignItems: 'flex-start', gap: '4px', marginBottom: '15px' }}>
+    <MapPin size={14} style={{ marginTop: '2px', flexShrink: 0 }} /> 
+    {moradaExibir}
+  </p>
         {/* ÁREA DE HORÁRIOS RESUMIDA */}
         <div style={{ flex: 1 }}>
           <span style={{ fontSize: '0.7rem', color: '#A67C52', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
