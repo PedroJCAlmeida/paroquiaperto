@@ -135,23 +135,54 @@ export default function InserirHorario() {
 
           {/* LISTA DE RESULTADOS (DROPDOWN) */}
          {isDropdownOpen && (
-  <ul style={{
-    position: 'absolute',
-    top: '100%',
-    left: 0,
-    right: 0,
-    // FUNDO: Usa var(--card-bg) ou var(--bg-primary) para garantir que não é transparente
-    backgroundColor: 'var(--bg-card, #ffffff)', 
-    // BORDA: Cor visível em ambos os temas
-    border: '1px solid var(--border-color, #e2e8f0)',
-    borderRadius: '8px',
-    marginTop: '4px',
-    maxHeight: '250px',
-    overflowY: 'auto',
-    // Z-INDEX e SOMBRA: Essencial para sobrepor e dar profundidade
-    zIndex: 999, 
-    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1)'
-  }}>
+  <ul 
+    className="dropdown-menu-dark-compat" // Classe para controlo via CSS ou estilo inline robusto
+    style={{
+      position: 'absolute',
+      top: '100%',
+      left: 0,
+      right: 0,
+      marginTop: '4px',
+      maxHeight: '250px',
+      overflowY: 'auto',
+      zIndex: 100,
+      borderRadius: '8px',
+      padding: '0',
+      listStyle: 'none',
+      // Cores dinâmicas baseadas no teu esquema do login-form/navbar
+      backgroundColor: 'var(--dropdown-bg, #ffffff)', 
+      border: '1px solid var(--dropdown-border, #e2e8f0)',
+      boxShadow: '0 10px 25px rgba(0,0,0,0.2)'
+    }}
+  >
+    {paroquiasExibidas.length > 0 ? (
+      paroquiasExibidas.map((p) => (
+        <li 
+          key={p.id}
+          onClick={() => selectParoquia(p)}
+          className="dropdown-item-dark-compat"
+          style={{
+            padding: '12px 15px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            fontSize: '0.9rem',
+            borderBottom: '1px solid var(--dropdown-border, #f1f5f9)',
+            color: 'var(--text-main-compat, #243B55)'
+          }}
+        >
+          <Church size={14} opacity={0.6} />
+          {p.nome}
+        </li>
+      ))
+    ) : (
+      <li style={{ padding: '15px', textAlign: 'center', color: '#94a3b8' }}>
+        Nenhum resultado.
+      </li>
+    )}
+  </ul>
+)}
               {paroquiasExibidas.length > 0 ? (
                 paroquiasExibidas.map((p) => (
                   <li 
