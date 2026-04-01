@@ -10,7 +10,10 @@ import { useRouter } from 'next/navigation';
 export interface ParoquiaCardDados {
   id: number;
   nome: string;
-  endereco: string;
+  rua: string;           // Adicionado
+  numeroPorta?: string | null; // Adicionado
+  codigoPostal: string;  // Adicionado
+  localidade: string;    // Adicionado
   distancia?: string;
   descricao?: string | null;
   horarios?: Horario[];
@@ -32,12 +35,19 @@ export default function ParoquiaCard({ dados }: { dados: ParoquiaCardDados }) {
 
   const abrirNoMaps = (e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
+
+    // 1. Criamos a string da morada combinando os novos campos
+    const moradaParaBusca = `${safeDados.rua}${safeDados.numeroPorta ? `, ${safeDados.numeroPorta}` : ''}, ${safeDados.codigoPostal} ${safeDados.localidade}`;
+
+    // 2. Definimos se a busca será por Coordenadas (mais preciso) ou por Texto
     const query = (safeDados.lat && safeDados.lng) 
       ? `${safeDados.lat},${safeDados.lng}` 
-      : encodeURIComponent(safeDados.endereco);
+      : encodeURIComponent(moradaParaBusca);
+
+    // 3. Corrigimos a sintaxe do URL (adicionando o '$' antes da chaveta)
+    // O link padrão recomendado é o https://www.google.com/maps/search/?api=1&query=
     window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
   };
-
   const mostrarPopupInfo = () => {
     const { nome, imagem, endereco, distancia, descricao, email, site } = safeDados;
 
