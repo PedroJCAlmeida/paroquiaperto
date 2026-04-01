@@ -1,280 +1,248 @@
-/* Variáveis de Cores para Modo Light e Dark */
-:root {
-  --detalhe-bg: #f8fafc;
-  --card-bg: #ffffff;
-  --text-main: #243B55;
-  --text-sub: #475569;
-  --border-color: #e2e8f0;
-  --shadow-color: rgba(30, 64, 175, 0.08);
-  --sidebar-bg: #f8fafc;
-}
+@import '@/styles/colors.css';
 
-[data-theme='dark'] {
-  --detalhe-bg: #0f172a;
-  --card-bg: #1e293b;
-  --text-main: #f1f5f9;
-  --text-sub: #94a3b8;
-  --border-color: #334155;
-  --shadow-color: rgba(0, 0, 0, 0.3);
-  --sidebar-bg: #1e293b;
-}
-
+/* =============================================================
+   PARÓQUIA DETALHE - LAYOUT E FUNDO
+   ============================================================= */
 .paroquia-detalhe-bg {
-  background-color: var(--detalhe-bg);
+  background-color: var(--bg-primary);
   min-height: 100vh;
   transition: background 0.3s ease;
+  padding-bottom: 60px;
 }
 
+/* Card Principal (Container da Informação) */
 .paroquia-detalhe-card {
-  background: var(--card-bg);
+  background: var(--bg-card);
   border-radius: 32px;
-  box-shadow: 0 20px 50px var(--shadow-color);
+  box-shadow: 0 20px 50px var(--color-shadow);
   border: 1px solid var(--border-color);
   transition: all 0.3s ease;
+  overflow: hidden; /* Garante que o conteúdo não saia das bordas arredondadas */
+}
+
+/* --- Hero Image Section --- */
+.paroquia-hero-container {
+  position: relative;
+  height: 400px;
+  width: 100%;
 }
 
 .paroquia-hero-img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* ESSENCIAL: corta a imagem para caber sem esticar */
+  object-fit: cover;
   display: block;
 }
 
-[data-theme='dark'] .paroquia-hero-img {
-  filter: brightness(0.7);
+/* Filtro para modo dark na imagem hero */
+.dark .paroquia-hero-img {
+  filter: brightness(0.7) contrast(1.1);
 }
 
+/* --- Títulos e Cabeçalho --- */
 .paroquia-detalhe-title {
   color: var(--text-main);
   font-size: 2.5rem;
   font-weight: 900;
   margin: 0;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
 }
 
 .address-link {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   color: var(--text-sub);
   font-size: 1.1rem;
-  margin-top: 8px;
+  margin-top: 12px;
   cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s;
 }
 
 .address-link:hover {
   color: var(--color-gold);
 }
 
-.cta-button-gradient {
-  background: linear-gradient(135deg, #243B55, #3E5C76);
-  color: #fff;
-  border: none;
-  padding: 14px 28px;
-  border-radius: 14px;
-  font-weight: 800;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: transform 0.2s;
-}
-
-.cta-button-gradient:hover {
-  transform: translateY(-2px);
-}
-
+/* =============================================================
+   GRID DE CONTEÚDO (CONTEÚDO vs SIDEBAR)
+   ============================================================= */
 .paroquia-detalhe-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 40px;
+  grid-template-columns: 1.8fr 1.2fr;
+  gap: 48px;
+  padding: 40px;
 }
 
-.section-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--text-main);
-  font-size: 1.4rem;
-  margin-bottom: 20px;
-}
-
+/* --- Descrição --- */
 .description-text {
   line-height: 1.8;
   color: var(--text-sub);
-  font-size: 1.05rem;
-  background: var(--sidebar-bg);
-  padding: 24px;
-  border-radius: 16px;
-  border-left: 5px solid var(--color-gold);
+  font-size: 1.1rem;
+  background: var(--bg-primary);
+  padding: 32px;
+  border-radius: 20px;
+  border-left: 6px solid var(--color-gold);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
 }
 
+/* --- Horários --- */
 .horarios-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
 }
 
 .horario-card {
-  background: var(--card-bg);
-  padding: 20px;
-  border-radius: 16px;
+  background: var(--bg-card);
+  padding: 24px;
+  border-radius: 18px;
   border: 1px solid var(--border-color);
-  box-shadow: 0 4px 6px var(--shadow-color);
+  box-shadow: 0 4px 12px var(--color-shadow);
+  text-align: center;
 }
 
 .day-label {
   font-weight: 800;
   color: var(--color-gold);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+  display: block;
 }
 
 .time-value {
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   font-weight: 900;
   color: var(--text-main);
 }
 
-.type-label {
-  color: var(--text-sub);
-  font-size: 0.9rem;
-}
-
+/* --- Contactos (Sidebar) --- */
 .contacts-card {
-  background: var(--sidebar-bg);
+  background: var(--bg-primary);
   padding: 32px;
-  border-radius: 24px;
+  border-radius: 28px;
   border: 1px solid var(--border-color);
+  position: sticky;
+  top: 100px;
 }
 
 .sidebar-title {
-  margin: 0 0 24px 0;
-  color: var(--text-main);
-}
-
-.contacts-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  font-size: 1.4rem;
+  font-weight: 800;
   margin-bottom: 24px;
+  color: var(--text-main);
 }
 
 .contact-link {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   text-decoration: none;
   color: var(--text-sub);
-  font-weight: 500;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.contact-link:hover {
+  color: var(--color-blue);
 }
 
 .icon-box {
-  background: var(--card-bg);
-  padding: 8px;
-  border-radius: 10px;
+  background: var(--bg-card);
+  padding: 10px;
+  border-radius: 12px;
   border: 1px solid var(--border-color);
-  color: var(--text-main);
+  color: var(--color-blue);
+  display: flex;
 }
 
-.social-icons-row {
-  display: flex !important;
-  flex-direction: row !important;
-  gap: 12px;
-  margin-top: 10px;
-  flex-wrap: wrap; /* Caso tenha muitos ícones, ele quebra para a linha de baixo no mobile */
-}
-
-.social-icon-btn {
-  width: 44px;
-  height: 44px;
+/* =============================================================
+   BOTÕES E INTERAÇÕES
+   ============================================================= */
+.cta-button-gradient {
+  background: linear-gradient(135deg, var(--color-blue), var(--color-blue-light));
+  color: #fff;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 16px;
+  font-weight: 800;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  color: var(--text-main);
-  transition: all 0.2s ease;
+  gap: 12px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(31, 47, 70, 0.2);
 }
 
-.social-icon-btn:hover {
+.cta-button-gradient:hover {
   transform: translateY(-3px);
-  background: var(--text-main);
-  color: var(--card-bg);
-}
-
-.evento-item-card {
-  background: var(--card-bg);
-  border-radius: 20px;
-  overflow: hidden;
-  border: 1px solid var(--border-color);
-  transition: transform 0.3s;
-}
-
-.evento-item-card:hover {
-  transform: translateY(-5px);
-}
-
-.event-img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-}
-
-.event-info {
-  padding: 20px;
-}
-
-.event-info h4 {
-  margin: 0 0 10px 0;
-  color: var(--text-main);
-}
-
-.event-meta {
-  font-size: 0.9rem;
-  color: var(--color-gold);
-  font-weight: 800;
+  box-shadow: 0 12px 28px rgba(31, 47, 70, 0.3);
 }
 
 .back-button-overlay {
   position: absolute;
   top: 24px;
   left: 24px;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
   border: none;
-  padding: 10px 18px;
-  border-radius: 12px;
-  font-weight: 700;
+  padding: 12px 20px;
+  border-radius: 14px;
+  font-weight: 800;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  color: #243B55;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  color: var(--color-blue);
+  z-index: 10;
+  transition: all 0.2s;
 }
 
-/* Mobile Adjustments */
+.back-button-overlay:hover {
+  background: white;
+  transform: translateX(-4px);
+}
+
+/* --- Dark Mode específico para Botão Back --- */
+.dark .back-button-overlay {
+  background: rgba(30, 41, 59, 0.8);
+  color: #f1f5f9;
+}
+
+/* =============================================================
+   RESPONSIVIDADE (MOBILE)
+   ============================================================= */
 @media (max-width: 1024px) {
   .paroquia-detalhe-grid {
     grid-template-columns: 1fr;
+    padding: 30px 20px;
+  }
+  
+  .contacts-card {
+    position: static;
   }
 }
 
 @media (max-width: 768px) {
+  .paroquia-hero-container {
+    height: 250px;
+  }
+  
   .paroquia-detalhe-title {
     font-size: 1.8rem;
   }
   
-  .cta-button-gradient {
-    width: 100%;
-    justify-content: center;
+  .horarios-grid {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-.animate-spin {
-  animation: spin 1s linear infinite;
+@media (max-width: 480px) {
+  .horarios-grid {
+    grid-template-columns: 1fr;
+  }
 }
