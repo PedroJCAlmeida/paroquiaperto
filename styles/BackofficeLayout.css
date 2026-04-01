@@ -1,22 +1,25 @@
-/* BackofficeLayout.css */
+/* =============================================================
+   BACKOFFICE LAYOUT ESTRUTURA
+   ============================================================= */
 .backoffice-container {
   display: flex;
   min-height: 100vh;
-  background-color: #f8fafc;
+  background-color: var(--bg-primary, #f8fafc);
+  transition: background-color 0.3s ease;
 }
 
 .backoffice-content {
   flex: 1;
   padding: 2.5rem;
-  transition: margin-left 0.3s ease, width 0.3s ease;
-  min-height: calc(100vh - 64px);
+  transition: margin-left 0.3s ease, width 0.3s ease, padding 0.3s ease;
+  min-height: 100vh;
   box-sizing: border-box;
   position: relative;
   z-index: 1;
-  background-color: #f8fafc;
+  background-color: var(--bg-primary, #f8fafc);
 }
 
-/* Desktop: Ajuste do conteúdo baseado no menu */
+/* --- Ajustes de Desktop baseados no Estado do Menu --- */
 .backoffice-menu.expanded + .backoffice-content {
   margin-left: 240px;
   width: calc(100% - 240px);
@@ -27,27 +30,61 @@
   width: calc(100% - 70px);
 }
 
-/* Responsividade para tablets/portáteis menores */
+/* =============================================================
+   DARK MODE OVERRIDES
+   ============================================================= */
+.dark .backoffice-container,
+.dark .backoffice-content {
+  background-color: #0f172a; /* Slate 900 */
+}
+
+/* Ajuste do elemento decorativo de fundo para Dark Mode */
+.dark .backoffice-content::before {
+  opacity: 0.03; /* Ainda mais subtil no modo escuro */
+  filter: invert(1); /* Inverte as cores do SVG para ficarem claras */
+}
+
+.dark .backoffice-footer {
+  color: #475569;
+}
+
+/* =============================================================
+   RESPONSIVIDADE (TABLETS & MOBILE)
+   ============================================================= */
+
+/* Tablets / Laptops pequenos */
 @media (max-width: 1024px) {
   .backoffice-content {
     padding: 1.5rem;
   }
 }
 
-/* Responsividade para Mobile */
+/* Mobile (Telemóveis) */
 @media (max-width: 700px) {
-  .backoffice-menu.mobile + .backoffice-content {
+  .backoffice-container {
+    flex-direction: column; /* Stack vertical */
+    padding-top: 60px; /* Espaço para a barra de topo mobile se existir */
+  }
+
+  .backoffice-content {
     margin-left: 0 !important;
     width: 100% !important;
-    padding: 1.5rem 1rem 4rem; /* Mais padding em baixo para scroll confortável */
+    padding: 1.5rem 1rem 5rem; /* Padding extra em baixo para não bater no menu mobile */
   }
-  
-  .backoffice-container {
-    padding-top: 64px !important;
+
+  /* Reset das margens do menu em mobile */
+  .backoffice-menu.expanded + .backoffice-content,
+  .backoffice-menu.collapsed + .backoffice-content {
+    margin-left: 0;
+    width: 100%;
   }
 }
 
-/* Elemento decorativo de fundo (opcional, mantido mas ajustado) */
+/* =============================================================
+   ELEMENTOS ADICIONAIS
+   ============================================================= */
+
+/* Decorativo de Fundo */
 .backoffice-content::before {
   content: '';
   position: fixed;
@@ -65,7 +102,8 @@
 .backoffice-footer {
   width: 100%;
   text-align: center;
-  padding: 2rem 0;
+  padding: 2.5rem 0;
   color: #94a3b8;
-  font-size: 0.875rem;
+  font-size: 0.85rem;
+  font-weight: 500;
 }
