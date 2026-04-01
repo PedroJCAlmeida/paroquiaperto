@@ -42,7 +42,9 @@ model Conselho {
 model Paroquia {
   id         Int       @id @default(autoincrement())
   nome       String
-  endereco   String
+  rua          String
+  numeroPorta  String?
+  codigoPostal String
   lat        String
   lng        String
   telefone   String?
