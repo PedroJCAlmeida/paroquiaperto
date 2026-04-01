@@ -26,16 +26,26 @@
   --color-border: #E3DBCF;
   --color-shadow: rgba(22, 26, 33, 0.10);
   --color-shadow-md: rgba(22, 26, 33, 0.16);
+
+/* Variáveis Semânticas (o segredo da eficiência) */
+  --bg-primary: var(--color-white);
+  --bg-card: var(--color-gray-50);
+  --text-main: var(--color-blue);
+  --text-sub: var(--color-gray-500);
+  --border-color: var(--color-gray-200);  
+}
+
+.dark {
+  --bg-primary: var(--color-gray-800);
+  --bg-card: #1E293B; /* Um tom ligeiramente mais claro que o fundo para os cards */
+  --text-main: var(--color-gray-50);
+  --text-sub: var(--color-gray-400);
+  --border-color: var(--color-gray-700);
 }
 
 /* Apply to both light and dark modes */
 body {
-  background-color: var(--color-white);
-  color: var(--color-gray-700);
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
-
-body.dark {
-  background-color: var(--color-gray-800);
-  color: var(--color-gray-100);
-}
-
