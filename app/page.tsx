@@ -10,8 +10,7 @@ import Footer from '@/components/Footer';
 
 export default function Landing() {
   const router = useRouter();
-  const [expandedFaq, setExpandedFaq] = useState(null);
-
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const faqs = [
     {
       q: 'Como funciona o Paróquia Perto?',
