@@ -1,112 +1,58 @@
-/* BackofficeMenu.css */
+/* =============================================================
+   BACKOFFICE SIDEBAR MENU
+   ============================================================= */
 .backoffice-menu {
   position: fixed;
-  top: 64px; /* Navbar height */
+  top: 64px; /* Altura da Navbar */
   left: 0;
   height: calc(100vh - 64px);
-  background-color: #ffffff;
-  border-right: 1px solid #e2e8f0;
-  transition: width 0.3s ease, transform 0.3s ease;
+  background-color: var(--bg-card, #ffffff);
+  border-right: 1px solid var(--border-color, #e2e8f0);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s ease;
   z-index: 1000;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.02);
 }
 
-.backoffice-menu.expanded {
-  width: 240px;
+.backoffice-menu.expanded { width: 240px; }
+.backoffice-menu.collapsed { width: 70px; }
+
+/* =============================================================
+   DARK MODE OVERRIDES
+   ============================================================= */
+.dark .backoffice-menu {
+  background-color: #1e293b; /* Slate 800 */
+  border-right-color: #334155;
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
 }
 
-.backoffice-menu.collapsed {
-  width: 70px;
+.dark .menu-link { color: #94a3b8; }
+.dark .menu-link:hover {
+  background-color: #334155;
+  color: #f1f5f9;
 }
 
-/* Mobile styles */
-@media (max-width: 700px) {
-  .backoffice-menu.mobile {
-    width: 280px;
-    transform: translateX(-100%);
-    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
-  }
+.dark .menu-toggle-btn { color: #94a3b8; }
+.dark .menu-toggle-btn:hover { background-color: #334155; color: #60a5fa; }
 
-  .backoffice-menu.mobile.expanded {
-    transform: translateX(0);
-  }
-
-  .backoffice-menu.mobile.collapsed {
-    width: 280px; /* On mobile, even if collapsed state is triggered, we show full width if it's open */
-    transform: translateX(-100%);
-  }
+.dark .bo-mobile-open-btn {
+  background: #1e293b;
+  border-color: #475569;
+  color: #e2e8f0;
 }
 
-.backoffice-menu-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(2px);
-  z-index: 999;
-  animation: fadeIn 0.2s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.bo-mobile-open-btn {
-  position: fixed;
-  top: 72px;
-  left: 12px;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  z-index: 998;
-  color: #243B55;
-  transition: transform 0.2s ease;
-}
-
-.bo-mobile-open-btn:active {
-  transform: scale(0.9);
-}
-
-.menu-toggle-btn {
-  background: none;
-  border: none;
-  padding: 12px;
-  margin: 8px;
-  cursor: pointer;
-  color: #64748b;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  transition: background-color 0.2s;
-  align-self: flex-end;
-}
-
-.menu-toggle-btn:hover {
-  background-color: #f1f5f9;
-  color: #243B55;
-}
-
+/* =============================================================
+   ELEMENTOS INTERNOS (LINKS E BOTÕES)
+   ============================================================= */
 .menu-list {
   list-style: none;
-  padding: 0;
+  padding: 8px;
   margin: 0;
   display: flex;
   flex-direction: column;
   gap: 4px;
-}
-
-.menu-item {
-  padding: 0 8px;
 }
 
 .menu-link {
@@ -122,38 +68,103 @@
 
 .menu-link:hover {
   background-color: #f1f5f9;
-  color: #243B55;
+  color: var(--color-blue, #243B55);
+}
+
+/* Link Ativo (Opcional, caso uses activeClassName) */
+.menu-link.active {
+  background-color: rgba(37, 99, 235, 0.1);
+  color: var(--color-blue);
 }
 
 .menu-icon {
   min-width: 24px;
   margin-right: 12px;
   flex-shrink: 0;
-}
-
-.backoffice-menu.collapsed .menu-icon {
-  margin-right: 0;
-}
-
-.backoffice-menu.collapsed .menu-link {
+  display: flex;
   justify-content: center;
 }
 
+.backoffice-menu.collapsed .menu-icon { margin-right: 0; }
+.backoffice-menu.collapsed .menu-link { justify-content: center; }
+
 .menu-text {
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+
+.backoffice-menu.collapsed .menu-text {
+  opacity: 0;
+  width: 0;
+  pointer-events: none;
 }
 
 .menu-section-label {
-  padding: 16px 20px 8px;
-  font-size: 0.7rem;
-  font-weight: 700;
+  padding: 20px 20px 8px;
+  font-size: 0.65rem;
+  font-weight: 800;
   color: #94a3b8;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
 }
 
 .backoffice-menu.collapsed .menu-section-label {
   padding: 16px 0 8px;
   text-align: center;
+  font-size: 0.5rem;
 }
+
+/* =============================================================
+   MOBILE & OVERLAY
+   ============================================================= */
+@media (max-width: 700px) {
+  .backoffice-menu {
+    top: 0;
+    height: 100vh;
+    width: 280px !important;
+    transform: translateX(-100%);
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .backoffice-menu.expanded { transform: translateX(0); }
+
+  /* Overlay para fechar o menu mobile ao clicar fora */
+  .backoffice-menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    animation: fadeIn 0.3s ease;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Botão Flutuante para Mobile */
+.bo-mobile-open-btn {
+  position: fixed;
+  bottom: 20px; /* Mudei para baixo para ser mais acessível com o polegar */
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-blue, #243B55);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+  cursor: pointer;
+  z-index: 998;
+  border: none;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.bo-mobile-open-btn:hover { transform: scale(1.1); }
+.bo-mobile-open-btn:active { transform: scale(0.9); }
