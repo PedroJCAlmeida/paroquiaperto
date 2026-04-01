@@ -1,130 +1,169 @@
 @import '@/styles/colors.css';
 
+/* =============================================================
+   PAROQUIA CARD - COMPONENTE DE LISTAGEM
+   ============================================================= */
 .paroquia-card {
-  background-color: var(--color-white);
-  border: 1px solid var(--color-gray-200);
-  border-radius: 12px; /* Padronizado com os outros cards */
-  padding: 20px;
-  margin-bottom: 16px;
-  box-shadow: 0 4px 6px var(--color-shadow);
+  background-color: var(--bg-card, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 16px; /* Aumentado para 16px para um look mais moderno/soft */
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px var(--color-shadow);
   display: flex;
-  flex-direction: column; /* Organização vertical mais moderna */
-  transition: all 0.3s ease;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  overflow: hidden;
 }
 
 .paroquia-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px);
   border-color: var(--color-blue);
-  box-shadow: 0 12px 24px rgba(30, 64, 175, 0.1);
+  box-shadow: 0 15px 30px rgba(31, 47, 70, 0.12);
 }
 
+/* --- Tipografia do Card --- */
 .paroquia-card h3 {
-  margin: 0 0 12px 0;
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: var(--color-blue);
+  margin: 0 0 14px 0;
+  font-size: 1.4rem;
+  font-weight: 850;
+  color: var(--text-main, #1F2F46);
   line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 .paroquia-card p {
   display: flex;
   align-items: center;
-  margin: 6px 0;
-  color: var(--color-gray-600);
+  margin: 8px 0;
+  color: var(--text-sub, #5E5244);
   font-size: 0.95rem;
+  line-height: 1.4;
 }
 
+/* Ícones Dourados Litúrgicos */
 .paroquia-card p svg {
-  margin-right: 8px;
-  color: var(--color-gold); /* Ícones em dourado para destaque */
+  margin-right: 10px;
+  color: var(--color-gold, #9C7A46);
+  flex-shrink: 0;
 }
 
-/* Badge de distância ou destaque */
+/* Badge de Distância / Localidade */
 .paroquia-card span {
   font-weight: 700;
   color: var(--color-blue);
   background: var(--color-blue-lighter);
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 0.85rem;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  display: inline-flex;
+  width: fit-content;
+  margin-bottom: 10px;
 }
 
-/* Botão "Saber Mais" harmonizado com a landing */
-/* Container que agrupa os botões */
+/* =============================================================
+   ÁREA DE BOTÕES (SABER MAIS)
+   ============================================================= */
 .saberMaisAreaButton {
-  margin-top: 24px;
+  margin-top: auto; /* Empurra os botões para o fundo do card se houver pouco texto */
+  padding-top: 24px;
   display: flex;
   gap: 12px;
   width: 100%;
 }
 
-/* Base dos botões - Forçando o estilo de botão real */
 .saberMais-button {
-  flex: 1; /* Faz com que ambos tenham exatamente o mesmo tamanho */
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 700;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 800;
   text-decoration: none !important;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   cursor: pointer;
   border: none;
   white-space: nowrap;
 }
 
-/* Botão Secundário: Ver Mais (Estilo Ghost/Outline) */
+/* Botão Secundário: Detalhes Rápidos */
 .btn-ver-mais {
-  background-color: var(--color-gray-100) !important;
-  color: var(--color-blue) !important;
-  border: 1px solid var(--color-gray-200) !important;
+  background-color: var(--bg-primary, #F2EEE7) !important;
+  color: var(--text-main) !important;
+  border: 1.5px solid var(--border-color) !important;
 }
 
 .btn-ver-mais:hover {
   background-color: var(--color-white) !important;
   border-color: var(--color-blue) !important;
-  color: var(--color-blue) !important;
-  transform: translateY(-2px);
+  transform: scale(1.02);
 }
 
-/* Botão Principal: Ver Página (Estilo Sólido) */
+/* Botão Principal: Ir para Página */
 .btn-ver-pagina {
-  background-color: var(--color-blue) !important;
+  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-blue-light) 100%) !important;
   color: white !important;
-  box-shadow: 0 4px 10px rgba(30, 64, 175, 0.2);
+  box-shadow: 0 4px 12px rgba(31, 47, 70, 0.2);
 }
 
 .btn-ver-pagina:hover {
-  background-color: var(--color-gold) !important;
-  color: var(--color-blue) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(184, 134, 11, 0.3);
+  background: var(--color-gold) !important;
+  color: var(--color-white) !important;
+  transform: scale(1.02);
+  box-shadow: 0 6px 18px rgba(156, 122, 70, 0.3);
 }
 
-/* Ajuste para ecrãs muito pequenos */
-@media (max-width: 400px) {
-  .saberMaisAreaButton {
-    flex-direction: column !important; /* Botões empilhados */
-    gap: 8px;
-  }
-  
-  .saberMais-button {
-    width: 100% !important;
-  }
+/* =============================================================
+   DARK MODE OVERRIDES
+   ============================================================= */
+.dark .paroquia-card {
+  background-color: #1e293b;
+  border-color: #334155;
 }
-/* Estilos para SweetAlert2 (Popups) padronizados */
+
+.dark .paroquia-card h3 { color: #f1f5f9; }
+.dark .paroquia-card p { color: #94a3b8; }
+
+.dark .paroquia-card span {
+  background: rgba(147, 197, 253, 0.1);
+  color: #93c5fd;
+}
+
+.dark .btn-ver-mais {
+  background-color: #0f172a !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+/* =============================================================
+   RESPONSIVIDADE & MODAIS
+   ============================================================= */
+@media (max-width: 480px) {
+  .saberMaisAreaButton {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .paroquia-card { padding: 20px; }
+}
+
+/* Estilos para SweetAlert2 padronizados com a Igreja */
+.swal2-popup {
+  border-radius: 20px !important;
+  background: var(--bg-card) !important;
+  color: var(--text-main) !important;
+}
+
 .swal2-confirm {
   background-color: var(--color-blue) !important;
-  border-radius: 8px !important;
-  font-weight: 600 !important;
-  padding: 12px 32px !important;
+  border-radius: 12px !important;
+  font-weight: 800 !important;
+  padding: 14px 40px !important;
 }
 
 .swal2-html-container img {
-  border-radius: 12px;
-  margin-bottom: 16px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
