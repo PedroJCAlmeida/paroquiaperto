@@ -23,7 +23,6 @@ export default function InserirHorario() {
   const [submitting, setSubmitting] = useState(false);
   const [paroquias, setParoquias] = useState<Paroquia[]>([]);
   
-  // Estados para o Combobox (Pesquisa + Seleção)
   const [searchTerm, setSearchTerm] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -31,12 +30,9 @@ export default function InserirHorario() {
   const [form, setForm] = useState<HorarioForm>(initialForm);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-  const { name, value } = e.target;
-  setForm((prev) => ({ 
-    ...prev, 
-    [name]: value 
-  }));
-};
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
   
   useEffect(() => {
     fetch('/api/paroquias')
@@ -44,7 +40,6 @@ export default function InserirHorario() {
       .then((data: Paroquia[]) => setParoquias(Array.isArray(data) ? data : []))
       .catch(() => setParoquias([]));
 
-    // Fechar o dropdown ao clicar fora
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsDropdownOpen(false);
@@ -54,7 +49,6 @@ export default function InserirHorario() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Filtragem: Se não houver termo, mostra todas. Se houver, filtra.
   const paroquiasExibidas = useMemo(() => {
     if (!searchTerm) return paroquias;
     return paroquias.filter(p => 
@@ -105,7 +99,6 @@ export default function InserirHorario() {
 
       <form className="backoffice-form" onSubmit={handleSubmit}>
         
-        {/* COMBOBOX: PESQUISA + LISTA */}
         <div className="form-group" style={{ position: 'relative', marginBottom: '20px' }} ref={dropdownRef}>
           <label>Paróquia</label>
           <div style={{ position: 'relative', cursor: 'pointer' }}>
@@ -121,89 +114,63 @@ export default function InserirHorario() {
               onChange={(e) => {
                 setSearchTerm(e.target.value);
                 setIsDropdownOpen(true);
-                setForm(prev => ({...prev, paroquiaId: ''})); // Reset ID ao escrever
+                setForm(prev => ({...prev, paroquiaId: ''}));
               }}
               required
             />
 
-            {/* Ícones de interação à direita */}
             <div style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', display: 'flex', gap: '5px' }}>
               {searchTerm && <X size={16} onClick={() => {setSearchTerm(''); setForm(prev => ({...prev, paroquiaId: ''}))}} style={{ color: '#94a3b8', cursor: 'pointer' }} />}
               <ChevronDown size={20} onClick={() => setIsDropdownOpen(!isDropdownOpen)} style={{ color: '#243B55', cursor: 'pointer', transform: isDropdownOpen ? 'rotate(180deg)' : 'none', transition: '0.2s' }} />
             </div>
           </div>
 
-          {/* LISTA DE RESULTADOS (DROPDOWN) */}
-         {isDropdownOpen && (
-  <ul 
-    className="dropdown-menu-dark-compat" // Classe para controlo via CSS ou estilo inline robusto
-    style={{
-      position: 'absolute',
-      top: '100%',
-      left: 0,
-      right: 0,
-      marginTop: '4px',
-      maxHeight: '250px',
-      overflowY: 'auto',
-      zIndex: 100,
-      borderRadius: '8px',
-      padding: '0',
-      listStyle: 'none',
-      // Cores dinâmicas baseadas no teu esquema do login-form/navbar
-      backgroundColor: 'var(--dropdown-bg, #ffffff)', 
-      border: '1px solid var(--dropdown-border, #e2e8f0)',
-      boxShadow: '0 10px 25px rgba(0,0,0,0.2)'
-    }}
-  >
-    {paroquiasExibidas.length > 0 ? (
-      paroquiasExibidas.map((p) => (
-        <li 
-          key={p.id}
-          onClick={() => selectParoquia(p)}
-          className="dropdown-item-dark-compat"
-          style={{
-            padding: '12px 15px',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            fontSize: '0.9rem',
-            borderBottom: '1px solid var(--dropdown-border, #f1f5f9)',
-            color: 'var(--text-main-compat, #243B55)'
-          }}
-        >
-          <Church size={14} opacity={0.6} />
-          {p.nome}
-        </li>
-      ))
-    ) : (
-      <li style={{ padding: '15px', textAlign: 'center', color: '#94a3b8' }}>
-        Nenhum resultado.
-      </li>
-    )}
-  </ul>
-)}
+          {/* LISTA DE RESULTADOS CORRIGIDA */}
+          {isDropdownOpen && (
+            <ul 
+              className="dropdown-menu-dark-compat"
+              style={{
+                position: 'absolute',
+                top: '100%',
+                left: 0,
+                right: 0,
+                marginTop: '4px',
+                maxHeight: '250px',
+                overflowY: 'auto',
+                zIndex: 100,
+                borderRadius: '8px',
+                padding: '0',
+                listStyle: 'none',
+                backgroundColor: 'var(--dropdown-bg, #ffffff)', 
+                border: '1px solid var(--dropdown-border, #e2e8f0)',
+                boxShadow: '0 10px 25px rgba(0,0,0,0.2)'
+              }}
+            >
               {paroquiasExibidas.length > 0 ? (
                 paroquiasExibidas.map((p) => (
                   <li 
                     key={p.id}
                     onClick={() => selectParoquia(p)}
+                    className="dropdown-item-dark-compat"
                     style={{
-                      padding: '12px 15px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px',
-                      borderBottom: '1px solid #f8fafc', fontSize: '0.9rem',
-                      backgroundColor: String(p.id) === form.paroquiaId ? '#f0f4f8' : 'transparent',
-                      color: String(p.id) === form.paroquiaId ? '#243B55' : 'inherit',
-                      fontWeight: String(p.id) === form.paroquiaId ? '600' : '400'
+                      padding: '12px 15px',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '10px',
+                      fontSize: '0.9rem',
+                      borderBottom: '1px solid var(--dropdown-border, #f1f5f9)',
+                      color: 'var(--text-main-compat, #243B55)'
                     }}
-                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f8fafc')}
-                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = String(p.id) === form.paroquiaId ? '#f0f4f8' : 'transparent')}
                   >
                     <Church size={14} opacity={0.6} />
                     {p.nome}
                   </li>
                 ))
               ) : (
-                <li style={{ padding: '15px', color: '#94a3b8', textAlign: 'center', fontSize: '0.85rem' }}>Nenhum resultado.</li>
+                <li style={{ padding: '15px', textAlign: 'center', color: '#94a3b8' }}>
+                  Nenhum resultado.
+                </li>
               )}
             </ul>
           )}
