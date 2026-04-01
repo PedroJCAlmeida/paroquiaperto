@@ -56,7 +56,9 @@ function BuscaIgrejas() {
               {p.imagem && <img src={p.imagem} alt={p.nome} className="church-image" />}
               <div className="church-details">
                 <h3>{p.nome}</h3>
-                <p><strong>Endereço:</strong> {p.endereco}</p>
+                <p>
+  <strong>Endereço:</strong> {`${p.rua}${p.numeroPorta ? `, ${p.numeroPorta}` : ''} - ${p.codigoPostal} ${p.localidade}`}
+</p>
                 <p>{p.descricao}</p>
                 <strong>Horários:</strong>
                 <ul className="church-hours-list">
