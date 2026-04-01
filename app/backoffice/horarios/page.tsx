@@ -134,15 +134,24 @@ export default function InserirHorario() {
           </div>
 
           {/* LISTA DE RESULTADOS (DROPDOWN) */}
-          {isDropdownOpen && (
-           <ul style={{
-  position: 'absolute', top: '100%', left: 0, right: 0,
-  backgroundColor: 'var(--card-bg)', // Usa a variável do teu tema
-  border: '1px solid var(--border-color)', 
-  color: 'var(--text-main)',
-  marginTop: '4px', maxHeight: '250px', overflowY: 'auto', zIndex: 100,
-  boxShadow: '0 10px 25px rgba(0,0,0,0.2)'
-}}>
+         {isDropdownOpen && (
+  <ul style={{
+    position: 'absolute',
+    top: '100%',
+    left: 0,
+    right: 0,
+    // FUNDO: Usa var(--card-bg) ou var(--bg-primary) para garantir que não é transparente
+    backgroundColor: 'var(--bg-card, #ffffff)', 
+    // BORDA: Cor visível em ambos os temas
+    border: '1px solid var(--border-color, #e2e8f0)',
+    borderRadius: '8px',
+    marginTop: '4px',
+    maxHeight: '250px',
+    overflowY: 'auto',
+    // Z-INDEX e SOMBRA: Essencial para sobrepor e dar profundidade
+    zIndex: 999, 
+    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1)'
+  }}>
               {paroquiasExibidas.length > 0 ? (
                 paroquiasExibidas.map((p) => (
                   <li 
