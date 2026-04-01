@@ -93,7 +93,10 @@ async function main() {
       const paroquia = await prisma.paroquia.create({
         data: {
           nome: p.nome,
-          endereco: p.endereco,
+          rua: p.rua || "Rua Desconhecida",
+          numeroPorta: p.numeroPorta || "S/N",
+          codigoPostal: p.codigoPostal || "0000-000",
+          localidade: p.localidade || "Porto",
           lat: String(p.lat),
           lng: String(p.lng),
           descricao: p.descricao,
