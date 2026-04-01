@@ -207,7 +207,11 @@ export default function MapaNavegacao({ paroquia }: MapaNavegacaoProps) {
             }}>
               <strong>📍 Coordenadas:</strong> {lat.toFixed(4)}, {lng.toFixed(4)}
               <br />
-              <strong>🏘️ Endereço:</strong> {paroquia.endereco || 'Não informado'}
+              <strong>🏘️ Endereço:</strong> {
+  paroquia ? (
+    `${paroquia.rua}${paroquia.numeroPorta ? `, ${paroquia.numeroPorta}` : ''} - ${paroquia.codigoPostal} ${paroquia.localidade}`
+  ) : 'Não informado'
+}
             </div>
           </>
         ) : (
