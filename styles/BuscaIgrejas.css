@@ -1,67 +1,146 @@
+@import '@/styles/colors.css';
+
+/* =============================================================
+   CONTAINER DE BUSCA (ESTRUTURA)
+   ============================================================= */
 .container {
   width: 100%;
-  max-width: 960px;
+  max-width: 1100px; /* Alinhado com o seu backoffice */
   margin: 0 auto;
-  padding: 20px;
+  padding: 40px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-/* Ajuste de padding para telas menores */
-@media (max-width: 576px) {
-  .container {
-    padding: 10px;
-  }
-}
-
-.search-input {
-  width: 100%; 
-  max-width: 400px; 
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  background-color: transparent;
   box-sizing: border-box;
 }
 
-/* Estilo para cada item da igreja */
+/* Ajuste de padding para telas mobile */
+@media (max-width: 576px) {
+  .container {
+    padding: 20px 15px;
+  }
+}
+
+/* =============================================================
+   INPUT DE PESQUISA (SEARCH-BAR)
+   ============================================================= */
+.search-input {
+  width: 100%; 
+  max-width: 500px; 
+  padding: 14px 20px;
+  font-size: 1rem;
+  background-color: var(--bg-card, #ffffff);
+  color: var(--text-main, #1e293b);
+  border: 1.5px solid var(--border-color, #e2e8f0);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: var(--color-blue);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+  transform: translateY(-2px);
+}
+
+/* =============================================================
+   ITENS DA LISTA (CHURCH-ITEM)
+   ============================================================= */
 .church-item {
-  border: 1px solid #eee;
-  border-radius: 8px;
-  padding: 1rem;
-  margin-bottom: 1rem;
+  background-color: var(--bg-card, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
   display: flex;
-  flex-direction: column; /* Padrão: empilha imagem e texto verticalmente */
-  gap: 1rem; /* Espaço entre a imagem e o texto/detalhes */
-  width: 100%; /* Ocupa a largura total disponível dentro do container */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  box-sizing: border-box; /* Importante para o padding não 'quebrar' a largura */
+  flex-direction: column; /* Mobile: Imagem em cima, texto em baixo */
+  gap: 1.5rem;
+  width: 100%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
 }
 
-/* Imagem dentro do item da igreja */
+.church-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  border-color: var(--color-blue-light, #cbd5e1);
+}
+
+/* Imagem da Igreja */
 .church-item img {
-  width: 100%; /* Imagem ocupa 100% da largura disponível no seu container (no caso, dentro do .church-item) */
-  max-width: 250px; /* Limita o tamanho da imagem */
-  height: auto; /* Mantém a proporção da imagem */
-  object-fit: cover; /* Recorta a imagem para preencher o espaço sem distorcer */
-  border-radius: 4px;
+  width: 100%;
+  max-width: 300px; /* Aumentado ligeiramente para melhor destaque */
+  height: 200px; /* Altura fixa para manter o grid alinhado */
+  object-fit: cover;
+  border-radius: 12px;
+  background-color: #f1f5f9;
 }
 
-/* Ajustes para telas maiores (desktop) */
-@media (min-width: 768px) { /* A partir de 768px (geralmente tablets em modo paisagem ou desktops) */
+/* Bloco de Conteúdo Textual */
+.church-item > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.church-item h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text-main, #1e293b);
+}
+
+.church-item p {
+  margin: 0;
+  color: var(--text-sub, #64748b);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* =============================================================
+   RESPONSIVIDADE (DESKTOP)
+   ============================================================= */
+@media (min-width: 768px) {
   .church-item {
-    flex-direction: row; /* Alinha a imagem e o texto lado a lado */
-    align-items: flex-start; /* Alinha os itens ao topo quando estão lado a lado */
+    flex-direction: row; /* Lado a lado em ecrãs grandes */
+    align-items: stretch;
   }
 
-  /* Ajuste para a imagem quando está lado a lado */
   .church-item img {
-     /* max-width: 250px; já definido, então a largura máxima dela será 250px */
-     min-width: 200px; /* Garante um tamanho mínimo para a imagem, se desejar */
+    min-width: 250px;
+    height: auto;
+    min-height: 160px;
   }
+}
 
-  .church-item > div { /* Estilos para o bloco de texto (nome, endereço, etc.) */
-    flex-grow: 1; /* Faz com que o bloco de texto ocupe o espaço restante */
-  }
+/* =============================================================
+   DARK MODE OVERRIDES
+   ============================================================= */
+.dark .search-input {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+.dark .church-item {
+  background-color: #1e293b;
+  border-color: #334155;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.dark .church-item h3 {
+  color: #f1f5f9;
+}
+
+.dark .church-item p {
+  color: #94a3b8;
+}
+
+.dark .church-item img {
+  background-color: #0f172a;
 }
