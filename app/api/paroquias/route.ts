@@ -104,10 +104,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const paroquia = await prisma.paroquia.create({
       data: {
         nome: String(data.nome),
-        rua: string,
-        numeroPorta?: string | null,
-        codigoPostal: string,
-        localidade: string,
+        rua: String(data.rua),
+        numeroPorta: (data.numeroPorta as string) || null,
+        codigoPostal: String(data.codigoPostal),
+        localidade: String(data.localidade),
         lat: String(data.lat),
         lng: String(data.lng),
         telefone: (data.telefone as string) || null,
