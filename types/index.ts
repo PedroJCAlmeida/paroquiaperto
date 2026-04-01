@@ -32,7 +32,10 @@ export interface Evento {
 export interface Paroquia {
   id: number;
   nome: string;
-  endereco: string;
+  rua: string;           // Adicionado
+  numeroPorta?: string | null; // Adicionado
+  codigoPostal: string;  // Adicionado
+  localidade: string;    // Adicionado
   lat: string;
   lng: string;
   telefone?: string | null;
