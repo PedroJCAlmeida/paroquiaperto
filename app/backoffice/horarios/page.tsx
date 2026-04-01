@@ -1,7 +1,7 @@
 'use client';
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, Church, X } from 'lucide-react'; // Ícones para melhorar a UI
+import { Search, Church, ChevronDown, X } from 'lucide-react';
 import SuccessModal from '@/components/SuccessModal';
 import Toast from '@/components/Toast';
 import '@/styles/Backoffice.css';
@@ -16,12 +16,14 @@ interface HorarioForm {
 
 export default function InserirHorario() {
   const router = useRouter();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  
   const [showToast, setShowToast] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [paroquias, setParoquias] = useState<Paroquia[]>([]);
   
-  // Estados para a pesquisa
+  // Estados para o Combobox (Pesquisa + Seleção)
   const [searchTerm, setSearchTerm] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -33,26 +35,28 @@ export default function InserirHorario() {
       .then((res) => res.json())
       .then((data: Paroquia[]) => setParoquias(Array.isArray(data) ? data : []))
       .catch(() => setParoquias([]));
+
+    // Fechar o dropdown ao clicar fora
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Filtragem inteligente das paróquias
-  const paroquiasFiltradas = useMemo(() => {
+  // Filtragem: Se não houver termo, mostra todas. Se houver, filtra.
+  const paroquiasExibidas = useMemo(() => {
+    if (!searchTerm) return paroquias;
     return paroquias.filter(p => 
       p.nome.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [paroquias, searchTerm]);
 
-  // Encontrar o nome da paróquia selecionada para mostrar no input
-  const selectedParoquiaName = useMemo(() => {
-    return paroquias.find(p => String(p.id) === form.paroquiaId)?.nome || '';
-  }, [paroquias, form.paroquiaId]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-
-  const selectParoquia = (id: number, nome: string) => {
-    setForm(prev => ({ ...prev, paroquiaId: String(id) }));
-    setSearchTerm(nome);
+  const selectParoquia = (p: Paroquia) => {
+    setForm(prev => ({ ...prev, paroquiaId: String(p.id) }));
+    setSearchTerm(p.nome);
     setIsDropdownOpen(false);
   };
 
@@ -71,20 +75,14 @@ export default function InserirHorario() {
         body: JSON.stringify({ ...form, paroquiaId: Number(form.paroquiaId) }),
       });
       
-      if (!response.ok) {
-        if (response.status === 401) {
-          router.replace('/login');
-          return;
-        }
-        throw new Error('Erro na resposta');
+      if (response.ok) {
+        setForm(initialForm);
+        setSearchTerm('');
+        setShowModal(true);
+        setShowToast(true);
       }
-
-      setForm(initialForm);
-      setSearchTerm('');
-      setShowModal(true);
-      setShowToast(true);
     } catch (error) {
-      alert('Erro ao enviar horário');
+      alert('Erro ao enviar');
     } finally {
       setSubmitting(false);
     }
@@ -92,67 +90,70 @@ export default function InserirHorario() {
 
   return (
     <div className="backoffice-page">
-      <h2>Inserir Horário de Missa</h2>
+      <h2>Inserir Horário</h2>
       
-      <SuccessModal show={showModal} onClose={() => setShowModal(false)} title="Sucesso!" message="Horário enviado com sucesso." />
-      <Toast show={showToast} type="success" message="Horário enviado com sucesso!" onClose={() => setShowToast(false)} />
+      <SuccessModal show={showModal} onClose={() => setShowModal(false)} title="Sucesso!" message="Horário guardado." />
+      <Toast show={showToast} type="success" message="Horário guardado!" onClose={() => setShowToast(false)} />
 
       <form className="backoffice-form" onSubmit={handleSubmit}>
         
-        {/* COMPONENTE DE PESQUISA CUSTOMIZADO */}
-        <div style={{ position: 'relative', marginBottom: '20px' }}>
+        {/* COMBOBOX: PESQUISA + LISTA */}
+        <div className="form-group" style={{ position: 'relative', marginBottom: '20px' }} ref={dropdownRef}>
           <label>Paróquia</label>
-          <div style={{ position: 'relative' }}>
+          <div style={{ position: 'relative', cursor: 'pointer' }}>
             <Search size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+            
             <input
               type="text"
-              placeholder="Pesquisar nome da paróquia..."
+              placeholder="Pesquisar ou selecionar..."
               className="form-input"
-              style={{ paddingLeft: '40px' }}
+              style={{ paddingLeft: '40px', paddingRight: '40px', cursor: 'text' }}
               value={searchTerm}
               onFocus={() => setIsDropdownOpen(true)}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
                 setIsDropdownOpen(true);
-                if (form.paroquiaId) setForm(prev => ({...prev, paroquiaId: ''}));
+                setForm(prev => ({...prev, paroquiaId: ''})); // Reset ID ao escrever
               }}
               required
             />
-            {searchTerm && (
-              <X 
-                size={18} 
-                onClick={() => {setSearchTerm(''); setForm(prev => ({...prev, paroquiaId: ''}))}}
-                style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', cursor: 'pointer' }} 
-              />
-            )}
+
+            {/* Ícones de interação à direita */}
+            <div style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', display: 'flex', gap: '5px' }}>
+              {searchTerm && <X size={16} onClick={() => {setSearchTerm(''); setForm(prev => ({...prev, paroquiaId: ''}))}} style={{ color: '#94a3b8', cursor: 'pointer' }} />}
+              <ChevronDown size={20} onClick={() => setIsDropdownOpen(!isDropdownOpen)} style={{ color: '#243B55', cursor: 'pointer', transform: isDropdownOpen ? 'rotate(180deg)' : 'none', transition: '0.2s' }} />
+            </div>
           </div>
 
-          {/* DROPDOWN DE RESULTADOS */}
-          {isDropdownOpen && (searchTerm || isDropdownOpen) && (
+          {/* LISTA DE RESULTADOS (DROPDOWN) */}
+          {isDropdownOpen && (
             <ul style={{
               position: 'absolute', top: '100%', left: 0, right: 0,
               backgroundColor: 'white', border: '1px solid #e2e8f0', borderRadius: '8px',
-              marginTop: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 10,
-              boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+              marginTop: '4px', maxHeight: '250px', overflowY: 'auto', zIndex: 100,
+              boxShadow: '0 10px 25px rgba(0,0,0,0.1)'
             }}>
-              {paroquiasFiltradas.length > 0 ? (
-                paroquiasFiltradas.map((p) => (
+              {paroquiasExibidas.length > 0 ? (
+                paroquiasExibidas.map((p) => (
                   <li 
                     key={p.id}
-                    onClick={() => selectParoquia(p.id, p.nome)}
+                    onClick={() => selectParoquia(p)}
                     style={{
-                      padding: '10px 15px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px',
-                      borderBottom: '1px solid #f1f5f9', fontSize: '0.9rem'
+                      padding: '12px 15px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px',
+                      borderBottom: '1px solid #f8fafc', fontSize: '0.9rem',
+                      backgroundColor: String(p.id) === form.paroquiaId ? '#f0f4f8' : 'transparent',
+                      color: String(p.id) === form.paroquiaId ? '#243B55' : 'inherit',
+                      fontWeight: String(p.id) === form.paroquiaId ? '600' : '400'
                     }}
                     onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f8fafc')}
-                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = String(p.id) === form.paroquiaId ? '#f0f4f8' : 'transparent')}
                   >
-                    <Church size={14} color="#243B55" />
+                    <Church size={14} opacity={0.6} />
                     {p.nome}
                   </li>
                 ))
               ) : (
-                <li style={{ padding: '10px 15px', color: '#94a3b8', fontSize: '0.85rem' }}>Nenhuma paróquia encontrada.</li>
+                <li style={{ padding: '15px', color: '#94a3b8', textAlign: 'center', fontSize: '0.85rem' }}>Nenhum resultado.</li>
               )}
             </ul>
           )}
@@ -162,7 +163,7 @@ export default function InserirHorario() {
           <label>
             Dia da Semana
             <select name="diaSemana" value={form.diaSemana} onChange={handleChange} required>
-              <option value="">Selecione um dia</option>
+              <option value="">Selecione...</option>
               {['Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado', 'Domingo', 'Seg-Sex', 'Feriados'].map((d) => (
                 <option key={d} value={d}>{d}</option>
               ))}
@@ -177,12 +178,12 @@ export default function InserirHorario() {
         <label>
           Tipo
           <select name="tipo" value={form.tipo} onChange={handleChange} required>
-            {['Missa','Confissão','Adoração','Outros'].map((t) => <option key={t} value={t}>{t}</option>)}
+            {['Missa','Confissão','Adoração','Catequese','Terço','Outros'].map((t) => <option key={t} value={t}>{t}</option>)}
           </select>
         </label>
 
-        <button type="submit" disabled={submitting} style={{ marginTop: '10px' }}>
-          {submitting ? 'A salvar...' : 'Salvar'}
+        <button type="submit" disabled={submitting} className="bo-btn-primary">
+          {submitting ? 'A guardar...' : 'Guardar Horário'}
         </button>
       </form>
     </div>
