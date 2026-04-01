@@ -42,9 +42,6 @@ model Conselho {
 model Paroquia {
   id         Int       @id @default(autoincrement())
   nome       String
-  rua          String
-  numeroPorta  String?
-  codigoPostal String
   lat        String
   lng        String
   telefone   String?
@@ -61,6 +58,10 @@ model Paroquia {
   conselho   Conselho? @relation(fields: [conselhoId], references: [id])
   distritoId Int?
   conselhoId Int?
+  rua          String
+  numeroPorta  String?
+  codigoPostal String
+  localidade   String
   @@map("paroquias")
 }
 
