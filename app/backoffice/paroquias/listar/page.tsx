@@ -65,15 +65,14 @@ export default function ListarParoquias() {
   }, [editForm.distritoId]);
 
   const startEdit = (p: Paroquia) => {
-    const partes = p.endereco?.split(', ') || [];
     setEditingId(p.id);
     setImagemPreview(p.imagem || '');
     setEditForm({
       nome: p.nome,
-      rua: partes[0] || '',
-      numero: partes[1] || '',
-      codigoPostal: partes[2]?.split(' ')[0] || '',
-      cidade: partes[2]?.split(' ').slice(1).join(' ') || '',
+      rua: p.rua || '',
+      numero: p.numeroPorta || '',
+      codigoPostal: p.codigoPostal || '',
+      cidade: p.localidade || '',
       distritoId: p.distritoId?.toString() || '',
       conselhoId: p.conselhoId?.toString() || '',
       telefone: p.telefone || '',
