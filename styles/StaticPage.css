@@ -1,144 +1,185 @@
-/* ── Shared styles for static/legal pages (Sobre, Políticas, RGPD, Cookies) ── */
+@import '@/styles/colors.css';
+
+/* =============================================================
+   PÁGINAS ESTÁTICAS E LEGAIS (SOBRE, RGPD, COOKIES)
+   ============================================================= */
 .static-page {
   max-width: 860px;
-  margin: 0 auto 60px;
-  padding: 32px 20px 0;
-  color: #1f2937;
-  font-family: Arial, sans-serif;
-  line-height: 1.7;
+  margin: 0 auto 80px;
+  padding: 60px 24px;
+  color: var(--text-sub, #433A30);
+  background-color: var(--bg-primary);
+  line-height: 1.8; /* Espaçamento maior para leitura prolongada */
+  transition: all 0.3s ease;
 }
 
 .static-page-header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 50px;
 }
 
 .static-page-icon {
   display: flex;
   justify-content: center;
-  margin-bottom: 16px;
-  color: #273E54;
+  margin-bottom: 20px;
+  color: var(--color-blue, #1F2F46);
 }
 
 .static-page-title {
-  font-size: 2rem;
-  font-weight: 800;
-  color: #273E54;
-  margin-bottom: 8px;
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--text-main, #1F2F46);
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
 }
 
 .static-page-subtitle {
-  font-size: 1rem;
-  color: #6b7280;
+  font-size: 1.1rem;
+  color: var(--text-sub, #7F6F5B);
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .static-page-divider {
   border: none;
-  border-top: 2px solid #e5e7eb;
-  margin: 0 auto 40px;
-  max-width: 200px;
+  border-top: 3px solid var(--color-gold, #9C7A46);
+  margin: 40px auto;
+  width: 60px;
+  opacity: 0.6;
 }
 
-/* ── Section ── */
+/* =============================================================
+   CONTEÚDO E SECÇÕES
+   ============================================================= */
 .static-section {
-  margin-bottom: 36px;
+  margin-bottom: 48px;
 }
 
 .static-section-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #273E54;
-  margin-bottom: 12px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-main, #1F2F46);
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
 .static-section p {
-  color: #374151;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
 }
 
 .static-section ul,
 .static-section ol {
-  padding-left: 1.4rem;
-  color: #374151;
-  margin-bottom: 12px;
+  padding-left: 1.5rem;
+  margin-bottom: 20px;
 }
 
 .static-section li {
-  margin-bottom: 6px;
+  margin-bottom: 10px;
 }
 
-/* ── Highlight box ── */
+/* Caixas de Destaque / Notas Importantes */
 .static-highlight {
-  background: #f0f9ff;
-  border-left: 4px solid #273E54;
-  border-radius: 0 8px 8px 0;
-  padding: 14px 18px;
-  margin-bottom: 16px;
-  color: #243B55;
-  font-size: 0.95rem;
+  background: var(--bg-card, #FAF8F4);
+  border-left: 5px solid var(--color-gold, #9C7A46);
+  border-radius: 4px 16px 16px 4px;
+  padding: 24px;
+  margin: 32px 0;
+  color: var(--text-main);
+  font-size: 1rem;
+  box-shadow: 0 4px 12px var(--color-shadow);
 }
 
-/* ── Contact CTA ── */
+/* ================= ============================================
+   CALL TO ACTION (CONTACTO LEGAL)
+   ============================================================= */
 .static-contact-cta {
-  background: linear-gradient(135deg, #273E54 0%, #3b5876 100%);
-  border-radius: 12px;
-  padding: 28px 24px;
+  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-blue-light) 100%);
+  border-radius: 20px;
+  padding: 40px 30px;
   text-align: center;
   color: #fff;
-  margin-top: 48px;
+  margin-top: 60px;
+  box-shadow: 0 10px 25px rgba(31, 47, 70, 0.2);
 }
 
 .static-contact-cta h3 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-bottom: 8px;
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: var(--color-gold);
 }
 
 .static-contact-cta p {
-  color: #cbd5e1;
-  margin-bottom: 16px;
-  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 24px;
+  font-size: 1rem;
 }
 
 .static-contact-cta a {
   display: inline-block;
-  background: #EEC651;
-  color: #273E54;
-  font-weight: 700;
-  padding: 10px 24px;
-  border-radius: 9999px;
+  background: var(--color-gold);
+  color: var(--color-blue);
+  font-weight: 800;
+  padding: 12px 32px;
+  border-radius: 12px;
   text-decoration: none;
-  font-size: 0.95rem;
-  transition: background 0.2s;
+  font-size: 1rem;
+  transition: all 0.2s ease;
 }
 
 .static-contact-cta a:hover {
-  background: #f5d37a;
+  background: #f5d37a; /* Gold mais brilhante */
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* ── Last updated badge ── */
+/* Data de Atualização */
 .static-updated {
-  font-size: 0.8rem;
-  color: #9ca3af;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-sub);
   text-align: center;
-  margin-top: 40px;
+  margin-top: 60px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-/* ── Responsive ── */
-@media (max-width: 600px) {
+/* =============================================================
+   DARK MODE OVERRIDES
+   ============================================================= */
+.dark .static-highlight {
+  background: #1e293b;
+  border-left-color: var(--color-gold);
+  color: #cbd5e1;
+}
+
+.dark .static-section-title {
+  color: var(--color-gold);
+}
+
+.dark .static-page-divider {
+  border-top-color: #334155;
+}
+
+/* =============================================================
+   RESPONSIVIDADE (MOBILE)
+   ============================================================= */
+@media (max-width: 640px) {
   .static-page {
-    padding: 20px 14px 0;
+    padding: 40px 18px;
   }
 
   .static-page-title {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
   }
 
   .static-section-title {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
+  }
+  
+  .static-contact-cta {
+    padding: 30px 20px;
   }
 }
-
