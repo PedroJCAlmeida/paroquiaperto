@@ -107,7 +107,11 @@ export default function Mapa({ paroquias = [], coords, onBoundsChange,onMarkerDr
             <Popup>
               <strong>{p.nome}</strong>
               <br />
-              {p.endereco}
+             <span style={{ color: '#64748b' }}>
+      {`${p.rua}${p.numeroPorta ? `, ${p.numeroPorta}` : ''}`}
+      <br />
+      {`${p.codigoPostal} ${p.localidade}`}
+    </span>
               <br />
               {typeof p.distancia === 'number' ? `${p.distancia.toFixed(1)} km` : (p.distancia ?? '')}
             </Popup>
