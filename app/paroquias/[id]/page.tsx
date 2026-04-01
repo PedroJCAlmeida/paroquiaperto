@@ -104,8 +104,10 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
               <h1 className="paroquia-detalhe-title">{paroquia?.nome}</h1>
              <p onClick={abrirDirecoes} className="address-link">
                 <MapPinned size={18} /> 
-                  {`${paroquia.rua}${paroquia.numeroPorta ? `, ${paroquia.numeroPorta}` : ''} - ${paroquia.codigoPostal} ${paroquia.localidade}`}
-            </p>
+                {paroquia && (
+                `${paroquia?.rua}${paroquia?.numeroPorta ? `, ${paroquia.numeroPorta}` : ''} - ${paroquia?.codigoPostal} ${paroquia?.localidade}`
+                )}
+              </p>
             </div>
             <button onClick={abrirDirecoes} className="cta-button-gradient">
               <MapPinned size={20} /> Como Chegar
