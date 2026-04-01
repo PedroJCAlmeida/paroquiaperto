@@ -49,14 +49,27 @@ export default function ParoquiaCard({ dados }: { dados: ParoquiaCardDados }) {
     window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
   };
   const mostrarPopupInfo = () => {
-    const { nome, imagem, endereco, distancia, descricao, email, site } = safeDados;
+    const { 
+      nome, 
+      imagem, 
+      rua, 
+      numeroPorta, 
+      codigoPostal, 
+      localidade, 
+      distancia, 
+      descricao, 
+      email, 
+      site 
+    } = safeDados;
 
+    const moradaExibir = `${rua}${numeroPorta ? `, ${numeroPorta}` : ''} - ${codigoPostal} ${localidade}`;
+    
     MySwal.fire({
       title: `<span style="color: #243B55; font-weight: 900;">${nome}</span>`,
       html: `
         <div style="text-align: left; font-family: sans-serif;">
           ${imagem ? `<img src="${imagem}" style="width:100%; border-radius:12px; margin-bottom:15px; height:200px; object-fit:cover;" />` : ''}
-          <p style="margin-bottom: 8px;"><strong>📍 Endereço:</strong> ${endereco}</p>
+          <p style="margin-bottom: 8px;"><strong>📍 Endereço:</strong> ${moradaExibir}</p>
           ${distancia && distancia !== '-' ? `<p><strong>📏 Distância:</strong> ${distancia} km</p>` : ''}
           ${descricao ? `<p style="background: #f8fafc; padding: 10px; border-radius: 8px; border-left: 4px solid #A67C52;">${descricao}</p>` : ''}
           <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 5px;">
