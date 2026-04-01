@@ -4,7 +4,10 @@ async function main() {
   const paroquia = await prisma.paroquia.create({
     data: {
       nome: "Paróquia de Teste",
-      endereco: "Rua de Teste, 123",
+      rua: "Rua de Teste",
+      numeroPorta: "123",
+      codigoPostal: "4000-000",
+      localidade: "Porto",
       lat: "41.142517",
       lng: "-8.61104",
       imagem: "https://res.cloudinary.com/test/image/upload/v12345678/test.jpg",
