@@ -508,3 +508,31 @@
   color: #cbd5e1;
 }
 
+/* Variáveis para facilitar (Modo Light - Padrão) */
+:root {
+  --dropdown-bg: #ffffff;
+  --dropdown-border: #e2e8f0;
+  --text-main-compat: #243B55;
+  --dropdown-hover: #f8fafc;
+}
+
+/* Overrides para Modo Dark */
+.dark {
+  --dropdown-bg: #1e293b;        /* Mesma cor da tua Navbar dark */
+  --dropdown-border: #334155;    /* Mesma cor das tuas bordas dark */
+  --text-main-compat: #f1f5f9;   /* Cor do teu texto body dark */
+  --dropdown-hover: #334155;     /* Cor de destaque ao passar o rato */
+}
+
+/* Estilos de hover para os itens do dropdown */
+.dropdown-item-dark-compat:hover {
+  background-color: var(--dropdown-hover) !important;
+}
+
+/* Garantir que o input de pesquisa também herda os estilos dark que já criaste */
+.dark .form-input {
+  background: #263345 !important;
+  border-color: #4f5c7a !important;
+  color: #f1f5f9 !important;
+}
+
