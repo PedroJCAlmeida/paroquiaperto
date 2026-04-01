@@ -55,10 +55,13 @@ export default function ParoquiaDetalhe({ params }: { params: Promise<{ id: stri
 
   const abrirDirecoes = () => {
     if (!paroquia) return;
+   const moradaTexto = `${paroquia.rua}, ${paroquia.numeroPorta || ''} ${paroquia.codigoPostal} ${paroquia.localidade}`;
+    
     const query = (paroquia.lat && paroquia.lng) 
       ? `${paroquia.lat},${paroquia.lng}` 
-      : encodeURIComponent(paroquia.endereco);
-    window.open(`https://www.google.com/maps/dir/?api=1&destination=${query}`, '_blank');
+      : encodeURIComponent(moradaTexto);
+      
+    window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
   };
 
   if (loading) return (
