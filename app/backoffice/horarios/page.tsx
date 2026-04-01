@@ -30,6 +30,14 @@ export default function InserirHorario() {
   const initialForm: HorarioForm = { paroquiaId: '', diaSemana: '', hora: '', tipo: 'Missa' };
   const [form, setForm] = useState<HorarioForm>(initialForm);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const { name, value } = e.target;
+  setForm((prev) => ({ 
+    ...prev, 
+    [name]: value 
+  }));
+};
+  
   useEffect(() => {
     fetch('/api/paroquias')
       .then((res) => res.json())
@@ -127,12 +135,14 @@ export default function InserirHorario() {
 
           {/* LISTA DE RESULTADOS (DROPDOWN) */}
           {isDropdownOpen && (
-            <ul style={{
-              position: 'absolute', top: '100%', left: 0, right: 0,
-              backgroundColor: 'white', border: '1px solid #e2e8f0', borderRadius: '8px',
-              marginTop: '4px', maxHeight: '250px', overflowY: 'auto', zIndex: 100,
-              boxShadow: '0 10px 25px rgba(0,0,0,0.1)'
-            }}>
+           <ul style={{
+  position: 'absolute', top: '100%', left: 0, right: 0,
+  backgroundColor: 'var(--card-bg)', // Usa a variável do teu tema
+  border: '1px solid var(--border-color)', 
+  color: 'var(--text-main)',
+  marginTop: '4px', maxHeight: '250px', overflowY: 'auto', zIndex: 100,
+  boxShadow: '0 10px 25px rgba(0,0,0,0.2)'
+}}>
               {paroquiasExibidas.length > 0 ? (
                 paroquiasExibidas.map((p) => (
                   <li 
