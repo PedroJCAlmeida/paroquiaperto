@@ -1,184 +1,210 @@
-/* ── Styled error pages (not-found + error boundary) ── */
+@import '@/styles/colors.css';
 
+/* =============================================================
+   PÁGINAS DE ERRO (404 / 500)
+   ============================================================= */
 .error-page {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 140px); /* leave room for Navbar + Footer */
-  padding: 40px 20px;
+  /* Garante que a página ocupa o ecrã todo sem scroll desnecessário */
+  min-height: 70vh; 
+  padding: 60px 20px;
   text-align: center;
-  font-family: var(--font-body, Arial, sans-serif);
+  background-color: transparent;
+  transition: background-color 0.3s ease;
 }
 
-/* ── Icon circle ── */
+/* --- Ícone Circular --- */
 .error-page-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 96px;
-  height: 96px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
-  background: var(--color-blue-lighter, #EAEFF4);
+  background: var(--bg-primary, #f1f5f9);
   color: var(--color-blue, #1F2F46);
-  margin-bottom: 28px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-/* ── Code badge (404 / 500) ── */
+/* --- Código do Erro (404 / 500) --- */
 .error-page-code {
-  font-size: 5rem;
+  font-size: 6rem;
   font-weight: 900;
   color: var(--color-blue, #1F2F46);
-  font-family: var(--font-heading, serif);
   line-height: 1;
-  margin: 0 0 12px;
+  margin: 0;
+  letter-spacing: -0.05em;
+  opacity: 0.9;
 }
 
-/* ── Heading ── */
+/* --- Título Principal --- */
 .error-page-title {
-  font-size: 1.75rem;
+  font-size: 1.85rem;
   font-weight: 800;
-  color: var(--color-blue, #1F2F46);
-  margin: 0 0 12px;
-  font-family: var(--font-heading, serif);
+  color: var(--text-main, #1F2F46);
+  margin: 12px 0;
+  letter-spacing: -0.02em;
 }
 
-/* ── Description ── */
+/* --- Descrição --- */
 .error-page-description {
-  font-size: 1rem;
-  color: #6b7280;
-  max-width: 480px;
-  line-height: 1.7;
-  margin: 0 0 36px;
+  font-size: 1.1rem;
+  color: var(--text-sub, #6b7280);
+  max-width: 500px;
+  line-height: 1.6;
+  margin: 0 auto 40px;
 }
 
-/* ── Action buttons ── */
+/* =============================================================
+   BOTÕES DE ACÇÃO
+   ============================================================= */
 .error-page-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 16px;
   justify-content: center;
 }
 
+/* Botão Principal (Preenchido) */
 .error-page-btn-primary {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   background: var(--color-blue, #1F2F46);
   color: #fff;
   font-weight: 700;
-  padding: 12px 28px;
-  border-radius: 9999px;
+  padding: 14px 32px;
+  border-radius: 14px; /* Padronizado com o Backoffice */
   text-decoration: none;
-  font-size: 0.95rem;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(31, 47, 70, 0.2);
 }
 
 .error-page-btn-primary:hover {
+  transform: translateY(-2px);
   background: var(--color-blue-light, #334B68);
+  box-shadow: 0 6px 20px rgba(31, 47, 70, 0.3);
 }
 
+/* Botão Secundário (Outline) */
 .error-page-btn-secondary {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   background: transparent;
-  color: var(--color-blue, #1F2F46);
+  color: var(--text-main, #1F2F46);
   font-weight: 700;
-  padding: 11px 28px;
-  border-radius: 9999px;
+  padding: 12px 30px;
+  border-radius: 14px;
   text-decoration: none;
-  font-size: 0.95rem;
-  border: 2px solid var(--color-blue, #1F2F46);
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  font-size: 1rem;
+  border: 2px solid var(--border-color, #e2e8f0);
+  transition: all 0.2s ease;
 }
 
 .error-page-btn-secondary:hover {
-  background: var(--color-blue, #1F2F46);
-  color: #fff;
+  background: var(--bg-primary, #f1f5f9);
+  border-color: var(--text-main);
 }
 
-/* ── Divider ── */
+/* =============================================================
+   SUGESTÕES E DIVISOR
+   ============================================================= */
 .error-page-divider {
   border: none;
-  border-top: 2px solid #e5e7eb;
-  width: 80px;
-  margin: 28px auto;
+  border-top: 1.5px solid var(--border-color, #e5e7eb);
+  width: 60px;
+  margin: 40px auto;
 }
 
-/* ── Suggestion links ── */
 .error-page-suggestions {
   list-style: none;
   padding: 0;
-  margin: 0;
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  gap: 12px;
+  gap: 20px;
 }
 
-.error-page-suggestions li a {
-  color: var(--color-gold, #9C7A46);
+.error-page-suggestions a {
+  color: #7c3aed; /* Cor de destaque roxa para links */
   text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: 700;
+  font-size: 0.95rem;
 }
 
-.error-page-suggestions li a:hover {
+.error-page-suggestions a:hover {
   text-decoration: underline;
 }
 
-.error-page-suggestions-sep {
-  color: #d1d5db;
-  font-size: 0.9rem;
-  user-select: none;
-}
-
-/* ── Dark mode ── */
+/* =============================================================
+   DARK MODE OVERRIDES
+   ============================================================= */
 .dark .error-page-icon {
-  background: rgba(255, 255, 255, 0.08);
-  color: #cbd5e1;
+  background: #1e293b;
+  color: #93c5fd;
 }
 
-.dark .error-page-code,
+.dark .error-page-code {
+  color: #f1f5f9;
+  text-shadow: 0 0 30px rgba(147, 197, 253, 0.1);
+}
+
 .dark .error-page-title {
-  color: #e2e8f0;
+  color: #f1f5f9;
 }
 
-.dark .error-page-btn-primary {
-  background: var(--color-blue-light, #334B68);
-}
-
-.dark .error-page-btn-primary:hover {
-  background: #3f5f80;
+.dark .error-page-description {
+  color: #94a3b8;
 }
 
 .dark .error-page-btn-secondary {
-  color: #e2e8f0;
-  border-color: #e2e8f0;
+  color: #f1f5f9;
+  border-color: #334155;
 }
 
 .dark .error-page-btn-secondary:hover {
-  background: #e2e8f0;
-  color: var(--color-blue, #1F2F46);
+  background: #1e293b;
 }
 
-/* ── Responsive ── */
-@media (max-width: 480px) {
+.dark .error-page-suggestions a {
+  color: #a78bfa;
+}
+
+/* =============================================================
+   RESPONSIVIDADE
+   ============================================================= */
+@media (max-width: 600px) {
+  .error-page {
+    padding: 40px 15px;
+  }
+
   .error-page-code {
-    font-size: 3.5rem;
+    font-size: 4rem;
   }
 
   .error-page-title {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
+  }
+
+  .error-page-actions {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
   }
 
   .error-page-btn-primary,
   .error-page-btn-secondary {
     width: 100%;
     justify-content: center;
+  }
+  
+  .error-page-suggestions {
+    flex-direction: column;
+    gap: 12px;
   }
 }
