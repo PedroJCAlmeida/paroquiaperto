@@ -52,7 +52,13 @@
 .landing-nav {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 40px;
+}
+
+.landing-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px; /* Espaço REAL entre cada palavra do menu */
 }
 
 .landing-nav-auth {
@@ -66,7 +72,9 @@
   text-decoration: none;
   color: var(--text-sub);
   font-weight: 600;
+  font-size: 0.95rem;
   transition: color 0.3s;
+  white-space: nowrap;
 }
 
 .landing-nav a:hover { color: var(--color-gold); }
