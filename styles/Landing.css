@@ -180,16 +180,25 @@
 .landing-step:hover { transform: translateY(-8px); }
 
 .landing-step-number {
-  background-color: var(--color-gold);
-  color: #1e293b;
   width: 50px;
   height: 50px;
+  background-color: var(--color-gold);
+  color: #1e293b;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  
+  /* ALINHAMENTO ABSOLUTO */
+  display: flex !important;
+  align-items: center !important;     /* Centraliza verticalmente */
+  justify-content: center !important;  /* Centraliza horizontalmente */
+  
+  /* RESET DE TEXTO */
   font-weight: 900;
-  margin-bottom: 24px;
+  font-size: 1.4rem;
+  line-height: 1 !important;           /* Impede que o número "caia" para baixo */
+  padding: 0 !important;               /* Remove qualquer margem interna invisível */
+  margin: 0 auto 24px auto !important; /* Centraliza o círculo no topo do card */
+  
+  box-shadow: 0 4px 12px rgba(156, 122, 70, 0.3);
 }
 
 .landing-step h3,
