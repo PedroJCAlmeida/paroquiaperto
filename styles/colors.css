@@ -1,51 +1,142 @@
-/* ── Catholic Color Palette - Classical & Sophisticated ── */
-:root {
-  /* Primary Colors - sober ecclesial blue */
-  --color-blue: #1F2F46;
-  --color-blue-light: #334B68;
-  --color-blue-lighter: #EAEFF4;
-  
-  /* Accent - antique liturgical gold */
-  --color-gold: #9C7A46;
-  --color-gold-dark: #7A6038;
-  
-  /* Neutrals - warm stone/parchment */
-  --color-white: #FFFFFF;
-  --color-gray-50: #FAF8F4;
-  --color-gray-100: #F2EEE7;
-  --color-gray-200: #E3DBCF;
-  --color-gray-300: #CFC2B0;
-  --color-gray-400: #A7957E;
-  --color-gray-500: #7F6F5B;
-  --color-gray-600: #5E5244;
-  --color-gray-700: #433A30;
-  --color-gray-800: #2C261F;
-  --color-black: #000000;
-  
-  /* Utilities */
-  --color-border: #E3DBCF;
-  --color-shadow: rgba(22, 26, 33, 0.10);
-  --color-shadow-md: rgba(22, 26, 33, 0.16);
+@import '@/styles/colors.css';
 
-/* Variáveis Semânticas (o segredo da eficiência) */
-  --bg-primary: var(--color-white);
-  --bg-card: var(--color-gray-50);
-  --text-main: var(--color-blue);
-  --text-sub: var(--color-gray-500);
-  --border-color: var(--color-gray-200);  
+.paroquias-page {
+  max-width: 1200px; /* Alinhado com o .landing-container */
+  margin: 0 auto 80px;
+  padding: 40px 24px;
 }
 
-.dark {
-  --bg-primary: var(--color-gray-800);
-  --bg-card: #1E293B; /* Um tom ligeiramente mais claro que o fundo para os cards */
-  --text-main: var(--color-gray-50);
-  --text-sub: var(--color-gray-400);
-  --border-color: var(--color-gray-700);
+.paroquias-title {
+  font-size: 2.5rem; /* Seguindo o padrão de títulos da landing */
+  font-weight: 900;
+  text-align: center;
+  color: var(--color-blue);
+  margin-bottom: 40px;
 }
 
-/* Apply to both light and dark modes */
-body {
-  background-color: var(--bg-primary);
-  color: var(--text-main);
-  transition: background-color 0.3s ease, color 0.3s ease;
+/* Container do Mapa - Adicionado estilo de Card */
+.paroquias-mapa {
+  margin-bottom: 48px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--color-gray-200);
+  box-shadow: 0 4px 12px var(--color-shadow);
+}
+
+/* Barra de Filtros - Mais limpa e moderna */
+.paroquias-filters {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 40px;
+  padding: 24px;
+  background: var(--color-gray-50);
+  border-radius: 12px;
+  border: 1px solid var(--color-gray-200);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.paroquias-select {
+  padding: 12px 16px;
+  border-radius: 8px; /* Padronizado com os botões da landing */
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-gray-700);
+  border: 1px solid var(--color-gray-200);
+  background-color: var(--color-white);
+  transition: all 0.3s ease;
+  flex: 1 1 200px;
+  outline: none;
+  /* Evita zoom automático no iOS ao focar campos */
+  appearance: none; 
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1em;
+}
+
+.paroquias-select:focus {
+  border-color: var(--color-blue);
+  box-shadow: 0 0 0 3px var(--color-blue-lighter);
+}
+
+/* Destaque para o filtro de KM (Usando o Dourado da Landing) */
+.paroquias-select--km {
+  border: 1px solid var(--color-gold);
+  color: var(--color-blue);
+  font-weight: 700;
+  background: #fffdf5; /* Um toque sutil de dourado no fundo */
+}
+
+.paroquias-select--disabled {
+  background-color: var(--color-gray-100) !important;
+  color: var(--color-gray-400) !important;
+  cursor: not-allowed;
+}
+
+/* Lista de Cards - Harmonizada com o .landing-feature-card */
+.paroquias-lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 32px;
+}
+
+/* Responsividade - Removidos os !important desnecessários */
+@media (max-width: 768px) {
+  .paroquias-page {
+    padding: 24px 16px;
+    margin-bottom: 40px;
+  }
+  
+  .paroquias-title {
+    font-size: 1.5rem !important;
+    margin: 0 !important;
+  }
+
+  .paroquias-mapa {
+    height: 300px; /* Reduz a altura do mapa no mobile */
+    margin-bottom: 32px;
+  }
+
+ .paroquias-filters {
+    padding: 12px;           /* Reduz o padding interno do container */
+    gap: 8px;                /* Reduz o espaço entre os selects */
+    margin-bottom: 24px;
+    display: grid;           /* Mudamos para grid para melhor controlo */
+    grid-template-columns: 1fr 1fr; /* Colocamos 2 por linha para poupar espaço */
+  }
+
+  /* O seletor de KM (mais pequeno) pode ficar na segunda linha sozinho ou acompanhado */
+  .paroquias-select--km {
+    grid-column: span 2;     /* Ocupa a largura toda na linha de baixo */
+  }
+
+  .paroquias-select {
+    padding: 8px 12px;       /* Reduz a altura interna dos campos */
+    height: 40px;            /* Altura fixa mais elegante */
+    font-size: 0.95rem;      /* Fonte ligeiramente menor para não quebrar */
+    background-position: right 0.5rem center; /* Ajusta a seta */
+  }
+  /* Ajuste do Header (Título + Botão) que estava cortado */
+  .paroquias-header {
+    flex-direction: column;  /* Empilha título e botão */
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+  .paroquias-lista {
+    gap: 20px;
+    grid-template-columns: 1fr; /* Força uma coluna única em ecrãs pequenos */
+  }
+}
+
+@media (max-width: 480px) {
+  .paroquias-title {
+    font-size: 1.5rem;
+  }
+  
+  .paroquias-page {
+    padding: 16px 12px;
+  }
 }
