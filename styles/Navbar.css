@@ -78,6 +78,28 @@
   padding: 8px;
 }
 
+/* --- BOTÃO HAMBÚRGUER (MOBILE TOGGLE) --- */
+.navbar-toggle {
+  display: none; /* Escondido no Desktop */
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10002;
+}
+
+.hamburger {
+  width: 100%;
+  height: 3px;
+  background-color: var(--text-main, #1e293b);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
 /* --- Navegação Central/Direita --- */
 .navbar-nav {
   display: flex;
@@ -187,6 +209,21 @@ a, button {
    /* 1. Mostra o botão hambúrguer */
   .mobile-menu-toggle {
     display: block !important;
+  }
+
+   .navbar-toggle {
+    display: flex !important; /* Aparece no Mobile */
+  }
+
+   /* Animação para virar um X quando aberto */
+  .navbar-toggle.active .hamburger:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+  }
+  .navbar-toggle.active .hamburger:nth-child(2) {
+    opacity: 0;
+  }
+  .navbar-toggle.active .hamburger:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
   }
 
   /* 2. Transforma a Nav na gaveta lateral */
