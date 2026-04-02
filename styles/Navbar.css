@@ -67,6 +67,17 @@
   margin: 0; /* Remove margens que desalinhariam o texto */
 }
 
+/* --- BOTÃO HAMBÚRGUER (O segredo está aqui) --- */
+.mobile-menu-toggle {
+  display: none; /* Escondido no Desktop */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-main);
+  z-index: 10002;
+  padding: 8px;
+}
+
 /* --- Navegação Central/Direita --- */
 .navbar-nav {
   display: flex;
@@ -173,8 +184,13 @@ a, button {
    ============================================================= */
 
 @media (max-width: 992px) {
-  /* 1. Esconde a navegação normal e transforma em menu lateral */
-  .navbar-nav {
+   /* 1. Mostra o botão hambúrguer */
+  .mobile-menu-toggle {
+    display: block !important;
+  }
+
+  /* 2. Transforma a Nav na gaveta lateral */
+ .navbar-nav {
     position: fixed;
     top: 0;
     right: -100%; /* Joga o menu para fora do ecrã à direita */
@@ -188,12 +204,12 @@ a, button {
     box-shadow: -10px 0 30px rgba(0,0,0,0.1);
   }
 
-  /* 2. Quando o botão é clicado (estado active no React) */
+  /* 3. Quando o botão é clicado (estado active no React) */
   .navbar-nav.active {
     right: 0; /* O menu desliza para dentro */
   }
 
-  /* 3. Coloca os links e botões em coluna (um por baixo do outro) */
+  /* 4. Coloca os links e botões em coluna (um por baixo do outro) */
   .navbar-nav-links, 
   .navbar-nav,
   .navbar-auth-group {
