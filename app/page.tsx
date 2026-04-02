@@ -13,7 +13,6 @@ import Footer from '@/components/Footer';
 
 export default function Landing() {
   const router = useRouter();
-  // Tipagem explícita para evitar erros no build da Vercel
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
 
   const faqs = [
@@ -41,33 +40,29 @@ export default function Landing() {
       <header className="landing-header">
         <div className="landing-container">
           <Link href="/" className="landing-logo">
-  <div className="landing-logo-icon">
-    <Image 
-      src="/logo_paroquia.png" 
-      alt="Logo" 
-      width={40} 
-      height={40} 
-      className="landing-logo-image" 
-      priority 
-    />
-  </div>
-  <span className="landing-logo-text">Paróquia Perto</span>
-</Link>
+            <div className="landing-logo-icon">
+              <Image 
+                src="/logo_paroquia.png" 
+                alt="Logo" 
+                width={40} 
+                height={40} 
+                className="landing-logo-image" 
+                priority 
+              />
+            </div>
+            <span className="landing-logo-text">Paróquia Perto</span>
+          </Link>
           <nav className="landing-nav">
-  <Link href="#como-funciona">Como Funciona</Link>
-  <Link href="#recursos">Recursos</Link>
-  <Link href="#faq">FAQ</Link>
-  
-  {/* Div separada para os botões de ação */}
-  <div className="landing-nav-auth">
-    <Link href="/login" className="landing-btn-secondary">
-      Entrar
-    </Link>
-    <Link href="/register" className="landing-btn-primary">
-      Registar
-    </Link>
-  </div>
-</nav>
+            <div className="landing-nav-links">
+              <Link href="#como-funciona">Como Funciona</Link>
+              <Link href="#recursos">Recursos</Link>
+              <Link href="#faq">FAQ</Link>
+            </div>
+            <div className="landing-nav-auth">
+              <Link href="/login" className="landing-btn-secondary">Entrar</Link>
+              <Link href="/register" className="landing-btn-primary">Registar</Link>
+            </div>
+          </nav>
         </div>
       </header>
 
@@ -75,23 +70,16 @@ export default function Landing() {
       <section className="landing-hero">
         <div className="landing-container">
           <div className="landing-hero-content">
-            <h1 className="landing-hero-title">
-              Encontre a Sua Comunidade Católica
-            </h1>
+            <h1 className="landing-hero-title">Encontre a Sua Comunidade Católica</h1>
             <p className="landing-hero-subtitle">
               Descubra a paróquia mais próxima, consulte horários de missas, fique a par dos eventos e conecte-se com a sua fé.
             </p>
             <div className="landing-hero-ctas">
-  {/* Redireciona para a busca de paróquias com estilo de botão principal */}
-  <Link href="/paroquias" className="landing-btn-primary">
-    Começar Agora <ArrowRight size={20} />
-  </Link>
-
-  {/* Scroll suave para a secção explicativa logo abaixo */}
-  <Link href="#como-funciona" className="landing-btn-tertiary">
-    Saber Mais
-  </Link>
-</div>
+              <Link href="/paroquias" className="landing-btn-primary">
+                Começar Agora <ArrowRight size={20} />
+              </Link>
+              <Link href="#como-funciona" className="landing-btn-tertiary">Saber Mais</Link>
+            </div>
           </div>
           <div className="landing-hero-visual">
             <div className="landing-hero-card">
@@ -111,50 +99,43 @@ export default function Landing() {
       </section>
 
       {/* How It Works */}
-      <section id="como-funciona" className="landing-section landing-how-it-works">
-  <div className="landing-container">
-    <h2>Como Funciona</h2>
-    
-    {/* Este parágrafo DEVE ter esta classe para contraste e espaçamento */}
-    <p className="landing-section-subtitle">Simplicidade para conectar-se com o que importa</p>
-
-    <div className="landing-steps">
-      {[
-        { n: 1, t: 'Localize', d: 'Permita o acesso à localização ou pesquise por morada.' },
-        { n: 2, t: 'Explore', d: 'Consulte horários de missas, confissões e atividades.' },
-        { n: 3, t: 'Conecte', d: 'Participe na vida da sua nova comunidade paroquial.' }
-      ].map((step) => (
-        <div key={step.n} className="landing-step">
-          <div className="landing-step-header"> {/* Nova div de agrupamento */}
-            <div className="landing-step-number">{step.n}</div>
-            <h3>{step.t}</h3>
+      <section id="como-funciona" className="landing-how-it-works">
+        <div className="landing-container">
+          <h2>Como Funciona</h2>
+          <p className="landing-section-subtitle">Simplicidade para conectar-se com o que importa</p>
+          <div className="landing-steps">
+            {[
+              { n: 1, t: 'Localize', d: 'Permita o acesso à localização ou pesquise por morada.' },
+              { n: 2, t: 'Explore', d: 'Consulte horários de missas, confissões e atividades.' },
+              { n: 3, t: 'Conecte', d: 'Participe na vida da sua nova comunidade paroquial.' }
+            ].map((step) => (
+              <div key={step.n} className="landing-step">
+                <div className="landing-step-header">
+                  <div className="landing-step-number">{step.n}</div>
+                  <h3>{step.t}</h3>
+                </div>
+                <p>{step.d}</p>
+              </div>
+            ))}
           </div>
-          <p>{step.d}</p>
         </div>
-      ))}
-    </div>
-  </div>
-</section>
+      </section>
 
       {/* Features */}
-      <section id="recursos" className="landing-section landing-features">
+      <section id="recursos" className="landing-features">
         <div className="landing-container">
           <h2>Recursos Principais</h2>
           <div className="landing-features-grid">
-           <div className="landing-feature-card">
-    <div className="landing-feature-icon">
-      <MapPin size={32} />
-    </div>
-    <h3>Encontre Paróquias</h3>
-    <p>Localize igrejas próximas com direções integradas e contactos diretos.</p>
-  </div>
-
+            <div className="landing-feature-card">
+              <div className="landing-feature-icon"><MapPin size={32} /></div>
+              <h3>Encontre Paróquias</h3>
+              <p>Localize igrejas próximas com direções integradas e contactos diretos.</p>
+            </div>
             <div className="landing-feature-card">
               <div className="landing-feature-icon"><Calendar size={32} /></div>
               <h3>Horários de Missa</h3>
               <p>Aceda a horários atualizados de celebrações e confissões.</p>
             </div>
-
             <div className="landing-feature-card">
               <div className="landing-feature-icon"><Heart size={32} /></div>
               <h3>Atividades Pastorais</h3>
@@ -164,16 +145,16 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Stats - Barra de Impacto */}
-      <section className="landing-section landing-stats">
+      {/* Stats */}
+      <section className="landing-stats">
         <div className="landing-container">
           <div className="landing-stats-grid">
             <div className="landing-stat">
-              <div className="landing-stat-number">10K+</div>
+              <span className="landing-stat-number">10K+</span>
               <p>Utilizadores Ativos</p>
             </div>
             <div className="landing-stat">
-              <div className="landing-stat-number">100%</div>
+              <span className="landing-stat-number">100%</span>
               <p>Gratuito e Seguro</p>
             </div>
           </div>
@@ -181,7 +162,7 @@ export default function Landing() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="landing-section landing-faq">
+      <section id="faq" className="landing-faq">
         <div className="landing-container">
           <h2>Perguntas Frequentes</h2>
           <div className="landing-faq-list">
@@ -190,7 +171,6 @@ export default function Landing() {
                 <button
                   className="landing-faq-question"
                   onClick={() => setExpandedFaq(expandedFaq === idx ? null : idx)}
-                  aria-expanded={expandedFaq === idx}
                 >
                   <span>{faq.q}</span>
                   {expandedFaq === idx ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
