@@ -558,3 +558,51 @@
     gap: 60px; /* Mais espaço entre os números no mobile */
   }
 }
+
+/* Escondido por padrão (Desktop) */
+.mobile-menu-toggle {
+  display: none !important; 
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-main);
+}
+
+/* Mostrar apenas em ecrãs menores que 992px */
+@media (max-width: 992px) {
+  .mobile-menu-toggle {
+    display: block !important;
+  }
+  
+  .navbar-nav {
+    display: none; /* Esconde a lista de links normal no mobile */
+  }
+  
+  .navbar-nav.active {
+    display: flex; /* Mostra quando o estado isMenuOpen for true */
+    /* ... resto do seu código de menu lateral ... */
+  }
+}
+
+/* No Desktop */
+@media (min-width: 993px) {
+  .navbar-nav {
+    display: flex !important;
+    align-items: center;
+    gap: 40px; /* Espaço entre o bloco de links e o bloco de botões */
+  }
+
+  .navbar-nav-links {
+    display: flex;
+    gap: 24px; /* Espaço REAL entre cada link individual */
+  }
+}
+
+.navbar-link, .navbar-logo {
+  background: transparent !important;
+  transition: color 0.3s ease;
+}
+
+.navbar-link:hover {
+  color: var(--color-gold);
+}
