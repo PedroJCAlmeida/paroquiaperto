@@ -398,7 +398,8 @@
   width: 64px;
   height: 64px;
   background: rgba(156, 122, 70, 0.1); /* Fundo dourado suave */
-  color: var(--color-gold);
+  color: var(--color-gold) !important;
+  opacity: 1 !important;
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -415,16 +416,18 @@
 
 /* Textos dentro do cartão */
 .landing-feature-card h3 {
-  color: #1e293b !important; /* Azul escuro nítido */
+  color: #ffffff !important; /* Branco puro */
   font-size: 1.3rem;
   font-weight: 800;
   margin-bottom: 12px;
+  opacity: 1 !important;
 }
 
 .landing-feature-card p {
-  color: #64748b !important; /* Cinza ardósia para a descrição */
+  color: #cbd5e1 !important; /* Slate 300 (Cinza claro legível) */
   font-size: 0.95rem;
   line-height: 1.6;
+  opacity: 1 !important;
 }
 
 /* 6. RESPONSIVIDADE E DARK MODE */
