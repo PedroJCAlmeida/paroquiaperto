@@ -80,16 +80,13 @@ export default function Landing() {
               Descubra a paróquia mais próxima, consulte horários de missas, fique a par dos eventos e conecte-se com a sua fé.
             </p>
             <div className="landing-hero-ctas">
-              <button
-                className="landing-btn-primary landing-btn-large"
-                onClick={() => router.push('/buscar')}
-              >
-                Começar Agora <ArrowRight size={20} style={{ marginLeft: '8px' }} />
-              </button>
-              <Link href="#como-funciona" className="landing-btn-tertiary landing-btn-large">
-                Saber Mais
-              </Link>
-            </div>
+  <button className="landing-btn-primary">
+    Começar Agora <ArrowRight size={20} />
+  </button>
+  <Link href="#como-funciona" className="landing-btn-tertiary">
+    Saber Mais
+  </Link>
+</div>
           </div>
           <div className="landing-hero-visual">
             <div className="landing-hero-card">
