@@ -154,6 +154,10 @@ export default function Landing() {
               <p>Utilizadores Ativos</p>
             </div>
             <div className="landing-stat">
+              <span className="landing-stat-number">500+</span>
+              <p>Paróquias Registadas</p>
+            </div>
+            <div className="landing-stat">
               <span className="landing-stat-number">100%</span>
               <p>Gratuito e Seguro</p>
             </div>
