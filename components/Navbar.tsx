@@ -14,7 +14,7 @@ const Navbar = () => {
   const [showBackofficeMenu, setShowBackofficeMenu] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
-
+  const pathname = usePathname();
   const isLandingPage = pathname === '/'; // Verifica se é a landing page
   
   // Sincronização de Autenticação
