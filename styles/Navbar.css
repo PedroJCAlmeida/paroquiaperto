@@ -9,9 +9,9 @@
   left: 0;
   width: 100%;
   z-index: 9999;
-  background: #0f172a; 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  background: #0f172a !important; 
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(12px);
   height: 72px; 
@@ -51,7 +51,7 @@
 }
 
 .navbar-logo-text {
-  color: #ffffff;
+  color: #ffffff !important;
   font-weight: 850;
   font-size: 1.25rem;
   letter-spacing: -0.03em;
@@ -94,7 +94,7 @@
 
 .navbar-link {
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.85) !important;
   font-weight: 600;
   font-size: 0.95rem;
   padding: 8px 0;
@@ -103,7 +103,7 @@
 }
 
 .navbar-link:hover {
-  color: #9c7a46;
+  color: #9c7a46 !important; /* var(--color-gold) */
 }
 
 /* Criar a linha que aparece ao passar o rato */
@@ -130,19 +130,19 @@
 }
 
 .navbar-login-btn {
-  color: #ffffff;
+  color: #ffffff !important;
   font-weight: 700;
   text-decoration: none;
   font-size: 0.95rem;
-   transition: color 0.2s;
+  transition: color 0.2s;
 }
 
 .navbar-login-btn:hover {
-  color: #9c7a46; /* var(--color-gold) */
+  color: #9c7a46 !important; /* var(--color-gold) */
 }
 
 .navbar-register-btn {
-  color: #1e293b !important;
+  color: #0f172a !important;
   background: #9c7a46 !important;
   padding: 10px 24px;
   border-radius: 12px;
@@ -151,6 +151,7 @@
   font-size: 0.9rem;
   transition: all 0.2s ease;
   white-space: nowrap;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 4px 10px rgba(156, 122, 70, 0.2);
   display: flex;
   align-items: center;
@@ -160,11 +161,22 @@
 .navbar-register-btn:hover {
   transform: translateY(-2px);
   filter: brightness(1.1);
-  box-shadow: 0 6px 20px rgba(156, 122, 70, 0.5);
+  box-shadow: 0 8px 25px rgba(156, 122, 70, 0.5);
 }
 
 .navbar-actions button:has(svg) {
   color: #64748b; /* Cor visível no fundo branco */
+}
+
+.navbar-actions svg, 
+.navbar-profile-trigger {
+  color: #ffffff !important;
+  transition: transform 0.3s, color 0.3s;
+}
+
+.navbar-profile-trigger:hover svg {
+  color: #9c7a46 !important;
+  transform: scale(1.1);
 }
 
 /* --- Ícones (Sol, Perfil) --- */
@@ -179,16 +191,21 @@
   transition: transform 0.3s;
 }
 
-.navbar-profile-trigger:hover {
-  transform: scale(1.1);
-  color: #9c7a46;
-} 
 
 .navbar-profile-trigger {
   color: #64748b; /* Cor visível no fundo branco */
   background: transparent;
   border: none;
   cursor: pointer;
+}
+
+.navbar-profile-trigger:hover {
+  transform: scale(1.1);
+  color: #9c7a46;
+} 
+
+.navbar-toggle .hamburger {
+  background-color: #ffffff !important;
 }
 
 /* =============================================================
@@ -218,13 +235,13 @@
     right: -100%; /* Escondido à direita */
     width: 280px;
     height: 100vh;
-    background: #0f172a;
+    background: #0f172a !important;
     color: white; 
     flex-direction: column;
     align-items: flex-start;
     padding: 100px 24px;
     gap: 32px;
-    box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+    box-shadow: -10px 0 40px rgba(0,0,0,0.5);
     transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
      z-index: 10001;
   }
