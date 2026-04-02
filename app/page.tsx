@@ -141,11 +141,13 @@ export default function Landing() {
         <div className="landing-container">
           <h2>Recursos Principais</h2>
           <div className="landing-features-grid">
-            <div className="landing-feature-card">
-              <div className="landing-feature-icon"><MapPin size={32} /></div>
-              <h3>Encontre Paróquias</h3>
-              <p>Localize igrejas próximas com direções integradas e contactos diretos.</p>
-            </div>
+           <div className="landing-feature-card">
+    <div className="landing-feature-icon">
+      <MapPin size={32} />
+    </div>
+    <h3>Encontre Paróquias</h3>
+    <p>Localize igrejas próximas com direções integradas e contactos diretos.</p>
+  </div>
 
             <div className="landing-feature-card">
               <div className="landing-feature-icon"><Calendar size={32} /></div>
