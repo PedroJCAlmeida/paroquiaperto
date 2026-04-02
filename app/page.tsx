@@ -10,7 +10,19 @@ import {
 import '@/styles/Landing.css';
 import '@/styles/colors.css';
 import Footer from '@/components/Footer';
-import { Menu, X, ArrowRight, ... } from 'lucide-react';
+import { 
+  MapPin, 
+  Church, 
+  Calendar, 
+  Users, 
+  Heart, 
+  ChevronDown, 
+  ChevronUp, 
+  ArrowRight, 
+  ShieldCheck,
+  Menu,
+  X 
+} from 'lucide-react';
 
 export default function Landing() {
   const router = useRouter();
