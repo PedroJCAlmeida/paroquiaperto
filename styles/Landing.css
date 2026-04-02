@@ -1,5 +1,16 @@
 @import '@/styles/colors.css';
 
+/* --- Ajuste de Scroll para Navbar Fixa --- */
+.landing-how-it-works,
+.landing-features,
+.landing-faq,
+#como-funciona,
+#recursos,
+#faq {
+  /* O valor deve ser igual ou ligeiramente maior que a altura da tua navbar (80px) */
+  scroll-margin-top: 100px; 
+}
+
 /* 1. ESTRUTURA GLOBAL */
 .landing-page {
   min-height: 100vh;
