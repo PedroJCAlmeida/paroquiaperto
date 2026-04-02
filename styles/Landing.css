@@ -128,34 +128,38 @@
 
 .landing-hero-ctas {
   display: flex;
-  align-items: center;
-  gap: 20px;
+  align-items: center; /* Alinha os centros dos dois botões */
+  gap: 20px;           /* Espaço entre eles */
+  margin-top: 32px;    /* Afasta do parágrafo de cima */
 }
 
-/* Botões do Hero */
 .landing-btn-primary {
   background-color: var(--color-gold);
-  color: #1e293b !important;
-  padding: 16px 32px;
+  color: #1e293b !important; /* Azul escuro para leitura sobre o dourado */
+  padding: 14px 28px;
   border-radius: 12px;
   font-weight: 800;
   text-decoration: none;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  transition: all 0.3s ease;
+  gap: 10px;
+  transition: all 0.2s ease;
   border: none;
-  cursor: pointer;
 }
 
-.landing-btn-primary:active { transform: scale(0.98); }
+.landing-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(156, 122, 70, 0.2);
+}
 
 .landing-btn-tertiary {
   color: #ffffff;
   font-weight: 700;
   text-decoration: none;
+  font-size: 1rem;
+  padding: 10px 5px;
   border-bottom: 2px solid transparent;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
 }
 
 .landing-btn-tertiary:hover {
