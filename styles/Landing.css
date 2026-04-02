@@ -91,6 +91,15 @@
   max-width: 540px;
 }
 
+/* ================= ============================================
+   FORÇAR COR DOURADA NOS ÍCONES LUCIDE DO HERO
+   ============================================================= */
+.landing-hero-visual .landing-hero-card svg {
+  color: var(--color-gold) !important; /* Cor do traço (stroke) */
+  stroke: var(--color-gold) !important; /* Garante que o traço muda */
+  fill: none !important; /* Garante que o preenchimento é nulo */
+}
+
 /* Botões (Corrigindo o texto "colado" da imagem) */
 .landing-hero-ctas {
   display: flex;
