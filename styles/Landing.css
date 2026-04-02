@@ -200,33 +200,150 @@
   line-height: 1.6;
 }
 
-/* 5. ESTATÍSTICAS E FAQ */
+/* =============================================================
+   5. ESTATÍSTICAS (BARRA DE IMPACTO)
+   ============================================================= */
 .landing-stats {
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-  color: white;
-  padding: 80px 0;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Círculos decorativos sutis ao fundo */
+.landing-stats::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 200px;
+  height: 200px;
+  background: var(--color-gold);
+  filter: blur(120px);
+  opacity: 0.1;
 }
 
 .landing-stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 40px;
   text-align: center;
 }
 
+.landing-stat {
+  padding: 20px;
+  transition: transform 0.3s ease;
+}
+
+.landing-stat:hover {
+  transform: translateY(-5px);
+}
+
 .landing-stat-number {
-  font-size: 3.5rem;
+  font-size: clamp(3rem, 6vw, 4.5rem);
   font-weight: 900;
   color: var(--color-gold);
+  line-height: 1;
+  margin-bottom: 12px;
+  display: block;
+  text-shadow: 0 10px 20px rgba(156, 122, 70, 0.2);
+}
+
+.landing-stat p {
+  color: #94a3b8;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* =============================================================
+   6. PERGUNTAS FREQUENTES (FAQ PREMIUM)
+   ============================================================= */
+.landing-faq {
+  padding: 120px 0;
+  background-color: #ffffff;
+}
+
+.landing-faq h2 {
+  color: #1e293b !important;
+  text-align: center;
+  font-size: 2.8rem;
+  font-weight: 850;
+  margin-bottom: 60px;
+}
+
+.landing-faq-list {
+  max-width: 850px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .landing-faq-item {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 16px;
-  margin-bottom: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
 }
 
+.landing-faq-item:hover {
+  border-color: var(--color-gold);
+  background: #ffffff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.landing-faq-item.active {
+  border-color: var(--color-gold);
+  background: #ffffff;
+  box-shadow: 0 15px 35px rgba(156, 122, 70, 0.1);
+}
+
+.landing-faq-question {
+  width: 100%;
+  padding: 28px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: #1e293b;
+  font-size: 1.2rem;
+  font-weight: 700;
+  transition: color 0.3s;
+}
+
+.landing-faq-item:hover .landing-faq-question {
+  color: var(--color-gold);
+}
+
+/* Estilo do ícone de seta */
+.landing-faq-question svg {
+  color: #94a3b8;
+  transition: all 0.3s;
+}
+
+.landing-faq-item.active .landing-faq-question svg {
+  transform: rotate(180deg);
+  color: var(--color-gold);
+}
+
+.landing-faq-answer {
+  padding: 0 32px 32px 32px;
+  color: #64748b;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 /* =============================================================
    SECÇÃO: RECURSOS PRINCIPAIS (GRID E ICONOGRAFIA)
    ============================================================= */
@@ -334,6 +451,15 @@
   background: #1e293b;
   border-color: #334155;
 }
+
+.dark .landing-faq { background-color: #0f172a; }
+.dark .landing-faq h2 { color: #f8fafc !important; }
+.dark .landing-faq-item {
+  background: #1e293b;
+  border-color: #334155;
+}
+.dark .landing-faq-question { color: #f1f5f9; }
+.dark .landing-faq-answer { color: #94a3b8; }
 
 /* 7. RESPONSIVIDADE */
 @media (max-width: 992px) {
