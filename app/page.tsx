@@ -41,18 +41,18 @@ export default function Landing() {
       <header className="landing-header">
         <div className="landing-container">
           <Link href="/" className="landing-logo">
-            <span className="landing-logo-icon" aria-hidden="true">
-              <Image 
-                src="/logo_paroquia.png" 
-                alt="" 
-                width={40} 
-                height={40} 
-                className="landing-logo-image" 
-                priority 
-              />
-            </span>
-            Paróquia Perto
-          </Link>
+  <div className="landing-logo-icon">
+    <Image 
+      src="/logo_paroquia.png" 
+      alt="Logo" 
+      width={40} 
+      height={40} 
+      className="landing-logo-image" 
+      priority 
+    />
+  </div>
+  <span className="landing-logo-text">Paróquia Perto</span>
+</Link>
           <nav className="landing-nav">
             <Link href="#como-funciona">Como Funciona</Link>
             <Link href="#recursos">Recursos</Link>
@@ -80,9 +80,12 @@ export default function Landing() {
               Descubra a paróquia mais próxima, consulte horários de missas, fique a par dos eventos e conecte-se com a sua fé.
             </p>
             <div className="landing-hero-ctas">
-  <button className="landing-btn-primary">
+  {/* Redireciona para a busca de paróquias com estilo de botão principal */}
+  <Link href="/paroquias" className="landing-btn-primary">
     Começar Agora <ArrowRight size={20} />
-  </button>
+  </Link>
+
+  {/* Scroll suave para a secção explicativa logo abaixo */}
   <Link href="#como-funciona" className="landing-btn-tertiary">
     Saber Mais
   </Link>
