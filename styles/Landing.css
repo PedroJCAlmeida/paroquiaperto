@@ -633,6 +633,33 @@
     grid-template-columns: 1fr;
     gap: 60px; /* Mais espaço entre os números no mobile */
   }
+
+  .landing-hero .landing-container {
+    grid-template-columns: 1fr !important; /* Muda de 2 colunas para 1 */
+    text-align: center;
+    padding-top: 40px;
+    gap: 40px;
+  }
+
+  .landing-hero-content {
+    align-items: center; /* Centraliza botões e texto */
+  }
+
+  .landing-hero-title {
+    font-size: 2.2rem !important; /* Diminui o título para não quebrar mal */
+    line-height: 1.2;
+  }
+
+  .landing-hero-visual {
+    width: 100%;
+    align-items: center;
+  }
+
+  .landing-hero-card {
+    width: 100%; /* Cartões ocupam a largura toda */
+    max-width: 320px;
+    transform: none !important; /* Remove o efeito de inclinação que rouba espaço */
+  }
 }
 
 /* Escondido por padrão (Desktop) */
