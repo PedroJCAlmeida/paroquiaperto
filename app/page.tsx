@@ -110,25 +110,29 @@ export default function Landing() {
 
       {/* How It Works */}
       <section id="como-funciona" className="landing-section landing-how-it-works">
-        <div className="landing-container">
-          <h2>Como Funciona</h2>
-          <p className="landing-section-subtitle">Simplicidade para conectar-se com o que importa</p>
+  <div className="landing-container">
+    <h2>Como Funciona</h2>
+    
+    {/* Este parágrafo DEVE ter esta classe para contraste e espaçamento */}
+    <p className="landing-section-subtitle">Simplicidade para conectar-se com o que importa</p>
 
-          <div className="landing-steps">
-            {[
-              { n: 1, t: 'Localize', d: 'Permita o acesso à localização ou pesquise por morada.' },
-              { n: 2, t: 'Explore', d: 'Consulte horários de missas, confissões e atividades.' },
-              { n: 3, t: 'Conecte', d: 'Participe na vida da sua nova comunidade paroquial.' }
-            ].map((step) => (
-              <div key={step.n} className="landing-step">
-                <div className="landing-step-number">{step.n}</div>
-                <h3>{step.t}</h3>
-                <p>{step.d}</p>
-              </div>
-            ))}
+    <div className="landing-steps">
+      {[
+        { n: 1, t: 'Localize', d: 'Permita o acesso à localização ou pesquise por morada.' },
+        { n: 2, t: 'Explore', d: 'Consulte horários de missas, confissões e atividades.' },
+        { n: 3, t: 'Conecte', d: 'Participe na vida da sua nova comunidade paroquial.' }
+      ].map((step) => (
+        <div key={step.n} className="landing-step">
+          <div className="landing-step-header"> {/* Nova div de agrupamento */}
+            <div className="landing-step-number">{step.n}</div>
+            <h3>{step.t}</h3>
           </div>
+          <p>{step.d}</p>
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
 
       {/* Features */}
       <section id="recursos" className="landing-section landing-features">
