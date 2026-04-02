@@ -1,11 +1,14 @@
 @import '@/styles/colors.css';
 
-/* --- Estrutura de Página --- */
+/* =============================================================
+   1. ESTRUTURA GLOBAL E RESET
+   ============================================================= */
 .landing-page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   background-color: var(--bg-primary, #ffffff);
+  color: var(--text-main, #1e293b);
 }
 
 .landing-container {
@@ -16,14 +19,17 @@
   box-sizing: border-box;
 }
 
-/* --- Header & Nav (Resolvendo o amontoado da imagem) --- */
+/* =============================================================
+   2. HEADER (NAVBAR)
+   ============================================================= */
 .landing-header {
-  background-color: var(--bg-card);
+  background-color: var(--bg-card, rgba(255, 255, 255, 0.9));
   border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
   z-index: 1000;
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Suporte Safari */
 }
 
 .landing-header .landing-container {
@@ -33,10 +39,38 @@
   height: 80px;
 }
 
+/* Logo: Alinhamento Horizontal e Escala */
+.landing-logo {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 14px;
+  text-decoration: none;
+  background: transparent !important;
+}
+
+.landing-logo-icon {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.landing-logo-text {
+  font-size: 1.7rem !important;
+  font-weight: 900 !important;
+  color: var(--color-blue);
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  line-height: 1;
+}
+
 .landing-nav {
   display: flex;
   align-items: center;
-  gap: 32px; /* Espaço entre links */
+  gap: 32px;
 }
 
 .landing-nav a {
@@ -58,7 +92,9 @@
   margin-left: 24px;
 }
 
-/* --- Hero Section (Ajuste de Alinhamento) --- */
+/* =============================================================
+   3. HERO SECTION (TOPO ESCURO)
+   ============================================================= */
 .landing-hero {
   background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
   color: #ffffff;
@@ -74,7 +110,7 @@
 }
 
 .landing-hero-title {
-  font-size: 4rem;
+  font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 900;
   line-height: 1.1;
   margin-bottom: 24px;
@@ -90,25 +126,16 @@
   max-width: 540px;
 }
 
-/* ================= ============================================
-   FORÇAR COR DOURADA NOS ÍCONES LUCIDE DO HERO
-   ============================================================= */
-.landing-hero-visual .landing-hero-card svg {
-  color: var(--color-gold) !important; /* Cor do traço (stroke) */
-  stroke: var(--color-gold) !important; /* Garante que o traço muda */
-  fill: none !important; /* Garante que o preenchimento é nulo */
-}
-
-/* Botões (Corrigindo o texto "colado" da imagem) */
 .landing-hero-ctas {
   display: flex;
   align-items: center;
   gap: 20px;
 }
 
+/* Botões do Hero */
 .landing-btn-primary {
   background-color: var(--color-gold);
-  color: #1e293b;
+  color: #1e293b !important;
   padding: 16px 32px;
   border-radius: 12px;
   font-weight: 800;
@@ -117,11 +144,11 @@
   align-items: center;
   gap: 8px;
   transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
 }
 
-.landing-btn-primary:active {
-  transform: scale(0.98);
-}
+.landing-btn-primary:active { transform: scale(0.98); }
 
 .landing-btn-tertiary {
   color: #ffffff;
@@ -136,7 +163,7 @@
   border-bottom-color: var(--color-gold);
 }
 
-/* Hero Cards (Melhorando o visual da direita) */
+/* Cards Visuais do Hero (Lado Direito) */
 .landing-hero-visual {
   display: flex;
   flex-direction: column;
@@ -155,69 +182,47 @@
   transition: transform 0.3s;
 }
 
-.landing-hero-card:hover {
-  transform: translateX(10px);
-  background: rgba(255, 255, 255, 0.06);
-}
+.landing-hero-card:hover { transform: translateX(10px); }
 
-.card-icon-bg {
-  width: 56px;
-  height: 56px;
-  background: rgba(156, 122, 70, 0.2);
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-gold);
-}
-
-/* --- Mobile --- */
-@media (max-width: 992px) {
-  .landing-hero .landing-container {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-  .landing-hero-subtitle { margin: 0 auto 40px; }
-  .landing-hero-ctas { justify-content: center; }
-  .landing-nav { display: none; } /* Idealmente aqui usarias um menu hamburguer */
+.landing-hero-card svg {
+  color: var(--color-gold) !important;
+  stroke: var(--color-gold) !important;
+  fill: none !important;
 }
 
 /* =============================================================
-   SECÇÕES DE CONTEÚDO (COMO FUNCIONA & RECURSOS)
+   4. SECÇÕES DE CONTEÚDO (COMO FUNCIONA & RECURSOS)
    ============================================================= */
 .landing-section {
   padding: 100px 0;
   background-color: var(--bg-primary);
 }
 
-/* Correção: Forçar texto escuro no título principal sobre fundo claro */
 .landing-section h2 {
   font-size: 2.8rem;
   font-weight: 850;
   text-align: center;
   margin-bottom: 20px;
-  color: #1e293b !important; /* Slate 800 - Escuro e Legível */
+  color: #1e293b !important; /* Força texto escuro no Light Mode */
   letter-spacing: -0.03em;
 }
 
-/* Correção: Forçar subtítulo mais legível sobre fundo claro */
 .landing-section-subtitle {
   text-align: center;
-  color: #64748b; /* Slate 500 - Cinzento médio */
+  color: #64748b;
   margin-bottom: 70px;
   font-size: 1.2rem;
   font-weight: 500;
 }
 
-/* Grid de Passos (Como Funciona) - Alinhamento e Espaço */
-.landing-steps {
+/* Grids */
+.landing-steps, .landing-features-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Força 3 colunas no desktop */
-  gap: 32px; /* Espaço entre cartões */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
 }
 
-/* Estilo do Cartão (Como Funciona) */
-.landing-step {
+.landing-step, .landing-feature-card {
   text-align: center;
   padding: 40px;
   background: var(--bg-card, #f8fafc);
@@ -226,8 +231,9 @@
   transition: transform 0.3s ease;
 }
 
-.landing-step:hover {
+.landing-step:hover, .landing-feature-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
 
 .landing-step-number {
@@ -241,41 +247,18 @@
   justify-content: center;
   margin: 0 auto 24px;
   font-weight: 900;
-  font-size: 1.25rem;
 }
 
-/* Correção: Forçar texto escuro DENTRO dos cartões claros */
-.landing-step h3 {
-  color: #1e293b !important; /* Título do passo escuro */
+.landing-step h3, .landing-feature-card h3 {
+  color: #1e293b !important;
   font-weight: 800;
   margin-bottom: 12px;
 }
 
-.landing-step p {
-  color: #64748b !important; /* Descrição do passo cinzenta média */
+.landing-step p, .landing-feature-card p {
+  color: #64748b !important;
   font-size: 0.95rem;
   line-height: 1.6;
-}
-
-/* Grid de Recursos (Features) */
-.landing-features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
-}
-
-.landing-feature-card {
-  padding: 40px;
-  background: var(--bg-card);
-  border-radius: 24px;
-  border: 1px solid var(--border-color);
-  text-align: center;
-  transition: all 0.3s ease;
-}
-
-.landing-feature-card:hover {
-  border-color: var(--color-gold);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.05);
 }
 
 .landing-feature-icon {
@@ -285,7 +268,9 @@
   justify-content: center;
 }
 
-/* --- Estatísticas (Stats) --- */
+/* =============================================================
+   5. ESTATÍSTICAS E FAQ
+   ============================================================= */
 .landing-stats {
   background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
   color: white;
@@ -303,10 +288,8 @@
   font-size: 3.5rem;
   font-weight: 900;
   color: var(--color-gold);
-  display: block;
 }
 
-/* --- FAQ --- */
 .landing-faq-list {
   max-width: 800px;
   margin: 0 auto;
@@ -331,7 +314,6 @@
   cursor: pointer;
   color: var(--text-main);
   font-weight: 700;
-  text-align: left;
 }
 
 .landing-faq-answer {
@@ -340,32 +322,28 @@
   line-height: 1.6;
 }
 
-/* Ajustes Mobile Adicionais */
-@media (max-width: 768px) {
-  .landing-section h2 { font-size: 2rem; }
-  .landing-stat-number { font-size: 2.5rem; }
-}
-
-.dark .landing-section h2,
-.dark .landing-step h3 {
+/* =============================================================
+   6. RESPONSIVIDADE E DARK MODE
+   ============================================================= */
+.dark .landing-section h2, .dark .landing-step h3, .dark .landing-feature-card h3 {
   color: #f1f5f9 !important;
 }
 
-.dark .landing-section-subtitle,
-.dark .landing-step p {
+.dark .landing-section-subtitle, .dark .landing-step p, .dark .landing-feature-card p {
   color: #94a3b8 !important;
 }
 
-/* --- Mobile --- */
 @media (max-width: 992px) {
-  .landing-steps {
-    grid-template-columns: 1fr; /* Força uma coluna única no mobile */
+  .landing-hero .landing-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .landing-hero-subtitle { margin: 0 auto 40px; }
+  .landing-hero-ctas { justify-content: center; }
+  .landing-nav { display: none; }
+  
+  .landing-steps, .landing-features-grid {
+    grid-template-columns: 1fr;
     gap: 20px;
   }
-}
-
-.landing-stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 40px;
 }
