@@ -119,6 +119,10 @@
   transition: all 0.3s ease;
 }
 
+.landing-btn-primary:active {
+  transform: scale(0.98);
+}
+
 .landing-btn-tertiary {
   color: #ffffff;
   font-weight: 700;
@@ -358,4 +362,10 @@
     grid-template-columns: 1fr; /* Força uma coluna única no mobile */
     gap: 20px;
   }
+}
+
+.landing-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
 }
