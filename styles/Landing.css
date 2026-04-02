@@ -231,7 +231,7 @@
    SECÇÃO: RECURSOS PRINCIPAIS (GRID E ICONOGRAFIA)
    ============================================================= */
 .landing-features {
-  background-color: #f8fafc 
+  background-color: #f8fafc;
   padding-top: 40px;
   padding-bottom: 80px;
 }
@@ -311,24 +311,43 @@
 }
 
 /* 6. RESPONSIVIDADE E DARK MODE */
-.dark .landing-how-it-works { background-color: #0f172a; }
-.dark .landing-how-it-works h2 { color: #f1f5f9 !important; }
-.dark .landing-section-subtitle { color: #94a3b8 !important; }
-.dark .landing-features {
-  background-color: #0f172a;
+.dark .landing-how-it-works,
+.dark .landing-features,
+.dark .landing-section {
+  background-color: #0f172a !important;
 }
-.dark .landing-features h2, 
-.dark .landing-feature-card h3 {
+
+.dark .landing-how-it-works h2,
+.dark .landing-features h2,
+.dark .landing-feature-card h3,
+.dark .landing-hero-title {
   color: #f8fafc !important;
 }
-.dark .landing-feature-card {
+
+.dark .landing-section-subtitle,
+.dark .landing-feature-card p {
+  color: #94a3b8 !important;
+}
+
+.dark .landing-feature-card,
+.dark .landing-faq-item {
   background: #1e293b;
   border-color: #334155;
 }
 
+/* 7. RESPONSIVIDADE */
 @media (max-width: 992px) {
-  .landing-hero .landing-container { grid-template-columns: 1fr; text-align: center; }
+  .landing-hero .landing-container { 
+    grid-template-columns: 1fr; 
+    text-align: center; 
+    gap: 40px;
+  }
   .landing-nav { display: none; }
-  .landing-steps { grid-template-columns: 1fr !important; gap: 20px; }
+  .landing-steps, 
+  .landing-features-grid { 
+    grid-template-columns: 1fr !important; 
+    gap: 24px; 
+  }
   .landing-hero-ctas { justify-content: center; }
+  .landing-hero-card { justify-content: center; }
 }
