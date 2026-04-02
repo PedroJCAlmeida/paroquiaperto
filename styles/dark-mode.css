@@ -1,280 +1,281 @@
-/* Variáveis de Cores para Modo Light e Dark */
+/* --- Variáveis de Tema --- */
 :root {
-  --detalhe-bg: #f8fafc;
-  --card-bg: #ffffff;
-  --text-main: #243B55;
-  --text-sub: #475569;
-  --border-color: #e2e8f0;
-  --shadow-color: rgba(30, 64, 175, 0.08);
-  --sidebar-bg: #f8fafc;
+  --detalhe-bg: #f8fafc;
+  --card-bg: #ffffff;
+  --text-main: #243B55;
+  --text-sub: #475569;
+  --border-color: #e2e8f0;
+  --shadow-color: rgba(30, 64, 175, 0.08);
+  --sidebar-bg: #f8fafc;
 }
 
-[data-theme='dark'] {
-  --detalhe-bg: #0f172a;
-  --card-bg: #1e293b;
-  --text-main: #f1f5f9;
-  --text-sub: #94a3b8;
-  --border-color: #334155;
-  --shadow-color: rgba(0, 0, 0, 0.3);
-  --sidebar-bg: #1e293b;
+/* Suporte para Dark Mode via Atributo ou Classe */
+[data-theme='dark'], .dark {
+  --detalhe-bg: #0f172a;
+  --card-bg: #1e293b;
+  --text-main: #f1f5f9;
+  --text-sub: #94a3b8;
+  --border-color: #334155;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --sidebar-bg: #1e293b;
 }
 
+/* --- Layout Detalhe Paróquia --- */
 .paroquia-detalhe-bg {
-  background-color: var(--detalhe-bg);
-  min-height: 100vh;
-  transition: background 0.3s ease;
+  background-color: var(--detalhe-bg);
+  min-height: 100vh;
+  transition: background 0.3s ease;
 }
 
 .paroquia-detalhe-card {
-  background: var(--card-bg);
-  border-radius: 32px;
-  box-shadow: 0 20px 50px var(--shadow-color);
-  border: 1px solid var(--border-color);
-  transition: all 0.3s ease;
+  background: var(--card-bg);
+  border-radius: 32px;
+  box-shadow: 0 20px 50px var(--shadow-color);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
 }
 
 .paroquia-hero-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* ESSENCIAL: corta a imagem para caber sem esticar */
-  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-[data-theme='dark'] .paroquia-hero-img {
-  filter: brightness(0.7);
+[data-theme='dark'] .paroquia-hero-img, .dark .paroquia-hero-img {
+  filter: brightness(0.7);
 }
 
 .paroquia-detalhe-title {
-  color: var(--text-main);
-  font-size: 2.5rem;
-  font-weight: 900;
-  margin: 0;
+  color: var(--text-main);
+  font-size: 2.5rem;
+  font-weight: 900;
+  margin: 0;
 }
 
 .address-link {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--text-sub);
-  font-size: 1.1rem;
-  margin-top: 8px;
-  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-sub);
+  font-size: 1.1rem;
+  margin-top: 8px;
+  cursor: pointer;
 }
 
 .address-link:hover {
-  color: var(--color-gold);
+  color: var(--color-gold);
 }
 
 .cta-button-gradient {
-  background: linear-gradient(135deg, #243B55, #3E5C76);
-  color: #fff;
-  border: none;
-  padding: 14px 28px;
-  border-radius: 14px;
-  font-weight: 800;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: transform 0.2s;
+  background: linear-gradient(135deg, #243B55, #3E5C76);
+  color: #fff;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.2s;
 }
 
 .cta-button-gradient:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px);
 }
 
 .paroquia-detalhe-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 40px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
 }
 
 .section-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--text-main);
-  font-size: 1.4rem;
-  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-main);
+  font-size: 1.4rem;
+  margin-bottom: 20px;
 }
 
 .description-text {
-  line-height: 1.8;
-  color: var(--text-sub);
-  font-size: 1.05rem;
-  background: var(--sidebar-bg);
-  padding: 24px;
-  border-radius: 16px;
-  border-left: 5px solid var(--color-gold);
+  line-height: 1.8;
+  color: var(--text-sub);
+  font-size: 1.05rem;
+  background: var(--sidebar-bg);
+  padding: 24px;
+  border-radius: 16px;
+  border-left: 5px solid var(--color-gold);
 }
 
 .horarios-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
 }
 
 .horario-card {
-  background: var(--card-bg);
-  padding: 20px;
-  border-radius: 16px;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 4px 6px var(--shadow-color);
+  background: var(--card-bg);
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 6px var(--shadow-color);
 }
 
 .day-label {
-  font-weight: 800;
-  color: var(--color-gold);
-  font-size: 0.8rem;
-  text-transform: uppercase;
+  font-weight: 800;
+  color: var(--color-gold);
+  font-size: 0.8rem;
+  text-transform: uppercase;
 }
 
 .time-value {
-  font-size: 1.4rem;
-  font-weight: 900;
-  color: var(--text-main);
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--text-main);
 }
 
 .type-label {
-  color: var(--text-sub);
-  font-size: 0.9rem;
+  color: var(--text-sub);
+  font-size: 0.9rem;
 }
 
 .contacts-card {
-  background: var(--sidebar-bg);
-  padding: 32px;
-  border-radius: 24px;
-  border: 1px solid var(--border-color);
+  background: var(--sidebar-bg);
+  padding: 32px;
+  border-radius: 24px;
+  border: 1px solid var(--border-color);
 }
 
 .sidebar-title {
-  margin: 0 0 24px 0;
-  color: var(--text-main);
+  margin: 0 0 24px 0;
+  color: var(--text-main);
 }
 
 .contacts-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
 .contact-link {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  color: var(--text-sub);
-  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text-sub);
+  font-weight: 500;
 }
 
 .icon-box {
-  background: var(--card-bg);
-  padding: 8px;
-  border-radius: 10px;
-  border: 1px solid var(--border-color);
-  color: var(--text-main);
+  background: var(--card-bg);
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
 }
 
 .social-icons-row {
-  display: flex !important;
-  flex-direction: row !important;
-  gap: 12px;
-  margin-top: 10px;
-  flex-wrap: wrap; /* Caso tenha muitos ícones, ele quebra para a linha de baixo no mobile */
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 12px;
+  margin-top: 10px;
+  flex-wrap: wrap;
 }
 
 .social-icon-btn {
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  color: var(--text-main);
-  transition: all 0.2s ease;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  transition: all 0.2s ease;
 }
 
 .social-icon-btn:hover {
-  transform: translateY(-3px);
-  background: var(--text-main);
-  color: var(--card-bg);
+  transform: translateY(-3px);
+  background: var(--text-main);
+  color: var(--card-bg);
 }
 
 .evento-item-card {
-  background: var(--card-bg);
-  border-radius: 20px;
-  overflow: hidden;
-  border: 1px solid var(--border-color);
-  transition: transform 0.3s;
+  background: var(--card-bg);
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  transition: transform 0.3s;
 }
 
 .evento-item-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 
 .event-img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
 }
 
 .event-info {
-  padding: 20px;
+  padding: 20px;
 }
 
 .event-info h4 {
-  margin: 0 0 10px 0;
-  color: var(--text-main);
+  margin: 0 0 10px 0;
+  color: var(--text-main);
 }
 
 .event-meta {
-  font-size: 0.9rem;
-  color: var(--color-gold);
-  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--color-gold);
+  font-weight: 800;
 }
 
 .back-button-overlay {
-  position: absolute;
-  top: 24px;
-  left: 24px;
-  background: #fff;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 12px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  color: #243B55;
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  background: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  color: #243B55;
 }
 
-/* Mobile Adjustments */
+/* Responsividade */
 @media (max-width: 1024px) {
-  .paroquia-detalhe-grid {
-    grid-template-columns: 1fr;
-  }
+  .paroquia-detalhe-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 768px) {
-  .paroquia-detalhe-title {
-    font-size: 1.8rem;
-  }
-  
-  .cta-button-gradient {
-    width: 100%;
-    justify-content: center;
-  }
+  .paroquia-detalhe-title {
+    font-size: 1.8rem;
+  }
+  .cta-button-gradient {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 .animate-spin {
-  animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
 }
