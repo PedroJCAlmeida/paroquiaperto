@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import '@/styles/Landing.css';
 import '@/styles/colors.css';
 import Footer from '@/components/Footer';
+import Navbar from '@/components/Navbar';
 import { 
   MapPin, 
   Church, 
