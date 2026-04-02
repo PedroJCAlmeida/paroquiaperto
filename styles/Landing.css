@@ -197,72 +197,110 @@
 /* =============================================================
    4. SECÇÕES DE CONTEÚDO (COMO FUNCIONA & RECURSOS)
    ============================================================= */
+.landing-how-it-works {
+  padding: 120px 0; /* Aumentado para dar mais ar/luxo à secção */
+  background-color: var(--bg-primary);
+}
+
 .landing-section {
   padding: 100px 0;
   background-color: var(--bg-primary);
 }
 
+/* Título Principal: Contraste Elevado e Peso Moderno */
 .landing-section h2 {
-  font-size: 2.8rem;
+  font-size: clamp(2rem, 5vw, 2.8rem); /* Texto adaptável */
   font-weight: 850;
   text-align: center;
   margin-bottom: 20px;
-  color: #1e293b !important; /* Força texto escuro no Light Mode */
+  color: #1e293b !important; /* Slate 800 - Escuro e Legível no light mode */
   letter-spacing: -0.03em;
 }
 
+/* Subtítulo: Mais legível e espaçado */
 .landing-section-subtitle {
   text-align: center;
-  color: #64748b;
-  margin-bottom: 70px;
+  color: #64748b; /* Slate 500 - Cinzento médio */
+  margin: 0 auto 80px; /* Margem centralizada e espaçada */
   font-size: 1.2rem;
   font-weight: 500;
+  max-width: 600px;
 }
 
-/* Grids */
-.landing-steps, .landing-features-grid {
+/* Grid de Passos (Como Funciona) */
+.landing-steps {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
+  grid-template-columns: repeat(3, 1fr); /* Força 3 colunas no desktop */
+  gap: 32px; /* Espaço generoso entre cartões */
 }
 
-.landing-step, .landing-feature-card {
-  text-align: center;
-  padding: 40px;
-  background: var(--bg-card, #f8fafc);
-  border-radius: 24px;
-  border: 1px solid var(--border-color, #e2e8f0);
-  transition: transform 0.3s ease;
+/* =============================================================
+   Estilo do Cartão Premium (Newmorfismo Suave)
+   ============================================================= */
+.landing-step {
+  text-align: left; /* Alinhamento à esquerda para um visual mais profissional */
+  padding: 48px;     /* Aumentado o padding interno */
+  
+  /* Cor Semântica Nude/Quente (usa var(--color-gray-50) se tiveres) */
+  background: #faf8f4; 
+  
+  border-radius: 28px; /* Cantos mais suaves e modernos */
+  border: 1px solid rgba(156, 122, 70, 0.1); /* Borda dourada translúcida e sutil */
+  
+  /* Sombra suave para profundidade premium */
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03); 
+  
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.landing-step:hover, .landing-feature-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+.landing-step:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(156, 122, 70, 0.08); /* Sombra cresce e ganha matiz dourada */
+  border-color: rgba(156, 122, 70, 0.2);
 }
 
+/* Nova div de agrupamento no JSX */
+.landing-step-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+/* Estilo do Ícone do Número */
 .landing-step-number {
-  width: 50px;
-  height: 50px;
-  background: var(--color-gold);
+  width: 56px; /* Maior e mais proeminente */
+  height: 56px;
+  background-color: var(--color-gold);
   color: white;
-  border-radius: 50%;
+  border-radius: 16px; /* Cantos arredondados, não mais círculo perfeito */
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 24px;
+  flex-shrink: 0;
   font-weight: 900;
+  font-size: 1.4rem;
+  box-shadow: 0 4px 10px rgba(156, 122, 70, 0.2);
 }
 
-.landing-step h3, .landing-feature-card h3 {
-  color: #1e293b !important;
+/* Título do Passo: Escuro e Negrito */
+.landing-step h3 {
+  color: #1e293b !important; /* Título escuro no light mode */
   font-weight: 800;
-  margin-bottom: 12px;
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
+  margin: 0;
 }
 
-.landing-step p, .landing-feature-card p {
-  color: #64748b !important;
-  font-size: 0.95rem;
-  line-height: 1.6;
+/* Descrição: Mais legível e afunilada */
+.landing-step p {
+  color: #64748b !important; /* Cinzento ardósia médio */
+  font-size: 0.98rem;
+  line-height: 1.7; /* Altura de linha "Premium" */
+  margin: 0;
 }
 
 .landing-feature-icon {
@@ -337,17 +375,59 @@
   color: #94a3b8 !important;
 }
 
+.dark .landing-how-it-works h2,
+.dark .landing-step h3 {
+  color: #f1f5f9 !important; /* Slate 100 - Texto claro no dark mode */
+}
+
+.dark .landing-how-it-works .landing-section-subtitle,
+.dark .landing-step p {
+  color: #94a3b8 !important; /* Slate 400 - Cinzento claro */
+}
+
+.dark .landing-step {
+  background: #1e293b; /* Slate 800 - Fundo escuro */
+  border-color: #334155;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
 @media (max-width: 992px) {
   .landing-hero .landing-container {
     grid-template-columns: 1fr;
     text-align: center;
   }
-  .landing-hero-subtitle { margin: 0 auto 40px; }
-  .landing-hero-ctas { justify-content: center; }
   .landing-nav { display: none; }
-  
-  .landing-steps, .landing-features-grid {
-    grid-template-columns: 1fr;
+  .landing-steps {
+    grid-template-columns: 1fr !important; /* Força 1 coluna em tablets e phones */
     gap: 20px;
+  }
+  .landing-step {
+    padding: 32px; /* Ajuste de padding para ecrãs menores */
+  }
+}
+
+@media (max-width: 1024px) {
+  .landing-steps {
+    gap: 20px;
+  }
+  .landing-step {
+    padding: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .landing-steps {
+    grid-template-columns: 1fr; /* Coluna única no mobile */
+    gap: 16px;
+  }
+  .landing-step {
+    padding: 24px;
+    border-radius: 20px;
+  }
+  .landing-how-it-works {
+    padding: 60px 0;
+  }
+  .landing-section-subtitle {
+    margin-bottom: 40px;
   }
 }
