@@ -384,6 +384,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 .landing-feature-card:hover {
@@ -405,14 +408,22 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 24px;
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
+  z-index: 2;
 }
 
 .landing-feature-card:hover .landing-feature-icon {
+  background-color: var(--color-gold) !important;
   transform: scale(1.1) rotate(5deg);
-  background: var(--color-gold);
   color: #ffffff;
 }
+
+/* Quando passas o rato no CARD, o ÍCONE dentro dele deve ficar BRANCO */
+.landing-feature-card:hover .landing-feature-icon svg {
+  color: #ffffff !important; /* Cor branca para contrastar com o fundo dourado */
+  stroke: #ffffff !important; /* Força o traço do Lucide Icon */
+}
+
 
 /* Textos dentro do cartão */
 .landing-feature-card h3 {
