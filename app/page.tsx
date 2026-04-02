@@ -42,7 +42,6 @@ export default function Landing() {
       a: 'Se é representante de uma paróquia, entre em contacto connosco através da página de contacto para validar e adicionar as suas informações.',
     },
   ];
-const closeMenu = () => setIsMenuOpen(false);
   return (
     <div className="landing-page">
       {/* Header / Navbar */}
