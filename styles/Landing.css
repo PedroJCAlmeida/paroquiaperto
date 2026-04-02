@@ -97,6 +97,12 @@
   padding: 120px 0;
 }
 
+.landing-hero-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .landing-hero-visual {
   display: flex;
   flex-direction: column;
@@ -114,25 +120,44 @@
   font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 900;
   color: var(--color-gold);
+  line-height: 1.1;
+  margin-bottom: 32px; /* Aumentado de 24px para 32px */
+  letter-spacing: -0.04em;
+}
+
+.landing-hero-subtitle {
+  font-size: 1.25rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 48px; /* Aumentado para dar ar entre o texto e os botões */
+  max-width: 540px;
+}
+
+/* --- HERO CTAS: Espaçamento entre Botões --- */
+.landing-hero-ctas {
+  display: flex;
+  align-items: center;
+  gap: 32px; /* Aumentado de 20px para 32px para separar bem os CTAs */
 }
 
 .landing-btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 24px;
+  padding: 16px 32px;
   background-color: var(--color-gold);
   color: #1e293b !important;
-  border-radius: 12px;
+  border-radius: 14px;
   font-weight: 800;
   text-decoration: none;
   white-space: nowrap;
   transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(156, 122, 70, 0.3);
 }
 
 .landing-btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(156, 122, 70, 0.2);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(156, 122, 70, 0.5);
 }
 
 .landing-btn-secondary {
@@ -144,6 +169,16 @@
 
 .landing-btn-secondary:hover {
   color: var(--color-gold) !important;
+}
+
+.landing-btn-tertiary {
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 1.05rem;
+  padding: 10px 0;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
 }
 
 .landing-hero-card {
