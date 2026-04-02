@@ -167,11 +167,15 @@
 }
 
 .landing-step {
-  background-color: #1e293b; /* Cartão Escuro */
-  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;    /* Força alinhamento ao centro */
+  text-align: center;      /* Força texto ao centro */
   padding: 40px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  background-color: #1e293b !important; /* Mesma cor exata */
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
 }
 
 .landing-step:hover { transform: translateY(-8px); }
@@ -189,15 +193,21 @@
   margin-bottom: 24px;
 }
 
-.landing-step h3 {
-  color: #ffffff !important; /* Texto Branco dentro do Cartão */
+.landing-step h3,
+.landing-feature-card h3{
+  color: #ffffff !important;
   font-size: 1.4rem;
-  font-weight: 700;
-}
+  font-weight: 800;
+  margin: 12px 0; /* Espaçamento igual abaixo do ícone/número */
+  opacity: 1 !important;
 
-.landing-step p {
-  color: #cbd5e1 !important; /* Cinza claro dentro do Cartão */
+.landing-step p, 
+.landing-feature-card p {
+  color: #cbd5e1 !important; /* Slate 300 */
+  font-size: 0.95rem;
   line-height: 1.6;
+  opacity: 1 !important;
+  margin: 0;
 }
 
 /* =============================================================
@@ -375,15 +385,15 @@
 
 /* O Cartão de Recurso */
 .landing-feature-card {
-  background: #f8fafc; /* Um cinza azulado quase branco */
-  padding: 40px;
-  border-radius: 28px;
-  border: 1px solid #f1f5f9;
-  text-align: center;
-  transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center;    /* Força alinhamento ao centro */
+  text-align: center;      /* Força texto ao centro */
+  padding: 40px;
+  background-color: #1e293b !important; /* Mesma cor exata */
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -424,22 +434,6 @@
   stroke: #ffffff !important; /* Força o traço do Lucide Icon */
 }
 
-
-/* Textos dentro do cartão */
-.landing-feature-card h3 {
-  color: #ffffff !important; /* Branco puro */
-  font-size: 1.3rem;
-  font-weight: 800;
-  margin-bottom: 12px;
-  opacity: 1 !important;
-}
-
-.landing-feature-card p {
-  color: #cbd5e1 !important; /* Slate 300 (Cinza claro legível) */
-  font-size: 0.95rem;
-  line-height: 1.6;
-  opacity: 1 !important;
-}
 
 /* 6. RESPONSIVIDADE E DARK MODE */
 .dark .landing-how-it-works,
