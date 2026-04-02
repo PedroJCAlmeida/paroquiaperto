@@ -241,7 +241,8 @@
 /* 5. ESTATÍSTICAS */
 .landing-stats {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  padding: 100px 0;
+  padding-top: 100px;
+  padding-bottom: 40px;
   position: relative;
   overflow: hidden;
 }
@@ -285,8 +286,11 @@
 
 /* 6. FAQ */
 .landing-faq {
-  padding: 120px 0;
+  padding-top: 60px;    /* Reduzimos de 120px para 60px */
+  padding-bottom: 120px;
   background-color: #ffffff;
+  /* Garante que o link da navbar caia no lugar certo */
+  scroll-margin-top: 100px;
 }
 
 .landing-faq h2 {
@@ -294,7 +298,8 @@
   text-align: center;
   font-size: 2.8rem;
   font-weight: 850;
-  margin-bottom: 60px;
+  margin-top: 0;        /* Garante que o h2 não empurra para cima */
+  margin-bottom: 40px;  /* Espaço entre título e a primeira pergunta */
 }
 
 .landing-faq-list {
