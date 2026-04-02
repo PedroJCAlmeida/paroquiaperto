@@ -22,7 +22,7 @@
 
 .navbar-inner {
   display: flex;
-  align-items: center; /* Alinha verticalmente imagem e menus */
+  align-items: center;
   justify-content: space-between;
   width: 100%;
   max-width: 1200px;
@@ -33,29 +33,10 @@
 /* --- Logo & Branding --- */
 .navbar-logo {
   display: flex;
-  align-items: center; /* Alinha o texto com o centro da imagem */
+  align-items: center;
   gap: 12px;
   text-decoration: none;
   flex-shrink: 0;
-  background: transparent !important; /* Remove blocos azuis */
-  outline: none;
-}
-
-.navbar-logo-mark {
-  width: 42px;
-  height: 42px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  background: linear-gradient(135deg, rgba(31, 47, 70, 0.08) 0%, rgba(156, 122, 70, 0.12) 100%);
-  border: 1px solid var(--border-color);
-}
-
-/* Garante que a imagem dentro do logo não herde fundos */
-.navbar-logo img {
-  display: block;
-  background: transparent !important;
 }
 
 .navbar-logo-text {
@@ -64,18 +45,6 @@
   font-size: 1.25rem;
   letter-spacing: -0.03em;
   white-space: nowrap;
-  margin: 0; /* Remove margens que desalinhariam o texto */
-}
-
-/* --- BOTÃO HAMBÚRGUER (O segredo está aqui) --- */
-.mobile-menu-toggle {
-  display: none; /* Escondido no Desktop */
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  color: var(--text-main);
-  z-index: 10002;
-  padding: 8px;
 }
 
 /* --- BOTÃO HAMBÚRGUER (MOBILE TOGGLE) --- */
@@ -83,8 +52,8 @@
   display: none; /* Escondido no Desktop */
   flex-direction: column;
   justify-content: space-between;
-  width: 30px;
-  height: 21px;
+  width: 28px;
+  height: 18px;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -104,10 +73,12 @@
 .navbar-nav {
   display: flex;
   gap: 28px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
   align-items: center;
+}
+
+.navbar-nav-links {
+  display: flex;
+  gap: 24px;
 }
 
 .navbar-link {
@@ -118,52 +89,28 @@
   padding: 8px 0;
   position: relative;
   transition: color 0.2s ease;
-  background: transparent !important; /* Remove blocos azuis */
-  outline: none;
 }
 
 .navbar-link:hover {
   color: var(--color-gold);
 }
 
-/* Sublinhado Dourado */
-.navbar-link::after {
-  content: '';
-  position: absolute;
-  width: 0%;
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  background-color: var(--color-gold);
-  transition: width 0.3s ease;
-}
-
-.navbar-link:hover::after {
-  width: 100%;
-}
-
-/* --- Botões de Autenticação --- */
-.navbar-auth-group {
+/* --- Botões e Ações --- */
+.navbar-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-left: 20px;
+  gap: 16px;
 }
 
-/* Limpeza para o botão Entrar */
 .navbar-login-btn {
   color: var(--text-main);
   font-weight: 700;
   text-decoration: none;
   font-size: 0.9rem;
-  padding: 8px 16px;
-  transition: color 0.2s;
-  background: transparent !important;
 }
 
-/* Botão Registar - O único que deve ter fundo */
 .navbar-register-btn {
-  color: #FFFFFF !important; /* Texto branco para contraste no dourado */
+  color: #FFFFFF !important;
   background: var(--color-gold) !important;
   padding: 10px 22px;
   border-radius: 10px;
@@ -171,34 +118,12 @@
   text-decoration: none;
   font-size: 0.85rem;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 10px rgba(156, 122, 70, 0.2);
-  display: flex;
-  align-items: center;
-  border: none;
+  white-space: nowrap;
 }
 
 .navbar-register-btn:hover {
   transform: translateY(-2px);
   filter: brightness(1.1);
-  box-shadow: 0 6px 15px rgba(156, 122, 70, 0.3);
-}
-
-/* --- Dark Mode --- */
-.dark .navbar {
-  background: rgba(15, 23, 42, 0.95);
-  border-bottom-color: #1e293b;
-}
-
-/* --- Dropdowns e Perfis --- */
-.navbar-dropdown-menu {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  /* ... resto do seu código de dropdown ... */
-}
-
-/* Remove o highlight azul de toque em dispositivos móveis */
-a, button {
-  -webkit-tap-highlight-color: transparent;
 }
 
 /* =============================================================
@@ -206,61 +131,59 @@ a, button {
    ============================================================= */
 
 @media (max-width: 992px) {
-   /* 1. Mostra o botão hambúrguer */
-  .mobile-menu-toggle {
-    display: block !important;
-  }
-
-   .navbar-toggle {
+  .navbar-toggle {
     display: flex !important; /* Aparece no Mobile */
   }
 
-   /* Animação para virar um X quando aberto */
+  /* Animação para virar um X quando aberto */
   .navbar-toggle.active .hamburger:nth-child(1) {
-    transform: translateY(9px) rotate(45deg);
+    transform: translateY(7.5px) rotate(45deg);
   }
   .navbar-toggle.active .hamburger:nth-child(2) {
     opacity: 0;
   }
   .navbar-toggle.active .hamburger:nth-child(3) {
-    transform: translateY(-9px) rotate(-45deg);
+    transform: translateY(-7.5px) rotate(-45deg);
   }
 
-  /* 2. Transforma a Nav na gaveta lateral */
- .navbar-nav {
+  /* Transforma a Nav na gaveta lateral */
+  .navbar-nav {
     position: fixed;
     top: 0;
-    right: -100%; /* Joga o menu para fora do ecrã à direita */
+    right: -100%; /* Escondido à direita */
     width: 280px;
     height: 100vh;
-    background: #ffffff; /* Fundo sólido para não ver o que está atrás */
+    background: var(--bg-card, #ffffff);
     flex-direction: column;
     align-items: flex-start;
     padding: 100px 24px;
     gap: 32px;
     box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* 3. Quando o botão é clicado (estado active no React) */
   .navbar-nav.active {
-    right: 0; /* O menu desliza para dentro */
+    right: 0; /* Desliza para dentro */
   }
 
-  /* 4. Coloca os links e botões em coluna (um por baixo do outro) */
   .navbar-nav-links, 
-  .navbar-nav,
-  .navbar-auth-group {
+  .navbar-actions {
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
     margin: 0;
   }
 
-  /* 4. Faz os links ocuparem a largura toda para ser fácil de clicar */
   .navbar-link, .navbar-login-btn {
     width: 100%;
     font-size: 1.1rem;
     padding: 12px 0;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid var(--border-color, #f1f5f9);
+  }
+
+  .navbar-register-btn {
+    width: 100%;
+    justify-content: center;
+    margin-top: 10px;
   }
 }
