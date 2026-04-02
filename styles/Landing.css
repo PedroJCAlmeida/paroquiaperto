@@ -637,6 +637,10 @@
     gap: 60px; /* Mais espaço entre os números no mobile */
   }
 
+  .landing-hero {
+    padding-top: 140px !important; /* Dá espaço para a Navbar não tapar o título */
+  }
+
   .landing-hero .landing-container {
     grid-template-columns: 1fr !important; /* Muda de 2 colunas para 1 */
     text-align: center;
