@@ -23,8 +23,6 @@ import {
 export default function Landing() {
   const router = useRouter();
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
-
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   
   const faqs = [
     {
@@ -48,46 +46,7 @@ const closeMenu = () => setIsMenuOpen(false);
   return (
     <div className="landing-page">
       {/* Header / Navbar */}
-      <header className="navbar">
-        <div className="navbar-inner">
-          <Link href="/" className="navbar-logo" onClick={closeMenu}>
-            <div className="navbar-logo-mark">
-              <Image 
-                src="/logo_paroquia.png" 
-                alt="Logo" 
-                width={32} 
-                height={32} 
-                priority 
-              />
-            </div>
-            <span className="navbar-logo-text">Paróquia Perto</span>
-          </Link>
-
-          {/* Botão Hambúrguer para Mobile */}
-          <button 
-            className="mobile-menu-toggle" 
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? <X size={28} /> : <MenuIcon size={28} />}
-          </button>
-
-          {/* Navegação Principal */}
-          <nav className={`navbar-nav ${isMenuOpen ? 'active' : ''}`}>
-            <div className="navbar-nav-links">
-              <Link href="#como-funciona" className="navbar-link" onClick={closeMenu}>Como Funciona</Link>
-              <Link href="#recursos" className="navbar-link" onClick={closeMenu}>Recursos</Link>
-              <Link href="#faq" className="navbar-link" onClick={closeMenu}>FAQ</Link>
-            </div>
-            
-            <div className="navbar-auth-group">
-              <Link href="/login" className="navbar-login-btn" onClick={closeMenu}>Entrar</Link>
-              <Link href="/register" className="navbar-register-btn" onClick={closeMenu}>Registar</Link>
-            </div>
-          </nav>
-        </div>
-      </header>
-
+      <Navbar />
       {/* Hero Section */}
       <section className="landing-hero">
         <div className="landing-container">
