@@ -54,18 +54,20 @@ export default function Landing() {
   <span className="landing-logo-text">Paróquia Perto</span>
 </Link>
           <nav className="landing-nav">
-            <Link href="#como-funciona">Como Funciona</Link>
-            <Link href="#recursos">Recursos</Link>
-            <Link href="#faq">FAQ</Link>
-            <div className="landing-nav-auth">
-              <Link href="/login" className="landing-btn-secondary">
-                Entrar
-              </Link>
-              <Link href="/register" className="landing-btn-primary">
-                Registar
-              </Link>
-            </div>
-          </nav>
+  <Link href="#como-funciona">Como Funciona</Link>
+  <Link href="#recursos">Recursos</Link>
+  <Link href="#faq">FAQ</Link>
+  
+  {/* Div separada para os botões de ação */}
+  <div className="landing-nav-auth">
+    <Link href="/login" className="landing-btn-secondary">
+      Entrar
+    </Link>
+    <Link href="/register" className="landing-btn-primary">
+      Registar
+    </Link>
+  </div>
+</nav>
         </div>
       </header>
 
