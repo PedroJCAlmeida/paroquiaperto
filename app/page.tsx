@@ -10,11 +10,14 @@ import {
 import '@/styles/Landing.css';
 import '@/styles/colors.css';
 import Footer from '@/components/Footer';
+import { Menu, X, ArrowRight, ... } from 'lucide-react';
 
 export default function Landing() {
   const router = useRouter();
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
 
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  
   const faqs = [
     {
       q: 'Como funciona o Paróquia Perto?',
@@ -33,34 +36,45 @@ export default function Landing() {
       a: 'Se é representante de uma paróquia, entre em contacto connosco através da página de contacto para validar e adicionar as suas informações.',
     },
   ];
-
+const closeMenu = () => setIsMenuOpen(false);
   return (
     <div className="landing-page">
-      {/* Header Premium */}
-      <header className="landing-header">
-        <div className="landing-container">
-          <Link href="/" className="landing-logo">
-            <div className="landing-logo-icon">
+      {/* Header / Navbar */}
+      <header className="navbar">
+        <div className="navbar-inner">
+          <Link href="/" className="navbar-logo" onClick={closeMenu}>
+            <div className="navbar-logo-mark">
               <Image 
                 src="/logo_paroquia.png" 
                 alt="Logo" 
-                width={40} 
-                height={40} 
-                className="landing-logo-image" 
+                width={32} 
+                height={32} 
                 priority 
               />
             </div>
-            <span className="landing-logo-text">Paróquia Perto</span>
+            <span className="navbar-logo-text">Paróquia Perto</span>
           </Link>
-          <nav className="landing-nav">
-            <div className="landing-nav-links">
-              <Link href="#como-funciona">Como Funciona</Link>
-              <Link href="#recursos">Recursos</Link>
-              <Link href="#faq">FAQ</Link>
+
+          {/* Botão Hambúrguer para Mobile */}
+          <button 
+            className="mobile-menu-toggle" 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <X size={28} /> : <MenuIcon size={28} />}
+          </button>
+
+          {/* Navegação Principal */}
+          <nav className={`navbar-nav ${isMenuOpen ? 'active' : ''}`}>
+            <div className="navbar-nav-links">
+              <Link href="#como-funciona" className="navbar-link" onClick={closeMenu}>Como Funciona</Link>
+              <Link href="#recursos" className="navbar-link" onClick={closeMenu}>Recursos</Link>
+              <Link href="#faq" className="navbar-link" onClick={closeMenu}>FAQ</Link>
             </div>
-            <div className="landing-nav-auth">
-              <Link href="/login" className="landing-btn-secondary">Entrar</Link>
-              <Link href="/register" className="landing-btn-primary">Registar</Link>
+            
+            <div className="navbar-auth-group">
+              <Link href="/login" className="navbar-login-btn" onClick={closeMenu}>Entrar</Link>
+              <Link href="/register" className="navbar-register-btn" onClick={closeMenu}>Registar</Link>
             </div>
           </nav>
         </div>
