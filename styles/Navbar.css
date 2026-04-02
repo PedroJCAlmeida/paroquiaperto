@@ -167,3 +167,47 @@
 a, button {
   -webkit-tap-highlight-color: transparent;
 }
+
+/* =============================================================
+   AJUSTES RESPONSIVOS (MOBILE)
+   ============================================================= */
+
+@media (max-width: 992px) {
+  /* 1. Esconde a navegação normal e transforma em menu lateral */
+  .navbar-nav {
+    position: fixed;
+    top: 0;
+    right: -100%; /* Joga o menu para fora do ecrã à direita */
+    width: 280px;
+    height: 100vh;
+    background: #ffffff; /* Fundo sólido para não ver o que está atrás */
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 100px 24px;
+    gap: 32px;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+  }
+
+  /* 2. Quando o botão é clicado (estado active no React) */
+  .navbar-nav.active {
+    right: 0; /* O menu desliza para dentro */
+  }
+
+  /* 3. Coloca os links e botões em coluna (um por baixo do outro) */
+  .navbar-nav-links, 
+  .navbar-nav,
+  .navbar-auth-group {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin: 0;
+  }
+
+  /* 4. Faz os links ocuparem a largura toda para ser fácil de clicar */
+  .navbar-link, .navbar-login-btn {
+    width: 100%;
+    font-size: 1.1rem;
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f5f9;
+  }
+}
