@@ -11,6 +11,46 @@
   scroll-margin-top: 100px; 
 }
 
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background-color: rgba(255, 255, 255, 0.98);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+}
+
+.navbar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* --- 2. MOBILE TOGGLE (BOTÃO HAMBÚRGUER) --- */
+.mobile-menu-toggle {
+  display: none; /* Escondido no PC */
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #1e293b;
+  z-index: 10001;
+  padding: 8px;
+}
+
+/* --- 3. NAVEGAÇÃO (DESKTOP E MOBILE) --- */
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
 /* 1. ESTRUTURA GLOBAL */
 .landing-page {
   min-height: 100vh;
@@ -95,6 +135,7 @@
   background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
   color: #ffffff;
   padding: 120px 0;
+  padding-top: 140px !important;
 }
 
 .landing-hero-content {
@@ -539,61 +580,53 @@
 
 /* 9. RESPONSIVIDADE */
 @media (max-width: 992px) {
-  
-  /* 1. Mostra o botão hambúrguer (o ícone de Menu/X) */
   .mobile-menu-toggle {
-    display: block !important;
-    position: relative;
-    z-index: 10001; /* Garante que fica acima de tudo */
+    display: block !important; /* Aparece no telemóvel */
   }
 
-  /* 2. Transforma a lista de links num painel lateral */
   .navbar-nav {
-    display: flex !important; /* Forçamos o flex para alinhar os itens */
-    flex-direction: column;   /* Links um abaixo do outro (Vertical) */
+    display: flex !important;
     position: fixed;
     top: 0;
-    right: -100%;            /* Começa "escondido" à direita do telemóvel */
-    width: 280px;            /* Largura do menu lateral */
-    height: 100vh;           /* Altura total do ecrã */
-    background-color: #ffffff;
-    padding: 100px 24px;     /* Espaço no topo para não bater no logo */
-    gap: 32px;               /* Espaço entre cada link */
+    right: -100%; /* Esconde o menu totalmente à direita */
+    width: 280px;
+    height: 100vh;
+    background: #ffffff;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 100px 24px;
+    gap: 24px;
     transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
     z-index: 10000;
   }
 
-  /* 3. Quando clicas no botão e o estado isMenuOpen passa a true */
+  /* ESTADO ABERTO: Quando clicas no botão */
   .navbar-nav.active {
-    right: 0; /* O menu desliza para dentro do ecrã */
+    right: 0 !important; /* Faz o menu entrar no ecrã */
   }
 
-  /* 4. Ajusta os grupos internos para serem verticais também */
   .navbar-nav-links, 
   .navbar-auth-group {
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
-    gap: 24px;
+    gap: 20px;
   }
 
-  /* 5. Estilo dos links no mobile para serem mais fáceis de clicar */
   .navbar-link {
     font-size: 1.1rem;
-    width: 100%;
     padding: 10px 0;
-    color: #1e293b !important;
+    width: 100%;
+    border-bottom: 1px solid #f1f5f9;
   }
 
-  /* 6. O botão de Registar ocupa a largura toda no mobile */
   .navbar-register-btn {
     width: 100%;
     justify-content: center;
     padding: 14px;
   }
 }
-
 
 @media (max-width: 768px) {
   .landing-stats-grid {
