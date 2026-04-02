@@ -1,36 +1,30 @@
 @import '@/styles/colors.css';
 
 /* =============================================================
-   SITE FOOTER (ESTRUTURA)
+   SITE FOOTER (ESTRUTURA OTIMIZADA)
    ============================================================= */
 .site-footer {
-  /* Gradiente elegante usando as cores da tua paleta */
-  background: linear-gradient(135deg, #1f2f46 0%, #111b27 100%);
-  color: #d6ccbf;
-  padding: 60px 24px 30px;
+  /* Gradiente mais profundo para um fecho luxuoso */
+  background: linear-gradient(180deg, #0f172a 0%, #020617 100%);
+  color: #94a3b8;
+  padding: 80px 24px 40px; /* Aumentado padding superior para dar ar */
   margin-top: auto;
-  border-top: 1px solid rgba(156, 122, 70, 0.1);
-  transition: background 0.3s ease;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .site-footer-inner {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 40px;
+  gap: 60px; /* Aumentado o espaço entre colunas */
 }
 
 /* --- Responsividade de Colunas --- */
-@media (min-width: 640px) {
+@media (min-width: 768px) {
   .site-footer-inner {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media (min-width: 900px) {
-  .site-footer-inner {
-    grid-template-columns: 2.5fr 1fr 1.2fr; /* Coluna da marca com mais destaque */
+    grid-template-columns: 1.5fr 1fr 1.2fr; /* Coluna da marca com o espaço ideal */
+    gap: 40px;
   }
 }
 
@@ -40,137 +34,114 @@
 .site-footer-brand {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 20px; /* Mais espaço entre logo, descrição e ícones */
 }
 
 .site-footer-brand-name {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: 900;
-  color: #f4ede3;
-  letter-spacing: -0.02em;
+  color: #ffffff;
+  letter-spacing: -0.03em;
 }
 
 .site-footer-brand-desc {
-  font-size: 0.95rem;
-  color: #c9bbab;
-  line-height: 1.7;
-  max-width: 400px;
+  font-size: 1rem;
+  color: #94a3b8;
+  line-height: 1.6;
+  max-width: 340px; /* Encurtado para evitar linhas muito longas */
 }
 
 /* Ícones de Redes Sociais */
 .site-footer-social {
   display: flex;
-  gap: 12px;
-  margin-top: 20px;
+  gap: 16px;
+  margin-top: 10px;
 }
 
 .site-footer-social-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 12px; /* Mudado de círculo para squircle para condizer com os botões */
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   color: var(--color-gold, #9C7A46);
-  background: rgba(156, 122, 70, 0.1);
-  border: 1px solid rgba(156, 122, 70, 0.2);
+  background: rgba(156, 122, 70, 0.05);
+  border: 1px solid rgba(156, 122, 70, 0.1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  text-decoration: none;
 }
 
 .site-footer-social-link:hover {
-  color: #f0dfc7;
+  color: #ffffff;
   background: var(--color-gold, #9C7A46);
-  transform: translateY(-3px) rotate(5deg);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 /* =============================================================
-   COLUNAS DE LINKS
+   COLUNAS DE LINKS (CORREÇÃO DE ESPAÇAMENTO)
    ============================================================= */
 .site-footer-col h4 {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   color: var(--color-gold, #9C7A46);
-  margin-bottom: 20px;
+  margin-bottom: 28px; /* Mais espaço abaixo do título da coluna */
 }
 
 .site-footer-col ul {
   list-style: none;
   padding: 0;
-  margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px; /* Aumentado de 12px para 16px para melhor leitura */
 }
 
 .site-footer-col a {
-  color: #c9bbab;
+  color: #94a3b8;
   text-decoration: none;
-  font-size: 0.95rem;
-  transition: all 0.2s ease;
-  display: inline-block;
+  font-size: 1rem;
+  transition: color 0.2s ease;
 }
 
 .site-footer-col a:hover {
-  color: #f4ede3;
-  transform: translateX(3px);
+  color: #ffffff;
 }
 
 /* =============================================================
-   BARRA INFERIOR (COPYRIGHT)
+   BARRA INFERIOR (COPYRIGHT) - ALINHAMENTO LIMPADO
    ============================================================= */
 .site-footer-bottom {
   border-top: 1px solid rgba(255, 255, 255, 0.05);
-  margin-top: 50px;
-  padding-top: 25px;
+  margin-top: 80px; /* Mais distância do conteúdo acima */
+  padding-top: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  font-size: 0.85rem;
-  color: #8a8175;
+  gap: 20px;
+  font-size: 0.9rem;
+  color: #64748b;
 }
 
 @media (min-width: 768px) {
   .site-footer-bottom {
     flex-direction: row;
-    justify-content: space-between;
-    text-align: left;
+    justify-content: space-between; /* Copyright à esquerda, links à direita */
   }
 }
 
 .site-footer-bottom-links {
   display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-  justify-content: center;
+  gap: 30px; /* Espaço generoso entre Privacidade/RGPD/Cookies */
 }
 
-.site-footer-bottom a:hover {
+.site-footer-bottom-links a {
+  text-decoration: none;
+  color: #64748b;
+  transition: color 0.2s;
+}
+
+.site-footer-bottom-links a:hover {
   color: var(--color-gold);
-  text-decoration: underline;
-}
-
-/* =============================================================
-   DARK MODE OVERRIDES
-   ============================================================= */
-.dark .site-footer {
-  background: #0a0f18; /* Fundo quase preto para fundir com o body dark */
-  border-top-color: #1e293b;
-}
-
-.dark .site-footer-brand-name {
-  color: #f1f5f9;
-}
-
-.dark .site-footer-brand-desc,
-.dark .site-footer-col a {
-  color: #94a3b8;
-}
-
-.dark .site-footer-bottom {
-  border-top-color: #1e293b;
 }
