@@ -9,10 +9,10 @@
   left: 0;
   width: 100%;
   z-index: 9999;
-  background: rgba(255, 255, 255, 0.98); 
-  border-bottom: 1px solid #e2e8f0;
-  box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-  backdrop-filter: blur(12px);
+  background: #0f172a; 
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(12px);
   height: 72px; 
   display: flex;
@@ -51,7 +51,7 @@
 }
 
 .navbar-logo-text {
-  color: #1e293b;
+  color: #ffffff;
   font-weight: 850;
   font-size: 1.25rem;
   letter-spacing: -0.03em;
@@ -75,7 +75,7 @@
 .hamburger {
   width: 100%;
   height: 3px;
-  background-color: #1e293b;
+  background-color: #ffffff;
   border-radius: 10px;
   transition: all 0.3s ease;
 }
@@ -83,38 +83,54 @@
 /* --- Navegação Central/Direita --- */
 .navbar-nav {
   display: flex;
-  gap: 28px;
+  gap: 32px;
   align-items: center;
 }
 
 .navbar-nav-links {
   display: flex;
-  gap: 24px;
+  gap: 28px;
 }
 
 .navbar-link {
   text-decoration: none;
-  color: #64748b;
+  color: rgba(255, 255, 255, 0.8);
   font-weight: 600;
   font-size: 0.95rem;
   padding: 8px 0;
   position: relative;
-  transition: color 0.2s ease;
+  transition: color 0.3s ease;
 }
 
 .navbar-link:hover {
   color: #9c7a46;
 }
 
+/* Criar a linha que aparece ao passar o rato */
+.navbar-link::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #9c7a46; /* Dourado */
+  transition: width 0.3s ease;
+}
+
+.navbar-link:hover::after {
+  width: 100%;
+}
+
 /* --- Botões e Ações --- */
 .navbar-actions {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 20px;
 }
 
 .navbar-login-btn {
-  color: #1e293b;
+  color: #ffffff;
   font-weight: 700;
   text-decoration: none;
   font-size: 0.95rem;
@@ -126,10 +142,10 @@
 }
 
 .navbar-register-btn {
-  color: #FFFFFF !important;
+  color: #1e293b !important;
   background: #9c7a46 !important;
-  padding: 10px 22px;
-  border-radius: 10px;
+  padding: 10px 24px;
+  border-radius: 12px;
   font-weight: 800;
   text-decoration: none;
   font-size: 0.9rem;
@@ -144,12 +160,29 @@
 .navbar-register-btn:hover {
   transform: translateY(-2px);
   filter: brightness(1.1);
-  box-shadow: 0 6px 15px rgba(156, 122, 70, 0.3);
+  box-shadow: 0 6px 20px rgba(156, 122, 70, 0.5);
 }
 
 .navbar-actions button:has(svg) {
   color: #64748b; /* Cor visível no fundo branco */
 }
+
+/* --- Ícones (Sol, Perfil) --- */
+.navbar-actions button, 
+.navbar-profile-trigger {
+  color: #ffffff;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s;
+}
+
+.navbar-profile-trigger:hover {
+  transform: scale(1.1);
+  color: #9c7a46;
+} 
 
 .navbar-profile-trigger {
   color: #64748b; /* Cor visível no fundo branco */
