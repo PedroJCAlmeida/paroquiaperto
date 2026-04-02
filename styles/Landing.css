@@ -135,7 +135,8 @@
 
 /* 4. COMO FUNCIONA (CONTRASTE CORRIGIDO) */
 .landing-how-it-works {
-  padding: 120px 0;
+  padding-top: 80px;
+  padding-bottom: 40px;
   background-color: #ffffff;
 }
 
@@ -147,11 +148,16 @@
   margin-bottom: 16px;
 }
 
+.landing-section {
+  padding: 80px 0; /* Reduzimos de 100px para 80px */
+  background-color: var(--bg-primary);
+}
+
 .landing-section-subtitle {
   color: #64748b !important; /* Cinza legível */
   text-align: center;
   font-size: 1.15rem;
-  margin-bottom: 60px;
+  margin-bottom: 50px;
 }
 
 .landing-steps {
@@ -225,17 +231,19 @@
    SECÇÃO: RECURSOS PRINCIPAIS (GRID E ICONOGRAFIA)
    ============================================================= */
 .landing-features {
-  background-color: #ffffff; /* Fundo sempre branco */
-  padding: 100px 0;
+  background-color: #f8fafc 
+  padding-top: 40px;
+  padding-bottom: 80px;
 }
 
 /* Alinhamento do Título da Secção */
 .landing-features h2 {
   color: #1e293b !important;
-  text-align: center;
+  margin-top: 0;
+  margin-bottom: 20px;
   font-size: 2.8rem;
   font-weight: 850;
-  margin-bottom: 60px;
+  text-align: center;
   letter-spacing: -0.03em;
 }
 
