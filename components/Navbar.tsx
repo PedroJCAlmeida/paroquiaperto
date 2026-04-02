@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { FaUserCircle, FaChevronDown } from 'react-icons/fa';
 import ThemeToggle from './ThemeToggle';
 import '@/styles/Navbar.css'; // Garante que o CSS está importado aqui
@@ -15,6 +15,8 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
 
+  const isLandingPage = pathname === '/'; // Verifica se é a landing page
+  
   // Sincronização de Autenticação
   useEffect(() => {
     const checkAuth = () => setIsLoggedIn(Boolean(localStorage.getItem('token')));
@@ -73,10 +75,22 @@ const Navbar = () => {
 
         {/* Nav Links */}
         <nav className={`navbar-nav ${isOpen ? 'active' : ''}`}>
-          <Link href="/" className="navbar-link" onClick={closeAllMenus}>Início</Link>
-          <Link href="/paroquias" className="navbar-link" onClick={closeAllMenus}>Paróquias</Link>
-          <Link href="/buscar" className="navbar-link" onClick={closeAllMenus}>Buscar</Link>
-          <Link href="/contacto" className="navbar-link" onClick={closeAllMenus}>Contacto</Link>
+         {isLandingPage ? (
+            /* Links apenas para a Landing Page */
+            <>
+              <Link href="#como-funciona" className="navbar-link" onClick={closeAllMenus}>Como Funciona</Link>
+              <Link href="#recursos" className="navbar-link" onClick={closeAllMenus}>Recursos</Link>
+              <Link href="#faq" className="navbar-link" onClick={closeAllMenus}>FAQ</Link>
+            </>
+          ) : (
+            /* Links para o resto do sistema */
+            <>
+              <Link href="/" className="navbar-link" onClick={closeAllMenus}>Início</Link>
+              <Link href="/paroquias" className="navbar-link" onClick={closeAllMenus}>Paróquias</Link>
+              <Link href="/buscar" className="navbar-link" onClick={closeAllMenus}>Buscar</Link>
+              <Link href="/contacto" className="navbar-link" onClick={closeAllMenus}>Contacto</Link>
+            </>
+          )}
 
           {/* Dropdown Backoffice */}
           {isLoggedIn && (
