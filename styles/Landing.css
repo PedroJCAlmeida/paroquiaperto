@@ -386,6 +386,7 @@
   background: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 20px;
+  margin-bottom: 16px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
 }
@@ -393,6 +394,15 @@
 .landing-faq-item:hover, .landing-faq-item.active {
   border-color: var(--color-gold);
   background: #ffffff;
+}
+
+/* --- EFEITO AO PASSAR O RATO (HOVER) --- */
+.landing-faq-item:hover {
+  border-color: var(--color-gold); /* Borda fica dourada */
+  background: #ffffff;            /* Fundo fica branco puro */
+  transform: translateY(-2px);    /* Pequeno levantamento */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); /* Sombra sutil */
+  cursor: pointer;
 }
 
 .landing-faq-question {
@@ -410,11 +420,28 @@
   font-weight: 700;
 }
 
+/* Mudar a cor do texto e do ícone no HOVER */
+.landing-faq-item:hover .landing-faq-question {
+  color: var(--color-gold) !important;
+}
+
 .landing-faq-answer {
   padding: 0 32px 32px 32px;
   color: #64748b;
   font-size: 1.05rem;
   line-height: 1.7;
+}
+
+.landing-faq-item:hover .landing-faq-question svg {
+  color: var(--color-gold) !important;
+  transform: scale(1.1); /* Ícone cresce ligeiramente */
+}
+
+/* --- ESTADO ATIVO (ABERTO) --- */
+.landing-faq-item.active {
+  border-color: var(--color-gold);
+  background: #ffffff;
+  box-shadow: 0 15px 30px rgba(156, 122, 70, 0.1);
 }
 
 /* 7. RECURSOS */
