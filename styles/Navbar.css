@@ -145,3 +145,87 @@
     display: none; /* Implementar menu hambúrguer aqui se necessário */
   }
 }
+
+/* Container dos Dropdowns */
+.navbar-dropdown-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-trigger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+}
+
+.navbar-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  min-width: 200px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+.navbar-dropdown-menu.right {
+  left: auto;
+  right: 0;
+}
+
+.navbar-dropdown-menu a, .logout-btn {
+  padding: 12px 16px;
+  text-decoration: none;
+  color: var(--text-main);
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: background 0.2s;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.navbar-dropdown-menu a:hover, .logout-btn:hover {
+  background: var(--color-gray-100);
+  color: var(--color-gold);
+}
+
+.logout-btn {
+  color: #ef4444 !important; /* Cor de perigo para o Sair */
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.navbar-profile-trigger {
+  background: none;
+  border: none;
+  color: var(--color-blue);
+  cursor: pointer;
+  display: flex;
+  transition: transform 0.2s;
+}
+
+.navbar-profile-trigger:hover {
+  transform: scale(1.1);
+}
+
+.rotate {
+  transform: rotate(180deg);
+  transition: transform 0.3s;
+}
