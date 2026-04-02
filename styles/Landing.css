@@ -2,11 +2,11 @@
 
 /* 1. ESTRUTURA GLOBAL */
 .landing-page {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--bg-primary, #ffffff);
-  color: var(--text-main, #1e293b);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-primary, #ffffff);
+  color: var(--text-main, #1e293b);
 }
 
 .landing-container {
