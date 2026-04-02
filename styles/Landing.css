@@ -569,18 +569,69 @@
 }
 
 /* Mostrar apenas em ecrãs menores que 992px */
+Exatamente. É dentro desse bloco @media (max-width: 992px) que deves colocar toda a "inteligência" do menu para telemóveis.
+
+O problema que mostraste na foto (os links todos amontoados no topo) acontece porque eles estão a tentar comportar-se como se estivessem num computador, mas sem espaço. Para resolver isso, o menu tem de passar de horizontal para vertical e ficar "escondido" fora do ecrã.
+
+Aqui tens o código completo e corrigido para inserires exatamente nessa parte do teu ficheiro Landing.css:
+
+CSS
+/* =============================================================
+   MÓVEL: Ecrãs menores que 992px
+   ============================================================= */
 @media (max-width: 992px) {
+  
+  /* 1. Mostra o botão hambúrguer (o ícone de Menu/X) */
   .mobile-menu-toggle {
     display: block !important;
+    position: relative;
+    z-index: 10001; /* Garante que fica acima de tudo */
   }
-  
+
+  /* 2. Transforma a lista de links num painel lateral */
   .navbar-nav {
-    display: none; /* Esconde a lista de links normal no mobile */
+    display: flex !important; /* Forçamos o flex para alinhar os itens */
+    flex-direction: column;   /* Links um abaixo do outro (Vertical) */
+    position: fixed;
+    top: 0;
+    right: -100%;            /* Começa "escondido" à direita do telemóvel */
+    width: 280px;            /* Largura do menu lateral */
+    height: 100vh;           /* Altura total do ecrã */
+    background-color: #ffffff;
+    padding: 100px 24px;     /* Espaço no topo para não bater no logo */
+    gap: 32px;               /* Espaço entre cada link */
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+    z-index: 10000;
   }
-  
+
+  /* 3. Quando clicas no botão e o estado isMenuOpen passa a true */
   .navbar-nav.active {
-    display: flex; /* Mostra quando o estado isMenuOpen for true */
-    /* ... resto do seu código de menu lateral ... */
+    right: 0; /* O menu desliza para dentro do ecrã */
+  }
+
+  /* 4. Ajusta os grupos internos para serem verticais também */
+  .navbar-nav-links, 
+  .navbar-auth-group {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 24px;
+  }
+
+  /* 5. Estilo dos links no mobile para serem mais fáceis de clicar */
+  .navbar-link {
+    font-size: 1.1rem;
+    width: 100%;
+    padding: 10px 0;
+    color: #1e293b !important;
+  }
+
+  /* 6. O botão de Registar ocupa a largura toda no mobile */
+  .navbar-register-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 14px;
   }
 }
 
