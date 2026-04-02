@@ -16,7 +16,7 @@ import {
   ChevronUp, 
   ArrowRight, 
   ShieldCheck,
-  Menu,
+  Menu as MenuIcon,
   X 
 } from 'lucide-react';
 
@@ -24,7 +24,7 @@ export default function Landing() {
   const router = useRouter();
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
 
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   
   const faqs = [
     {
