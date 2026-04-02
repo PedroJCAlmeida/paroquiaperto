@@ -1,538 +1,280 @@
-/* =============================================================
-   DARK MODE OVERRIDES
-   Applied when <html> has the class "dark"
-   ============================================================= */
-
-/* ── Body ── */
-.dark body {
-  background-color: #0f172a;
-  color: #f1f5f9;
-}
-
-/* ── Theme toggle button ── */
-.theme-toggle-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: inherit;
-  display: flex;
-  align-items: center;
-  padding: 4px;
-  border-radius: 6px;
-  transition: color 0.2s;
-}
-
-.dark .theme-toggle-btn {
-  color: #e2e8f0;
-}
-
-.theme-toggle-btn:hover {
-  color: #1F2F46;
-}
-
-.dark .theme-toggle-btn:hover {
-  color: #60a5fa;
-}
-
-/* ── Navbar ── */
-.dark .navbar {
-  background: #1e293b;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
-}
-
-.dark .navbar-link {
-  color: #e2e8f0;
-}
-
-.dark .navbar-link:hover {
-  color: #60a5fa;
-}
-
-.dark .navbar-link::after {
-  background-color: #60a5fa;
-}
-
-.dark .hamburger {
-  background: #e2e8f0;
-}
-
-.dark .navbar-login-icon {
-  color: #e2e8f0;
-}
-
-.dark .navbar-login-icon:hover {
-  color: #60a5fa;
-}
-
-/* Mobile nav open state */
-.dark .navbar-nav.active {
-  background: #1e293b;
-  border-top-color: #334155;
-  border-color: #334155;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* Backoffice dropdown */
-.dark .navbar-backoffice-menu {
-  background: #1e293b !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
-  border: 1px solid #334155 !important;
-}
-
-/* Profile dropdown */
-.dark .navbar-profile-menu {
-  background: #1e293b !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
-  border: 1px solid #334155 !important;
-}
-
-.dark .navbar-profile-menu-item {
-  color: #e2e8f0 !important;
-}
-
-.dark .navbar-profile-menu-item:hover {
-  background: #334155 !important;
-}
-
-/* ── Home ── */
-.dark .home-container,
-.dark .home-hero-wrap {
-  background-color: #0f172a;
-  color: #f1f5f9;
-}
-
-.dark .home-hero-title {
-  color: #f1f5f9;
-}
-
-.dark .home-hero-text {
-  color: #94a3b8;
-}
-
-.dark .home-highlights {
-  background: #1e293b;
-}
-
-.dark .home-highlights-title {
-  color: #f1f5f9;
-}
-
-.dark .home-highlight-card {
-  background: #263345;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  color: #f1f5f9;
-}
-
-.dark .home-highlight-card h4 {
-  color: #93c5fd;
-}
-
-.dark .home-highlight-card p {
-  color: #94a3b8;
-}
-
-.dark .home-highlight-card:hover {
-  background-color: #1e3a5f;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-}
-
-/* ── Login / Register / Recuperar ── */
-.dark .login-container {
-  background-color: #0f172a;
-  color: #f1f5f9;
-}
-
-.dark .login-container h2 {
-  color: #f1f5f9;
-}
-
-.dark .login-container p {
-  color: #94a3b8;
-}
-
-.dark .login-container p a {
-  color: #60a5fa;
-}
-
-.dark .login-form,
-.dark .register-form {
-  background: #1e293b !important;
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.5) !important;
-}
-
-.dark .login-form label,
-.dark .register-form label {
-  color: #93c5fd !important;
-}
-
-.dark .login-form input,
-.dark .register-form input {
-  background: #263345 !important;
-  border-color: #475569 !important;
-  color: #f1f5f9 !important;
-}
-
-.dark .login-form p,
-.dark .register-form p {
-  color: #94a3b8;
-}
-
-.dark .error-message {
-  color: #fca5a5 !important;
-  background-color: #450a0a !important;
-  border-color: #7f1d1d !important;
-}
-
-.dark .success-message {
-  color: #86efac !important;
-  background-color: #052e16 !important;
-  border-color: #14532d !important;
-}
-
-.dark .loading-message {
-  color: #60a5fa !important;
-}
-
-/* ── Paróquias list page ── */
-.dark .paroquias-page {
-  color: #f1f5f9;
-}
-
-.dark .paroquias-title {
-  color: #f1f5f9;
-}
-
-.dark .paroquias-select {
-  background: #1e293b !important;
-  color: #f1f5f9 !important;
-  border-color: #475569 !important;
-}
-
-.dark .paroquias-select--distrito {
-  border-color: #6366f1 !important;
-  color: #93c5fd !important;
-}
-
-.dark .paroquias-select--conselho {
-  border-color: #6366f1 !important;
-  color: #c4b5fd !important;
-}
-
-.dark .paroquias-select--km {
-  border-color: #d97706 !important;
-  color: #fde68a !important;
-  background: #1e1a0a !important;
-}
-
-.dark .paroquias-select--disabled {
-  background: #1a2535 !important;
-  opacity: 0.5 !important;
-}
-
-/* ── ParoquiaCard ── */
-.dark .paroquia-card {
-  background-color: #1e293b;
-  border-color: #334155;
-  color: #f1f5f9;
-}
-
-.dark .paroquia-card h3 {
-  color: #f1f5f9;
-}
-
-.dark .paroquia-card p {
-  color: #94a3b8;
-}
-
-.dark .paroquia-card span {
-  color: #5eead4;
-}
-
-/* ── Paróquia detail ── */
-.dark .paroquia-detalhe-bg {
-  background: linear-gradient(135deg, #0f172a 0%, #1a1a3e 100%);
-}
-
-.dark .paroquia-detalhe-card {
-  background: #1e293b;
-  border-color: #334155;
-  color: #f1f5f9;
-}
-
-/* ── BuscarParoquias ── */
-.dark .buscar-container {
-  background: #1e293b;
-  box-shadow: 0 2px 18px rgba(0, 0, 0, 0.4);
-}
-
-.dark .buscar-title {
-  color: #93c5fd;
-}
-
-.dark .buscar-form {
-  background: #263345;
-}
-
-.dark .buscar-label {
-  color: #c4b5fd;
-}
-
-.dark .buscar-input,
-.dark .buscar-select {
-  background: #1e293b;
-  border-color: #475569;
-  color: #f1f5f9;
-}
-
-/* ── BuscaIgrejas ── */
-.dark .church-item {
-  background: #1e293b;
-  border-color: #334155;
-  color: #f1f5f9;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.dark .search-input {
-  background: #1e293b;
-  border-color: #475569;
-  color: #f1f5f9;
-}
-
-/* ── Contato ── */
-.dark .contato-page {
-  color: #f1f5f9;
-}
-
-.dark .contato-title {
-  color: #f1f5f9;
-}
-
-.dark .contato-form label {
-  color: #94a3b8;
-}
-
-.dark .contato-form input,
-.dark .contato-form textarea {
-  background: #1e293b;
-  border-color: #475569;
-  color: #f1f5f9;
-}
-
-.dark .contato-form input:focus,
-.dark .contato-form textarea:focus {
-  border-color: #60a5fa;
-}
-
-.dark .rede-card {
-  background-color: #1e293b;
-  border-color: #334155;
-  color: #f1f5f9;
-}
-
-.dark .rede-card:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-}
-
-.dark .rede-texto {
-  color: #94a3b8;
-}
-
-/* ── Backoffice form pages ── */
-.dark .backoffice-page {
-  background: linear-gradient(120deg, #0f172a 0%, #1a1a3e 100%) !important;
-}
-
-.dark .backoffice-page h2 {
-  color: #93c5fd;
-}
-
-.dark .backoffice-form {
-  background: linear-gradient(120deg, #1e293b 80%, #1a1a3e 100%) !important;
-  box-shadow: 0 8px 36px rgba(0, 0, 0, 0.5) !important;
-}
-
-.dark .backoffice-form h3 {
-  color: #93c5fd !important;
-}
-
-.dark .backoffice-form label {
-  color: #93c5fd !important;
-}
-
-.dark .backoffice-form input,
-.dark .backoffice-form textarea,
-.dark .backoffice-form select {
-  background: #263345 !important;
-  border-color: #4f5c7a !important;
-  color: #f1f5f9 !important;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25) !important;
-}
-
-.dark .backoffice-form input:focus,
-.dark .backoffice-form textarea:focus,
-.dark .backoffice-form select:focus {
-  border-color: #818cf8 !important;
-  box-shadow: 0 0 0 2px #818cf8 !important;
-}
-
-/* ── Backoffice layout ── */
-.dark .backoffice-container {
-  background-color: #0f172a;
-}
-
-.dark .backoffice-content {
-  background: linear-gradient(135deg, #151f33 0%, #0f172a 100%);
-  background-color: #0f172a;
-}
-
-.dark .backoffice-footer {
-  color: #818cf8;
-}
-
-/* ── Backoffice sidebar menu ── */
-.dark .backoffice-menu {
-  background: #1e293b !important;
-  border-right-color: #334155 !important;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.4);
-}
-
-.dark .backoffice-menu a {
-  color: #cbd5e1 !important;
-}
-
-.dark .backoffice-menu a:hover {
-  background-color: #334155 !important;
-  color: #f1f5f9 !important;
-}
-
-.dark .bo-mobile-open-btn {
-  background: #1e293b !important;
-  border-color: #475569 !important;
-  color: #e2e8f0 !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
-}
-
-/* ── Loading screen ── */
-.dark .loading-screen {
-  background: linear-gradient(to bottom right, #0f172a, #1e293b);
-}
-
-/* ── Static pages (Sobre, Políticas, RGPD, Cookies) ── */
-.dark .static-page {
-  color: #f1f5f9;
-}
-
-.dark .static-page-title {
-  color: #93c5fd;
-}
-
-.dark .static-page-subtitle {
-  color: #94a3b8;
-}
-
-.dark .static-page-divider {
-  border-top-color: #334155;
-}
-
-.dark .static-page-icon {
-  color: #93c5fd;
-}
-
-.dark .static-section-title {
-  color: #93c5fd;
-}
-
-.dark .static-section p,
-.dark .static-section li {
-  color: #cbd5e1;
-}
-
-.dark .static-section a {
-  color: #60a5fa;
-}
-
-.dark .static-section ul,
-.dark .static-section ol {
-  color: #cbd5e1;
-}
-
-.dark .static-highlight {
-  background: #1e3a5f;
-  border-left-color: #60a5fa;
-  color: #bfdbfe;
-}
-
-.dark .static-highlight a {
-  color: #93c5fd;
-}
-
-.dark .static-updated {
-  color: #94a3b8;
-}
-
-/* ── Footer ── */
-.dark .site-footer {
-  background: #0f172a;
-}
-
-.dark .site-footer-brand-name {
-  color: #f1f5f9;
-}
-
-.dark .site-footer-brand-desc {
-  color: #94a3b8;
-}
-
-.dark .site-footer-col h4 {
-  color: #60a5fa;
-}
-
-.dark .site-footer-col a {
-  color: #94a3b8;
-}
-
-.dark .site-footer-col a:hover {
-  color: #cbd5e1;
-}
-
-.dark .site-footer-bottom {
-  border-top-color: #1e293b;
-  color: #94a3b8;
-}
-
-.dark .site-footer-bottom a {
-  color: #94a3b8;
-}
-
-.dark .site-footer-bottom a:hover {
-  color: #cbd5e1;
-}
-
-/* Variáveis para facilitar (Modo Light - Padrão) */
+/* Variáveis de Cores para Modo Light e Dark */
 :root {
-  --dropdown-bg: #ffffff;
-  --dropdown-border: #e2e8f0;
-  --text-main-compat: #243B55;
-  --dropdown-hover: #f8fafc;
+  --detalhe-bg: #f8fafc;
+  --card-bg: #ffffff;
+  --text-main: #243B55;
+  --text-sub: #475569;
+  --border-color: #e2e8f0;
+  --shadow-color: rgba(30, 64, 175, 0.08);
+  --sidebar-bg: #f8fafc;
 }
 
-/* Overrides para Modo Dark */
-.dark {
-  --dropdown-bg: #1e293b;        /* Mesma cor da tua Navbar dark */
-  --dropdown-border: #334155;    /* Mesma cor das tuas bordas dark */
-  --text-main-compat: #f1f5f9;   /* Cor do teu texto body dark */
-  --dropdown-hover: #334155;     /* Cor de destaque ao passar o rato */
+[data-theme='dark'] {
+  --detalhe-bg: #0f172a;
+  --card-bg: #1e293b;
+  --text-main: #f1f5f9;
+  --text-sub: #94a3b8;
+  --border-color: #334155;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --sidebar-bg: #1e293b;
 }
 
-/* Estilos de hover para os itens do dropdown */
-.dropdown-item-dark-compat:hover {
-  background-color: var(--dropdown-hover) !important;
+.paroquia-detalhe-bg {
+  background-color: var(--detalhe-bg);
+  min-height: 100vh;
+  transition: background 0.3s ease;
 }
 
-/* Garantir que o input de pesquisa também herda os estilos dark que já criaste */
-.dark .form-input {
-  background: #263345 !important;
-  border-color: #4f5c7a !important;
-  color: #f1f5f9 !important;
+.paroquia-detalhe-card {
+  background: var(--card-bg);
+  border-radius: 32px;
+  box-shadow: 0 20px 50px var(--shadow-color);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
 }
 
+.paroquia-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ESSENCIAL: corta a imagem para caber sem esticar */
+  display: block;
+}
+
+[data-theme='dark'] .paroquia-hero-img {
+  filter: brightness(0.7);
+}
+
+.paroquia-detalhe-title {
+  color: var(--text-main);
+  font-size: 2.5rem;
+  font-weight: 900;
+  margin: 0;
+}
+
+.address-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-sub);
+  font-size: 1.1rem;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.address-link:hover {
+  color: var(--color-gold);
+}
+
+.cta-button-gradient {
+  background: linear-gradient(135deg, #243B55, #3E5C76);
+  color: #fff;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.2s;
+}
+
+.cta-button-gradient:hover {
+  transform: translateY(-2px);
+}
+
+.paroquia-detalhe-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-main);
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+}
+
+.description-text {
+  line-height: 1.8;
+  color: var(--text-sub);
+  font-size: 1.05rem;
+  background: var(--sidebar-bg);
+  padding: 24px;
+  border-radius: 16px;
+  border-left: 5px solid var(--color-gold);
+}
+
+.horarios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.horario-card {
+  background: var(--card-bg);
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 6px var(--shadow-color);
+}
+
+.day-label {
+  font-weight: 800;
+  color: var(--color-gold);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.time-value {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--text-main);
+}
+
+.type-label {
+  color: var(--text-sub);
+  font-size: 0.9rem;
+}
+
+.contacts-card {
+  background: var(--sidebar-bg);
+  padding: 32px;
+  border-radius: 24px;
+  border: 1px solid var(--border-color);
+}
+
+.sidebar-title {
+  margin: 0 0 24px 0;
+  color: var(--text-main);
+}
+
+.contacts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text-sub);
+  font-weight: 500;
+}
+
+.icon-box {
+  background: var(--card-bg);
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+}
+
+.social-icons-row {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 12px;
+  margin-top: 10px;
+  flex-wrap: wrap; /* Caso tenha muitos ícones, ele quebra para a linha de baixo no mobile */
+}
+
+.social-icon-btn {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  transition: all 0.2s ease;
+}
+
+.social-icon-btn:hover {
+  transform: translateY(-3px);
+  background: var(--text-main);
+  color: var(--card-bg);
+}
+
+.evento-item-card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  transition: transform 0.3s;
+}
+
+.evento-item-card:hover {
+  transform: translateY(-5px);
+}
+
+.event-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.event-info {
+  padding: 20px;
+}
+
+.event-info h4 {
+  margin: 0 0 10px 0;
+  color: var(--text-main);
+}
+
+.event-meta {
+  font-size: 0.9rem;
+  color: var(--color-gold);
+  font-weight: 800;
+}
+
+.back-button-overlay {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  background: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  color: #243B55;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 1024px) {
+  .paroquia-detalhe-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .paroquia-detalhe-title {
+    font-size: 1.8rem;
+  }
+  
+  .cta-button-gradient {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
