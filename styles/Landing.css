@@ -539,47 +539,6 @@
 
 /* 9. RESPONSIVIDADE */
 @media (max-width: 992px) {
-  .landing-hero .landing-container {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 40px;
-  }
-  .landing-nav { display: none; }
-  .landing-steps, .landing-features-grid {
-    grid-template-columns: 1fr !important;
-    gap: 24px;
-  }
-  .landing-hero-ctas { justify-content: center; }
-}
-
-@media (max-width: 768px) {
-  .landing-stats-grid {
-    grid-template-columns: 1fr;
-    gap: 60px; /* Mais espaço entre os números no mobile */
-  }
-}
-
-/* Escondido por padrão (Desktop) */
-.mobile-menu-toggle {
-  display: none !important; 
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--text-main);
-}
-
-/* Mostrar apenas em ecrãs menores que 992px */
-Exatamente. É dentro desse bloco @media (max-width: 992px) que deves colocar toda a "inteligência" do menu para telemóveis.
-
-O problema que mostraste na foto (os links todos amontoados no topo) acontece porque eles estão a tentar comportar-se como se estivessem num computador, mas sem espaço. Para resolver isso, o menu tem de passar de horizontal para vertical e ficar "escondido" fora do ecrã.
-
-Aqui tens o código completo e corrigido para inserires exatamente nessa parte do teu ficheiro Landing.css:
-
-CSS
-/* =============================================================
-   MÓVEL: Ecrãs menores que 992px
-   ============================================================= */
-@media (max-width: 992px) {
   
   /* 1. Mostra o botão hambúrguer (o ícone de Menu/X) */
   .mobile-menu-toggle {
@@ -634,6 +593,24 @@ CSS
     padding: 14px;
   }
 }
+
+
+@media (max-width: 768px) {
+  .landing-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 60px; /* Mais espaço entre os números no mobile */
+  }
+}
+
+/* Escondido por padrão (Desktop) */
+.mobile-menu-toggle {
+  display: none !important; 
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-main);
+}
+
 
 /* No Desktop */
 @media (min-width: 993px) {
