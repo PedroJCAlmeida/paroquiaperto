@@ -3,10 +3,6 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { 
-  MapPin, Church, Calendar, Users, Heart, 
-  ChevronDown, ChevronUp, ArrowRight, ShieldCheck 
-} from 'lucide-react';
 import '@/styles/Landing.css';
 import '@/styles/colors.css';
 import Footer from '@/components/Footer';
