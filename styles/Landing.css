@@ -683,6 +683,15 @@
     display: block !important;
     margin-left: auto;
   }
+
+  .landing-features-grid {
+    grid-template-columns: 1fr !important; /* Força 1 coluna no telemóvel */
+    gap: 24px;
+  }
+
+  .landing-feature-card {
+    padding: 30px;
+  }
   
 }
 
