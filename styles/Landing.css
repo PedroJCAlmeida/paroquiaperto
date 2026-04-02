@@ -660,6 +660,30 @@
     max-width: 320px;
     transform: none !important; /* Remove o efeito de inclinação que rouba espaço */
   }
+
+  .landing-steps {
+    grid-template-columns: 1fr !important; /* Deixa de ser 3 colunas e passa a 1 */
+    gap: 20px;
+  }
+
+  .landing-step {
+    padding: 30px 20px;
+  }
+
+  .navbar-inner {
+    padding: 0 15px;
+  }
+
+  .navbar-logo-text {
+    font-size: 1.2rem !important; /* Diminui o nome para caber ao lado do ícone */
+  }
+  
+  /* Garante que o botão de fechar/abrir menu aparece no canto direito */
+  .mobile-menu-toggle {
+    display: block !important;
+    margin-left: auto;
+  }
+  
 }
 
 /* Escondido por padrão (Desktop) */
