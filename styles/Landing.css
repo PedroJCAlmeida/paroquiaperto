@@ -1,7 +1,7 @@
 @import '@/styles/colors.css';
 
 /* =============================================================
-   LANDING PAGE ESTRUTURA
+   1. ESTRUTURA GLOBAL E CONTENTOR
    ============================================================= */
 .landing-page {
   min-height: 100vh;
@@ -11,7 +11,17 @@
   transition: background-color 0.3s ease;
 }
 
-/* --- Header / Navigation --- */
+.landing-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* =============================================================
+   2. HEADER / NAVEGAÇÃO
+   ============================================================= */
 .landing-header {
   background-color: var(--bg-card, #ffffff);
   border-bottom: 1px solid var(--border-color, #e2e8f0);
@@ -19,22 +29,16 @@
   top: 0;
   z-index: 100;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-}
-
-.landing-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
+  width: 100%;
 }
 
 .landing-header .landing-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 24px;
+  height: 80px; /* Altura fixa para consistência */
 }
 
-/* --- Logo --- */
 .landing-logo {
   font-size: 1.5rem;
   font-weight: 900;
@@ -51,18 +55,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 14px; /* Padronizado com os botões */
+  border-radius: 14px;
   background: linear-gradient(135deg, rgba(30, 64, 175, 0.08) 0%, rgba(212, 175, 55, 0.14) 100%);
   border: 1px solid rgba(30, 64, 175, 0.1);
 }
 
 /* =============================================================
-   HERO SECTION (GLASSMORPHISM)
+   3. HERO SECTION (GLASSMORPHISM)
    ============================================================= */
 .landing-hero {
-  background: linear-gradient(135deg, #1e293b 0%, #334155 100%); /* Slate dark */
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
   color: #ffffff;
-  padding: 100px 24px;
+  padding: 100px 0;
+  width: 100%;
   position: relative;
   overflow: hidden;
 }
@@ -72,16 +77,14 @@
   grid-template-columns: 1fr 1fr;
   gap: 60px;
   align-items: center;
-  position: relative;
-  z-index: 2;
 }
 
 .landing-hero-title {
-  font-size: 3.5rem;
+  font-size: clamp(2.5rem, 5vw, 3.5rem); /* Tamanho adaptável */
   font-weight: 900;
   margin-bottom: 24px;
   line-height: 1.1;
-  color: var(--color-gold);
+  color: var(--color-gold, #9c7a46);
   letter-spacing: -0.04em;
 }
 
@@ -92,7 +95,6 @@
   line-height: 1.6;
 }
 
-/* Hero Visual Cards */
 .landing-hero-card {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(12px);
@@ -100,6 +102,7 @@
   border-radius: 20px;
   padding: 24px;
   transition: all 0.3s ease;
+  text-align: center;
 }
 
 .landing-hero-card:hover {
@@ -108,10 +111,10 @@
 }
 
 /* =============================================================
-   SECÇÕES DE CONTEÚDO (FEATURES, HOW IT WORKS)
+   4. SECÇÕES DE CONTEÚDO E FEATURES
    ============================================================= */
 .landing-section {
-  padding: 100px 24px;
+  padding: 100px 0;
   background-color: var(--bg-primary, #ffffff);
 }
 
@@ -119,12 +122,17 @@
   font-size: 2.5rem;
   font-weight: 800;
   color: var(--text-main, #1e293b);
-  margin-bottom: 16px;
+  margin-bottom: 40px;
   text-align: center;
   letter-spacing: -0.02em;
 }
 
-/* Feature Cards */
+.landing-features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
 .landing-feature-card {
   background: var(--bg-card, #ffffff);
   border: 1px solid var(--border-color, #e2e8f0);
@@ -140,25 +148,13 @@
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
 }
 
-.landing-feature-icon {
-  width: 64px;
-  height: 64px;
-  margin: 0 auto 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(37, 99, 235, 0.1);
-  border-radius: 16px;
-  color: var(--color-blue);
-}
-
 /* =============================================================
-   ESTATÍSTICAS & CTA FINAL
+   5. ESTATÍSTICAS E FAQ
    ============================================================= */
 .landing-stats, .landing-cta-section {
   background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
   color: #ffffff;
-  padding: 80px 24px;
+  padding: 80px 0;
 }
 
 .landing-stat-number {
@@ -167,145 +163,71 @@
   color: var(--color-gold);
 }
 
-/* FAQ Accordion */
 .landing-faq-item {
   background-color: var(--bg-card, #ffffff);
   border: 1px solid var(--border-color, #e2e8f0);
   border-radius: 14px;
   margin-bottom: 16px;
+  overflow: hidden;
 }
 
 .landing-faq-question {
+  width: 100%;
+  padding: 20px;
   color: var(--text-main, #1e293b);
   font-weight: 700;
   background: transparent;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
 }
 
 /* =============================================================
-   DARK MODE OVERRIDES
+   6. DARK MODE OVERRIDES
    ============================================================= */
-.dark .landing-header {
-  background-color: #0f172a;
-  border-bottom-color: #1e293b;
-}
+.dark .landing-header,
+.dark .landing-section { background-color: #0f172a; }
 
-.dark .landing-logo { color: #f1f5f9; }
+.dark .landing-logo,
+.dark .landing-section h2,
+.dark .landing-feature-card h3,
+.dark .landing-faq-question { color: #f1f5f9; }
 
-.dark .landing-section {
-  background-color: #0f172a;
-}
-
-.dark .landing-section h2 { color: #f1f5f9; }
-
-.dark .landing-feature-card, .dark .landing-faq-item {
+.dark .landing-feature-card, 
+.dark .landing-faq-item {
   background-color: #1e293b;
   border-color: #334155;
 }
 
-.dark .landing-feature-card h3, .dark .landing-faq-question {
-  color: #f1f5f9;
-}
+.dark .landing-feature-card p { color: #94a3b8; }
 
-.dark .landing-feature-card p, .dark .landing-section-subtitle {
-  color: #94a3b8;
-}
-
-.landing-page {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--bg-primary, #ffffff);
-}
-
-.landing-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
-  width: 100%;
-  box-sizing: border-box; /* Essencial para não quebrar largura */
-}
-
-/* HEADER */
-.landing-header {
-  background-color: var(--bg-card, #ffffff);
-  border-bottom: 1px solid var(--border-color, #e2e8f0);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  width: 100%;
-}
-
-.landing-header .landing-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 80px; /* Altura fixa para evitar saltos */
-}
-
-/* HERO SECTION */
-.landing-hero {
-  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-  color: #ffffff;
-  padding: 100px 0;
-  width: 100%;
-}
-
-.landing-hero .landing-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  align-items: center;
-}
-
-.landing-hero-title {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 900;
-  line-height: 1.1;
-  color: var(--color-gold, #9c7a46);
-}
-
-/* GRID DE RECURSOS */
-.landing-section {
-  padding: 80px 0;
-  background-color: var(--bg-primary, #ffffff);
-}
-
-.landing-features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
-}
-
-.landing-feature-card {
-  background: var(--bg-card, #ffffff);
-  border: 1px solid var(--border-color, #e2e8f0);
-  padding: 40px;
-  border-radius: 20px;
-  text-align: center;
-}
-
-/* RESPONSIVIDADE FORÇADA */
+/* =============================================================
+   7. RESPONSIVIDADE (MOBILE)
+   ============================================================= */
 @media (max-width: 768px) {
   .landing-hero .landing-container {
     grid-template-columns: 1fr;
     text-align: center;
+    gap: 40px;
   }
+
+  .landing-hero-title { font-size: 2.2rem; }
   
   .landing-hero-visual {
-    order: -1; /* Imagem/Cards por cima do texto no mobile */
+    order: -1; /* Cards aparecem antes do texto no mobile se desejado */
     display: flex;
-    overflow-x: auto;
+    overflow-x: auto; /* Permite scroll horizontal nos cards do hero */
+    gap: 15px;
     padding-bottom: 20px;
   }
-}
 
-/* =============================================================
-   RESPONSIVIDADE
-   ============================================================= */
-@media (max-width: 768px) {
-  .landing-hero .landing-container { grid-template-columns: 1fr; text-align: center; }
-  .landing-hero-ctas { justify-content: center; }
-  .landing-hero-title { font-size: 2.5rem; }
-  .landing-section { padding: 60px 20px; }
+  .landing-section { padding: 60px 0; }
   .landing-section h2 { font-size: 2rem; }
+  
+  .landing-header .landing-container {
+    height: auto;
+    padding: 12px 24px;
+  }
 }
