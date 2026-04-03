@@ -95,7 +95,7 @@ body.dark .navbar,
 .hamburger {
   width: 100%;
   height: 3px;
-  background-color: var(--nav-text); /* Segue o texto automaticamente */
+  background-color: var(--nav-text) !important; /* Segue o texto automaticamente */
   border-radius: 10px;
   transition: all 0.3s;
 }
@@ -209,9 +209,6 @@ body.dark .navbar,
   color: var(--nav-link-hover) !important;
 }
 
-.navbar-toggle .hamburger {
-  background-color: #ffffff !important;
-}
 
 /* =============================================================
    AJUSTES RESPONSIVOS (MOBILE)
@@ -240,7 +237,7 @@ body.dark .navbar,
     right: -100%;
     width: 280px;
     height: 100vh;
-    background: var(--nav-bg) !important; /* Segue o tema */
+    background-color: var(--nav-bg) !important; /* Segue o tema */
     flex-direction: column;
     padding: 100px 24px;
     gap: 32px;
@@ -264,7 +261,7 @@ body.dark .navbar,
   .navbar-nav-links .navbar-link,
   .navbar-nav .navbar-login-btn,
   .navbar-nav .dropdown-trigger {
-    color: white !important;
+    color: var(--nav-text) !important;
     width: 100%;
     padding: 12px 0;
     border-bottom: 1px solid rgba(255,255,255,0.1);
