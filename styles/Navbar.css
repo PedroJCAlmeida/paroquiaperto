@@ -14,12 +14,12 @@
    ============================================================= */
 /* O seletor .dark assume que o teu ThemeToggle aplica a classe 'dark' no topo do site */
 .dark .navbar,
+body.dark .navbar,
 [data-theme='dark'] .navbar {
-  --nav-bg: #0f172a;                  /* O teu azul preferido */
-  --nav-text: #ffffff;                /* Texto branco */
-  --nav-text-sub: rgba(255, 255, 255, 0.7);
-  --nav-border: rgba(255, 255, 255, 0.1);
-  --nav-shadow: rgba(0, 0, 0, 0.4);
+  --nav-bg: #0f172a !important; /* AZUL ESCURO FORÇADO */
+  --nav-text: #ffffff !important;
+  --nav-border: rgba(255, 255, 255, 0.1) !important;
+  --nav-shadow: rgba(0, 0, 0, 0.4) !important;
 }
 
 /* =============================================================
@@ -31,7 +31,7 @@
   left: 0;
   width: 100%;
   z-index: 9999;
-  background: var(--nav-bg); 
+  background-color: var(--nav-bg) !important;
   border-bottom: 1px solid var(--nav-border);
   box-shadow: 0 4px 15px var(--nav-shadow);
   backdrop-filter: blur(12px);
@@ -149,15 +149,17 @@
 }
 
 .navbar-login-btn {
-  color: #ffffff !important;
+  color: var(--nav-text) !important; 
   font-weight: 700;
   text-decoration: none;
   font-size: 0.95rem;
-  transition: color 0.2s;
+  transition: all 0.3s ease;
+  background: transparent !important;
 }
 
 .navbar-login-btn:hover {
-  color: #9c7a46 !important; /* var(--color-gold) */
+  color: var(--nav-link-hover) !important; /* Fica dourado no hover */
+  transform: translateY(-1px);
 }
 
 .navbar-register-btn {
