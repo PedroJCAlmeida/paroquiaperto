@@ -1,5 +1,27 @@
 @import '@/styles/colors.css';
 
+:root {
+  --nav-bg: rgba(255, 255, 255, 0.98);
+  --nav-text: #1e293b;                /* Azul escuro */
+  --nav-text-sub: #64748b;            /* Cinza para ícones */
+  --nav-border: #e2e8f0;
+  --nav-shadow: rgba(0, 0, 0, 0.05);
+  --nav-link-hover: #9c7a46;          /* Dourado */
+}
+
+/* =============================================================
+   CONFIGURAÇÃO MODO DARK (AZUL ESCURO)
+   ============================================================= */
+/* O seletor .dark assume que o teu ThemeToggle aplica a classe 'dark' no topo do site */
+.dark .navbar,
+[data-theme='dark'] .navbar {
+  --nav-bg: #0f172a;                  /* O teu azul preferido */
+  --nav-text: #ffffff;                /* Texto branco */
+  --nav-text-sub: rgba(255, 255, 255, 0.7);
+  --nav-border: rgba(255, 255, 255, 0.1);
+  --nav-shadow: rgba(0, 0, 0, 0.4);
+}
+
 /* =============================================================
    NAVBAR ESTRUTURA PRINCIPAL
    ============================================================= */
@@ -9,15 +31,15 @@
   left: 0;
   width: 100%;
   z-index: 9999;
-  background: #0f172a !important; 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(10px);
+  background: var(--nav-bg); 
+  border-bottom: 1px solid var(--nav-border);
+  box-shadow: 0 4px 15px var(--nav-shadow);
+  backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   height: 72px; 
   display: flex;
   align-items: center;
-  transition: all 0.3s ease;
+  transition: all 0.3s ease-in-out;
 }
 
 .navbar-inner {
@@ -51,33 +73,31 @@
 }
 
 .navbar-logo-text {
-  color: #ffffff !important;
+  color: var(--nav-text) !important;
   font-weight: 850;
   font-size: 1.25rem;
   letter-spacing: -0.03em;
-  white-space: nowrap;
+  transition: color 0.3s;
 }
 
 /* --- BOTÃO HAMBÚRGUER (MOBILE TOGGLE) --- */
 .navbar-toggle {
-  display: none; /* Escondido no Desktop */
+  display: none;
   flex-direction: column;
   justify-content: space-between;
   width: 28px;
   height: 18px;
   background: transparent;
   border: none;
-  cursor: pointer;
-  padding: 0;
   z-index: 10002;
 }
 
 .hamburger {
   width: 100%;
   height: 3px;
-  background-color: #ffffff;
+  background-color: var(--nav-text); /* Segue o texto automaticamente */
   border-radius: 10px;
-  transition: all 0.3s ease;
+  transition: all 0.3s;
 }
 
 /* --- Navegação Central/Direita --- */
@@ -94,19 +114,18 @@
 
 .navbar-link {
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.85) !important;
+  color: var(--nav-text) !important;
   font-weight: 600;
   font-size: 0.95rem;
   padding: 8px 0;
   position: relative;
-  transition: color 0.3s ease;
+  transition: color 0.3s;
 }
 
 .navbar-link:hover {
-  color: #9c7a46 !important; /* var(--color-gold) */
+  color: var(--nav-link-hover) !important;
 }
 
-/* Criar a linha que aparece ao passar o rato */
 .navbar-link::after {
   content: '';
   position: absolute;
@@ -114,7 +133,7 @@
   height: 2px;
   bottom: 0;
   left: 0;
-  background-color: #9c7a46; /* Dourado */
+  background-color: var(--nav-link-hover);
   transition: width 0.3s ease;
 }
 
@@ -142,26 +161,20 @@
 }
 
 .navbar-register-btn {
-  color: #0f172a !important;
-  background: #9c7a46 !important;
+  color: #ffffff !important;
+  background: var(--nav-link-hover) !important;
   padding: 10px 24px;
   border-radius: 12px;
   font-weight: 800;
   text-decoration: none;
-  font-size: 0.9rem;
-  transition: all 0.2s ease;
-  white-space: nowrap;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 4px 10px rgba(156, 122, 70, 0.2);
-  display: flex;
-  align-items: center;
-  border: none;
 }
 
 .navbar-register-btn:hover {
   transform: translateY(-2px);
   filter: brightness(1.1);
-  box-shadow: 0 8px 25px rgba(156, 122, 70, 0.5);
+  box-shadow: 0 8px 25px rgba(156, 122, 70, 0.4);
 }
 
 .navbar-actions button:has(svg) {
@@ -180,29 +193,19 @@
 }
 
 /* --- Ícones (Sol, Perfil) --- */
-.navbar-actions button, 
+.navbar-actions svg, 
 .navbar-profile-trigger {
-  color: #ffffff;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  transition: transform 0.3s;
-}
-
-
-.navbar-profile-trigger {
-  color: #64748b; /* Cor visível no fundo branco */
+  color: var(--nav-text-sub) !important;
+  transition: all 0.3s;
   background: transparent;
   border: none;
   cursor: pointer;
 }
 
+.navbar-actions button:hover svg,
 .navbar-profile-trigger:hover {
-  transform: scale(1.1);
-  color: #9c7a46;
-} 
+  color: var(--nav-link-hover) !important;
+}
 
 .navbar-toggle .hamburger {
   background-color: #ffffff !important;
@@ -232,18 +235,15 @@
   .navbar-nav {
     position: fixed;
     top: 0;
-    right: -100%; /* Escondido à direita */
+    right: -100%;
     width: 280px;
     height: 100vh;
-    background: #0f172a !important;
-    color: white; 
+    background: var(--nav-bg) !important; /* Segue o tema */
     flex-direction: column;
-    align-items: flex-start;
     padding: 100px 24px;
     gap: 32px;
-    box-shadow: -10px 0 40px rgba(0,0,0,0.5);
-    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-     z-index: 10001;
+    transition: right 0.4s ease;
+    box-shadow: -10px 0 40px var(--nav-shadow);
   }
 
   .navbar-nav.active {
@@ -256,6 +256,7 @@
     align-items: flex-start;
     width: 100%;
     margin: 0;
+    border-bottom: 1px solid var(--nav-border);
   }
 
   .navbar-nav-links .navbar-link,
