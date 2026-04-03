@@ -6,7 +6,7 @@
 .paroquias-page {
   max-width: 1200px;
   margin: 0 auto 80px;
-  padding: 40px 24px;
+  padding: 112px 24px 40px;
   background-color: var(--bg-primary);
   transition: background-color 0.3s ease;
 }
@@ -93,33 +93,38 @@
    ============================================================= */
 .paroquias-lista {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 32px;
 }
 
 /* =============================================================
    DARK MODE OVERRIDES
    ============================================================= */
+.dark .paroquias-page {
+  background-color: #0f172a; /* Mesmo fundo da Navbar */
+}
+
+.dark .paroquias-title {
+  color: #ffffff;
+}
+
 .dark .paroquias-filters {
-  background: #1e293b;
-  border-color: #334155;
+  background: #1e293b; /* Um tom ligeiramente mais claro para destacar do fundo */
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .dark .paroquias-select {
   background-color: #0f172a;
   color: #f1f5f9;
-}
-
-.dark .paroquias-select--km {
-  background-color: rgba(156, 122, 70, 0.15);
-  border-color: var(--color-gold);
+  border-color: #334155;
 }
 
 /* =============================================================
    RESPONSIVIDADE (MOBILE OPTIMIZATION)
    ============================================================= */
 @media (max-width: 768px) {
-  .paroquias-page { padding: 20px 16px; }
+  .paroquias-page { padding: 92px 16px 40px; }
   
   .paroquias-title {
     font-size: 1.8rem;
@@ -150,8 +155,9 @@
   }
 
   .paroquias-lista {
-    grid-template-columns: 1fr; /* Coluna única para facilitar o scroll vertical */
-    gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 32px;
   }
 }
 
