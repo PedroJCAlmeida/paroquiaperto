@@ -131,44 +131,44 @@ export default function ParoquiasPage() {
     token ? router.push(path) : router.push(`/register?redirect=${path}`);
   };
 
-  return (
+return (
     <>
       <Navbar />
-      <div className="paroquias-page">
-        
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px', maxWidth: '1200px', margin: '0 auto' }}>
-          <h2 className="paroquias-title" style={{ margin: 0, fontWeight: 900, color: '#243B55' }}>Paróquias Próximas</h2>
-          <button onClick={handleRegistarParoquia} className="btn-registar-gradiente">
-            <Plus size={18} /> Registar Paróquia
-          </button>
-        </div>
+      <div className="paroquias-page-container">
+        <div className="paroquias-page">
+          <div className="page-header-section">
+            <h2 className="paroquias-title">Paróquias Próximas</h2>
+            <button onClick={handleRegistarParoquia} className="btn-registar-gradiente">
+              <Plus size={18} /> Registar Paróquia
+            </button>
+          </div>
 
-        <div className="paroquias-filters" style={{ maxWidth: '1200px', margin: '0 auto 24px' }}>
-          <select value={distrito} onChange={(e) => setDistrito(e.target.value)} className="paroquias-select">
-            <option value="">Distrito (Todos)</option>
-            {distritos.map((d) => <option key={d.id} value={d.id}>{d.nome}</option>)}
-          </select>
+          <div className="paroquias-filters-container">
+            <select value={distrito} onChange={(e) => setDistrito(e.target.value)} className="paroquias-select">
+              <option value="">Distrito (Todos)</option>
+              {distritos.map((d) => <option key={d.id} value={d.id}>{d.nome}</option>)}
+            </select>
 
-          <select value={conselho} onChange={(e) => setConselho(e.target.value)} disabled={!distrito} className="paroquias-select">
-            <option value="">Conselho (Todos)</option>
-            {conselhos.map((c) => <option key={c.id} value={c.id}>{c.nome}</option>)}
-          </select>
+            <select value={conselho} onChange={(e) => setConselho(e.target.value)} disabled={!distrito} className="paroquias-select">
+              <option value="">Conselho (Todos)</option>
+              {conselhos.map((c) => <option key={c.id} value={c.id}>{c.nome}</option>)}
+            </select>
 
-          <select value={km} onChange={(e) => setKm(e.target.value)} disabled={!!distrito} className="paroquias-select">
-            <option value="">Raio (km)</option>
-            {[5, 10, 20, 50, 100].map(v => <option key={v} value={v}>{v} km</option>)}
-          </select>
-        </div>
+            <select value={km} onChange={(e) => setKm(e.target.value)} disabled={!!distrito} className="paroquias-select">
+              <option value="">Raio (km)</option>
+              {[5, 10, 20, 50, 100].map(v => <option key={v} value={v}>{v} km</option>)}
+            </select>
+          </div>
 
-        <div className="paroquias-mapa" style={{ maxWidth: '1200px', margin: '0 auto 40px', borderRadius: '16px', overflow: 'hidden', border: '1px solid #e2e8f0' }}>
-          <Mapa paroquias={filtradas} coords={coords} />
-        </div>
+          <div className="paroquias-mapa-wrapper">
+            <Mapa paroquias={filtradas} coords={coords} />
+          </div>
 
-        {loading ? (
-          <div style={{ display: 'flex', justifyContent: 'center', padding: '40px' }}><Loader2 className="animate-spin" /></div>
-        ) : (
-          <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 16px' }}>
-             <div className="paroquias-grid-3col">
+          {loading ? (
+            <div className="loading-state-centered"><Loader2 className="animate-spin" /></div>
+          ) : (
+            <div className="results-wrapper">
+              <div className="paroquias-grid-3col">
                 {paroquiasExibidas.map((p) => (
                   <ParoquiaCard
                     key={p.id}
@@ -178,44 +178,24 @@ export default function ParoquiasPage() {
                     }}
                   />
                 ))}
-             </div>
+              </div>
 
-             {/* Controles de Paginação */}
-             {totalPaginas > 1 && (
-               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '15px', marginTop: '40px', paddingBottom: '60px' }}>
+              {totalPaginas > 1 && (
+                <div className="pagination-wrapper">
                   <button disabled={paginaAtual === 1} onClick={() => setPaginaAtual(p => p - 1)} className="btn-paginacao">
                     <ChevronLeft size={20} />
                   </button>
-                  <span style={{ fontWeight: 'bold', color: '#243B55' }}>{paginaAtual} de {totalPaginas}</span>
+                  <span className="pagination-text">{paginaAtual} de {totalPaginas}</span>
                   <button disabled={paginaAtual === totalPaginas} onClick={() => setPaginaAtual(p => p + 1)} className="btn-paginacao">
                     <ChevronRight size={20} />
                   </button>
-               </div>
-             )}
-          </div>
-        )}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
       <Footer />
-      
-      <style jsx>{`
-        .paroquias-grid-3col {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-          gap: 24px;
-        }
-        .btn-registar-gradiente {
-          display: flex; align-items: center; gap: 8px; padding: 10px 20px;
-          background: linear-gradient(135deg, #243B55 0%, #3E5C76 100%);
-          color: white; border: none; border-radius: 8px; font-weight: 600;
-          cursor: pointer; transition: all 0.3s;
-        }
-        .btn-registar-gradiente:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(30,64,175,0.2); }
-        .btn-paginacao {
-          background: white; border: 1px solid #e2e8f0; padding: 10px; border-radius: 50%;
-          cursor: pointer; display: flex; align-items: center; color: #243B55;
-        }
-        .btn-paginacao:disabled { opacity: 0.3; cursor: not-allowed; }
-      `}</style>
     </>
   );
 }
