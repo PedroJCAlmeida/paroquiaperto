@@ -1,11 +1,12 @@
 @import '@/styles/colors.css';
 
-:root:not(.dark) .navbar,
-body:not(.dark) .navbar {
-  --nav-bg: rgba(255, 255, 255, 0.98) !important;
-  --nav-text: #1e293b !important;
-  --nav-border: #e2e8f0 !important;
-  --nav-shadow: rgba(0, 0, 0, 0.05) !important;
+:root {
+  --nav-bg: rgba(255, 255, 255, 0.98);
+  --nav-text: #1e293b;                /* Azul escuro */
+  --nav-text-sub: #64748b;            /* Cinza para ícones */
+  --nav-border: #e2e8f0;
+  --nav-shadow: rgba(0, 0, 0, 0.05);
+  --nav-link-hover: #9c7a46;          /* Dourado */
 }
 
 /* =============================================================
@@ -15,7 +16,7 @@ body:not(.dark) .navbar {
 .dark .navbar,
 body.dark .navbar,
 [data-theme='dark'] .navbar {
-  --nav-bg: #0f172a !important;
+  --nav-bg: #0f172a !important; /* AZUL ESCURO FORÇADO */
   --nav-text: #ffffff !important;
   --nav-border: rgba(255, 255, 255, 0.1) !important;
   --nav-shadow: rgba(0, 0, 0, 0.4) !important;
@@ -30,11 +31,12 @@ body.dark .navbar,
   left: 0;
   width: 100%;
   z-index: 9999;
-  background-color: var(--nav-bg) !important; 
-  border-bottom: 1px solid var(--nav-border) !important;
-  box-shadow: 0 4px 15px var(--nav-shadow) !important;
+  background-color: var(--nav-bg) !important;
+  border-bottom: 1px solid var(--nav-border);
+  box-shadow: 0 4px 15px var(--nav-shadow);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px); height: 72px; 
+  -webkit-backdrop-filter: blur(12px);
+  height: 72px; 
   display: flex;
   align-items: center;
   transition: all 0.3s ease-in-out;
@@ -243,7 +245,7 @@ body.dark .navbar,
     padding: 100px 24px;
     gap: 32px;
     transition: right 0.4s ease;
-    box-shadow: -10px 0 40px var(--nav-shadow) !important;
+    box-shadow: -10px 0 40px var(--nav-shadow);
   }
 
   .navbar-nav.active {
@@ -256,7 +258,7 @@ body.dark .navbar,
     align-items: flex-start;
     width: 100%;
     margin: 0;
-    border-bottom: 1px solid var(--nav-border) !important;
+    border-bottom: 1px solid var(--nav-border);
   }
 
   .navbar-nav-links .navbar-link,
@@ -265,14 +267,14 @@ body.dark .navbar,
     color: white !important;
     width: 100%;
     padding: 12px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
   }
    
   .navbar-link, .navbar-login-btn {
     width: 100%;
     font-size: 1.1rem;
     padding: 12px 0;
-    border-bottom: 1px solid var(--border-color, #f1f5f9) !important;
+    border-bottom: 1px solid var(--border-color, #f1f5f9);
   }
 
    .navbar-actions {
