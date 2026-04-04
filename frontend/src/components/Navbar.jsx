@@ -1,122 +1,124 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FaUserCircle } from 'react-icons/fa';
-import logo from '../assets/logo.png';
-import '../styles/Navbar.css';
+'use client';
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link'; // Se estiveres a usar Next.js, caso contrário usa 'react-router-dom'
+import { usePathname } from 'next/navigation';
+import { FaUserCircle, FaChevronDown } from 'react-icons/fa';
+import { MdOutlineLightMode, MdOutlineDarkMode } from 'react-icons/md';
+import '@/styles/Navbar.css';
 
 const Navbar = () => {
-  const isLoggedIn = Boolean(localStorage.getItem('token'));
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showBackofficeMenu, setShowBackofficeMenu] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Fecha menu ao mudar de rota
-  React.useEffect(() => {
-    const handleRouteChange = () => {
-      setIsOpen(false);
-      setShowBackofficeMenu(false);
-    };
-    window.addEventListener('popstate', handleRouteChange);
-    return () => window.removeEventListener('popstate', handleRouteChange);
+  const pathname = usePathname();
+
+  // Verifica login e tema no carregamento
+  useEffect(() => {
+    setIsLoggedIn(Boolean(localStorage.getItem('token')));
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+      setIsDarkMode(true);
+    }
   }, []);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
+  // Fecha menus ao mudar de página
+  useEffect(() => {
+    setIsOpen(false);
+    setShowProfileMenu(false);
+    setShowBackofficeMenu(false);
+  }, [pathname]);
+
+  const toggleTheme = () => {
+    if (isDarkMode) {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+      setIsDarkMode(false);
+    } else {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+      setIsDarkMode(true);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    window.location.href = '/login';
   };
 
   return (
     <header className="navbar">
       <div className="navbar-inner">
-        <Link to="/" className="navbar-logo" onClick={() => setIsOpen(false)}>
-          <img src={logo} alt="Paróquia Perto" />
+        {/* LOGO */}
+        <Link href="/" className="navbar-logo">
+          <span className="navbar-logo-text">Paróquia Perto</span>
         </Link>
+
+        {/* HAMBURGER (Mobile) */}
         <button
-          className={isOpen ? 'active navbar-toggle' : 'navbar-toggle'}
-          onClick={toggleMenu}
-          aria-label="Toggle menu"
+          className={`navbar-toggle ${isOpen ? 'active' : ''}`}
+          onClick={() => setIsOpen(!isOpen)}
         >
           <span className="hamburger"></span>
           <span className="hamburger"></span>
           <span className="hamburger"></span>
         </button>
+
+        {/* NAVIGATION */}
         <nav className={`navbar-nav ${isOpen ? 'active' : ''}`}>
-          <Link to="/" className="navbar-link" onClick={() => setIsOpen(false)}>Início</Link>
-          <Link to="/paroquias" className="navbar-link" onClick={() => setIsOpen(false)}>Paróquias</Link>
-          <Link to="/buscar" className="navbar-link" onClick={() => setIsOpen(false)}>Buscar</Link>
-          <Link to="/contacto" className="navbar-link" onClick={() => setIsOpen(false)}>Contacto</Link>
-          {isLoggedIn && (
-            <div
-              className="navbar-link navbar-backoffice-dropdown"
-              style={{ position: 'relative', display: 'inline-block' }}
-              onMouseEnter={() => setShowBackofficeMenu(true)}
-              onMouseLeave={() => setShowBackofficeMenu(false)}
-              onClick={() => setShowBackofficeMenu(v => !v)}
-            >
-              Backoffice
-              {showBackofficeMenu && (
-                <div
-                  className="navbar-backoffice-menu"
-                  style={{
-                    position: 'absolute',
-                    top: '100%',
-                    left: 0,
-                    background: '#fff',
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-                    borderRadius: '4px',
-                    minWidth: '180px',
-                    zIndex: 1000,
-                  }}
+          <div className="navbar-nav-links">
+            <Link href="/" className="navbar-link">Início</Link>
+            <Link href="/paroquias" className="navbar-link">Paróquias</Link>
+            <Link href="/buscar" className="navbar-link">Buscar</Link>
+            <Link href="/contacto" className="navbar-link">Contacto</Link>
+            {/* BACKOFFICE DROPDOWN */}
+            {isLoggedIn && (
+              <div className="navbar-dropdown-wrapper">
+                <button
+                  className="navbar-link dropdown-trigger"
+                  onClick={() => setShowBackofficeMenu(!showBackofficeMenu)}
                 >
-                  <Link to="/backoffice/paroquias" className="navbar-link" style={{ display: 'block', padding: '10px 16px' }} onClick={() => { setShowBackofficeMenu(false); setIsOpen(false); }}>Inserir Paróquia</Link>
-                  <Link to="/backoffice/horarios" className="navbar-link" style={{ display: 'block', padding: '10px 16px' }} onClick={() => { setShowBackofficeMenu(false); setIsOpen(false); }}>Inserir Horários</Link>
-                  <Link to="/backoffice/eventos" className="navbar-link" style={{ display: 'block', padding: '10px 16px' }} onClick={() => { setShowBackofficeMenu(false); setIsOpen(false); }}>Inserir Eventos</Link>
-                </div>
-              )}
-            </div>
-          )}
-          {isLoggedIn ? (
-            <div
-              className="navbar-login-icon"
-              style={{ position: 'relative', display: 'inline-block' }}
-              onMouseEnter={() => setShowProfileMenu(true)}
-              onMouseLeave={() => setShowProfileMenu(false)}
-              onClick={() => setShowProfileMenu(v => !v)}
-              title="Perfil"
-            >
-              <FaUserCircle size={28} />
-              {showProfileMenu && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: '100%',
-                    right: 0,
-                    background: '#fff',
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-                    borderRadius: '4px',
-                    minWidth: '140px',
-                    zIndex: 1000,
-                  }}
-                >
-                  <Link
-                    to="/usuario"
-                    style={{ display: 'block', width: '100%', padding: '10px 16px', background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer', color: '#333', textDecoration: 'none' }}
-                    onClick={() => { setShowProfileMenu(false); setIsOpen(false); }}
-                  >Configurações</Link>
-                  <button
-                    style={{ display: 'block', width: '100%', padding: '10px 16px', background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer', color: '#333' }}
-                    onClick={() => {
-                      localStorage.removeItem('token');
-                      window.location.href = '/login';
-                    }}
-                  >Sair</button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <Link to="/login" className="navbar-login-icon" title="Login" onClick={() => setIsOpen(false)}>
-              <FaUserCircle size={28} />
-            </Link>
-          )}
+                  Backoffice <FaChevronDown size={10} />
+                </button>
+                {showBackofficeMenu && (
+                  <div className="navbar-dropdown-menu">
+                    <Link href="/backoffice/paroquias">Inserir Paróquia</Link>
+                    <Link href="/backoffice/horarios">Inserir Horários</Link>
+                    <Link href="/backoffice/eventos">Inserir Eventos</Link>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* ACTIONS (Tema e Login/Perfil) */}
+          <div className="navbar-actions">
+            <button className="theme-toggle" onClick={toggleTheme} title="Trocar Tema">
+              {isDarkMode ? <MdOutlineLightMode size={22} /> : <MdOutlineDarkMode size={22} />}
+            </button>
+
+            {isLoggedIn ? (
+              <div className="navbar-dropdown-wrapper profile">
+                <button className="navbar-profile-trigger" onClick={() => setShowProfileMenu(!showProfileMenu)}>
+                  <span>Minha Conta</span> <FaChevronDown size={12} />
+                </button>
+                {showProfileMenu && (
+                  <div className="navbar-dropdown-menu right">
+                    <Link href="/usuario">Configurações</Link>
+                    <button onClick={handleLogout} className="logout-btn">Sair</button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <>
+                <Link href="/login" className="navbar-login-btn">Entrar</Link>
+                <Link href="/register" className="navbar-register-btn">Registar</Link>
+              </>
+            )}
+          </div>
         </nav>
       </div>
     </header>

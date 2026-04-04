@@ -149,16 +149,25 @@
   color: #ffffff !important;
 }
 
-/* 3. Selects no Dark Mode (Essencial para não ficarem brancos) */
 .dark .paroquias-select {
-  background-color: #0f172a !important; /* Azul escuro profundo */
-  color: #ffffff !important;           /* Texto branco */
-  border-color: #334155 !important;    /* Borda discreta */
+  background-color: #0f172a !important; /* Fundo escuro do select */
+  color: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid #334155 !important;
+  
+  /* CORREÇÃO CRÍTICA: Forçar a seta única e branca */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+  background-repeat: no-repeat !important; /* Isto impede as setas infinitas */
+  background-position: right 1rem center !important;
+  background-size: 1.1em !important;
+  appearance: none;
 }
 
-/* 4. Ícone da seta do Select (Opcional: muda para branco no dark) */
-.dark .paroquias-select {
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+.dark .paroquias-select:hover {
+  border-color: #9c7a46 !important; /* Brilho dourado no hover */
+}
+
+.dark .btn-registar-gradiente {
+  background: linear-gradient(135deg, #334155 0%, #475569 100%) !important;
 }
 
 /* 5. Mapa Wrapper */

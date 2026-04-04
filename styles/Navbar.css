@@ -146,20 +146,48 @@ body.dark .navbar,
   display: flex;
   align-items: center;
   gap: 20px;
+  margin-left: 20px;
 }
 
-.navbar-login-btn {
-  color: var(--nav-text) !important; 
-  font-weight: 700;
+.navbar-login-btn, 
+.navbar-profile-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espaço entre o ícone e o texto */
   text-decoration: none;
-  font-size: 0.95rem;
-  transition: all 0.3s ease;
-  background: transparent !important;
+  color: var(--nav-text);
+  font-weight: 600;
+  transition: all 0.2s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
 
 .navbar-login-btn:hover {
-  color: var(--nav-link-hover) !important; /* Fica dourado no hover */
-  transform: translateY(-1px);
+  color: var(--nav-link-hover);
+}
+
+/* Garante que o ícone e o texto fiquem na mesma linha horizontal */
+.navbar-login-btn span {
+  font-size: 0.95rem;
+}
+
+/* --- Toggle de Tema --- */
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--nav-text);
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  transition: transform 0.2s;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+  color: var(--nav-link-hover);
 }
 
 .navbar-register-btn {
@@ -209,6 +237,24 @@ body.dark .navbar,
   color: var(--nav-link-hover) !important;
 }
 
+.navbar-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--nav-bg);
+  border: 1px solid var(--nav-border);
+  border-radius: 8px;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.navbar-dropdown-menu.right {
+  left: auto;
+  right: 0; /* Alinha o menu de perfil à direita */
+}
 
 /* =============================================================
    AJUSTES RESPONSIVOS (MOBILE)
@@ -258,6 +304,28 @@ body.dark .navbar,
     border-bottom: 1px solid var(--nav-border);
   }
 
+  /* Botão de trocar tema no mobile */
+  .navbar-actions button:has(svg) {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 0;
+    color: rgba(255, 255, 255, 0.7) !important;
+    background: transparent;
+  }
+
+  /* Se usares o ícone de perfil no mobile */
+  .navbar-profile-trigger {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white !important;
+    width: 100%;
+    padding: 12px 0;
+  }
+  
+
   .navbar-nav-links .navbar-link,
   .navbar-nav .navbar-login-btn,
   .navbar-nav .dropdown-trigger {
@@ -286,5 +354,35 @@ body.dark .navbar,
     width: 100%;
     justify-content: center;
     margin-top: 10px;
+  }
+
+  .navbar-nav .navbar-login-btn {
+    display: flex !important;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 14px 18px !important;
+    background: rgba(255, 255, 255, 0.05); /* Um fundo subtil */
+    border-radius: 12px;
+    color: #ffffff !important;
+    font-weight: 700;
+    margin-top: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.2s ease;
+  }
+
+  .navbar-nav .navbar-login-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--color-gold);
+  }
+  /* Ajuste dos Ícones (Tema e Perfil) na Gaveta */
+  .navbar-actions {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
 }
