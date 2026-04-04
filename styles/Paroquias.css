@@ -4,7 +4,7 @@
 .paroquias-page-container {
   padding-top: 72px; /* Altura exata da Navbar */
   min-height: 100vh;
-  background-color: var(--bg-primary);
+  background-color: var(--bg-primary, #ffffff); 
   transition: background-color 0.3s ease;
 }
 
@@ -35,6 +35,7 @@
   display: flex;
   gap: 16px;
   margin: 0 auto 32px;
+  border-radius: 12px;
   padding: 24px;
   max-width: 1200px;
   
@@ -171,6 +172,9 @@
   background: #1e293b;
   border-color: #334155;
   color: #ffffff;
+}
+.dark .paroquias-page-container {
+  background-color: #0f172a !important;
 }
 
 /* --- Responsividade --- */
