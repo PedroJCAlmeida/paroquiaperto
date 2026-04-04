@@ -8,7 +8,9 @@ export default function Buscar() {
   return (
     <>
       <Navbar />
-      <BuscarParoquias />
+      <main>
+        <BuscarParoquias />
+      </main>
       <Footer />
     </>
   );

@@ -101,13 +101,52 @@
   pointer-events: none;
 }
 
+
 .menu-section-label {
   padding: 20px 20px 8px;
-  font-size: 0.65rem;
+  font-size: 1rem;
   font-weight: 800;
-  color: #94a3b8;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  color: var(--color-gold, #9C7A46);
+  text-transform: none;
+  letter-spacing: 0.02em;
+  margin-top: 12px;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dark .menu-section-label {
+  color: #d1b07a;
+}
+
+.menu-item .menu-link {
+  margin-bottom: 2px;
+}
+
+.menu-item .menu-link {
+  color: #475569;
+}
+.dark .menu-item .menu-link {
+  color: #e2e8f0;
+}
+.menu-item .menu-link:hover {
+  background-color: #f1f5f9;
+  color: var(--color-gold, #9C7A46);
+}
+.dark .menu-item .menu-link:hover {
+  background-color: #232e3e;
+  color: #d1b07a;
+}
+
+.menu-item {
+  margin-left: 8px;
+  margin-right: 8px;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s;
+}
+.menu-item .menu-link {
+  padding-left: 20px;
 }
 
 .backoffice-menu.collapsed .menu-section-label {

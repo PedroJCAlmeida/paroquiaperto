@@ -16,7 +16,7 @@ import InserirEvento from './pages/InserirEvento';
 import Login from './pages/Login';
 import Registar from './pages/RegistarUtilizador';
 import ParoquiaDetalhe from './pages/ParoquiaDetalhe';
-import Usuario from './pages/Usuario';
+import Utilzizador from './pages/Utilizador';
 
 function App() {
   const location = useLocation();
@@ -44,7 +44,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registar />} /> 
             <Route path="/paroquia/:id" element={<ParoquiaDetalhe />} />
-            <Route path="/usuario" element={<Usuario />} />
+            <Route path="/utilizador" element={<Utilzizador />} />
             {/* outras rotas */}
             {/* Backoffice protegido por PrivateRoute */}
             <Route path="/backoffice" element={<PrivateRoute />}>

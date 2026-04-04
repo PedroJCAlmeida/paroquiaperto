@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import '../styles/Contato.css';
 import { Mail, Facebook, Instagram } from 'lucide-react';
 
 const Contacto = () => {

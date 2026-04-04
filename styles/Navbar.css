@@ -1,3 +1,138 @@
+/* Minha Conta Dropdown Custom */
+.navbar-dropdown-wrapper.profile .navbar-profile-trigger {
+  font-weight: 800;
+  color: var(--nav-text);
+  font-size: 1.1rem;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 0;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.navbar-dropdown-wrapper.profile .navbar-profile-trigger .rotate {
+  transform: rotate(180deg);
+  transition: transform 0.2s;
+}
+.navbar-dropdown-menu.right {
+  background: var(--nav-bg);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  margin-top: 2px;
+  padding: 0;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  z-index: 1002;
+  right: 0;
+}
+.navbar-dropdown-menu.right a,
+.navbar-dropdown-menu.right button {
+  color: var(--nav-text);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 12px 24px;
+  text-decoration: none;
+  border: none;
+  background: none;
+  transition: color 0.3s, background 0.2s;
+  border-bottom: 1px solid var(--nav-border);
+  display: block;
+  width: 100%;
+  text-align: left;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+}
+.navbar-dropdown-menu.right a:last-child,
+.navbar-dropdown-menu.right button:last-child {
+  border-bottom: none;
+}
+.navbar-dropdown-menu.right a:hover,
+.navbar-dropdown-menu.right button:hover {
+  color: var(--nav-link-hover);
+  background: none;
+}
+.dark .navbar-dropdown-menu.right {
+  background: #232e3e;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.32);
+}
+.dark .navbar-dropdown-menu.right a,
+.dark .navbar-dropdown-menu.right button {
+  color: #f3f4f6;
+  border-bottom: 1px solid #2d384d;
+}
+.dark .navbar-dropdown-menu.right a:hover,
+.dark .navbar-dropdown-menu.right button:hover {
+  color: #d1b07a;
+  background: none;
+}
+/* Backoffice Dropdown Custom */
+.navbar-dropdown-wrapper .dropdown-trigger {
+  font-weight: 800;
+  color: var(--color-gold, #9C7A46);
+  font-size: 1.1rem;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 0;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.navbar-dropdown-wrapper .dropdown-trigger .rotate {
+  transform: rotate(180deg);
+  transition: transform 0.2s;
+}
+.navbar-dropdown-menu {
+  background: var(--nav-bg);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  margin-top: 2px;
+  padding: 0;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  z-index: 1002;
+}
+.navbar-dropdown-menu a {
+  color: var(--nav-text);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 12px 24px;
+  text-decoration: none;
+  border: none;
+  background: none;
+  transition: color 0.3s, background 0.2s;
+  border-bottom: 1px solid var(--nav-border);
+  display: block;
+  width: 100%;
+  text-align: left;
+  letter-spacing: -0.01em;
+}
+.navbar-dropdown-menu a:last-child {
+  border-bottom: none;
+}
+.navbar-dropdown-menu a:hover {
+  color: var(--nav-link-hover);
+  background: none;
+}
+.dark .navbar-dropdown-menu {
+  background: #232e3e;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.32);
+}
+.dark .navbar-dropdown-menu a {
+  color: #f3f4f6;
+  border-bottom: 1px solid #2d384d;
+}
+.dark .navbar-dropdown-menu a:hover {
+  color: #d1b07a;
+  background: none;
+}
 @import '@/styles/colors.css';
 
 :root {

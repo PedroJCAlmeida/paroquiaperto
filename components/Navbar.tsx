@@ -8,11 +8,24 @@ import ThemeToggle from './ThemeToggle';
 import '@/styles/Navbar.css';
 
 const Navbar = () => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [showProfileMenu, setShowProfileMenu] = useState(false);
+    const [showBackofficeMenu, setShowBackofficeMenu] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+
+    // Impede scroll do body quando menu mobile está aberto
+    useEffect(() => {
+      if (typeof window === 'undefined') return;
+      const body = document.body;
+      if (isOpen) {
+        body.classList.add('overflow-hidden');
+      } else {
+        body.classList.remove('overflow-hidden');
+      }
+      return () => body.classList.remove('overflow-hidden');
+    }, [isOpen]);
   const router = useRouter();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [showProfileMenu, setShowProfileMenu] = useState(false);
-  const [showBackofficeMenu, setShowBackofficeMenu] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  // (Estados já declarados acima, não repetir)
   const navRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
   const isLandingPage = pathname === '/';
@@ -127,7 +140,7 @@ const Navbar = () => {
                     </button>
                     {showProfileMenu && (
                       <div className="navbar-dropdown-menu right">
-                        <Link href="/usuario" onClick={closeAllMenus}>Configurações</Link>
+                        <Link href="/utilizador" onClick={closeAllMenus}>Configurações</Link>
                         <button onClick={handleLogout} className="logout-btn">Sair</button>
                       </div>
                     )}

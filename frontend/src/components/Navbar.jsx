@@ -73,7 +73,7 @@ const Navbar = () => {
             <Link href="/" className="navbar-link">Início</Link>
             <Link href="/paroquias" className="navbar-link">Paróquias</Link>
             <Link href="/buscar" className="navbar-link">Buscar</Link>
-            <Link href="/contacto" className="navbar-link">Contacto</Link>
+            <Link href="/contato" className="navbar-link">Contato</Link>
             {/* BACKOFFICE DROPDOWN */}
             {isLoggedIn && (
               <div className="navbar-dropdown-wrapper">
@@ -113,7 +113,7 @@ const Navbar = () => {
                 </button>
                 {showProfileMenu && (
                   <div className="navbar-dropdown-menu right">
-                    <Link href="/usuario">Configurações</Link>
+                    <Link href="/utilizador">Configurações</Link>
                     <button onClick={handleLogout} className="logout-btn">Sair</button>
                   </div>
                 )}

@@ -1,83 +1,107 @@
-.contato-page {
-  max-width: 960px;
-  margin: 100px auto 40px;
-  padding: 0 16px;
-  font-family: Arial, sans-serif;
-  color: #1f2937;
+@import '@/styles/colors.css';
+
+.page-wrapper {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  min-height: 100vh;
+  transition: background 0.3s ease;
 }
 
-.contato-title {
+.contacto-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 120px 24px 80px;
+}
+
+.page-header-section {
   text-align: center;
-  font-size: 1.75rem;
-  margin-bottom: 32px;
+  margin-bottom: 50px;
 }
 
-/* Grid para form + redes */
+.paroquias-title {
+  font-size: 3rem;
+  font-weight: 900;
+  color: #1e293b;
+  letter-spacing: -0.04em;
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  color: #64748b;
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+
 .contato-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 400px;
   gap: 32px;
+  align-items: stretch;
 }
 
-@media (min-width: 768px) {
-  .contato-grid {
-    grid-template-columns: 2fr 1fr;
-  }
-}
-
-/* Formulário */
 .contato-form {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
 }
 
-.contato-form label {
+.input-group {
   display: flex;
   flex-direction: column;
-  font-size: 0.95rem;
-  color: #4b5563;
+  gap: 8px;
 }
 
-.contato-form input,
-.contato-form textarea {
-  margin-top: 4px;
-  padding: 10px 14px;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
+.input-group label {
+  font-weight: 700;
+  color: #243B55;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.input-group input, 
+.input-group textarea {
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  background: #f8fafc;
   font-size: 1rem;
+  transition: all 0.2s ease;
+  outline: none;
+  color: #1e293b;
 }
 
-.contato-form input:focus,
-.contato-form textarea:focus {
-  outline: none;
-  border-color: #2563eb;
+.input-group input:focus, 
+.input-group textarea:focus {
+  border-color: #9c7a46;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(156, 122, 70, 0.1);
 }
 
 .contato-submit {
-  background-color: #2563eb;
-  color: #fff;
+  background: #243B55;
+  color: white;
+  padding: 18px;
+  border-radius: 12px;
+  font-weight: 800;
   border: none;
-  padding: 14px;
-  border-radius: 6px;
-  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 1.1rem;
+  margin-top: 10px;
 }
 
 .contato-submit:hover {
-  background-color: #1e40af;
+  transform: translateY(-2px);
+  background: #1F2F46;
+  box-shadow: 0 8px 25px rgba(36, 59, 85, 0.2);
 }
 
-.contato-status {
-  margin-top: 12px;
-  color: #16a34a;
-  font-weight: 500;
-  text-align: center;
-}
-
-/* Redes Sociais */
-.contato-redes {
+.contato-info-side {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -86,36 +110,85 @@
 .rede-card {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  background-color: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
+  gap: 18px;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
   text-decoration: none;
-  color: inherit;
-  transition: box-shadow 0.2s ease;
+  color: #1e293b;
+  transition: all 0.3s ease;
 }
 
 .rede-card:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transform: translateX(10px);
+  border-color: #9c7a46;
+  box-shadow: 0 10px 30px rgba(156, 122, 70, 0.1);
 }
 
-.rede-icon {
-  flex-shrink: 0;
-  color: #2563eb;
-}
-
-.rede-info {
+.icon-box {
+  background: rgba(156, 122, 70, 0.12);
+  color: #9c7a46;
+  padding: 14px;
+  border-radius: 14px;
   display: flex;
-  flex-direction: column;
 }
 
 .rede-titulo {
-  font-weight: 600;
-  font-size: 1rem;
+  display: block;
+  font-weight: 800;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: #9c7a46;
+  margin-bottom: 2px;
+  letter-spacing: 0.05em;
 }
 
 .rede-texto {
-  font-size: 0.9rem;
-  color: #4b5563;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #334155;
+}
+
+.contato-status {
+  text-align: center;
+  color: #16a34a;
+  font-weight: 700;
+  padding: 12px;
+  background: #f0fdf4;
+  border-radius: 10px;
+  border: 1px solid #bbf7d0;
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+  .contato-grid { 
+    grid-template-columns: 1fr; 
+  }
+  .contato-info-side { 
+    order: -1; 
+    margin-bottom: 24px;
+  }
+  .paroquias-title { font-size: 2.5rem; }
+}
+
+/* Dark Mode */
+.dark .page-wrapper { background: #020617; } /* Azul escuro profundo */
+.dark .contato-form, .dark .rede-card {
+  background: #0f172a;
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+.dark .paroquias-title, .dark .rede-texto, .dark .subtitle { color: #f8fafc; }
+.dark .input-group label { color: #94a3b8; }
+.dark .input-group input, .dark .input-group textarea {
+  background: #020617;
+  color: #f8fafc;
+  border-color: #1e293b;
+}
+.dark .contato-submit {
+  background: #9c7a46;
+}
+.dark .contato-submit:hover {
+  background: #b6915a;
 }
