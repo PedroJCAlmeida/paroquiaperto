@@ -143,12 +143,6 @@ body {
     display: flex;
   }
 
-   .navbar-login-icon {
-    position: absolute;
-    right: 25px;
-    top: 15px;
-    margin-left: 0;
-  }
 }
 
 @media (max-width: 480px) {
@@ -163,20 +157,6 @@ body {
     }
 }
 
-.navbar-login-icon {
-  color: #333;
-  cursor: pointer;
-  transition: color 0.3s ease;
-  margin-left: 20px;
-  display: flex;
-  align-items: center;
-  z-index: 1002; 
-  position: relative; 
-}
-
-.navbar-login-icon:hover {
-  color: #007bff;
-}
 
 
 /* Telas menores (ex: tablets e celulares) - Começa a partir de 992px para desktop médio */
@@ -191,10 +171,6 @@ body {
         display: flex;
     }
 
-    .navbar-login-icon {
-        /* Remove a margem para telas menores, deixa o flexbox cuidar do espaçamento */
-        margin-left: 0;
-    }
 
     .navbar-nav.active {
         display: flex; /* Mostra o menu quando ativo */

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link'; // Se estiveres a usar Next.js, caso contrário usa 'react-router-dom'
 import { usePathname } from 'next/navigation';
-import { FaUserCircle, FaChevronDown } from 'react-icons/fa';
+import { FaChevronDown } from 'react-icons/fa';
 import { MdOutlineLightMode, MdOutlineDarkMode } from 'react-icons/md';
 import '@/styles/Navbar.css';
 
@@ -100,7 +100,13 @@ const Navbar = () => {
               {isDarkMode ? <MdOutlineLightMode size={22} /> : <MdOutlineDarkMode size={22} />}
             </button>
 
-            {isLoggedIn ? (
+            {!isLoggedIn && (
+              <>
+                <Link href="/login" className="navbar-login-btn">Entrar</Link>
+                <Link href="/register" className="navbar-register-btn">Registar</Link>
+              </>
+            )}
+            {isLoggedIn && (
               <div className="navbar-dropdown-wrapper profile">
                 <button className="navbar-profile-trigger" onClick={() => setShowProfileMenu(!showProfileMenu)}>
                   <span>Minha Conta</span> <FaChevronDown size={12} />
@@ -112,11 +118,6 @@ const Navbar = () => {
                   </div>
                 )}
               </div>
-            ) : (
-              <>
-                <Link href="/login" className="navbar-login-btn">Entrar</Link>
-                <Link href="/register" className="navbar-register-btn">Registar</Link>
-              </>
             )}
           </div>
         </nav>
