@@ -1,20 +1,23 @@
 @import '@/styles/colors.css';
 
-/* =============================================================
-   ESTRUTURA DA PÁGINA (CONSOLIDADA)
-   ============================================================= */
+/* --- Estrutura da Página --- */
 .paroquias-page-container {
-  padding-top: 72px; /* Apenas a altura exata da Navbar */
+  padding-top: 120px; /* Compensa a Navbar Fixa */
   min-height: 100vh;
   background-color: var(--bg-primary);
   transition: background-color 0.3s ease;
 }
 
+/* =============================================================
+   PÁGINA DE LISTAGEM DE PARÓQUIAS
+   ============================================================= */
 .paroquias-page {
   max-width: 1200px;
-  margin: 0 auto;
-  /* O respiro interno do conteúdo */
-  padding: 60px 24px 80px; 
+  margin: 0 auto 80px;
+  padding: 140px 24px 40px;
+  background-color: var(--bg-primary);
+  transition: background-color 0.3s ease;
+  min-height: 100vh;
 }
 
 .paroquias-title {
@@ -24,21 +27,23 @@
   color: var(--text-main, #1F2F46);
   margin-bottom: 48px;
   letter-spacing: -0.04em;
+  margin-top: 20px;
 }
 
-/* =============================================================
-   MAPA E FILTROS
-   ============================================================= */
+/* --- Container do Mapa (Visual de Card Premium) --- */
 .paroquias-mapa {
   margin-bottom: 48px;
   height: 450px;
-  border-radius: 20px;
+  border-radius: 20px; /* Bordas mais suaves condizentes com os cards */
   overflow: hidden;
   border: 1px solid var(--border-color);
   box-shadow: 0 10px 30px var(--color-shadow);
   background-color: var(--bg-card);
 }
 
+/* =============================================================
+   BARRA DE FILTROS (SELECTS)
+   ============================================================= */
 .paroquias-filters {
   display: flex;
   gap: 16px;
@@ -53,17 +58,19 @@
 }
 
 .paroquias-select {
-  padding: 12px 40px 12px 16px;
+  padding: 12px 40px 12px 16px; /* Padding extra à direita para a seta customizada */
   border-radius: 12px;
   font-size: 1rem;
   font-weight: 600;
   color: var(--text-main);
   border: 1.5px solid var(--border-color);
   background-color: var(--bg-primary, #ffffff);
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   flex: 1 1 200px;
   outline: none;
   cursor: pointer;
+  
+  /* Seta Customizada (SVG) */
   appearance: none; 
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239C7A46' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
@@ -71,8 +78,28 @@
   background-size: 1.1em;
 }
 
+.paroquias-select:focus {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 4px rgba(156, 122, 70, 0.1);
+  background-color: var(--bg-primary);
+}
+
+/* Destaque para o filtro de Raio (KM) - Estilo Litúrgico */
+.paroquias-select--km {
+  border: 2px solid var(--color-gold);
+  color: var(--color-blue);
+  background-color: rgba(156, 122, 70, 0.05);
+}
+
+.paroquias-select--disabled {
+  background-color: var(--color-gray-100) !important;
+  color: var(--color-gray-400) !important;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 /* =============================================================
-   GRELHA DE RESULTADOS
+   LISTA DE RESULTADOS (GRID)
    ============================================================= */
 .paroquias-lista {
   display: grid;
@@ -81,10 +108,10 @@
 }
 
 /* =============================================================
-   DARK MODE (SINCRONIZADO)
+   DARK MODE OVERRIDES
    ============================================================= */
-.dark .paroquias-page-container {
-  background-color: #0f172a;
+.dark .paroquias-page {
+  background-color: #0f172a; /* Mesmo fundo da Navbar */
 }
 
 .dark .paroquias-title {
@@ -92,8 +119,9 @@
 }
 
 .dark .paroquias-filters {
-  background: #1e293b;
+  background: #1e293b; /* Um tom ligeiramente mais claro para destacar do fundo */
   border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .dark .paroquias-select {
@@ -103,38 +131,49 @@
 }
 
 /* =============================================================
-   RESPONSIVIDADE (MOBILE)
+   RESPONSIVIDADE (MOBILE OPTIMIZATION)
    ============================================================= */
 @media (max-width: 768px) {
-  .paroquias-page {
-    padding: 40px 16px 60px;
-  }
+  .paroquias-page { padding: 92px 16px 40px; }
   
   .paroquias-title {
-    font-size: 2rem;
-    margin-bottom: 32px;
+    font-size: 1.8rem;
+    margin-bottom: 24px;
   }
 
   .paroquias-mapa {
-    height: 320px;
+    height: 300px;
+    margin-bottom: 24px;
+    border-radius: 16px;
   }
 
   .paroquias-filters {
     padding: 16px;
+    gap: 12px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr; /* Layout de duas colunas para selects */
   }
 
   .paroquias-select--km {
-    grid-column: span 2;
+    grid-column: span 2; /* KM ocupa a linha inteira em mobile para destaque */
+  }
+
+  .paroquias-select {
+    padding: 10px 32px 10px 12px;
+    font-size: 0.9rem;
+    height: 44px;
+  }
+
+  .paroquias-lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 32px;
   }
 }
 
 @media (max-width: 480px) {
   .paroquias-filters {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* Coluna única em ecrãs muito pequenos */
   }
-  .paroquias-select--km {
-    grid-column: span 1;
-  }
+  .paroquias-select--km { grid-column: span 1; }
 }
