@@ -73,60 +73,52 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="login-page">
-      {/* Painel esquerdo: marca */}
-      <div className="login-brand-panel">
-        <img src="/logo_paroquia.png" alt="Paróquia Perto" className="login-brand-logo" />
-        <h1 className="login-brand-name">Paróquia Perto</h1>
-        <div className="login-brand-divider" />
-        <p className="login-brand-tagline">Horários de missa, eventos e informações sobre as paróquias mais próximas de si.</p>
+    <div className="login-container">
+      <div className="login-logo-wrapper">
+        <img src="/logo_paroquia.png" alt="Paróquia Perto" className="login-logo" />
       </div>
-
-      {/* Painel direito: formulário */}
-      <div className="login-form-panel">
-        <img src="/logo_paroquia.png" alt="Paróquia Perto" className="login-mobile-logo" />
-        <h2>Bem-vindo de volta</h2>
-        {loading && <p className="loading-message">A iniciar sessão...</p>}
-        {info && <p className="success-message">{info}</p>}
-        {error && <p className="error-message">{error}</p>}
-        <form onSubmit={handleSubmit} className="login-form">
-          <div className="form-field">
-            <label className="form-label" htmlFor="email">E-mail</label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="form-input"
-              placeholder="seu@email.com"
-            />
-          </div>
-          <div className="form-field">
-            <label className="form-label" htmlFor="password">Palavra-passe</label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="form-input"
-              placeholder="A sua palavra-passe"
-            />
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Link href="/recuperar-palavra-passe" style={{ fontSize: '0.85rem', color: '#1F2F46' }}>
-              Esqueci a palavra-passe
-            </Link>
-          </div>
-          <button type="submit" disabled={loading} className="login-button">
-            {loading ? 'A Entrar...' : 'Entrar'}
-          </button>
-        </form>
-        <p className="login-register-link">
-          Ainda não tem conta? <Link href="/register">Registe-se aqui</Link>
-        </p>
-      </div>
+      <h2 style={{ textAlign: 'center', marginBottom: 8 }}>Bem-vindo de volta</h2>
+      <p style={{ textAlign: 'center', color: '#555', marginBottom: 18 }}>
+        Horários de missa, eventos e informações sobre as paróquias mais próximas de si.
+      </p>
+      {loading && <p className="loading-message">A iniciar sessão...</p>}
+      {info && <p className="success-message">{info}</p>}
+      {error && <p className="error-message">{error}</p>}
+      <form onSubmit={handleSubmit} className="login-form">
+        <div className="form-group">
+          <label htmlFor="email">E-mail</label>
+          <input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            placeholder="seu@email.com"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Palavra-passe</label>
+          <input
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            placeholder="A sua palavra-passe"
+          />
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Link href="/recuperar-palavra-passe" style={{ fontSize: '0.85rem', color: '#007bff' }}>
+            Esqueci a palavra-passe
+          </Link>
+        </div>
+        <button type="submit" disabled={loading} className="login-button">
+          {loading ? 'A Entrar...' : 'Entrar'}
+        </button>
+      </form>
+      <p>
+        Ainda não tem conta? <Link href="/register">Registe-se aqui</Link>
+      </p>
     </div>
   );
 };
