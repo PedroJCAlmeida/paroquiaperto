@@ -73,52 +73,74 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-logo-wrapper">
-        <img src="/logo_paroquia.png" alt="Paróquia Perto" className="login-logo" />
+    <div className="login-split-page">
+      {/* LADO ESQUERDO: BRANDING (AZUL) - Invisível no Mobile */}
+      <div className="login-side-blue">
+        <div className="brand-content">
+          <img src="/logo_paroquia.png" alt="Logo" className="brand-logo-large" />
+          <h1 className="brand-title">Paróquia Perto</h1>
+          <div className="brand-divider" />
+          <p className="brand-tagline">
+            Horários de missa, eventos e informações sobre as paróquias mais próximas de si.
+          </p>
+        </div>
       </div>
-      <h2 style={{ textAlign: 'center', marginBottom: 8 }}>Bem-vindo de volta</h2>
-      <p style={{ textAlign: 'center', color: '#555', marginBottom: 18 }}>
-        Horários de missa, eventos e informações sobre as paróquias mais próximas de si.
-      </p>
-      {loading && <p className="loading-message">A iniciar sessão...</p>}
-      {info && <p className="success-message">{info}</p>}
-      {error && <p className="error-message">{error}</p>}
-      <form onSubmit={handleSubmit} className="login-form">
-        <div className="form-group">
-          <label htmlFor="email">E-mail</label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            placeholder="seu@email.com"
-          />
+
+      {/* LADO DIREITO: FORMULÁRIO (BRANCO) */}
+      <div className="login-side-form">
+        <div className="form-container-card">
+          {/* Logo visível apenas no mobile */}
+          <div className="mobile-logo-header">
+            <img src="/logo_paroquia.png" alt="Logo" />
+            <h3>Paróquia Perto</h3>
+          </div>
+
+          <h2 className="welcome-text">Bem-vindo de volta</h2>
+          
+          {info && <p className="success-message">{info}</p>}
+          {error && <p className="error-message">{error}</p>}
+
+          <form onSubmit={handleSubmit} className="styled-login-form">
+            <div className="input-group">
+              <label htmlFor="email">E-MAIL</label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder="seu@email.com"
+              />
+            </div>
+
+            <div className="input-group">
+              <label htmlFor="password">PALAVRA-PASSE</label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder="A sua palavra-passe"
+              />
+            </div>
+
+            <div className="form-actions">
+              <Link href="/recuperar-palavra-passe" className="forgot-link">
+                Esqueci a palavra-passe
+              </Link>
+            </div>
+
+            <button type="submit" disabled={loading} className="submit-btn">
+              {loading ? 'A Entrar...' : 'Entrar'}
+            </button>
+          </form>
+
+          <p className="footer-link-text">
+            Ainda não tem conta? <Link href="/register">Registe-se aqui</Link>
+          </p>
         </div>
-        <div className="form-group">
-          <label htmlFor="password">Palavra-passe</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            placeholder="A sua palavra-passe"
-          />
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Link href="/recuperar-palavra-passe" style={{ fontSize: '0.85rem', color: '#007bff' }}>
-            Esqueci a palavra-passe
-          </Link>
-        </div>
-        <button type="submit" disabled={loading} className="login-button">
-          {loading ? 'A Entrar...' : 'Entrar'}
-        </button>
-      </form>
-      <p>
-        Ainda não tem conta? <Link href="/register">Registe-se aqui</Link>
-      </p>
+      </div>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 'use client';
 import React, { Suspense, useState } from 'react';
 import Link from 'next/link';
-import { MapPin, Calendar, Bell, Mail } from 'lucide-react';
+import { MapPin, Calendar, Bell, Mail, CheckCircle2, Loader2 } from 'lucide-react';
 import axios, { AxiosError } from 'axios';
 import { validatePassword, getPasswordValidationMessage } from '@/lib/validation';
 import '@/styles/Login.css';
@@ -47,11 +47,7 @@ function RegistarUtilizadorForm() {
       }
     } catch (err) {
       const axiosErr = err as AxiosError<{ error?: string }>;
-      if (axiosErr.response?.data?.error) {
-        setError(axiosErr.response.data.error);
-      } else {
-        setError('Ocorreu um erro ao tentar registar. Por favor, tente novamente.');
-      }
+      setError(axiosErr.response?.data?.error ?? 'Ocorreu um erro ao tentar registar.');
     } finally {
       setLoading(false);
     }
@@ -59,31 +55,28 @@ function RegistarUtilizadorForm() {
 
   if (registeredEmail) {
     return (
-      <div className="login-page">
-        <div className="login-brand-panel">
-          <img src="/logo_paroquia.png" alt="Paróquia Perto" className="login-brand-logo" />
-          <h1 className="login-brand-name">Paróquia Perto</h1>
-          <div className="login-brand-divider" />
-          <p className="login-brand-tagline">Obrigado por se juntar a esta comunidade de fé.</p>
+      <div className="login-split-page">
+        <div className="login-side-blue">
+          <div className="brand-content">
+            <img src="/logo_paroquia.png" alt="Logo" className="brand-logo-large" />
+            <h1 className="brand-title">Bem-vindo!</h1>
+            <div className="brand-divider" />
+            <p className="brand-tagline">Obrigado por se juntar a esta comunidade de fé.</p>
+          </div>
         </div>
-
-        <div className="login-form-panel">
-          <img src="/logo_paroquia.png" alt="Paróquia Perto" className="login-mobile-logo" />
-          <div className="register-success-card">
-            <div className="register-success-icon">
-              <Mail size={34} />
+        <div className="login-side-form">
+          <div className="form-container-card success-card-anim">
+            <div className="register-success-icon-wrapper">
+              <Mail size={48} className="icon-mail-anim" />
             </div>
-            <h2 className="register-success-title">Registo concluído</h2>
-            <p className="register-success-text">Enviámos um e-mail de verificação para:</p>
-            <p className="register-success-email">{registeredEmail}</p>
-            <p className="register-success-text">
-              Clique no link do e-mail para <strong>ativar a sua conta</strong> antes de iniciar sessão.
+            <h2 className="welcome-text" style={{ textAlign: 'center' }}>Verifique o seu e-mail</h2>
+            <p className="success-instruction">
+              Enviámos um link de ativação para <strong>{registeredEmail}</strong>. 
+              Por favor, clique no link para validar a sua conta.
             </p>
-            <p className="register-success-note">
-              Nao encontrou o e-mail? Verifique as pastas de <strong>spam</strong> ou <strong>promocoes</strong>.
-            </p>
-            <Link href="/login" className="login-button register-success-button">
-              Ir para o login
+            <div className="brand-divider" style={{ margin: '20px auto' }} />
+            <Link href="/login" className="submit-btn" style={{ textDecoration: 'none', textAlign: 'center', display: 'block' }}>
+              Ir para o Login
             </Link>
           </div>
         </div>
@@ -92,106 +85,113 @@ function RegistarUtilizadorForm() {
   }
 
   return (
-    <div className="login-page">
-      <div className="login-brand-panel">
-        <img src="/logo_paroquia.png" alt="Paróquia Perto" className="login-brand-logo" />
-        <h1 className="login-brand-name">Paróquia Perto</h1>
-        <div className="login-brand-divider" />
-        <p className="login-brand-tagline">Crie a sua conta e ajude a fortalecer a vida paroquial local.</p>
+    <div className="login-split-page">
+      {/* LADO ESQUERDO: BRANDING E BENEFÍCIOS */}
+      <div className="login-side-blue">
+        <div className="brand-content">
+          <img src="/logo_paroquia.png" alt="Logo" className="brand-logo-large" />
+          <h1 className="brand-title">Paróquia Perto</h1>
+          <div className="brand-divider" />
+          <p className="brand-tagline">Crie a sua conta e ajude a fortalecer a vida paroquial local.</p>
 
-        <div className="auth-brand-benefits">
-          <div className="auth-brand-benefit">
-            <MapPin size={16} className="auth-brand-icon" />
-            <span>Registe paróquias e mantenha dados atualizados</span>
-          </div>
-          <div className="auth-brand-benefit">
-            <Calendar size={16} className="auth-brand-icon" />
-            <span>Divulgue eventos e atividades da comunidade</span>
-          </div>
-          <div className="auth-brand-benefit">
-            <Bell size={16} className="auth-brand-icon" />
-            <span>Receba notificações e novidades importantes</span>
+          <div className="auth-brand-benefits">
+            <div className="benefit-item">
+              <MapPin size={20} className="benefit-icon" />
+              <span>Registe paróquias e mantenha dados atualizados</span>
+            </div>
+            <div className="benefit-item">
+              <Calendar size={20} className="benefit-icon" />
+              <span>Divulgue eventos e atividades da comunidade</span>
+            </div>
+            <div className="benefit-item">
+              <Bell size={20} className="benefit-icon" />
+              <span>Receba notificações e novidades importantes</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="login-form-panel">
-        <img src="/logo_paroquia.png" alt="Paróquia Perto" className="login-mobile-logo" />
-        <h2>Criar conta</h2>
+      {/* LADO DIREITO: FORMULÁRIO */}
+      <div className="login-side-form">
+        <div className="form-container-card">
+          <div className="mobile-logo-header">
+            <img src="/logo_paroquia.png" alt="Logo" />
+            <h3>Paróquia Perto</h3>
+          </div>
 
-        {loading && <p className="loading-message">A registar...</p>}
-        {error && <p className="error-message">{error}</p>}
-        <form className="register-form" onSubmit={handleSubmit}>
-          <div className="form-field">
-            <label className="form-label" htmlFor="nome">Nome</label>
-            <input
-              id="nome"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              className="form-input"
-              placeholder="O seu nome completo"
-            />
-          </div>
-          <div className="form-field">
-            <label className="form-label" htmlFor="reg-email">E-mail</label>
-            <input
-              id="reg-email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="form-input"
-              placeholder="seu@email.com"
-            />
-          </div>
-          <div className="form-field">
-            <label className="form-label" htmlFor="reg-password">Palavra-passe</label>
-            <input
-              id="reg-password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="form-input"
-              placeholder="Mínimo 8 caracteres, 1 maiúscula, 1 número"
-            />
-            {password && (
-              <div className={`password-validation-feedback ${validatePassword(password).isValid ? 'valid' : 'invalid'}`}>
-                {validatePassword(password).isValid ? (
-                  <div>✓ Palavra-passe forte</div>
-                ) : (
-                  <div>
-                    {validatePassword(password).errors.map((error, idx) => (
-                      <div key={idx} className="password-requirement unmet">
-                        {error}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-          <div className="form-field">
-            <label className="form-label" htmlFor="reg-confirm-password">Confirmar palavra-passe</label>
-            <input
-              id="reg-confirm-password"
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-              className="form-input"
-              placeholder="Repita a palavra-passe"
-            />
-          </div>
-          <button type="submit" disabled={loading} className="login-button">
-            {loading ? 'A Registar...' : 'Registar'}
-          </button>
-        </form>
-        <p className="login-register-link">
-          Ja tem conta? <Link href="/login">Faca login aqui</Link>
-        </p>
+          <h2 className="welcome-text">Criar conta</h2>
+          
+          {error && <p className="error-message">{error}</p>}
+
+          <form onSubmit={handleSubmit} className="styled-login-form">
+            <div className="input-group">
+              <label htmlFor="nome">NOME COMPLETO</label>
+              <input
+                id="nome"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                placeholder="O seu nome"
+              />
+            </div>
+
+            <div className="input-group">
+              <label htmlFor="reg-email">E-MAIL</label>
+              <input
+                id="reg-email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder="seu@email.com"
+              />
+            </div>
+
+            <div className="input-group">
+              <label htmlFor="reg-password">PALAVRA-PASSE</label>
+              <input
+                id="reg-password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder="Mínimo 8 caracteres"
+              />
+              {password && (
+                <div className={`pwd-feedback ${validatePassword(password).isValid ? 'is-valid' : 'is-invalid'}`}>
+                  {validatePassword(password).isValid ? (
+                    <span className="pwd-status"><CheckCircle2 size={14} /> Forte</span>
+                  ) : (
+                    <ul className="pwd-errors">
+                      {validatePassword(password).errors.map((err, i) => <li key={i}>{err}</li>)}
+                    </ul>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <div className="input-group">
+              <label htmlFor="reg-confirm-password">CONFIRMAR PALAVRA-PASSE</label>
+              <input
+                id="reg-confirm-password"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                placeholder="Repita a palavra-passe"
+              />
+            </div>
+
+            <button type="submit" disabled={loading} className="submit-btn">
+              {loading ? <Loader2 className="animate-spin" size={20} /> : 'Registar'}
+            </button>
+          </form>
+
+          <p className="footer-link-text">
+            Já tem conta? <Link href="/login">Faça login aqui</Link>
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -199,10 +199,8 @@ function RegistarUtilizadorForm() {
 
 export default function RegistarUtilizador() {
   return (
-    <Suspense fallback={<div className="login-page"><p className="loading-message">A carregar...</p></div>}>
+    <Suspense fallback={<div className="login-split-page"><p className="loading-message">A carregar...</p></div>}>
       <RegistarUtilizadorForm />
     </Suspense>
   );
 }
-
-

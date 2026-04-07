@@ -29,47 +29,65 @@ export default function RecuperarPalavraPasse() {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-brand-panel">
-        <img src="/logo_paroquia.png" alt="Paróquia Perto" className="login-brand-logo" />
-        <h1 className="login-brand-name">Paróquia Perto</h1>
-        <div className="login-brand-divider" />
-        <p className="login-brand-tagline">Redefina a sua palavra-passe de forma segura e rápida para recuperar o acesso à sua conta.</p>
+    <div className="login-split-page">
+      {/* LADO ESQUERDO: BRANDING (AZUL) */}
+      <div className="login-side-blue">
+        <div className="brand-content">
+          <img src="/logo_paroquia.png" alt="Logo" className="brand-logo-large" />
+          <h1 className="brand-title">Paróquia Perto</h1>
+          <div className="brand-divider" />
+          <p className="brand-tagline">
+            Redefina a sua palavra-passe de forma segura e rápida para recuperar o acesso à sua conta.
+          </p>
+        </div>
       </div>
 
-      <div className="login-form-panel">
-        <img src="/logo_paroquia.png" alt="Paróquia Perto" className="login-mobile-logo" />
-        <h2>Recuperar Palavra-Passe</h2>
-        {loading && <p className="loading-message">A enviar pedido...</p>}
-        {error && <p className="error-message">{error}</p>}
-        {success && <p className="success-message">{success}</p>}
-        {!success && (
-          <form onSubmit={handleSubmit} className="login-form recovery-form">
-            <p className="recovery-instruction">
-              Introduza o seu e-mail e enviaremos um link para redefinir a sua palavra-passe.
-            </p>
-            <div className="form-field">
-              <label className="form-label" htmlFor="recovery-email">E-mail</label>
-              <input
-                id="recovery-email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="form-input"
-                placeholder="seu@email.com"
-              />
-            </div>
-            <button type="submit" disabled={loading} className="login-button">
-              {loading ? 'A enviar...' : 'Enviar link de recuperacao'}
-            </button>
-          </form>
-        )}
-        <p className="login-register-link">
-          <Link href="/login">← Voltar ao login</Link>
-        </p>
+      {/* LADO DIREITO: FORMULÁRIO (BRANCO) */}
+      <div className="login-side-form">
+        <div className="form-container-card">
+          {/* Logo visível apenas no mobile */}
+          <div className="mobile-logo-header">
+            <img src="/logo_paroquia.png" alt="Logo" />
+            <h3>Paróquia Perto</h3>
+          </div>
+
+          <h2 className="welcome-text">Recuperar Palavra-Passe</h2>
+          
+          {loading && <p className="loading-message">A enviar pedido...</p>}
+          {error && <p className="error-message">{error}</p>}
+          {success && <p className="success-message">{success}</p>}
+
+          {!success && (
+            <form onSubmit={handleSubmit} className="styled-login-form">
+              <p className="recovery-instruction">
+                Introduza o seu e-mail e enviaremos um link para redefinir a sua palavra-passe.
+              </p>
+              
+              <div className="input-group">
+                <label htmlFor="recovery-email">E-MAIL</label>
+                <input
+                  id="recovery-email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder="seu@email.com"
+                />
+              </div>
+
+              <button type="submit" disabled={loading} className="submit-btn">
+                {loading ? 'A enviar...' : 'Enviar link de recuperação'}
+              </button>
+            </form>
+          )}
+
+          <p className="footer-link-text">
+            <Link href="/login" style={{ color: '#64748b', textDecoration: 'none', fontWeight: '600' }}>
+              ← Voltar ao login
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
 }
-
