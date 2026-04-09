@@ -1,157 +1,157 @@
 /* Container Pai: Ocupa a tela toda */
 .login-split-page {
-  display: flex;
-  min-height: 100vh;
-  width: 100%;
-  font-family: 'Inter', sans-serif;
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
 }
 
 /* --- LADO ESQUERDO: AZUL --- */
 .login-side-blue {
-  flex: 1;
-  background-color: #1F2F46;
-  display: flex;
-  flex-direction: column; /* Garante alinhamento vertical */
-  align-items: center;    /* Centraliza horizontalmente */
-  justify-content: center; /* Centraliza verticalmente de forma absoluta */
-  padding: 60px;          /* Espaço de respiro nas bordas */
-  color: white;
-  min-height: 100vh;      /* Garante que ele use a altura total da tela para calcular o centro */
+    flex: 1;
+    background-color: #1F2F46;
+    display: flex;
+    flex-direction: column; /* Garante alinhamento vertical */
+    align-items: center;    /* Centraliza horizontalmente */
+    justify-content: center; /* Centraliza verticalmente de forma absoluta */
+    padding: 60px;          /* Espaço de respiro nas bordas */
+    color: white;
+    min-height: 100vh;      /* Garante que ele use a altura total da tela para calcular o centro */
 }
 
 .brand-content {
-  width: 100%;
-  max-width: 450px;       /* Um pouco mais largo para o texto não quebrar muito */
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;    /* Centraliza os itens dentro da div (logo, h1, p) */
+    width: 100%;
+    max-width: 450px;       /* Um pouco mais largo para o texto não quebrar muito */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;    /* Centraliza os itens dentro da div (logo, h1, p) */
 }
 
 .brand-logo-large {
-  height: 140px;          /* Aumentei um pouco para dar mais peso visual */
-  width: auto;
-  margin-bottom: 24px;
-  display: block;         /* Garante comportamento de bloco para centralizar */
+    height: 140px;          /* Aumentei um pouco para dar mais peso visual */
+    width: auto;
+    margin-bottom: 24px;
+    display: block;         /* Garante comportamento de bloco para centralizar */
 }
 
 .brand-title {
-  font-size: 3rem;        /* Fonte mais imponente */
-  font-weight: 800;
-  margin: 0;              /* Remove margens padrão que podem causar desalinhamento */
-  letter-spacing: -1px;
+    font-size: 3rem;        /* Fonte mais imponente */
+    font-weight: 800;
+    margin: 0;              /* Remove margens padrão que podem causar desalinhamento */
+    letter-spacing: -1px;
 }
 
 .brand-divider {
-  height: 4px;
-  width: 60px;
-  background: #9c7a46;
-  margin: 24px 0;         /* Margem equilibrada em cima e em baixo */
-  border-radius: 2px;
+    height: 4px;
+    width: 60px;
+    background: #9c7a46;
+    margin: 24px 0;         /* Margem equilibrada em cima e em baixo */
+    border-radius: 2px;
 }
 
 .brand-tagline {
-  font-size: 1.2rem;
-  line-height: 1.5;
-  opacity: 0.85;
-  max-width: 350px;       /* Evita que o parágrafo fique muito largo */
+    font-size: 1.2rem;
+    line-height: 1.5;
+    opacity: 0.85;
+    max-width: 350px;       /* Evita que o parágrafo fique muito largo */
 }
 
 /* --- LADO DIREITO: FORMULÁRIO --- */
 .login-side-form {
-  flex: 1;
-  background-color: #f8fafc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
+    flex: 1;
+    background-color: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
 }
 
 .form-container-card {
-  width: 100%;
-  max-width: 400px;
+    width: 100%;
+    max-width: 400px;
 }
 
 .welcome-text {
-  font-size: 1.8rem;
-  color: #1F2F46;
-  font-weight: 700;
-  margin-bottom: 30px;
+    font-size: 1.8rem;
+    color: #1F2F46;
+    font-weight: 700;
+    margin-bottom: 30px;
 }
 
 .styled-login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .input-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .input-group label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #64748b;
-  letter-spacing: 0.5px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #64748b;
+    letter-spacing: 0.5px;
 }
 
 .input-group input {
-  padding: 14px;
-  border: 2px solid #e2e8f0;
-  border-radius: 10px;
-  font-size: 1rem;
-  transition: all 0.2s;
+    padding: 14px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.2s;
 }
 
 .input-group input:focus {
-  border-color: #1F2F46;
-  outline: none;
-  box-shadow: 0 0 0 4px rgba(31, 47, 70, 0.05);
+    border-color: #1F2F46;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(31, 47, 70, 0.05);
 }
 
 .forgot-link {
-  font-size: 0.85rem;
-  color: #64748b;
-  text-decoration: none;
-  float: right;
+    font-size: 0.85rem;
+    color: #64748b;
+    text-decoration: none;
+    float: right;
 }
 
 .forgot-link:hover { color: #1F2F46; }
 
 .submit-btn {
-  background-color: #1F2F46;
-  color: white;
-  padding: 16px;
-  border-radius: 10px;
-  border: none;
-  font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: transform 0.2s, background 0.2s;
-  margin-top: 10px;
+    background-color: #1F2F46;
+    color: white;
+    padding: 16px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+    margin-top: 10px;
 }
 
 .submit-btn:hover {
-  background-color: #2d425f;
-  transform: translateY(-2px);
+    background-color: #2d425f;
+    transform: translateY(-2px);
 }
 
 .footer-link-text {
-  margin-top: 30px;
-  text-align: center;
-  color: #64748b;
+    margin-top: 30px;
+    text-align: center;
+    color: #64748b;
 }
 
 .footer-link-text a {
-  color: #9c7a46;
-  font-weight: 700;
-  text-decoration: none;
+    color: #9c7a46;
+    font-weight: 700;
+    text-decoration: none;
 }
 
-* Instrução de recuperação acima do input */
+/* Instrução de recuperação acima do input */
 .recovery-instruction {
     color: #64748b;
     font-size: 0.95rem;
@@ -161,7 +161,6 @@
 }
 
 /* Mensagens */
-/* Ajuste para mensagens de sucesso na recuperação */
 .success-message {
     color: #155724;
     background-color: #d4edda;
@@ -173,7 +172,14 @@
     margin-bottom: 24px;
     text-align: center;
 }
-.error-message { color: #721c24; background: #f8d3d7; padding: 12px; border-radius: 8px; margin-bottom: 20px; }
+
+.error-message { 
+    color: #721c24; 
+    background: #f8d3d7; 
+    padding: 12px; 
+    border-radius: 8px; 
+    margin-bottom: 20px; 
+}
 
 .footer-link-text a:hover {
     color: #1F2F46 !important;
@@ -184,13 +190,13 @@
 
 /* --- RESPONSIVIDADE --- */
 @media (max-width: 992px) {
-  .login-side-blue { display: none; }
-  .mobile-logo-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 30px;
-  }
-  .mobile-logo-header img { height: 70px; margin-bottom: 10px; }
-  .mobile-logo-header h3 { color: #1F2F46; font-weight: 800; }
+    .login-side-blue { display: none; }
+    .mobile-logo-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+    .mobile-logo-header img { height: 70px; margin-bottom: 10px; }
+    .mobile-logo-header h3 { color: #1F2F46; font-weight: 800; }
 }
