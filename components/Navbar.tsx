@@ -4,31 +4,33 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter, usePathname } from 'next/navigation';
 import { FaChevronDown } from 'react-icons/fa';
+import { 
+  LayoutDashboard, 
+  Clock, 
+  Calendar, 
+  Settings, 
+  LogOut
+} from 'lucide-react'; 
 import ThemeToggle from './ThemeToggle';
 import '@/styles/Navbar.css';
 
 const Navbar = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [showProfileMenu, setShowProfileMenu] = useState(false);
-    const [showBackofficeMenu, setShowBackofficeMenu] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
-
-    // Impede scroll do body quando menu mobile está aberto
-    useEffect(() => {
-      if (typeof window === 'undefined') return;
-      const body = document.body;
-      if (isOpen) {
-        body.classList.add('overflow-hidden');
-      } else {
-        body.classList.remove('overflow-hidden');
-      }
-      return () => body.classList.remove('overflow-hidden');
-    }, [isOpen]);
   const router = useRouter();
-  // (Estados já declarados acima, não repetir)
-  const navRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
+  const navRef = useRef<HTMLElement>(null);
   const isLandingPage = pathname === '/';
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showBackofficeMenu, setShowBackofficeMenu] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const checkAuth = () => setIsLoggedIn(Boolean(localStorage.getItem('token')));
@@ -40,9 +42,7 @@ const Navbar = () => {
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent | TouchEvent) => {
       if (navRef.current && !navRef.current.contains(e.target as Node)) {
-        setShowProfileMenu(false);
-        setShowBackofficeMenu(false);
-        setIsOpen(false);
+        closeAllMenus();
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -52,7 +52,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
-    setShowProfileMenu(false);
+    closeAllMenus();
     router.push('/login');
   };
 
@@ -62,10 +62,64 @@ const Navbar = () => {
     setShowBackofficeMenu(false);
   };
 
+  const toggleBackoffice = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setShowBackofficeMenu(!showBackofficeMenu);
+    setShowProfileMenu(false);
+  };
+
+  const toggleProfile = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setShowProfileMenu(!showProfileMenu);
+    setShowBackofficeMenu(false);
+  };
+
+  // Menu de Gestão unificado
+  const AdminMenu = isLoggedIn && (
+    <div className="navbar-dropdown-wrapper">
+      <button
+        type="button"
+        className={`navbar-link dropdown-trigger admin-highlight ${showBackofficeMenu ? 'active' : ''}`}
+        onClick={toggleBackoffice}
+      >
+        <span>Gestão</span>
+        <FaChevronDown size={10} className={`icon-arrow ${showBackofficeMenu ? 'rotate' : ''}`} />
+      </button>
+      {showBackofficeMenu && (
+        <div className="navbar-dropdown-menu admin-panel">
+          <div className="dropdown-header">Administração</div>
+          <Link href="/backoffice/paroquias" className="dropdown-item" onClick={closeAllMenus}>
+            <LayoutDashboard size={18} />
+            <div className="item-info">
+              <span className="item-title">Paróquias</span>
+              <span className="item-desc">Gerir listagem e dados</span>
+            </div>
+          </Link>
+          <Link href="/backoffice/horarios" className="dropdown-item" onClick={closeAllMenus}>
+            <Clock size={18} />
+            <div className="item-info">
+              <span className="item-title">Horários</span>
+              <span className="item-desc">Missas e confissões</span>
+            </div>
+          </Link>
+          <Link href="/backoffice/eventos" className="dropdown-item" onClick={closeAllMenus}>
+            <Calendar size={18} />
+            <div className="item-info">
+              <span className="item-title">Eventos</span>
+              <span className="item-desc">Agenda da comunidade</span>
+            </div>
+          </Link>
+        </div>
+      )}
+    </div>
+  );
+
   return (
-    <header className="navbar" ref={navRef}>
+    <header 
+      ref={navRef} 
+      className={`navbar ${isScrolled ? 'scrolled' : ''} ${isOpen ? 'mobile-active' : ''}`}
+    >
       <div className="navbar-inner">
-        {/* Logo Section */}
         <Link href="/" className="navbar-logo" onClick={closeAllMenus}>
           <div className="navbar-logo-mark">
             <Image src="/logo_paroquia.png" alt="Logo" width={38} height={38} priority />
@@ -73,92 +127,68 @@ const Navbar = () => {
           <span className="navbar-logo-text">Paróquia Perto</span>
         </Link>
 
-        {/* Mobile Toggle */}
-        <button
-          className={`navbar-toggle ${isOpen ? 'active' : ''}`}
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Menu"
-        >
+        <button className={`navbar-toggle ${isOpen ? 'active' : ''}`} onClick={() => setIsOpen(!isOpen)}>
           <span className="hamburger"></span>
           <span className="hamburger"></span>
           <span className="hamburger"></span>
         </button>
 
-        {/* Nav Links */}
         <nav className={`navbar-nav ${isOpen ? 'active' : ''}`}>
-          {isLandingPage ? (
-            /* --- CENÁRIO A: LANDING PAGE --- */
-            <>
-              <div className="navbar-nav-links">
+          <div className="navbar-nav-links">
+            {isLandingPage ? (
+              <>
                 <Link href="#como-funciona" className="navbar-link" onClick={closeAllMenus}>Como Funciona</Link>
                 <Link href="#recursos" className="navbar-link" onClick={closeAllMenus}>Recursos</Link>
                 <Link href="#faq" className="navbar-link" onClick={closeAllMenus}>FAQ</Link>
-              </div>
-
-              <div className="navbar-actions">
-                <ThemeToggle />
-                <Link href="/login" className="navbar-login-btn" onClick={closeAllMenus}>Entrar</Link>
-                <Link href="/register" className="navbar-register-btn" onClick={closeAllMenus}>Registar</Link>
-              </div>
-            </>
-          ) : (
-            /* --- CENÁRIO B: RESTO DA APP --- */
-            <>
-              <div className="navbar-nav-links">
+                {AdminMenu}
+              </>
+            ) : (
+              <>
                 <Link href="/" className="navbar-link" onClick={closeAllMenus}>Início</Link>
                 <Link href="/paroquias" className="navbar-link" onClick={closeAllMenus}>Paróquias</Link>
                 <Link href="/buscar" className="navbar-link" onClick={closeAllMenus}>Buscar</Link>
                 <Link href="/contacto" className="navbar-link" onClick={closeAllMenus}>Contacto</Link>
+                {AdminMenu}
+              </>
+            )}
+          </div>
 
-                {isLoggedIn && (
-                  <div className="navbar-dropdown-wrapper">
-                    <button
-                      className="navbar-link dropdown-trigger"
-                      onClick={() => setShowBackofficeMenu(!showBackofficeMenu)}
-                    >
-                      Backoffice <FaChevronDown size={10} className={showBackofficeMenu ? 'rotate' : ''} />
+          <div className="navbar-actions">
+            <ThemeToggle />
+            
+            {isLoggedIn ? (
+              <div className="navbar-dropdown-wrapper profile">
+                {/* Botão sem o ícone UserCircle */}
+                <button 
+                  type="button"
+                  className={`navbar-link dropdown-trigger ${showProfileMenu ? 'active' : ''}`} 
+                  onClick={toggleProfile}
+                >
+                  <span>Minha Conta</span> 
+                  <FaChevronDown size={10} className={`icon-arrow ${showProfileMenu ? 'rotate' : ''}`} />
+                </button>
+                {showProfileMenu && (
+                  <div className="navbar-dropdown-menu right profile-panel">
+                    <Link href="/utilizador" className="dropdown-item" onClick={closeAllMenus}>
+                      <Settings size={16} /> Configurações
+                    </Link>
+                    <button type="button" onClick={handleLogout} className="logout-btn dropdown-item">
+                      <LogOut size={16} /> Sair
                     </button>
-                    {showBackofficeMenu && (
-                      <div className="navbar-dropdown-menu">
-                        <Link href="/backoffice/paroquias" onClick={closeAllMenus}>Inserir Paróquia</Link>
-                        <Link href="/backoffice/horarios" onClick={closeAllMenus}>Inserir Horários</Link>
-                        <Link href="/backoffice/eventos" onClick={closeAllMenus}>Inserir Eventos</Link>
-                      </div>
-                    )}
                   </div>
                 )}
               </div>
-
-              <div className="navbar-actions">
-                <ThemeToggle />
-
-                {isLoggedIn ? (
-                  /* --- UTILIZADOR LOGADO --- */
-                  <div className="navbar-dropdown-wrapper profile">
-                    <button className="navbar-profile-trigger" onClick={() => setShowProfileMenu(!showProfileMenu)}>
-                      <span>Minha Conta</span> <FaChevronDown size={12} className={showProfileMenu ? 'rotate' : ''} />
-                    </button>
-                    {showProfileMenu && (
-                      <div className="navbar-dropdown-menu right">
-                        <Link href="/utilizador" onClick={closeAllMenus}>Configurações</Link>
-                        <button onClick={handleLogout} className="logout-btn">Sair</button>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  /* --- UTILIZADOR NÃO LOGADO (IGUAL À LANDING PAGE) --- */
-                  <>
-                    <Link href="/login" className="navbar-login-btn" onClick={closeAllMenus}>
-                      Entrar
-                    </Link>
-                    <Link href="/register" className="navbar-register-btn" onClick={closeAllMenus}>
-                      Registar
-                    </Link>
-                  </>
-                )}
+            ) : (
+              <div className="auth-btns-container">
+                <Link href="/login" className="navbar-link navbar-login-btn" onClick={closeAllMenus}>
+                  Entrar
+                </Link>
+                <Link href="/register" className="navbar-register-btn" onClick={closeAllMenus}>
+                  Registar
+                </Link>
               </div>
-            </>
-          )}
+            )}
+          </div>
         </nav>
       </div>
     </header>

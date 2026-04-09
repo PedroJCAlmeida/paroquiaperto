@@ -9,11 +9,12 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      aria-label={theme === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
-      title={theme === 'dark' ? 'Modo claro' : 'Modo escuro'}
       className="theme-toggle-btn"
+      aria-label="Alternar Tema"
     >
-      {theme === 'dark' ? <Sun size={22} /> : <Moon size={22} />}
+      <div className="theme-icon-container">
+        {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+      </div>
     </button>
   );
 }

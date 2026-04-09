@@ -1,140 +1,8 @@
-/* Minha Conta Dropdown Custom */
-.navbar-dropdown-wrapper.profile .navbar-profile-trigger {
-  font-weight: 800;
-  color: var(--nav-text);
-  font-size: 1.1rem;
-  background: none;
-  border: none;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 12px 0;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-.navbar-dropdown-wrapper.profile .navbar-profile-trigger .rotate {
-  transform: rotate(180deg);
-  transition: transform 0.2s;
-}
-.navbar-dropdown-menu.right {
-  background: var(--nav-bg);
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-  margin-top: 2px;
-  padding: 0;
-  min-width: 180px;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  z-index: 1002;
-  right: 0;
-}
-.navbar-dropdown-menu.right a,
-.navbar-dropdown-menu.right button {
-  color: var(--nav-text);
-  font-weight: 600;
-  font-size: 0.95rem;
-  padding: 12px 24px;
-  text-decoration: none;
-  border: none;
-  background: none;
-  transition: color 0.3s, background 0.2s;
-  border-bottom: 1px solid var(--nav-border);
-  display: block;
-  width: 100%;
-  text-align: left;
-  letter-spacing: -0.01em;
-  cursor: pointer;
-}
-.navbar-dropdown-menu.right a:last-child,
-.navbar-dropdown-menu.right button:last-child {
-  border-bottom: none;
-}
-.navbar-dropdown-menu.right a:hover,
-.navbar-dropdown-menu.right button:hover {
-  color: var(--nav-link-hover);
-  background: none;
-}
-.dark .navbar-dropdown-menu.right {
-  background: #232e3e;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.32);
-}
-.dark .navbar-dropdown-menu.right a,
-.dark .navbar-dropdown-menu.right button {
-  color: #f3f4f6;
-  border-bottom: 1px solid #2d384d;
-}
-.dark .navbar-dropdown-menu.right a:hover,
-.dark .navbar-dropdown-menu.right button:hover {
-  color: #d1b07a;
-  background: none;
-}
-/* Backoffice Dropdown Custom */
-.navbar-dropdown-wrapper .dropdown-trigger {
-  font-weight: 800;
-  color: var(--color-gold, #9C7A46);
-  font-size: 1.1rem;
-  background: none;
-  border: none;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 12px 0;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-.navbar-dropdown-wrapper .dropdown-trigger .rotate {
-  transform: rotate(180deg);
-  transition: transform 0.2s;
-}
-.navbar-dropdown-menu {
-  background: var(--nav-bg);
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-  margin-top: 2px;
-  padding: 0;
-  min-width: 200px;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  z-index: 1002;
-}
-.navbar-dropdown-menu a {
-  color: var(--nav-text);
-  font-weight: 600;
-  font-size: 0.95rem;
-  padding: 12px 24px;
-  text-decoration: none;
-  border: none;
-  background: none;
-  transition: color 0.3s, background 0.2s;
-  border-bottom: 1px solid var(--nav-border);
-  display: block;
-  width: 100%;
-  text-align: left;
-  letter-spacing: -0.01em;
-}
-.navbar-dropdown-menu a:last-child {
-  border-bottom: none;
-}
-.navbar-dropdown-menu a:hover {
-  color: var(--nav-link-hover);
-  background: none;
-}
-.dark .navbar-dropdown-menu {
-  background: #232e3e;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.32);
-}
-.dark .navbar-dropdown-menu a {
-  color: #f3f4f6;
-  border-bottom: 1px solid #2d384d;
-}
-.dark .navbar-dropdown-menu a:hover {
-  color: #d1b07a;
-  background: none;
-}
 @import '@/styles/colors.css';
 
+/* =============================================================
+   VARIÁVEIS DE TEMA
+   ============================================================= */
 :root {
   --nav-bg: rgba(255, 255, 255, 0.98);
   --nav-text: #1e293b;
@@ -142,16 +10,15 @@
   --nav-border: #e2e8f0;
   --nav-shadow: rgba(0, 0, 0, 0.05);
   --nav-link-hover: #9c7a46;
+  --dropdown-bg: #ffffff;
 }
 
-/* =============================================================
-   MODO DARK
-   ============================================================= */
 .dark .navbar {
   --nav-bg: #0f172a !important;
   --nav-text: #ffffff !important;
   --nav-border: rgba(255, 255, 255, 0.1) !important;
   --nav-shadow: rgba(0, 0, 0, 0.4) !important;
+  --dropdown-bg: #1e293b;
 }
 
 /* =============================================================
@@ -174,14 +41,88 @@
   transition: all 0.3s ease;
 }
 
+.theme-toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  /* Cor padrão do ícone (cinza suave) */
+  color: var(--nav-text-sub); 
+}
+
+/* Efeito de Hover: Fica dourado igual aos links */
+.theme-toggle-btn:hover {
+  background: rgba(156, 122, 70, 0.08);
+  color: var(--nav-link-hover); /* O teu dourado #9c7a46 */
+  transform: translateY(-1px);
+}
+
+/* Quando no modo Dark, o Sol também segue a regra */
+.dark .theme-toggle-btn {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.dark .theme-toggle-btn:hover {
+  color: var(--nav-link-hover);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Animação de rotação suave */
+.theme-icon-container {
+  display: flex;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.theme-toggle-btn:hover .theme-icon-container {
+  transform: rotate(15deg) scale(1.1);
+}
+/* Cores específicas para os ícones */
+.moon-icon {
+  color: #64748b; /* Azul acinzentado no modo claro */
+}
+
+.sun-icon {
+  color: #fbbf24; /* Amarelo âmbar quente no modo escuro */
+  filter: drop-shadow(0 0 5px rgba(251, 191, 36, 0.4));
+}
+
+/* Animação de rotação ao clicar */
+.theme-toggle-btn:active .theme-icon-container {
+  transform: scale(0.8) rotate(45deg);
+}
+
+/* Ajuste de visibilidade na Navbar Dark */
+.dark .theme-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Garante que o ícone de Gestão e outros SVGs não fiquem invisíveis no dark */
+.dark .navbar svg {
+  transition: color 0.3s ease;
+}
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 32px; /* Espaço entre os links e o bloco da direita */
+  flex: 1;
+  justify-content: flex-end; /* Alinha tudo à direita do logo */
+}
+
 .navbar-inner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; /* Empurra o logo para a esquerda e o resto para a direita */
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
+  height: 100%;
 }
 
 /* --- Logo --- */
@@ -199,16 +140,13 @@
   letter-spacing: -0.03em;
 }
 
-/* --- Navigation & Links --- */
-.navbar-nav {
-  display: flex;
-  gap: 32px;
-  align-items: center;
-}
-
+/* =============================================================
+   LINKS E EFEITO DE SUBLINHAR
+   ============================================================= */
 .navbar-nav-links {
   display: flex;
   gap: 28px;
+  align-items: center;
 }
 
 .navbar-link {
@@ -219,101 +157,159 @@
   padding: 8px 0;
   position: relative; /* Necessário para posicionar a linha */
   transition: color 0.3s ease;
+  cursor: pointer;
 }
 
 .navbar-link:hover {
   color: var(--nav-link-hover) !important;
 }
 
-/* Criação da linha (invisível por padrão) */
+.navbar-link:hover, .admin-highlight {
+  color: var(--nav-link-hover) !important;
+}
+
+/* A LINHA QUE CRESCE AO PASSAR O RATO */
 .navbar-link::after {
   content: '';
   position: absolute;
-  width: 0%; /* Começa com largura zero */
+  width: 0%;
   height: 2px;
   bottom: 0;
   left: 0;
   background-color: var(--nav-link-hover);
-  transition: width 0.3s ease; /* Animação de crescimento */
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Quando passa o rato, a linha cresce para 100% */
-.navbar-link:hover::after {
+.navbar-link:hover::after, 
+.navbar-link.active::after {
   width: 100%;
 }
 
-/* --- Ações (Botões e Ícones) --- */
+/* =============================================================
+   AÇÕES (LUA + BOTÕES AUTH)
+   ============================================================= */
 .navbar-actions {
   display: flex;
   align-items: center;
   gap: 20px;
+  margin-left: 20px; /* Separação extra dos links de texto */
 }
 
-.navbar-login-btn, 
-.navbar-profile-trigger,
-.theme-toggle {
+/* Evita que o texto "Minha Conta" quebre linha */
+.navbar-profile-trigger {
+  white-space: nowrap;
   display: flex;
   align-items: center;
   gap: 8px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--nav-text) !important;
-  font-weight: 600;
-  text-decoration: none;
 }
 
-.navbar-login-btn svg { display: none !important; }
+.auth-btns-container {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* Espaço entre Entrar e Registar */
+}
+
+.navbar-login-btn {
+  text-decoration: none;
+  color: var(--nav-text) !important;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
 
 .navbar-register-btn {
   color: #ffffff !important;
-  background: var(--nav-link-hover) !important;
-  padding: 10px 24px;
+  background-color: var(--nav-link-hover) !important;
+  padding: 10px 22px;
   border-radius: 12px;
   font-weight: 800;
   text-decoration: none;
+  transition: all 0.3s ease;
   box-shadow: 0 4px 10px rgba(156, 122, 70, 0.2);
-  transition: all 0.3s;
 }
 
-/* --- Ícones Genéricos --- */
-.navbar-actions svg {
-  color: var(--nav-text-sub);
-  transition: color 0.3s;
+.navbar-register-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
 }
-
-.dark .navbar-actions svg { color: #ffffff; }
 
 /* =============================================================
-   MOBILE (GAVETA LATERAL)
+   DROPDOWNS
    ============================================================= */
+.navbar-dropdown-wrapper {
+  position: relative;
+}
 
+.navbar-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  background: var(--dropdown-bg);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px var(--nav-shadow);
+  border: 1px solid var(--nav-border);
+  padding: 10px;
+  min-width: 260px;
+  z-index: 10002;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  animation: slideIn 0.2s ease-out;
+}
+
+.navbar-dropdown-menu.right {
+  right: 0;
+}
+
+.dropdown-item {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 12px !important;
+  padding: 10px !important;
+  color: var(--nav-text) !important;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.dropdown-item:hover {
+  background: rgba(156, 122, 70, 0.1);
+}
+
+.item-info { display: flex; flex-direction: column; line-height: 1.3; }
+.item-title { font-weight: 700; font-size: 0.92rem; }
+.item-desc { font-size: 0.75rem; color: var(--nav-text-sub); }
+
+.icon-arrow { transition: transform 0.3s ease; margin-left: 4px; }
+.icon-arrow.rotate { transform: rotate(180deg); }
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =============================================================
+   MOBILE
+   ============================================================= */
 .navbar-toggle {
   display: none;
   flex-direction: column;
-  justify-content: space-between;
-  width: 28px;
-  height: 18px;
-  background: transparent;
+  gap: 5px;
+  background: none;
   border: none;
   cursor: pointer;
+  z-index: 10001;
 }
 
 .hamburger {
-  width: 100%;
-  height: 3px;
-  background-color: var(--nav-text);
-  border-radius: 10px;
+  width: 24px;
+  height: 2px;
+  background: var(--nav-text);
+  border-radius: 2px;
+  transition: 0.3s;
 }
 
 @media (max-width: 992px) {
   .navbar-toggle { display: flex; }
-
-  /* Ajuste do Ícone X quando aberto */
-  .navbar-toggle.active .hamburger:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
-  .navbar-toggle.active .hamburger:nth-child(2) { opacity: 0; }
-  .navbar-toggle.active .hamburger:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
-
+  
   .navbar-nav {
     position: fixed;
     top: 0;
@@ -322,96 +318,21 @@
     height: 100vh;
     background-color: var(--nav-bg) !important;
     flex-direction: column;
-    padding: 100px 24px 40px;
-    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: -10px 0 40px var(--nav-shadow);
-    z-index: 10001;
-    overflow-y: auto;
+    padding: 100px 24px;
+    transition: right 0.4s ease;
+    box-shadow: -10px 0 30px var(--nav-shadow);
   }
 
-  .navbar-nav.active { right: 0; }
+  .navbar-nav.active {
+    right: 0;
+  }
 
-  .navbar-nav-links, 
-  .navbar-actions {
+  .navbar-nav-links, .navbar-actions, .auth-btns-container {
     flex-direction: column;
+    align-items: flex-start;
     width: 100%;
-    gap: 0;
-    align-items: stretch;
-    margin: 0;
-    padding: 0;
+    gap: 20px;
   }
-
-  /* Links e Botões em Lista */
-  .navbar-link, 
-  .navbar-login-btn,
-  .navbar-profile-trigger {
-    padding: 15px 0;
-    border-bottom: 1px solid var(--nav-border);
-    width: 100%;
-    font-size: 1.1rem;
-    justify-content: flex-start;
-  }
-
-  .navbar-link::after {
-    display: none !important;
-  }
- 
-  .navbar-nav-links {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: 0; /* Remove o gap para usar apenas o padding do link */
-  }
-
-  .navbar-nav .navbar-link {
-    padding: 12px 0; /* Reduzido de 15px para 12px */
-    border-bottom: 1px solid var(--nav-border);
-  }
-
-  /* Área de Ações (Login/Registo/Tema) */
-  .navbar-actions {
-    display: flex !important;
-    flex-direction: column;
-    width: 100%;
-    margin-top: 15px;    /* Reduzido de 25px para 15px */
-    padding-top: 15px;   /* Reduzido de 25px para 15px */
-    border-top: 1px solid var(--nav-border); /* Linha mais fina */
-    gap: 12px;           /* Espaço entre botões Entrar/Registar */
-    align-items: stretch;
-  }
-
-  .theme-toggle {
-    padding: 8px 0 !important;
-    margin-bottom: 5px;
-    justify-content: flex-start;
-  }
-
-  .navbar-login-btn, 
-  .navbar-register-btn {
-    padding: 12px !important; /* Reduzido de 14px para 12px */
-    font-size: 1rem;
-    height: auto;
-  }
-  /* Botão de Login como Bloco */
-  .navbar-nav .navbar-login-btn {
-    background: rgba(156, 122, 70, 0.05);
-    border-radius: 12px;
-    padding: 14px 18px !important;
-    justify-content: center;
-    border: 1px solid var(--nav-border);
-  }
-
-  /* Botão de Registo Mobile */
-  .navbar-register-btn {
-    width: 100%;
-    text-align: center;
-    padding: 14px;
-    margin-top: 5px;
-  }
-
-  /* Ajuste Dark Mobile */
-  .dark .navbar-nav .navbar-login-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.1);
-  }
+  
+  .navbar-link::after { display: none; } /* Remove sublinhado no mobile */
 }
