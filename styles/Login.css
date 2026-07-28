@@ -284,6 +284,31 @@
 
 .mobile-logo-header { display: none; }
 
+/* Ajustes finos apenas para a página de redefinição */
+.reset-password-page .form-container-card {
+    max-width: 430px;
+}
+
+.reset-password-page .welcome-text {
+    margin-bottom: 18px;
+}
+
+.reset-password-page .recovery-instruction {
+    margin-bottom: 2px;
+}
+
+.reset-password-page .styled-login-form {
+    gap: 18px;
+}
+
+.reset-password-page .footer-link-text {
+    margin-top: 24px;
+}
+
+.reset-password-page .pwd-feedback {
+    font-size: 0.82rem;
+}
+
 /* --- RESPONSIVIDADE --- */
 @media (max-width: 992px) {
     .login-split-page {
@@ -321,6 +346,10 @@
     .welcome-text {
         margin-bottom: 20px;
     }
+
+    .reset-password-page .form-container-card {
+        max-width: 520px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -343,5 +372,13 @@
 
     .footer-link-text {
         margin-top: 22px;
+    }
+
+    .reset-password-page .welcome-text {
+        margin-bottom: 14px;
+    }
+
+    .reset-password-page .recovery-instruction {
+        font-size: 0.9rem;
     }
 }
