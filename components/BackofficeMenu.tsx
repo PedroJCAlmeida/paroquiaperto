@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { LayoutDashboard, Calendar, CalendarDays, List, PlusCircle, ChevronLeft, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Calendar, CalendarDays, List, PlusCircle, ChevronLeft, Menu, X, Users } from 'lucide-react';
 import '@/styles/BackofficeMenu.css';
 
 export default function BackofficeMenu() {
@@ -102,6 +102,18 @@ export default function BackofficeMenu() {
               {expanded && <span className="menu-text">Listar Eventos</span>}
             </Link>
           </li>
+
+          {userRole === 'admin' && (
+            <>
+              <li className="menu-section-label">{expanded ? 'Utilizadores' : 'U'}</li>
+              <li className="menu-item">
+                <Link href="/backoffice/utilizadores/listar" className="menu-link" onClick={handleNavClick}>
+                  <Users size={22} className="menu-icon" />
+                  {expanded && <span className="menu-text">Listar Utilizadores</span>}
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
     </>

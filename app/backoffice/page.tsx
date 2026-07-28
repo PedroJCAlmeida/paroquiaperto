@@ -9,24 +9,33 @@ interface Stats {
   paroquias: number;
   horarios: number;
   eventos: number;
+  utilizadores: number;
 }
 
 export default function BackofficeDashboard() {
-  const [stats, setStats] = useState<Stats>({ paroquias: 0, horarios: 0, eventos: 0 });
+  const [stats, setStats] = useState<Stats>({ paroquias: 0, horarios: 0, eventos: 0, utilizadores: 0 });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+
     Promise.all([
       fetch('/api/paroquias').then((r) => r.json()),
       fetch('/api/horarios').then((r) => r.json()),
       fetch('/api/eventos').then((r) => r.json()),
+      fetch('/api/usuarios', {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      })
+        .then((r) => (r.ok ? r.json() : []))
+        .catch(() => []),
     ])
-      .then(([paroquias, horarios, eventos]) => {
+      .then(([paroquias, horarios, eventos, utilizadores]) => {
         setStats({
           paroquias: Array.isArray(paroquias) ? paroquias.length : 0,
           horarios: Array.isArray(horarios) ? horarios.length : 0,
           eventos: Array.isArray(eventos) ? eventos.length : 0,
+          utilizadores: Array.isArray(utilizadores) ? utilizadores.length : 0,
         });
       })
       .catch(() => setError(true))
@@ -42,6 +51,7 @@ export default function BackofficeDashboard() {
       bg: '#eef2ff',
       listHref: '/backoffice/paroquias/listar',
       addHref: '/backoffice/paroquias/novo',
+      addLabel: 'Inserir',
     },
     {
       label: 'Horários',
@@ -51,6 +61,7 @@ export default function BackofficeDashboard() {
       bg: '#fffbeb',
       listHref: '/backoffice/horarios/listar',
       addHref: '/backoffice/horarios',
+      addLabel: 'Inserir',
     },
     {
       label: 'Eventos',
@@ -60,6 +71,17 @@ export default function BackofficeDashboard() {
       bg: '#ecfdf5',
       listHref: '/backoffice/eventos/listar',
       addHref: '/backoffice/eventos',
+      addLabel: 'Inserir',
+    },
+    {
+      label: 'Utilizadores',
+      count: stats.utilizadores,
+      icon: <Users size={24} />,
+      color: '#0ea5e9',
+      bg: '#f0f9ff',
+      listHref: '/backoffice/utilizadores/listar',
+      addHref: null,
+      addLabel: 'Sem ação',
     },
   ];
 
@@ -116,9 +138,15 @@ export default function BackofficeDashboard() {
               <Link href={card.listHref} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '10px', borderRadius: '10px', background: '#f8fafc', color: '#475569', fontWeight: '600', textDecoration: 'none', border: '1px solid #e2e8f0' }}>
                 Ver Lista <ArrowRight size={16} />
               </Link>
-              <Link href={card.addHref} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '10px', borderRadius: '10px', background: '#243B55', color: '#fff', fontWeight: '600', textDecoration: 'none' }}>
-                <PlusCircle size={16} /> Inserir
-              </Link>
+              {card.addHref ? (
+                <Link href={card.addHref} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '10px', borderRadius: '10px', background: '#243B55', color: '#fff', fontWeight: '600', textDecoration: 'none' }}>
+                  <PlusCircle size={16} /> {card.addLabel}
+                </Link>
+              ) : (
+                <span style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '10px', borderRadius: '10px', background: '#e2e8f0', color: '#64748b', fontWeight: '600' }}>
+                  {card.addLabel}
+                </span>
+              )}
             </div>
           </div>
         ))}
