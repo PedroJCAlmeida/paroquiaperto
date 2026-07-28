@@ -82,9 +82,9 @@ const Contacto = () => {
             {/* Redes Sociais */}
             <aside className="flex flex-col gap-4 justify-start">
               <h3 className="text-xl font-bold text-[#1F2F46] dark:text-gray-100 mb-2 transition-colors">Contactos & Redes Sociais</h3>
-              <a href="mailto:contacto@paroquiaperto.com" className="flex items-center gap-3 bg-[#FAF8F4] dark:bg-[#232e3e] rounded-xl border border-[#e2e8f0] dark:border-[#2d384d] shadow-sm px-5 py-4 hover:bg-[#f3ede2] dark:hover:bg-[#232326] transition-colors">
+              <a href="mailto:contacto@paroquiaperto.pt" className="flex items-center gap-3 bg-[#FAF8F4] dark:bg-[#232e3e] rounded-xl border border-[#e2e8f0] dark:border-[#2d384d] shadow-sm px-5 py-4 hover:bg-[#f3ede2] dark:hover:bg-[#232326] transition-colors">
                 <Mail size={28} className="text-[#9C7A46]" />
-                <span className="ml-2 text-[#64748b] dark:text-gray-300 transition-colors">contacto@paroquiaperto.com</span>
+                <span className="ml-2 text-[#64748b] dark:text-gray-300 transition-colors">contacto@paroquiaperto.pt</span>
               </a>
               <a href="https://facebook.com/paroquiaperto" target="_blank" rel="noreferrer" className="flex items-center gap-3 bg-[#FAF8F4] dark:bg-[#232e3e] rounded-xl border border-[#e2e8f0] dark:border-[#2d384d] shadow-sm px-5 py-4 hover:bg-[#f3ede2] dark:hover:bg-[#232326] transition-colors">
                 <Facebook size={28} className="text-[#9C7A46]" />

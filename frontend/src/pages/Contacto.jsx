@@ -68,11 +68,11 @@ const Contacto = () => {
 
         {/* Redes Sociais */}
         <div className="contato-redes">
-          <a href="mailto:contacto@paroquiaperto.com" className="rede-card">
+          <a href="mailto:contacto@paroquiaperto.pt" className="rede-card">
             <Mail size={32} className="rede-icon" />
             <div className="rede-info">
               <span className="rede-titulo">E‑mail</span>
-              <span className="rede-texto">contacto@paroquiaperto.com</span>
+              <span className="rede-texto">contacto@paroquiaperto.pt</span>
             </div>
           </a>
 
