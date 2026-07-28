@@ -1,5 +1,7 @@
-const EMAIL_LOGO_URL = 'https://www.paroquiaperto.com/logo_paroquia.png';
-const SITE_BASE_URL = 'https://www.paroquiaperto.com';
+const DEFAULT_SITE_BASE_URL = 'https://paroquiaperto.pt';
+const configuredSiteBaseUrl = process.env.APP_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? DEFAULT_SITE_BASE_URL;
+const SITE_BASE_URL = configuredSiteBaseUrl.replace(/\/+$/, '');
+const EMAIL_LOGO_URL = `${SITE_BASE_URL}/logo_paroquia.png`;
 
 const socialLinksFooter = `
   <div style="text-align: center; padding: 24px 20px;">
