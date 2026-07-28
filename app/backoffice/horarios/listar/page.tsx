@@ -2,8 +2,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Trash2, PlusCircle, Search, ChevronLeft, ChevronRight, Clock } from 'lucide-react';
+import { Trash2, PlusCircle, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 import Toast from '@/components/Toast';
+import DeleteConfirmModal from '@/components/DeleteConfirmModal';
+import AdminListRow from '@/components/AdminListRow';
 import '@/styles/Backoffice.css';
 import type { Horario } from '@/types';
 
@@ -102,21 +104,15 @@ export default function ListarHorarios() {
     <div className="bo-container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
       <Toast show={toast.show} type={toast.type} message={toast.message} onClose={() => setToast((t) => ({ ...t, show: false }))} />
       
-      {/* Modal de Confirmação Customizado */}
       {showDeleteConfirm && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999 }}>
-          <div style={{ background: 'white', padding: '2.5rem', borderRadius: '20px', maxWidth: '450px', width: '90%', textAlign: 'center', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}>
-            <div style={{ color: '#e11d48', marginBottom: '1.5rem' }}><Trash2 size={56} style={{ margin: '0 auto' }} /></div>
-            <h3 style={{ fontSize: '1.5rem', color: '#1e293b', marginBottom: '1rem' }}>Remover Horário</h3>
-            <p style={{ color: '#64748b', fontSize: '1.1rem', marginBottom: '2.5rem' }}>
-              Tem certeza que deseja remover o horário:<br/><strong>{horarioToDelete?.label}</strong>?
-            </p>
-            <div style={{ display: 'flex', gap: '1rem' }}>
-              <button onClick={handleConfirmDelete} style={{ flex: 1, padding: '14px', borderRadius: '12px', border: 'none', background: '#e11d48', color: 'white', fontWeight: '700', cursor: 'pointer' }}>Remover</button>
-              <button onClick={() => setShowDeleteConfirm(false)} style={{ flex: 1, padding: '14px', borderRadius: '12px', border: '1px solid #e2e8f0', background: 'white', color: '#64748b', fontWeight: '700', cursor: 'pointer' }}>Cancelar</button>
-            </div>
-          </div>
-        </div>
+        <DeleteConfirmModal
+          title="Remover Horário"
+          message={<><div>Tem certeza que deseja remover o horário:</div><strong>{horarioToDelete?.label}</strong>?</>}
+          confirmLabel="Remover"
+          cancelLabel="Cancelar"
+          onConfirm={handleConfirmDelete}
+          onCancel={() => setShowDeleteConfirm(false)}
+        />
       )}
 
       <div className="bo-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
@@ -145,21 +141,12 @@ export default function ListarHorarios() {
       ) : (
         <div className="bo-list" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {paginated.map((h) => (
-            <div key={h.id} className="bo-list-item" style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '15px 25px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div className="bo-list-content">
-                <div className="bo-list-title" style={{ fontWeight: '700', color: '#1e293b', fontSize: '1.1rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  {h.diaSemana} — {h.hora}
-                  <span style={{ padding: '2px 12px', borderRadius: 99, background: '#f1f5f9', color: '#475569', fontSize: '0.75rem', fontWeight: 800 }}>
-                    {h.tipo}
-                  </span>
-                </div>
-                {h.paroquia && (
-                  <div className="bo-list-desc" style={{ color: '#64748b', fontSize: '0.95rem', marginTop: '4px' }}>
-                    {h.paroquia.nome}
-                  </div>
-                )}
-              </div>
-              <div className="bo-list-actions">
+            <AdminListRow
+              key={h.id}
+              title={`${h.diaSemana} — ${h.hora}`}
+              badge={<span style={{ padding: '2px 12px', borderRadius: 99, background: '#f1f5f9', color: '#475569', fontSize: '0.75rem', fontWeight: 800 }}>{h.tipo}</span>}
+              subtitle={h.paroquia?.nome}
+              actions={(
                 <button 
                   onClick={() => handleDeleteClick(h)} 
                   className="bo-btn bo-btn-light" 
@@ -167,8 +154,8 @@ export default function ListarHorarios() {
                 >
                   <Trash2 size={16} /> <span className="hide-mobile">Remover</span>
                 </button>
-              </div>
-            </div>
+              )}
+            />
           ))}
         </div>
       )}

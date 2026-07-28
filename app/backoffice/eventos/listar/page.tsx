@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Trash2, PlusCircle, Search, ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
 import Toast from '@/components/Toast';
+import DeleteConfirmModal from '@/components/DeleteConfirmModal';
+import AdminListRow from '@/components/AdminListRow';
 import '@/styles/Backoffice.css';
 import type { Evento } from '@/types';
 
@@ -90,35 +92,15 @@ export default function ListarEventos() {
     <div className="bo-container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
       <Toast show={toast.show} type={toast.type} message={toast.message} onClose={() => setToast((t) => ({ ...t, show: false }))} />
       
-      {/* Modal de Confirmação Adaptável */}
       {showDeleteConfirm && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999 }}>
-          <div className="modal-content" style={{ 
-            background: 'var(--bg-card, #fff)', 
-            padding: '2.5rem', 
-            borderRadius: '20px', 
-            maxWidth: '450px', 
-            width: '90%', 
-            textAlign: 'center',
-            border: '1px solid var(--border-color, #e2e8f0)'
-          }}>
-            <div style={{ color: '#e11d48', marginBottom: '1.5rem' }}><Trash2 size={56} style={{ margin: '0 auto' }} /></div>
-            <h3 style={{ fontSize: '1.5rem', color: 'var(--text-main, #1e293b)', marginBottom: '1rem' }}>Remover Evento</h3>
-            <p style={{ color: 'var(--text-sub, #64748b)', fontSize: '1.1rem', marginBottom: '2.5rem' }}>
-              Tem certeza que deseja remover o evento <strong>{eventoToDelete?.titulo}</strong>?
-            </p>
-            <div style={{ display: 'flex', gap: '1rem' }}>
-              <button onClick={handleConfirmDelete} style={{ flex: 1, padding: '14px', borderRadius: '12px', border: 'none', background: '#e11d48', color: 'white', fontWeight: '700', cursor: 'pointer' }}>Remover</button>
-              <button onClick={() => setShowDeleteConfirm(false)} style={{ 
-                flex: 1, padding: '14px', borderRadius: '12px', 
-                border: '1px solid var(--border-color, #e2e8f0)', 
-                background: 'transparent', 
-                color: 'var(--text-sub, #64748b)', 
-                fontWeight: '700', cursor: 'pointer' 
-              }}>Cancelar</button>
-            </div>
-          </div>
-        </div>
+        <DeleteConfirmModal
+          title="Remover Evento"
+          message={<>Tem certeza que deseja remover o evento <strong>{eventoToDelete?.titulo}</strong>?</>}
+          confirmLabel="Remover"
+          cancelLabel="Cancelar"
+          onConfirm={handleConfirmDelete}
+          onCancel={() => setShowDeleteConfirm(false)}
+        />
       )}
 
       <div className="bo-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem', flexWrap: 'wrap', gap: '20px' }}>
@@ -148,23 +130,17 @@ export default function ListarEventos() {
       ) : (
         <div className="bo-list" style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
           {paginated.map((ev) => (
-            <div key={ev.id} className="bo-list-item" style={{ 
-              background: 'var(--bg-card, #fff)', 
-              border: '1px solid var(--border-color, #e2e8f0)', 
-              borderRadius: '12px', 
-              padding: '20px 30px', 
-              display: 'flex', 
-              justifyContent: 'space-between', 
-              alignItems: 'center' 
-            }}>
-              <div className="bo-list-content">
-                <div className="bo-list-title" style={{ fontWeight: '700', color: 'var(--text-main, #1e293b)', fontSize: '1.2rem' }}>{ev.titulo}</div>
-                <div className="bo-list-desc" style={{ color: 'var(--text-sub, #64748b)', fontSize: '1rem', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <Calendar size={14} /> {ev.data} {ev.hora && `· ${ev.hora}`}
+            <AdminListRow
+              key={ev.id}
+              title={ev.titulo}
+              subtitle={(
+                <>
+                  <Calendar size={14} style={{ display: 'inline', marginRight: '6px' }} />
+                  {ev.data} {ev.hora && `· ${ev.hora}`}
                   {ev.paroquia && ` · ${ev.paroquia.nome}`}
-                </div>
-              </div>
-              <div className="bo-list-actions">
+                </>
+              )}
+              actions={(
                 <button 
                   onClick={() => handleDeleteClick(ev.id, ev.titulo)} 
                   className="bo-btn bo-btn-light" 
@@ -172,8 +148,8 @@ export default function ListarEventos() {
                 >
                   <Trash2 size={18} /> <span className="hide-mobile">Remover</span>
                 </button>
-              </div>
-            </div>
+              )}
+            />
           ))}
         </div>
       )}

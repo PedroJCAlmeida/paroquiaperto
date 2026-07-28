@@ -4,29 +4,9 @@ import { useRouter } from 'next/navigation';
 import SuccessModal from '@/components/SuccessModal';
 import AlertModal from '@/components/AlertModal';
 import Toast from '@/components/Toast';
+import ParoquiaFormFields, { type ParoquiaFormValues } from '@/components/ParoquiaFormFields';
 import '@/styles/Backoffice.css';
 import type { Distrito, Conselho } from '@/types';
-import dynamic from 'next/dynamic';
-
-interface ParoquiaForm {
-  nome: string;
-  rua: string;
-  numero: string;
-  codigoPostal: string;
-  cidade: string;
-  distritoId: string;
-  conselhoId: string;
-  lat: string;
-  lng: string;
-  telefone: string;
-  email: string;
-  descricao: string;
-  site: string;
-  imagem: string;
-  facebook: string;
-  instagram: string;
-  whatsapp: string;
-}
 
 interface NominatimResult {
   lat: string;
@@ -47,19 +27,13 @@ export default function InserirParoquia() {
   const [imagemPreview, setImagemPreview] = useState<string>('');
   const [uploadingImagem, setUploadingImagem] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const initialForm: ParoquiaForm = {
-    nome: '', rua: '', numero: '', codigoPostal: '', cidade: '',
+  const initialForm: ParoquiaFormValues = {
+    nome: '', rua: '', numeroPorta: '', codigoPostal: '', localidade: '',
     distritoId: '', conselhoId: '', lat: '', lng: '', telefone: '',
     email: '', descricao: '', site: '', imagem: '', facebook: '',
     instagram: '', whatsapp: '',
   };
-  const [form, setForm] = useState<ParoquiaForm>(initialForm);
-
-  // Importação dinâmica do componente Mapa para evitar erros de SSR
-const Mapa = dynamic(() => import('@/components/Mapa'), { 
-  ssr: false,
-  loading: () => <div style={{ height: '300px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>A carregar mapa...</div>
-});
+  const [form, setForm] = useState<ParoquiaFormValues>(initialForm);
   
   useEffect(() => {
     fetch('/api/distritos')
@@ -111,12 +85,22 @@ const Mapa = dynamic(() => import('@/components/Mapa'), {
     setShowAlert(true);
   };
 
+  const handleClearForm = () => {
+    setForm(initialForm);
+    setImagemFile(null);
+    setImagemPreview((prev) => {
+      if (prev) URL.revokeObjectURL(prev);
+      return '';
+    });
+    setUploadingImagem(false);
+  };
+
   const buscarLocalizacao = async () => {
-    if (!form.rua || !form.numero || !form.codigoPostal || !form.cidade) {
+    if (!form.rua || !form.numeroPorta || !form.codigoPostal || !form.localidade) {
       showAlertModal('warning', 'Campos incompletos', 'Preencha todos os campos de endereço para buscar localização.');
       return;
     }
-    const enderecoCompleto = `${form.rua}, ${form.numero}, ${form.codigoPostal} ${form.cidade}`;
+    const enderecoCompleto = `${form.rua}, ${form.numeroPorta}, ${form.codigoPostal} ${form.localidade}`;
     try {
       const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(enderecoCompleto)}`;
       const response = await fetch(url);
@@ -170,10 +154,8 @@ const Mapa = dynamic(() => import('@/components/Mapa'), {
         imagemUrl = url;
       }
 
-      const enderecoCompleto = `${form.rua}, ${form.numero}, ${form.codigoPostal} ${form.cidade}`;
       const payload = {
         nome: form.nome,
-        endereco: enderecoCompleto,
         lat: form.lat,
         lng: form.lng,
         telefone: form.telefone,
@@ -186,6 +168,8 @@ const Mapa = dynamic(() => import('@/components/Mapa'), {
         whatsapp: form.whatsapp,
         ...(form.distritoId ? { distritoId: parseInt(form.distritoId, 10) } : {}),
         ...(form.conselhoId ? { conselhoId: parseInt(form.conselhoId, 10) } : {}),
+        numeroPorta: form.numeroPorta,
+        localidade: form.localidade,
       };
       const response = await fetch('/api/paroquias', {
         method: 'POST',
@@ -212,9 +196,7 @@ const Mapa = dynamic(() => import('@/components/Mapa'), {
         return;
       }
       await response.json();
-      setForm(initialForm);
-      setImagemFile(null);
-      setImagemPreview((prev) => { if (prev) URL.revokeObjectURL(prev); return ''; });
+      handleClearForm();
       setShowModal(true);
       setShowToast(true);
     } catch (error) {
@@ -227,114 +209,36 @@ const Mapa = dynamic(() => import('@/components/Mapa'), {
 
   return (
     <div className="backoffice-page">
-      <h2>Inserir Paróquia</h2>
+      <div style={{ marginBottom: '1.5rem' }}>
+        <h2>Inserir Paróquia</h2>
+        <p style={{ color: '#64748b', marginTop: '0.4rem' }}>Preencha os dados por secções para facilitar a validação e a localização.</p>
+      </div>
       <SuccessModal show={showModal} onClose={() => setShowModal(false)} title="Obrigado pela colaboração!" message="Sua paróquia foi enviada com sucesso." />
       <AlertModal show={showAlert} type={alertType} title={alertTitle} message={alertMessage} onClose={() => setShowAlert(false)} />
       <Toast show={showToast} type="success" message="Paróquia enviada com sucesso!" onClose={() => setShowToast(false)} />
       <form className="backoffice-form" onSubmit={handleSubmit}>
-        <section className="bo-section">
-          <h3>Dados Básicos</h3>
-          <label>
-            Nome da Paróquia
-            <input type="text" name="nome" value={form.nome} onChange={handleChange} required />
-          </label>
-          <label>
-            Descrição
-            <textarea name="descricao" value={form.descricao} onChange={handleChange} />
-          </label>
-        </section>
-        <section className="bo-section">
-          <h3 className="bo-h3-purple">Endereço</h3>
-          <div className="bo-grid-2">
-            <label>Rua<input type="text" name="rua" value={form.rua} onChange={handleChange} required /></label>
-            <label>Número<input type="text" name="numero" value={form.numero} onChange={handleChange} required /></label>
-            <label>Código Postal<input type="text" name="codigoPostal" value={form.codigoPostal} onChange={handleChange} required pattern="\d{4}-\d{3}" placeholder="1234-567" /></label>
-            <label>Cidade/Localidade<input type="text" name="cidade" value={form.cidade} onChange={handleChange} required /></label>
-            <label>
-              Distrito
-              <select name="distritoId" value={form.distritoId} onChange={handleChange} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '1rem', background: '#f8fafc' }}>
-                <option value="">Selecione um distrito</option>
-                {distritos.map((d) => <option key={d.id} value={d.id}>{d.nome}</option>)}
-              </select>
-            </label>
-            <label>
-              Conselho
-              <select name="conselhoId" value={form.conselhoId} onChange={handleChange} disabled={!form.distritoId} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '1rem', background: form.distritoId ? '#f8fafc' : '#f1f5f9' }}>
-                <option value="">Selecione um conselho</option>
-                {conselhos.map((c) => <option key={c.id} value={c.id}>{c.nome}</option>)}
-              </select>
-            </label>
-          </div>
-        </section>
-        <section className="bo-section">
-          <h3 className="bo-h3-amber">Localização</h3>
-          <div className="bo-actions">
-            <button type="button" className="bo-btn-secondary" onClick={buscarLocalizacao}>Buscar localização</button>
-          </div>
-          {/* Mapa interativo para ajuste fino */}
-        {form.lat && form.lng && (
-        <div style={{ marginTop: '16px', marginBottom: '16px', border: '1px solid #cbd5e1', borderRadius: '8px', overflow: 'hidden' }}>
-        <Mapa 
-        coords={{ latitude: parseFloat(form.lat), longitude: parseFloat(form.lng) }}
-        isEditable={true}
-        onMarkerDrag={(newLat, newLng) => {
-          setForm(prev => ({ 
-            ...prev, 
-            lat: newLat.toFixed(7), 
-            lng: newLng.toFixed(7) 
-          }));
-        }}
-      />
-      <p style={{ fontSize: '0.8rem', color: '#64748b', padding: '8px', textAlign: 'center', background: '#f8fafc' }}>
-        📍 Pode arrastar o marcador para ajustar a posição exata no mapa.
-      </p>
-    </div>
-  )}
-          <div className="bo-latlng">
-            <label>
-              Latitude
-              <input type="text" name="lat" value={form.lat} readOnly placeholder="Preenchido automaticamente" style={{ background: '#f1f5f9', cursor: 'not-allowed' }} />
-            </label>
-            <label>
-              Longitude
-              <input type="text" name="lng" value={form.lng} readOnly placeholder="Preenchido automaticamente" style={{ background: '#f1f5f9', cursor: 'not-allowed' }} />
-            </label>
-          </div>
-          {!form.lat && !form.lng && (
-            <p style={{ color: '#f59e0b', fontSize: '0.88rem', marginTop: 6 }}>
-              ⚠ Clique em &ldquo;Buscar localização&rdquo; após preencher o endereço para obter as coordenadas.
-            </p>
+        <ParoquiaFormFields
+          values={form}
+          distritos={distritos}
+          conselhos={conselhos}
+          onChange={handleChange}
+          onBuscarLocalizacao={buscarLocalizacao}
+          onImagemChange={handleImagemChange}
+          onMarkerDrag={(newLat, newLng) => setForm((prev) => ({ ...prev, lat: newLat.toFixed(7), lng: newLng.toFixed(7) }))}
+          imagemPreview={imagemPreview}
+          uploadingImagem={uploadingImagem}
+          footer={(
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', alignItems: 'center' }}>
+              <button type="button" className="bo-btn-secondary" onClick={handleClearForm} disabled={uploadingImagem || submitting}>
+                Limpar
+              </button>
+              <button type="submit" disabled={uploadingImagem || submitting}>
+                {(uploadingImagem || submitting) && <span className="bo-spinner" aria-hidden="true" />}
+                {uploadingImagem ? 'A fazer upload...' : submitting ? 'A enviar paróquia...' : 'Guardar paróquia'}
+              </button>
+            </div>
           )}
-        </section>
-        <section className="bo-section">
-          <h3>Contactos &amp; Redes Sociais</h3>
-          <label>Telefone<input type="text" name="telefone" value={form.telefone} onChange={handleChange} /></label>
-          <label>E-mail<input type="email" name="email" value={form.email} onChange={handleChange} /></label>
-          <label>Site<input type="url" name="site" value={form.site} onChange={handleChange} /></label>
-          <label>
-            Imagem
-            <input
-              type="file"
-              accept="image/jpeg,image/png,image/webp,image/gif"
-              onChange={handleImagemChange}
-            />
-            {imagemPreview && (
-              <img
-                src={imagemPreview}
-                alt="Pré-visualização"
-                style={{ marginTop: 8, maxWidth: '100%', maxHeight: 180, borderRadius: 8, objectFit: 'cover' }}
-              />
-            )}
-            {uploadingImagem && <p style={{ color: '#64748b', fontSize: '0.9rem', marginTop: 4 }}>A fazer upload...</p>}
-          </label>
-          <label>Facebook<input type="url" name="facebook" value={form.facebook} onChange={handleChange} /></label>
-          <label>Instagram<input type="url" name="instagram" value={form.instagram} onChange={handleChange} /></label>
-          <label>WhatsApp<input type="text" name="whatsapp" value={form.whatsapp} onChange={handleChange} /></label>
-        </section>
-        <button type="submit" disabled={uploadingImagem || submitting}>
-          {(uploadingImagem || submitting) && <span className="bo-spinner" aria-hidden="true" />}
-          {uploadingImagem ? 'A fazer upload...' : submitting ? 'A enviar paróquia...' : 'Salvar'}
-        </button>
+        />
       </form>
     </div>
   );

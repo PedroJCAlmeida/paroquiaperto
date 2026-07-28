@@ -2,18 +2,15 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Pencil, Trash2, PlusCircle, Save, X, Search, ChevronLeft, ChevronRight, Target, Phone, Mail, Globe, Instagram, Facebook, MessageCircle, ImageIcon } from 'lucide-react';
-import dynamic from 'next/dynamic';
+import { X, Search, ChevronLeft, ChevronRight, PlusCircle } from 'lucide-react';
 import Toast from '@/components/Toast';
 import AlertModal from '@/components/AlertModal';
+import ParoquiaFormFields, { type ParoquiaFormValues } from '@/components/ParoquiaFormFields';
+import ParoquiaDeleteConfirm from '@/components/ParoquiaDeleteConfirm';
+import ParoquiaAdminRow from '@/components/ParoquiaAdminRow';
 
 import '@/styles/Backoffice.css';
 import type { Paroquia, Distrito, Conselho } from '@/types';
-
-const Mapa = dynamic(() => import('@/components/Mapa'), { 
-  ssr: false,
-  loading: () => <div style={{ height: '350px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '12px' }}>A carregar mapa...</div>
-});
 
 export default function ListarParoquias() {
   const router = useRouter();
@@ -31,7 +28,25 @@ export default function ListarParoquias() {
 
   const [editingId, setEditingId] = useState<number | null>(null);
   const [submitting, setSubmitting] = useState(false);
-  const [editForm, setEditForm] = useState<any>({});
+  const [editForm, setEditForm] = useState<ParoquiaFormValues>({
+    nome: '',
+    rua: '',
+    numeroPorta: '',
+    codigoPostal: '',
+    localidade: '',
+    distritoId: '',
+    conselhoId: '',
+    lat: '',
+    lng: '',
+    telefone: '',
+    email: '',
+    descricao: '',
+    site: '',
+    imagem: '',
+    facebook: '',
+    instagram: '',
+    whatsapp: '',
+  });
   const [imagemPreview, setImagemPreview] = useState<string>('');
   const [imagemFile, setImagemFile] = useState<File | null>(null);
 
@@ -70,9 +85,9 @@ export default function ListarParoquias() {
     setEditForm({
       nome: p.nome,
       rua: p.rua || '',
-      numero: p.numeroPorta || '',
+      numeroPorta: p.numeroPorta || '',
       codigoPostal: p.codigoPostal || '',
-      cidade: p.localidade || '',
+      localidade: p.localidade || '',
       distritoId: p.distritoId?.toString() || '',
       conselhoId: p.conselhoId?.toString() || '',
       telefone: p.telefone || '',
@@ -138,10 +153,6 @@ export default function ListarParoquias() {
       const payload = {
         ...editForm,
         imagem: finalUrl,
-        rua: editForm.rua,
-        numeroPorta: editForm.numero,
-        codigoPostal: editForm.codigoPostal,
-        localidade: editForm.cidade,
         distritoId: editForm.distritoId ? parseInt(editForm.distritoId) : null,
         conselhoId: editForm.conselhoId ? parseInt(editForm.conselhoId) : null
       };
@@ -169,19 +180,8 @@ export default function ListarParoquias() {
       <Toast {...toast} onClose={() => setToast(t => ({ ...t, show: false }))} />
       <AlertModal {...alert} onClose={() => setAlert(a => ({ ...a, show: false }))} />
 
-      {/* Modal de Confirmação Customizado */}
       {showDeleteConfirm && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999 }}>
-          <div style={{ background: 'white', padding: '2.5rem', borderRadius: '20px', maxWidth: '450px', width: '90%', textAlign: 'center', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}>
-            <div style={{ color: '#e11d48', marginBottom: '1.5rem' }}><Trash2 size={56} style={{ margin: '0 auto' }} /></div>
-            <h3 style={{ fontSize: '1.5rem', color: '#1e293b', marginBottom: '1rem' }}>Confirmar Remoção</h3>
-            <p style={{ color: '#64748b', fontSize: '1.1rem', marginBottom: '2.5rem' }}>Tem certeza que deseja remover a paróquia <strong>{paroquiaToDelete?.nome}</strong>?</p>
-            <div style={{ display: 'flex', gap: '1rem' }}>
-              <button onClick={handleConfirmDelete} style={{ flex: 1, padding: '14px', borderRadius: '12px', border: 'none', background: '#e11d48', color: 'white', fontWeight: '700', cursor: 'pointer' }}>Remover</button>
-              <button onClick={() => setShowDeleteConfirm(false)} style={{ flex: 1, padding: '14px', borderRadius: '12px', border: '1px solid #e2e8f0', background: 'white', color: '#64748b', fontWeight: '700', cursor: 'pointer' }}>Cancelar</button>
-            </div>
-          </div>
-        </div>
+        <ParoquiaDeleteConfirm nome={paroquiaToDelete?.nome} onConfirm={handleConfirmDelete} onCancel={() => setShowDeleteConfirm(false)} />
       )}
 
       <div className="bo-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
@@ -205,75 +205,51 @@ export default function ListarParoquias() {
                 <h3 style={{ fontSize: '1.6rem', color: '#243B55' }}>Editar Paróquia</h3>
                 <X size={28} onClick={() => setEditingId(null)} style={{ cursor: 'pointer', color: '#94a3b8' }} />
               </div>
-              
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem' }}>
-                <div>
-                  <section className="bo-section" style={{ padding: 0, border: 'none' }}>
-                    <h4 style={{ marginBottom: '1rem', color: '#6366f1' }}>Dados Básicos</h4>
-                    <label>Nome<input className="form-input" value={editForm.nome} onChange={e => setEditForm({...editForm, nome: e.target.value})} /></label>
-                    <label style={{marginTop: '1.5rem'}}>Descrição<textarea className="form-input" rows={4} value={editForm.descricao} onChange={e => setEditForm({...editForm, descricao: e.target.value})} /></label>
-                  </section>
-                  <section className="bo-section" style={{ padding: 0, border: 'none', marginTop: '2.5rem' }}>
-                    <h4 className="bo-h3-purple">Morada</h4>
-                    <div className="bo-grid-2">
-                      <input className="form-input" placeholder="Rua" value={editForm.rua} onChange={e => setEditForm({...editForm, rua: e.target.value})} />
-                      <input className="form-input" placeholder="Nº" value={editForm.numero} onChange={e => setEditForm({...editForm, numero: e.target.value})} />
-                      <input className="form-input" placeholder="CP" value={editForm.codigoPostal} onChange={e => setEditForm({...editForm, codigoPostal: e.target.value})} />
-                      <input className="form-input" placeholder="Cidade" value={editForm.cidade} onChange={e => setEditForm({...editForm, cidade: e.target.value})} />
-                      <select value={editForm.distritoId} onChange={e => setEditForm({...editForm, distritoId: e.target.value, conselhoId: ''})} className="form-input">
-                        <option value="">Distrito</option>
-                        {distritos.map(d => <option key={d.id} value={d.id}>{d.nome}</option>)}
-                      </select>
-                      <select value={editForm.conselhoId} onChange={e => setEditForm({...editForm, conselhoId: e.target.value})} disabled={!editForm.distritoId} className="form-input">
-                        <option value="">Conselho</option>
-                        {conselhos.map(c => <option key={c.id} value={c.id}>{c.nome}</option>)}
-                      </select>
-                    </div>
-                  </section>
-                </div>
-                <div>
-                  <h4 style={{ marginBottom: '1rem', color: '#f59e0b' }}>Mapa e Imagem</h4>
-                  <div style={{ height: '350px', borderRadius: '12px', overflow: 'hidden', border: '1px solid #e2e8f0', marginBottom: '1.5rem' }}>
-                    {editForm.lat && <Mapa coords={{ latitude: parseFloat(editForm.lat), longitude: parseFloat(editForm.lng) }} isEditable={true} onMarkerDrag={(lat, lng) => setEditForm((prev: any) => ({ ...prev, lat: lat.toFixed(7), lng: lng.toFixed(7) }))} />}
+              <ParoquiaFormFields
+                values={editForm}
+                distritos={distritos}
+                conselhos={conselhos}
+                onChange={(e) => {
+                  const { name, value } = e.target;
+                  setEditForm((prev) => ({
+                    ...prev,
+                    [name]: value,
+                    ...(name === 'distritoId' ? { conselhoId: '' } : {}),
+                  }));
+                }}
+                onBuscarLocalizacao={() => {
+                  setAlert({ show: true, type: 'info', title: 'Localização', message: 'Use o mapa para ajustar as coordenadas depois de guardar ou mantenha os valores atuais.' });
+                }}
+                onImagemChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    setImagemFile(file);
+                    setImagemPreview((prev) => {
+                      if (prev) URL.revokeObjectURL(prev);
+                      return URL.createObjectURL(file);
+                    });
+                  }
+                }}
+                onMarkerDrag={(lat, lng) => setEditForm((prev) => ({ ...prev, lat: lat.toFixed(7), lng: lng.toFixed(7) }))}
+                imagemPreview={imagemPreview}
+                uploadingImagem={submitting}
+                locationHint="Se quiser alterar a posição, use o mapa e arraste o marcador."
+                imageLabel={imagemPreview ? 'Alterar Imagem' : 'Inserir Imagem'}
+                footer={(
+                  <div style={{ display: 'flex', gap: '15px', marginTop: '3.5rem', justifyContent: 'flex-end' }}>
+                    <button type="button" onClick={() => handleEditSubmit(p.id)} className="bo-btn bo-btn-primary" style={{ background: '#243B55', padding: '12px 40px' }} disabled={submitting}>Salvar</button>
+                    <button type="button" onClick={() => setEditingId(null)} className="bo-btn bo-btn-light" style={{ background: '#f1f5f9', padding: '12px 40px' }}>Cancelar</button>
                   </div>
-                  <label style={{ cursor: 'pointer', display: 'block', padding: '15px', border: '2px dashed #e2e8f0', textAlign: 'center', borderRadius: '12px', background: '#f8fafc' }}>
-                    <ImageIcon size={20} style={{ marginRight: '10px' }} /> {imagemPreview ? 'Alterar Imagem' : 'Inserir Imagem'}
-                    <input type="file" hidden accept="image/*" onChange={e => { const file = e.target.files?.[0]; if (file) { setImagemFile(file); setImagemPreview(URL.createObjectURL(file)); } }} />
-                  </label>
-                  {imagemPreview && <img src={imagemPreview} style={{ width: '100%', height: '150px', objectFit: 'cover', marginTop: '15px', borderRadius: '12px', border: '1px solid #e2e8f0' }} alt="Preview" />}
-                </div>
-              </div>
-
-              <section className="bo-section" style={{ padding: 0, border: 'none', marginTop: '3rem', borderTop: '1px solid #f1f5f9', paddingTop: '2rem' }}>
-                <h4 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '8px' }}><Phone size={18}/> Contactos</h4>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }}>
-                  <label>Telefone<input className="form-input" value={editForm.telefone} onChange={e => setEditForm({...editForm, telefone: e.target.value})} /></label>
-                  <label>E-mail<input className="form-input" value={editForm.email} onChange={e => setEditForm({...editForm, email: e.target.value})} /></label>
-                  <label>WhatsApp<input className="form-input" value={editForm.whatsapp} onChange={e => setEditForm({...editForm, whatsapp: e.target.value})} /></label>
-                  <label>Facebook<input className="form-input" value={editForm.facebook} onChange={e => setEditForm({...editForm, facebook: e.target.value})} /></label>
-                  <label>Instagram<input className="form-input" value={editForm.instagram} onChange={e => setEditForm({...editForm, instagram: e.target.value})} /></label>
-                  <label>Site<input className="form-input" value={editForm.site} onChange={e => setEditForm({...editForm, site: e.target.value})} /></label>
-                </div>
-              </section>
-
-              <div style={{ display: 'flex', gap: '15px', marginTop: '3.5rem', justifyContent: 'flex-end' }}>
-                <button type="button" onClick={() => handleEditSubmit(p.id)} className="bo-btn bo-btn-primary" style={{ background: '#243B55', padding: '12px 40px' }} disabled={submitting}>Salvar</button>
-                <button type="button" onClick={() => setEditingId(null)} className="bo-btn bo-btn-light" style={{ background: '#f1f5f9', padding: '12px 40px' }}>Cancelar</button>
-              </div>
+                )}
+              />
             </div>
           ) : (
-            <div key={p.id} className="bo-list-item" style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '20px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <div style={{ fontWeight: '700', color: '#1e293b', fontSize: '1.2rem' }}>{p.nome}</div>
-                <div style={{ color: '#64748b', fontSize: '1rem', marginTop: '4px' }}>
-                  {`${p.rua}${p.numeroPorta ? `, ${p.numeroPorta}` : ''} - ${p.codigoPostal} ${p.localidade}`}
-                </div>
-              </div>
-              <div style={{ display: 'flex', gap: '12px' }}>
-                <button onClick={() => startEdit(p)} className="bo-btn bo-btn-light" style={{ padding: '12px 22px', borderRadius: '10px', fontWeight: '600', cursor: 'pointer' }}><Pencil size={18} /> Editar</button>
-                <button onClick={() => handleDeleteClick(p.id, p.nome)} className="bo-btn bo-btn-light" style={{ color: '#e11d48', padding: '12px 22px', borderRadius: '10px', fontWeight: '600', cursor: 'pointer' }}><Trash2 size={18} /> Remover</button>
-              </div>
-            </div>
+            <ParoquiaAdminRow
+              key={p.id}
+              paroquia={p}
+              onEdit={startEdit}
+              onDelete={handleDeleteClick}
+            />
           )
         ))}
       </div>
