@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/prisma';
 import { validatePassword } from '@/lib/validation';
+import { isExpired } from '@/lib/auth';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
@@ -25,7 +26,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ error: 'Link de recuperação inválido.' }, { status: 400 });
     }
 
-    if (resetToken.expiresAt < new Date()) {
+    if (isExpired(resetToken.expiresAt)) {
       await prisma.passwordResetToken.delete({ where: { token } });
       return NextResponse.json({ error: 'O link de recuperação expirou. Solicite um novo.' }, { status: 400 });
     }

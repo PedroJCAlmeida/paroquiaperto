@@ -17,6 +17,25 @@ export async function signJWT(payload: JwtPayload): Promise<string> {
     .sign(getJwtSecret());
 }
 
+export function getExpiryDate(hours = 1): Date {
+  return new Date(Date.now() + hours * 60 * 60 * 1000);
+}
+
+export function isExpired(expiresAt: Date | string | null | undefined, now: Date = new Date()): boolean {
+  if (!expiresAt) {
+    return true;
+  }
+
+  const expiryTime =
+    expiresAt instanceof Date
+      ? expiresAt.getTime()
+      : typeof expiresAt === 'string'
+        ? Date.parse(expiresAt)
+        : Number(expiresAt);
+
+  return Number.isNaN(expiryTime) || expiryTime <= now.getTime();
+}
+
 export async function verifyJWT(token: string): Promise<JwtPayload | null> {
   try {
     const { payload } = await jwtVerify(token, getJwtSecret());

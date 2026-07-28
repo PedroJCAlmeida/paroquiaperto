@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { prisma } from '@/lib/prisma';
 import { sendPasswordResetEmail } from '@/lib/email';
+import { getExpiryDate } from '@/lib/auth';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const successMessage = 'Enviámos o link de recuperação para o seu e-mail.';
@@ -25,7 +26,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     await prisma.passwordResetToken.deleteMany({ where: { userId: user.id } });
 
     const token = crypto.randomBytes(32).toString('hex');
-    const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+    const expiresAt = getExpiryDate(1);
 
     await prisma.passwordResetToken.create({
       data: { token, userId: user.id, expiresAt },
