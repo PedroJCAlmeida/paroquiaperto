@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { hasRequiredRole } from '@/lib/roles';
 
 interface RoleRouteProps {
   children: React.ReactNode;
@@ -14,7 +15,7 @@ export default function RoleRoute({ children, role }: RoleRouteProps) {
   useEffect(() => {
     const token = localStorage.getItem('token');
     const userRole = localStorage.getItem('role');
-    if (!token || userRole !== role) {
+    if (!token || !hasRequiredRole(userRole, role)) {
       router.replace('/');
     } else {
       setAuthorized(true);

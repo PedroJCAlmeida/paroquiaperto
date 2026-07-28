@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Church, Calendar, CalendarDays, PlusCircle, ArrowRight, Users } from 'lucide-react';
 import '@/styles/Backoffice.css';
 import type { Paroquia, Horario, Evento } from '@/types';
+import { isAdminRole } from '@/lib/roles';
 
 interface Stats {
   paroquias: number;
@@ -21,7 +22,7 @@ export default function BackofficeDashboard() {
   useEffect(() => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
     const role = typeof window !== 'undefined' ? localStorage.getItem('role') : null;
-    const admin = role === 'admin';
+    const admin = isAdminRole(role);
     setIsAdmin(admin);
 
     const usersCountPromise = admin

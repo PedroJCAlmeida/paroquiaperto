@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { LayoutDashboard, Calendar, CalendarDays, List, PlusCircle, ChevronLeft, Menu, X, Users } from 'lucide-react';
 import '@/styles/BackofficeMenu.css';
+import { isAdminRole } from '@/lib/roles';
 
 export default function BackofficeMenu() {
   const [expanded, setExpanded] = useState(true);
@@ -103,7 +104,7 @@ export default function BackofficeMenu() {
             </Link>
           </li>
 
-          {userRole === 'admin' && (
+          {isAdminRole(userRole) && (
             <>
               <li className="menu-section-label">{expanded ? 'Utilizadores' : 'U'}</li>
               <li className="menu-item">

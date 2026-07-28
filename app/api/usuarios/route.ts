@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { verifyJWT, getTokenFromRequest } from '@/lib/auth';
+import { isAdminRole } from '@/lib/roles';
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
@@ -12,7 +13,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ error: 'Não autorizado.' }, { status: 401 });
     }
 
-    if (payload.role !== 'admin') {
+    if (!isAdminRole(payload.role)) {
       return NextResponse.json({ error: 'Acesso proibido.' }, { status: 403 });
     }
 

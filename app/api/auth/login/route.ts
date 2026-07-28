@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/prisma';
 import { signJWT } from '@/lib/auth';
+import { normalizeRole } from '@/lib/roles';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
@@ -36,8 +37,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ error: 'Palavra-passe incorreta.' }, { status: 401 });
     }
 
-    const token = await signJWT({ sub: String(user.id), email: user.email, name: user.name, role: user.role });
-    return NextResponse.json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role } });
+    const normalizedRole = normalizeRole(user.role);
+    const token = await signJWT({ sub: String(user.id), email: user.email, name: user.name, role: normalizedRole });
+    return NextResponse.json({ token, user: { id: user.id, name: user.name, email: user.email, role: normalizedRole } });
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json({ error: 'Erro interno do servidor.' }, { status: 500 });

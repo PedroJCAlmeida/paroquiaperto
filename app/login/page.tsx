@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import axios, { AxiosError } from 'axios';
 import '@/styles/Login.css';
+import { normalizeRole } from '@/lib/roles';
 
 interface AuthResponse {
   token: string;
@@ -54,7 +55,7 @@ const LoginForm = () => {
       if (response.status === 200 && response.data.token) {
         localStorage.setItem('token', response.data.token);
         if (response.data.user?.role) {
-          localStorage.setItem('role', response.data.user.role);
+          localStorage.setItem('role', normalizeRole(response.data.user.role));
         }
         router.push('/buscar');
       } else {
