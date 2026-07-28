@@ -115,15 +115,15 @@ export default function ListarHorarios() {
         />
       )}
 
-      <div className="bo-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
+      <div className="bo-header">
         <h2 className="bo-title" style={{ fontSize: '2rem', color: '#243B55' }}>Horários de Missa</h2>
-        <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
-          <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-            <Search size={20} style={{ position: 'absolute', left: '12px', color: '#94a3b8' }} />
+        <div className="bo-toolbar">
+          <div className="bo-search">
+            <Search size={20} className="bo-search-icon" />
             <input 
               type="text" 
               placeholder="Pesquisar horário ou paróquia..." 
-              style={{ padding: '10px 15px 10px 40px', borderRadius: '8px', border: '1px solid #e2e8f0', width: '280px' }} 
+              className="bo-search-input"
               value={searchTerm} 
               onChange={e => { setSearchTerm(e.target.value); setCurrentPage(1); }} 
             />
@@ -135,9 +135,9 @@ export default function ListarHorarios() {
       </div>
 
       {loading ? (
-        <p className="loading-message">A carregar...</p>
+        <p className="bo-status-text">A carregar...</p>
       ) : paginated.length === 0 ? (
-        <p className="empty-message">Nenhum horário encontrado.</p>
+        <p className="bo-status-text">Nenhum horário encontrado.</p>
       ) : (
         <div className="bo-list" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {paginated.map((h) => (

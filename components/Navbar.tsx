@@ -13,6 +13,7 @@ import {
 } from 'lucide-react'; 
 import ThemeToggle from './ThemeToggle';
 import '@/styles/Navbar.css';
+import { isAdminRole } from '@/lib/roles';
 
 const Navbar = () => {
   const router = useRouter();
@@ -21,6 +22,7 @@ const Navbar = () => {
   const isLandingPage = pathname === '/';
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userRole, setUserRole] = useState<string | null>(null);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showBackofficeMenu, setShowBackofficeMenu] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -33,7 +35,10 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    const checkAuth = () => setIsLoggedIn(Boolean(localStorage.getItem('token')));
+    const checkAuth = () => {
+      setIsLoggedIn(Boolean(localStorage.getItem('token')));
+      setUserRole(localStorage.getItem('role'));
+    };
     checkAuth();
     window.addEventListener('storage', checkAuth);
     return () => window.removeEventListener('storage', checkAuth);
@@ -51,7 +56,9 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('role');
     setIsLoggedIn(false);
+    setUserRole(null);
     closeAllMenus();
     router.push('/login');
   };
@@ -75,7 +82,7 @@ const Navbar = () => {
   };
 
   // Menu de Gestão unificado
-  const AdminMenu = isLoggedIn && (
+  const AdminMenu = isLoggedIn && isAdminRole(userRole) && (
     <div className="navbar-dropdown-wrapper">
       <button
         type="button"
@@ -88,6 +95,13 @@ const Navbar = () => {
       {showBackofficeMenu && (
         <div className="navbar-dropdown-menu admin-panel">
           <div className="dropdown-header">Administração</div>
+          <Link href="/backoffice" className="dropdown-item" onClick={closeAllMenus}>
+            <LayoutDashboard size={18} />
+            <div className="item-info">
+              <span className="item-title">Dashboard</span>
+              <span className="item-desc">Visão geral do backoffice</span>
+            </div>
+          </Link>
           <Link href="/backoffice/paroquias" className="dropdown-item" onClick={closeAllMenus}>
             <LayoutDashboard size={18} />
             <div className="item-info">

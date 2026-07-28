@@ -1,7 +1,8 @@
 'use client';
 import React, { useEffect, useMemo, useState } from 'react';
 import RoleRoute from '@/components/RoleRoute';
-import { Search, ShieldCheck, UserCircle2 } from 'lucide-react';
+import AdminListRow from '@/components/AdminListRow';
+import { ChevronLeft, ChevronRight, Search, ShieldCheck, UserCircle2 } from 'lucide-react';
 import '@/styles/Backoffice.css';
 
 interface AdminUser {
@@ -18,7 +19,7 @@ export default function ListarUtilizadoresAdmin() {
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState<'all' | 'admin' | 'user'>('all');
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const itemsPerPage = 8;
   const [sortKey, setSortKey] = useState<'id' | 'name' | 'email' | 'role'>('name');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
@@ -55,7 +56,7 @@ export default function ListarUtilizadoresAdmin() {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchTerm, roleFilter, itemsPerPage, sortKey, sortDirection]);
+  }, [searchTerm, roleFilter, sortKey, sortDirection]);
 
   const ordenados = useMemo(() => {
     const sorted = [...filtrados];
@@ -102,7 +103,7 @@ export default function ListarUtilizadoresAdmin() {
   return (
     <RoleRoute role="admin">
       <div className="bo-container" style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 20px' }}>
-        <div className="bo-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', gap: '1rem', flexWrap: 'wrap' }}>
+        <div className="bo-header">
           <div>
             <h2 className="bo-title" style={{ fontSize: '2rem', color: '#243B55', marginBottom: '0.4rem' }}>
               Utilizadores da Plataforma
@@ -110,42 +111,37 @@ export default function ListarUtilizadoresAdmin() {
             <p style={{ color: '#64748b', margin: 0 }}>Visível apenas para administradores.</p>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-              <Search size={20} style={{ position: 'absolute', left: '12px', color: '#94a3b8' }} />
+          <div className="bo-toolbar">
+            <div className="bo-search">
+              <Search size={20} className="bo-search-icon" />
               <input
                 type="text"
                 placeholder="Pesquisar por nome, e-mail ou role..."
-                style={{ padding: '10px 15px 10px 40px', borderRadius: '8px', border: '1px solid #e2e8f0', width: '320px' }}
+                className="bo-search-input"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setCurrentPage(1);
+                }}
               />
             </div>
 
             <select
               value={roleFilter}
-              onChange={(e) => setRoleFilter(e.target.value as 'all' | 'admin' | 'user')}
-              style={{ padding: '10px 12px', borderRadius: '8px', border: '1px solid #e2e8f0', background: '#fff', color: '#334155', fontWeight: 600 }}
+              onChange={(e) => {
+                setRoleFilter(e.target.value as 'all' | 'admin' | 'user');
+                setCurrentPage(1);
+              }}
+              className="bo-filter-select"
             >
               <option value="all">Todas as roles</option>
               <option value="admin">Admin</option>
               <option value="user">User</option>
             </select>
-
-            <select
-              value={itemsPerPage}
-              onChange={(e) => setItemsPerPage(Number(e.target.value))}
-              style={{ padding: '10px 12px', borderRadius: '8px', border: '1px solid #e2e8f0', background: '#fff', color: '#334155', fontWeight: 600 }}
-            >
-              <option value={5}>5 por página</option>
-              <option value={10}>10 por página</option>
-              <option value={20}>20 por página</option>
-              <option value={50}>50 por página</option>
-            </select>
           </div>
         </div>
 
-        <p style={{ marginTop: '-0.8rem', marginBottom: '1.2rem', color: '#64748b', fontSize: '0.9rem' }}>
+        <p className="bo-summary">
           A mostrar {paginados.length} de {ordenados.length} utilizadores filtrados ({utilizadores.length} no total).
         </p>
 
@@ -156,7 +152,7 @@ export default function ListarUtilizadoresAdmin() {
         )}
 
         <div className="bo-card" style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '16px', overflow: 'hidden' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '80px 1fr 1.4fr 180px', padding: '14px 18px', background: '#f8fafc', borderBottom: '1px solid #e2e8f0', fontWeight: 700, color: '#334155' }}>
+          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', padding: '14px 18px', background: '#f8fafc', borderBottom: '1px solid #e2e8f0', fontWeight: 700, color: '#334155' }}>
             <button type="button" onClick={() => handleSort('id')} style={{ all: 'unset', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
               <span>ID</span><span style={{ color: '#64748b', fontSize: '0.82rem' }}>{sortIndicator('id')}</span>
             </button>
@@ -176,47 +172,53 @@ export default function ListarUtilizadoresAdmin() {
           ) : ordenados.length === 0 ? (
             <div style={{ padding: '20px', color: '#64748b' }}>Nenhum utilizador encontrado.</div>
           ) : (
-            paginados.map((u) => (
-              <div
-                key={u.id}
-                style={{ display: 'grid', gridTemplateColumns: '80px 1fr 1.4fr 180px', padding: '14px 18px', borderBottom: '1px solid #f1f5f9', alignItems: 'center' }}
-              >
-                <span style={{ color: '#475569' }}>#{u.id}</span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#0f172a', fontWeight: 600 }}>
-                  <UserCircle2 size={16} /> {u.name}
-                </span>
-                <span style={{ color: '#475569' }}>{u.email}</span>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', width: 'fit-content', padding: '6px 10px', borderRadius: '999px', background: u.role === 'admin' ? '#ecfeff' : '#f8fafc', color: u.role === 'admin' ? '#0e7490' : '#475569', border: '1px solid #e2e8f0', fontWeight: 700, textTransform: 'lowercase' }}>
-                  <ShieldCheck size={14} /> {u.role}
-                </span>
-              </div>
-            ))
+            <div className="bo-list" style={{ gap: '0', padding: '0.5rem' }}>
+              {paginados.map((u) => (
+                <AdminListRow
+                  key={u.id}
+                  title={u.name}
+                  badge={(
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', width: 'fit-content', padding: '6px 10px', borderRadius: '999px', background: u.role === 'admin' ? '#ecfeff' : '#f8fafc', color: u.role === 'admin' ? '#0e7490' : '#475569', border: '1px solid #e2e8f0', fontWeight: 700, textTransform: 'lowercase', fontSize: '0.8rem' }}>
+                      <ShieldCheck size={14} /> {u.role}
+                    </span>
+                  )}
+                  subtitle={(
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: '#0f172a', fontWeight: 600 }}>
+                        <UserCircle2 size={16} /> #{u.id}
+                      </span>
+                      <span style={{ color: '#475569' }}>{u.email}</span>
+                    </span>
+                  )}
+                />
+              ))}
+            </div>
           )}
         </div>
 
         {!loading && ordenados.length > 0 && (
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem', gap: '1rem', flexWrap: 'wrap' }}>
-            <span style={{ color: '#64748b', fontSize: '0.9rem' }}>
-              Página {currentPage} de {totalPages}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '3rem', paddingBottom: '3rem' }}>
+            <button
+              className="bo-btn bo-btn-light"
+              type="button"
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              style={{ borderRadius: '50%', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <span style={{ alignSelf: 'center', fontWeight: '700', color: '#243B55' }}>
+              {currentPage} / {totalPages}
             </span>
-            <div style={{ display: 'flex', gap: '8px' }}>
-              <button
-                type="button"
-                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                disabled={currentPage === 1}
-                style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', background: currentPage === 1 ? '#f1f5f9' : '#fff', color: '#334155', cursor: currentPage === 1 ? 'not-allowed' : 'pointer' }}
-              >
-                Anterior
-              </button>
-              <button
-                type="button"
-                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                disabled={currentPage === totalPages}
-                style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', background: currentPage === totalPages ? '#f1f5f9' : '#fff', color: '#334155', cursor: currentPage === totalPages ? 'not-allowed' : 'pointer' }}
-              >
-                Seguinte
-              </button>
-            </div>
+            <button
+              className="bo-btn bo-btn-light"
+              type="button"
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              style={{ borderRadius: '50%', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            >
+              <ChevronRight size={20} />
+            </button>
           </div>
         )}
       </div>

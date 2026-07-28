@@ -1,11 +1,13 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { LayoutDashboard, Calendar, CalendarDays, List, PlusCircle, ChevronLeft, Menu, X, Users } from 'lucide-react';
 import '@/styles/BackofficeMenu.css';
 import { isAdminRole } from '@/lib/roles';
 
 export default function BackofficeMenu() {
+  const pathname = usePathname();
   const [expanded, setExpanded] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [userRole, setUserRole] = useState<string | null>(null);
@@ -37,6 +39,18 @@ export default function BackofficeMenu() {
     setExpanded(!expanded);
   };
 
+  const isActiveRoute = (href: string) => {
+    if (href === '/backoffice') {
+      return pathname === href;
+    }
+
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
+
+  const getMenuLinkClassName = (href: string) => {
+    return `menu-link${isActiveRoute(href) ? ' active' : ''}`;
+  };
+
   return (
     <>
       {isMobile && expanded && (
@@ -56,7 +70,7 @@ export default function BackofficeMenu() {
 
         <ul className="menu-list">
           <li className="menu-item">
-            <Link href="/backoffice" className="menu-link" onClick={handleNavClick}>
+            <Link href="/backoffice" className={getMenuLinkClassName('/backoffice')} onClick={handleNavClick}>
               <LayoutDashboard size={22} className="menu-icon" />
               {expanded && <span className="menu-text">Dashboard</span>}
             </Link>
@@ -64,13 +78,13 @@ export default function BackofficeMenu() {
 
           <li className="menu-section-label">{expanded ? 'Paróquias' : 'P'}</li>
           <li className="menu-item">
-            <Link href="/backoffice/paroquias" className="menu-link" onClick={handleNavClick}>
+            <Link href="/backoffice/paroquias" className={getMenuLinkClassName('/backoffice/paroquias')} onClick={handleNavClick}>
               <PlusCircle size={22} className="menu-icon" />
               {expanded && <span className="menu-text">Inserir Paróquia</span>}
             </Link>
           </li>
           <li className="menu-item">
-            <Link href="/backoffice/paroquias/listar" className="menu-link" onClick={handleNavClick}>
+            <Link href="/backoffice/paroquias/listar" className={getMenuLinkClassName('/backoffice/paroquias/listar')} onClick={handleNavClick}>
               <List size={22} className="menu-icon" />
               {expanded && <span className="menu-text">Listar Paróquias</span>}
             </Link>
@@ -78,13 +92,13 @@ export default function BackofficeMenu() {
 
           <li className="menu-section-label">{expanded ? 'Horários' : 'H'}</li>
           <li className="menu-item">
-            <Link href="/backoffice/horarios" className="menu-link" onClick={handleNavClick}>
+            <Link href="/backoffice/horarios" className={getMenuLinkClassName('/backoffice/horarios')} onClick={handleNavClick}>
               <PlusCircle size={22} className="menu-icon" />
               {expanded && <span className="menu-text">Inserir Horário</span>}
             </Link>
           </li>
           <li>
-            <Link href="/backoffice/horarios/listar" className="menu-link" onClick={handleNavClick}>
+            <Link href="/backoffice/horarios/listar" className={getMenuLinkClassName('/backoffice/horarios/listar')} onClick={handleNavClick}>
               <Calendar size={22} className="menu-icon" />
               {expanded && <span className="menu-text">Listar Horários</span>}
             </Link>
@@ -92,13 +106,13 @@ export default function BackofficeMenu() {
 
           <li className="menu-section-label">{expanded ? 'Eventos' : 'E'}</li>
           <li className="menu-item">
-            <Link href="/backoffice/eventos" className="menu-link" onClick={handleNavClick}>
+            <Link href="/backoffice/eventos" className={getMenuLinkClassName('/backoffice/eventos')} onClick={handleNavClick}>
               <PlusCircle size={22} className="menu-icon" />
               {expanded && <span className="menu-text">Inserir Evento</span>}
             </Link>
           </li>
           <li className="menu-item">
-            <Link href="/backoffice/eventos/listar" className="menu-link" onClick={handleNavClick}>
+            <Link href="/backoffice/eventos/listar" className={getMenuLinkClassName('/backoffice/eventos/listar')} onClick={handleNavClick}>
               <CalendarDays size={22} className="menu-icon" />
               {expanded && <span className="menu-text">Listar Eventos</span>}
             </Link>
@@ -108,7 +122,7 @@ export default function BackofficeMenu() {
             <>
               <li className="menu-section-label">{expanded ? 'Utilizadores' : 'U'}</li>
               <li className="menu-item">
-                <Link href="/backoffice/utilizadores/listar" className="menu-link" onClick={handleNavClick}>
+                <Link href="/backoffice/utilizadores/listar" className={getMenuLinkClassName('/backoffice/utilizadores/listar')} onClick={handleNavClick}>
                   <Users size={22} className="menu-icon" />
                   {expanded && <span className="menu-text">Listar Utilizadores</span>}
                 </Link>

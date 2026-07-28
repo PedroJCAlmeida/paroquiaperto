@@ -5,7 +5,7 @@ import React from 'react';
 interface AdminListRowProps {
   title: string;
   subtitle?: React.ReactNode;
-  actions: React.ReactNode;
+  actions?: React.ReactNode;
   badge?: React.ReactNode;
 }
 
@@ -24,9 +24,7 @@ export default function AdminListRow({ title, subtitle, actions, badge }: AdminL
         )}
       </div>
 
-      <div className="bo-list-actions">
-        {actions}
-      </div>
+      {actions && <div className="bo-list-actions">{actions}</div>}
     </div>
   );
 }

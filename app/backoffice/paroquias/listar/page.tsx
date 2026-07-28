@@ -21,7 +21,7 @@ export default function ListarParoquias() {
   
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 8;
 
   const [toast, setToast] = useState({ show: false, type: 'success' as 'success' | 'error', message: '' });
   const [alert, setAlert] = useState({ show: false, type: 'error' as 'error' | 'warning' | 'info', title: '', message: '' });
@@ -184,12 +184,12 @@ export default function ListarParoquias() {
         <ParoquiaDeleteConfirm nome={paroquiaToDelete?.nome} onConfirm={handleConfirmDelete} onCancel={() => setShowDeleteConfirm(false)} />
       )}
 
-      <div className="bo-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
+      <div className="bo-header">
         <h2 className="bo-title" style={{ fontSize: '2rem', color: '#243B55' }}>Gestão de Paróquias</h2>
-        <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
-          <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-            <Search size={20} style={{ position: 'absolute', left: '12px', color: '#94a3b8' }} />
-            <input type="text" placeholder="Pesquisar..." style={{ padding: '10px 15px 10px 40px', borderRadius: '8px', border: '1px solid #e2e8f0', width: '250px' }} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+        <div className="bo-toolbar">
+          <div className="bo-search">
+            <Search size={20} className="bo-search-icon" />
+            <input type="text" placeholder="Pesquisar paróquia..." className="bo-search-input" value={searchTerm} onChange={e => { setSearchTerm(e.target.value); setCurrentPage(1); }} />
           </div>
           <Link href="/backoffice/paroquias/novo" className="bo-btn bo-btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#243B55', padding: '12px 25px', borderRadius: '8px' }}>
             <PlusCircle size={20} /> Inserir
@@ -198,7 +198,7 @@ export default function ListarParoquias() {
       </div>
 
       <div className="bo-list" style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-        {loading ? <p>A carregar...</p> : paginated.map((p) => (
+        {loading ? <p className="bo-status-text">A carregar...</p> : paginated.length === 0 ? <p className="bo-status-text">Nenhuma paróquia encontrada.</p> : paginated.map((p) => (
           editingId === p.id ? (
             <div key={p.id} className="backoffice-form" style={{ background: '#fff', padding: '3rem', borderRadius: '16px', border: '1px solid #e2e8f0', width: '100%', boxShadow: '0 10px 30px rgba(0,0,0,0.08)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2rem', borderBottom: '1px solid #f1f5f9', paddingBottom: '1rem' }}>
@@ -254,11 +254,11 @@ export default function ListarParoquias() {
         ))}
       </div>
       
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '4rem', paddingBottom: '3rem' }}>
+      {totalPages > 1 && <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '4rem', paddingBottom: '3rem' }}>
         <button className="bo-btn bo-btn-light" onClick={() => setCurrentPage(c => Math.max(c-1, 1))} disabled={currentPage === 1} style={{ borderRadius: '50%', width: '45px', height: '45px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><ChevronLeft size={24}/></button>
         <span style={{ alignSelf: 'center', fontWeight: '700', color: '#243B55' }}>{currentPage} / {totalPages}</span>
         <button className="bo-btn bo-btn-light" onClick={() => setCurrentPage(c => Math.min(c+1, totalPages))} disabled={currentPage === totalPages} style={{ borderRadius: '50%', width: '45px', height: '45px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><ChevronRight size={24}/></button>
-      </div>
+      </div>}
     </div>
   );
 }

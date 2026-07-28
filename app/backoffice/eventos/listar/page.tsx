@@ -16,7 +16,7 @@ export default function ListarEventos() {
   
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 8;
 
   const [toast, setToast] = useState<{ show: boolean; type: 'success' | 'error'; message: string }>({
     show: false,
@@ -103,16 +103,15 @@ export default function ListarEventos() {
         />
       )}
 
-      <div className="bo-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem', flexWrap: 'wrap', gap: '20px' }}>
+      <div className="bo-header">
         <h2 className="bo-title" style={{ fontSize: '2rem', color: 'var(--text-main, #243B55)' }}>Eventos</h2>
-        <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
-          <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-            <Search size={20} style={{ position: 'absolute', left: '12px', color: '#94a3b8' }} />
+        <div className="bo-toolbar">
+          <div className="bo-search">
+            <Search size={20} className="bo-search-icon" />
             <input 
               type="text" 
               placeholder="Pesquisar evento..." 
-              className="search-input" // Usa a classe que já tens no CSS para dark mode
-              style={{ padding: '10px 15px 10px 40px', borderRadius: '8px', width: '250px' }} 
+              className="bo-search-input"
               value={searchTerm} 
               onChange={e => { setSearchTerm(e.target.value); setCurrentPage(1); }} 
             />
@@ -124,9 +123,9 @@ export default function ListarEventos() {
       </div>
 
       {loading ? (
-        <p className="loading-message">A carregar...</p>
+        <p className="bo-status-text">A carregar...</p>
       ) : paginated.length === 0 ? (
-        <p className="empty-message">Nenhum evento encontrado.</p>
+        <p className="bo-status-text">Nenhum evento encontrado.</p>
       ) : (
         <div className="bo-list" style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
           {paginated.map((ev) => (
