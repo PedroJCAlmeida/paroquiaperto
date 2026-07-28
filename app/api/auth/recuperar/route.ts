@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { sendPasswordResetEmail } from '@/lib/email';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
-  const successMessage = 'Se o e-mail existir, receberá um link de recuperação.';
+  const successMessage = 'Enviámos o link de recuperação para o seu e-mail.';
 
   try {
     const { email } = (await request.json()) as { email: string };
@@ -17,9 +17,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     const user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
 
-    // Always return success to avoid user enumeration attacks.
     if (!user) {
-      return NextResponse.json({ message: successMessage });
+      return NextResponse.json({ error: 'Não existe nenhuma conta com este e-mail.' }, { status: 404 });
     }
 
     // Delete any existing token for this user so there is only one active at a time.
@@ -44,7 +43,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     } catch (emailError) {
       console.error('Password reset email send error:', emailError);
 
-      // In production keep the same response to avoid user enumeration via operational errors.
       if (process.env.NODE_ENV !== 'production') {
         const detail = emailError instanceof Error ? emailError.message : 'Falha desconhecida no envio de e-mail.';
         return NextResponse.json(
