@@ -4,6 +4,8 @@ import { prisma } from '@/lib/prisma';
 import { sendPasswordResetEmail } from '@/lib/email';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
+  const successMessage = 'Se o e-mail existir, receberá um link de recuperação.';
+
   try {
     const { email } = (await request.json()) as { email: string };
 
@@ -11,11 +13,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ error: 'E-mail obrigatório.' }, { status: 400 });
     }
 
-    const user = await prisma.user.findUnique({ where: { email } });
+    const normalizedEmail = email.trim().toLowerCase();
+
+    const user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
 
     // Always return success to avoid user enumeration attacks.
     if (!user) {
-      return NextResponse.json({ message: 'Se o e-mail existir, receberá um link de recuperação.' });
+      return NextResponse.json({ message: successMessage });
     }
 
     // Delete any existing token for this user so there is only one active at a time.
@@ -35,11 +39,30 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const baseUrl = configuredUrl ?? new URL(request.url).origin;
     const resetUrl = `${baseUrl}/recuperar-palavra-passe/redefinir?token=${token}`;
 
-    await sendPasswordResetEmail(email, resetUrl);
+    try {
+      await sendPasswordResetEmail(normalizedEmail, resetUrl);
+    } catch (emailError) {
+      console.error('Password reset email send error:', emailError);
 
-    return NextResponse.json({ message: 'Se o e-mail existir, receberá um link de recuperação.' });
+      // In production keep the same response to avoid user enumeration via operational errors.
+      if (process.env.NODE_ENV !== 'production') {
+        const detail = emailError instanceof Error ? emailError.message : 'Falha desconhecida no envio de e-mail.';
+        return NextResponse.json(
+          { error: `Falha no envio do e-mail de recuperação. ${detail}` },
+          { status: 500 }
+        );
+      }
+    }
+
+    return NextResponse.json({ message: successMessage });
   } catch (error) {
     console.error('Password reset request error:', error);
+
+    if (process.env.NODE_ENV !== 'production') {
+      const detail = error instanceof Error ? error.message : 'Erro interno desconhecido.';
+      return NextResponse.json({ error: `Erro interno do servidor. ${detail}` }, { status: 500 });
+    }
+
     return NextResponse.json({ error: 'Erro interno do servidor.' }, { status: 500 });
   }
 }
