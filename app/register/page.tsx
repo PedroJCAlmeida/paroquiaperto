@@ -78,6 +78,12 @@ function RegistarUtilizadorForm() {
             <Link href="/login" className="submit-btn" style={{ textDecoration: 'none', textAlign: 'center', display: 'block' }}>
               Ir para o Login
             </Link>
+
+            <div className="auth-quick-links" aria-label="Navegação rápida de autenticação">
+              <Link href="/">Início</Link>
+              <span>·</span>
+              <Link href="/login">Entrar</Link>
+            </div>
           </div>
         </div>
       </div>
@@ -191,6 +197,14 @@ function RegistarUtilizadorForm() {
           <p className="footer-link-text">
             Já tem conta? <Link href="/login">Faça login aqui</Link>
           </p>
+
+          <div className="auth-quick-links" aria-label="Navegação rápida de autenticação">
+            <Link href="/">Início</Link>
+            <span>·</span>
+            <Link href="/login">Entrar</Link>
+            <span>·</span>
+            <Link href="/recuperar-palavra-passe">Recuperar palavra-passe</Link>
+          </div>
         </div>
       </div>
     </div>

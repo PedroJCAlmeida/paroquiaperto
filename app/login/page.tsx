@@ -139,6 +139,14 @@ const LoginForm = () => {
           <p className="footer-link-text">
             Ainda não tem conta? <Link href="/register">Registe-se aqui</Link>
           </p>
+
+          <div className="auth-quick-links" aria-label="Navegação rápida de autenticação">
+            <Link href="/">Início</Link>
+            <span>·</span>
+            <Link href="/register">Criar conta</Link>
+            <span>·</span>
+            <Link href="/recuperar-palavra-passe">Recuperar palavra-passe</Link>
+          </div>
         </div>
       </div>
     </div>

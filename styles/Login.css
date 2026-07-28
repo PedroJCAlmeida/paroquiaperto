@@ -192,6 +192,28 @@
     text-decoration: underline;
 }
 
+.auth-quick-links {
+    margin-top: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    font-size: 0.86rem;
+}
+
+.auth-quick-links a {
+    color: #64748b;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-quick-links a:hover {
+    color: #9c7a46;
+    text-decoration: underline;
+}
+
 /* Extras usados na página de registo */
 .auth-brand-benefits {
     margin-top: 28px;
@@ -372,6 +394,11 @@
 
     .footer-link-text {
         margin-top: 22px;
+    }
+
+    .auth-quick-links {
+        font-size: 0.82rem;
+        gap: 6px;
     }
 
     .reset-password-page .welcome-text {

@@ -128,6 +128,14 @@ function RedefinirForm() {
           <p className="footer-link-text">
             <Link href="/login">← Voltar ao login</Link>
           </p>
+
+          <div className="auth-quick-links" aria-label="Navegação rápida de autenticação">
+            <Link href="/">Início</Link>
+            <span>·</span>
+            <Link href="/login">Entrar</Link>
+            <span>·</span>
+            <Link href="/register">Criar conta</Link>
+          </div>
         </div>
       </div>
     </div>
