@@ -28,9 +28,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       data: { token, userId: user.id, expiresAt },
     });
 
-    const configuredUrl = process.env.APP_URL;
+    const configuredUrl = process.env.APP_URL ?? process.env.NEXT_PUBLIC_APP_URL;
     if (!configuredUrl) {
-      console.warn('APP_URL is not set. Falling back to request origin for password reset link. Set APP_URL in production.');
+      console.warn('APP_URL/NEXT_PUBLIC_APP_URL is not set. Falling back to request origin for password reset link. Set APP_URL in production.');
     }
     const baseUrl = configuredUrl ?? new URL(request.url).origin;
     const resetUrl = `${baseUrl}/recuperar-palavra-passe/redefinir?token=${token}`;

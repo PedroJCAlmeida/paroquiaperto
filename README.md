@@ -77,12 +77,10 @@ npm run dev  # Runs on http://localhost:3000
    |---|---|---|
    | `DATABASE_URL` | ✅ Sim | String de ligação PostgreSQL (ex: Neon, Supabase, Railway) |
    | `JWT_SECRET` | ✅ Sim | Chave secreta para geração de tokens JWT (string aleatória longa) |
-   | `APP_URL` | ✅ Sim | URL pública do site (ex: `https://paroquiaperto.vercel.app`) — usada nos e-mails de recuperação de palavra-passe |
-   | `SMTP_HOST` | ✅ Sim | Servidor SMTP para envio de e-mails (ex: `smtp.gmail.com`) |
-   | `SMTP_PORT` | ✅ Sim | Porta SMTP (ex: `587` para TLS, `465` para SSL) |
-   | `SMTP_USER` | ✅ Sim | Utilizador SMTP (normalmente o endereço de e-mail) |
-   | `SMTP_PASS` | ✅ Sim | Palavra-passe SMTP (ou App Password se usar Gmail) |
-   | `SMTP_FROM` | ✅ Sim | Endereço de e-mail remetente (ex: `no-reply@paroquiaperto.pt`) |
+   | `APP_URL` | ✅ Sim (recomendado) | URL pública canónica do site (ex: `https://paroquiaperto.vercel.app`) — usada para construir links de recuperação e confirmação |
+   | `NEXT_PUBLIC_APP_URL` | ⚪ Opcional (fallback) | Fallback para geração de links quando `APP_URL` não está definido |
+   | `BREVO_API_KEY` | ✅ Sim | Chave da API Brevo para envio de e-mails transacionais |
+   | `BREVO_SENDER_EMAIL` | ✅ Sim | E-mail remetente validado na Brevo (ex: `no-reply@paroquiaperto.pt`) |
    | `CLOUDINARY_CLOUD_NAME` | ✅ Sim (para upload de imagens) | Nome da cloud no Cloudinary |
    | `CLOUDINARY_API_KEY` | ✅ Sim (para upload de imagens) | API Key da conta Cloudinary |
    | `CLOUDINARY_API_SECRET` | ✅ Sim (para upload de imagens) | API Secret da conta Cloudinary |
@@ -94,6 +92,7 @@ npm run dev  # Runs on http://localhost:3000
 
 > **Notas:**
 > - O comando de build inclui `prisma db push` (cria/atualiza as tabelas na base de dados) e `prisma db seed` (cria o utilizador admin inicial se ainda não existir). Ambos são seguros de correr em cada deploy.
+> - O fluxo de recuperação/validação de conta usa Brevo (`BREVO_API_KEY` e `BREVO_SENDER_EMAIL`), não SMTP.
 > - Após o primeiro login com o admin, altere imediatamente a palavra-passe no perfil do utilizador.
 
 ## 🛠️ Tech Stack
