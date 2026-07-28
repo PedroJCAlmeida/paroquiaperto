@@ -16,26 +16,40 @@ export default function BackofficeDashboard() {
   const [stats, setStats] = useState<Stats>({ paroquias: 0, horarios: 0, eventos: 0, utilizadores: 0 });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    const role = typeof window !== 'undefined' ? localStorage.getItem('role') : null;
+    const admin = role === 'admin';
+    setIsAdmin(admin);
+
+    const usersCountPromise = admin
+      ? fetch('/api/usuarios/count', {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        })
+          .then(async (r) => {
+            if (!r.ok) {
+              const data = await r.json().catch(() => ({}));
+              throw new Error(data?.error ?? 'Falha ao carregar contagem de utilizadores.');
+            }
+            const data = (await r.json()) as { count?: number };
+            return typeof data.count === 'number' ? data.count : 0;
+          })
+      : Promise.resolve(0);
 
     Promise.all([
       fetch('/api/paroquias').then((r) => r.json()),
       fetch('/api/horarios').then((r) => r.json()),
       fetch('/api/eventos').then((r) => r.json()),
-      fetch('/api/usuarios', {
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
-      })
-        .then((r) => (r.ok ? r.json() : []))
-        .catch(() => []),
+      usersCountPromise,
     ])
-      .then(([paroquias, horarios, eventos, utilizadores]) => {
+      .then(([paroquias, horarios, eventos, utilizadoresCount]) => {
         setStats({
           paroquias: Array.isArray(paroquias) ? paroquias.length : 0,
           horarios: Array.isArray(horarios) ? horarios.length : 0,
           eventos: Array.isArray(eventos) ? eventos.length : 0,
-          utilizadores: Array.isArray(utilizadores) ? utilizadores.length : 0,
+          utilizadores: typeof utilizadoresCount === 'number' ? utilizadoresCount : 0,
         });
       })
       .catch(() => setError(true))
@@ -73,16 +87,20 @@ export default function BackofficeDashboard() {
       addHref: '/backoffice/eventos',
       addLabel: 'Inserir',
     },
-    {
-      label: 'Utilizadores',
-      count: stats.utilizadores,
-      icon: <Users size={24} />,
-      color: '#0ea5e9',
-      bg: '#f0f9ff',
-      listHref: '/backoffice/utilizadores/listar',
-      addHref: null,
-      addLabel: 'Sem ação',
-    },
+    ...(isAdmin
+      ? [
+          {
+            label: 'Utilizadores',
+            count: stats.utilizadores,
+            icon: <Users size={24} />,
+            color: '#0ea5e9',
+            bg: '#f0f9ff',
+            listHref: '/backoffice/utilizadores/listar',
+            addHref: null,
+            addLabel: 'Sem ação',
+          },
+        ]
+      : []),
   ];
 
   return (
